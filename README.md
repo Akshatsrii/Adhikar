@@ -1,15 +1,14 @@
 <div align="center">
-  <img src="docs/assets/logo.svg" width="120" alt="Adhikar logo" />
+  <img src="docs/assets/banner.png" width="100%" alt="Adhikar banner" />
+</div>
+
+<div align="center">
   <h1>Adhikar</h1>
   <h3>अधिकार — Your Right, Delivered</h3>
   <p>An AI system that understands a citizen's life, family, documents and life events — so government benefits find them, instead of the other way around.</p>
 </div>
 
 <br/>
-
-<div align="center">
-  <img src="docs/assets/banner.png" width="100%" alt="Adhikar banner" />
-</div>
 
 <br/>
 
