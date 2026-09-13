@@ -1,23 +1,81 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
+import { useAuth } from '@/context/AuthContext'
 
 export const Route = createRootRoute({
-  component: () => (
-    <div className="flex flex-col min-h-screen bg-[var(--color-white)] text-[var(--color-navy)]">
-      <header className="p-4 border-b border-gray-200 flex justify-between items-center bg-[var(--color-white)] sticky top-0 z-10 shadow-sm">
-        <Link to="/" className="text-xl font-bold text-[var(--color-amber)]">Adhikar</Link>
-        <nav className="flex gap-4">
-          <Link to="/" className="hover:text-[var(--color-amber)] [&.active]:font-bold">Home</Link>
-          <Link to="/dashboard" className="hover:text-[var(--color-amber)] [&.active]:font-bold">Dashboard</Link>
-          <Link to="/login" className="hover:text-[var(--color-amber)] [&.active]:font-bold">Login</Link>
-          <Link to="/register" className="hover:text-[var(--color-amber)] [&.active]:font-bold">Register</Link>
-        </nav>
+  component: RootLayout,
+})
+
+function RootLayout() {
+  const { user, logout } = useAuth()
+
+  return (
+    <div className="min-h-screen bg-[var(--color-parchment)]">
+      <header className="border-b border-[var(--color-line)]">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+          <Link to="/" className="flex items-center gap-2">
+            <ShieldMark />
+            <span className="font-[family-name:var(--font-display)] text-xl font-semibold text-[var(--color-ink)]">
+              Adhikar
+            </span>
+          </Link>
+
+          <nav className="flex items-center gap-6 text-sm text-[var(--color-ink-soft)]">
+            {user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Dashboard
+                </Link>
+                <span className="text-[var(--color-ink)]">{user.name}</span>
+                <button
+                  onClick={logout}
+                  className="rounded-md border border-[var(--color-line)] px-3 py-1.5 hover:border-[var(--color-saffron)] hover:text-[var(--color-saffron-deep)]"
+                >
+                  Log out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="hover:text-[var(--color-ink)]">
+                  Log in
+                </Link>
+                <Link to="/register" className="btn-primary !py-2">
+                  Get started
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
       </header>
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6">
+
+      <main className="mx-auto max-w-5xl px-6 py-10">
         <Outlet />
       </main>
-      <footer className="p-4 text-center text-sm text-gray-500 border-t border-gray-200 mt-auto">
-        &copy; {new Date().getFullYear()} Adhikar - Your Right, Delivered.
-      </footer>
     </div>
-  ),
-})
+  )
+}
+
+function ShieldMark() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M120 14 L206 46 V116 C206 172 170 208 120 226 C70 208 34 172 34 116 V46 Z"
+        fill="var(--color-saffron)"
+        stroke="var(--color-saffron-deep)"
+        strokeWidth="6"
+      />
+      <path
+        d="M55 76 L98 122 L165 58"
+        fill="none"
+        stroke="white"
+        strokeWidth="16"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        transform="translate(0, 20) scale(0.85) translate(21, 5)"
+      />
+    </svg>
+  )
+}
