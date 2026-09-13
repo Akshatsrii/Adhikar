@@ -1,26 +1,46 @@
-import { createRoute } from '@tanstack/react-router'
-import { Route as rootRoute } from './__root'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
+import { useAuth } from '@/context/AuthContext'
 
-export const Route = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/dashboard',
-  component: Dashboard,
+export const Route = createFileRoute('/dashboard')({
+  component: DashboardPage,
 })
 
-function Dashboard() {
+function DashboardPage() {
+  const { user, isLoading } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate({ to: '/login' })
+    }
+  }, [isLoading, user, navigate])
+
+  if (isLoading) {
+    return <p className="text-sm text-[var(--color-ink-soft)]">Loading your dashboard…</p>
+  }
+
+  if (!user) return null
+
   return (
-    <div className="py-8">
-      <h1 className="text-3xl font-bold mb-6">Citizen Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 border border-gray-200 rounded-lg shadow-sm bg-white">
-          <h2 className="text-xl font-semibold mb-2">Your Profile</h2>
-          <p className="text-gray-600 mb-4">Complete your profile to discover schemes.</p>
-          <button className="bg-[var(--color-navy)] text-white px-4 py-2 rounded font-bold hover:bg-slate-800 transition">Edit Profile</button>
+    <div>
+      <h1 className="text-3xl text-[var(--color-ink)]">Welcome, {user.name}</h1>
+      <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
+        Your profile isn't complete yet — add your details to see matched schemes.
+      </p>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+        <div className="card">
+          <p className="text-sm text-[var(--color-ink-soft)]">Matched schemes</p>
+          <p className="mt-1 text-3xl text-[var(--color-ink)]">—</p>
         </div>
-        <div className="p-6 border border-gray-200 rounded-lg shadow-sm bg-white">
-          <h2 className="text-xl font-semibold mb-2">Eligible Schemes (0)</h2>
-          <p className="text-gray-600 mb-4">No schemes found yet. Complete your profile.</p>
-          <button className="bg-[var(--color-amber)] text-white px-4 py-2 rounded font-bold hover:bg-yellow-600 transition">Find Schemes</button>
+        <div className="card">
+          <p className="text-sm text-[var(--color-ink-soft)]">Applications in progress</p>
+          <p className="mt-1 text-3xl text-[var(--color-ink)]">—</p>
+        </div>
+        <div className="card">
+          <p className="text-sm text-[var(--color-ink-soft)]">Profile completeness</p>
+          <p className="mt-1 text-3xl text-[var(--color-ink)]">0%</p>
         </div>
       </div>
     </div>
