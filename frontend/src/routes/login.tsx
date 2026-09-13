@@ -1,21 +1,91 @@
-import { createRoute } from '@tanstack/react-router'
-import { Route as rootRoute } from './__root'
-import { AuthCard } from '../components/AuthCard'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { ApiError, authApi } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
 
-export const Route = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/login',
-  component: Login,
+export const Route = createFileRoute('/login')({
+  component: LoginPage,
 })
 
-function Login() {
+function LoginPage() {
+  const navigate = useNavigate()
+  const { login } = useAuth()
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      const res = await authApi.login({ email, password })
+      login(res.user, res.token)
+      navigate({ to: '/dashboard' })
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Could not log you in.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
-    <AuthCard title="Login to Adhikar">
-      <form className="flex flex-col gap-4">
-        <input className="p-2 border border-gray-300 rounded" type="email" placeholder="Email" />
-        <input className="p-2 border border-gray-300 rounded" type="password" placeholder="Password" />
-        <button className="bg-[var(--color-amber)] text-white p-2 rounded font-bold hover:bg-yellow-600 transition" type="button">Login</button>
+    <div className="mx-auto max-w-sm">
+      <h1 className="text-3xl text-[var(--color-ink)]">Welcome back</h1>
+      <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
+        Log in to see your matched schemes.
+      </p>
+
+      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+        <div>
+          <label htmlFor="email" className="mb-1.5 block text-sm text-[var(--color-ink-soft)]">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="field"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="password" className="mb-1.5 block text-sm text-[var(--color-ink-soft)]">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="field"
+            placeholder="Your password"
+          />
+        </div>
+
+        {error && (
+          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+        )}
+
+        <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
+          {isSubmitting ? 'Logging in…' : 'Log in'}
+        </button>
       </form>
-    </AuthCard>
+
+      <p className="mt-6 text-center text-sm text-[var(--color-ink-soft)]">
+        Don't have an account?{' '}
+        <Link to="/register" className="font-medium text-[var(--color-saffron-deep)]">
+          Create one
+        </Link>
+      </p>
+    </div>
   )
 }
