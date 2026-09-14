@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 
@@ -28,6 +28,12 @@ function DashboardPage() {
       <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
         Your profile isn't complete yet — add your details to see matched schemes.
       </p>
+      <Link
+        to="/profile"
+        className="mt-4 inline-flex items-center justify-center rounded-md border border-[var(--color-line)] px-4 py-2 text-sm font-medium text-[var(--color-ink)] hover:border-[var(--color-saffron)] hover:text-[var(--color-saffron-deep)]"
+      >
+        Complete your profile →
+      </Link>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-3">
         <div className="card">
