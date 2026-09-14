@@ -43,6 +43,48 @@ function RootLayout() {
                 >
                   Eligibility Check
                 </Link>
+                <Link
+                  to="/family"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Family
+                </Link>
+                <Link
+                  to="/life-events"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Life Events
+                </Link>
+                <Link
+                  to="/documents"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Documents
+                </Link>
+                <Link
+                  to="/apply"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Apply
+                </Link>
+                <Link
+                  to="/debugger"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Debugger
+                </Link>
+                <Link
+                  to="/simulator"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Simulator
+                </Link>
                 <span className="text-[var(--color-ink)]">{user.name}</span>
                 <button
                   onClick={logout}

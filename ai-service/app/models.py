@@ -25,6 +25,10 @@ class Scheme(Base):
     application_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
     deadline: Mapped[str | None] = mapped_column(String(100), nullable=True)
 
+    # Family Optimizer flags (Stage 6)
+    mutually_exclusive_group: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    one_per_family: Mapped[bool] = mapped_column(default=False)
+
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, server_default=func.now(), onupdate=func.now()

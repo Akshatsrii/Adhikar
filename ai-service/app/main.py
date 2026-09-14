@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import Base, engine
-from app.routers import ai, schemes, eligibility, recommendations
+from app.routers import ai, schemes, eligibility, recommendations, life_events, family, documents, debugger, simulator, copilot
 
 app = FastAPI(title="Adhikar AI Service", version="0.1.0")
 
@@ -32,3 +32,9 @@ app.include_router(schemes.router)
 app.include_router(ai.router)
 app.include_router(eligibility.router)
 app.include_router(recommendations.router)
+app.include_router(life_events.router)
+app.include_router(family.router)
+app.include_router(documents.router)
+app.include_router(debugger.router)
+app.include_router(simulator.router)
+app.include_router(copilot.router)

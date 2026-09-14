@@ -125,3 +125,94 @@ class ActionItem(BaseModel):
 class RecommendationsResponse(BaseModel):
     top_matches: list[TopMatch]
     action_items: list[ActionItem]
+
+
+class LifeEventClassifyRequest(BaseModel):
+    text: str
+
+
+class LifeEventClassifyResponse(BaseModel):
+    event_type: str
+    confidence: float
+    suggested_categories: list[str]
+
+
+class FamilyMemberInput(BaseModel):
+    member_id: str
+    name: str
+    profile: EligibilityProfile
+
+
+class FamilyOptimizeRequest(BaseModel):
+    members: list[FamilyMemberInput]
+
+
+class MemberMatches(BaseModel):
+    member_id: str
+    member_name: str
+    eligible_schemes: list[SchemeListItem]
+
+
+class ConflictOut(BaseModel):
+    conflict_type: str
+    scheme_slugs: list[str]
+    scheme_names: list[str]
+    member_ids: list[str]
+    message: str
+    recommended_resolution: str | None = None
+
+
+class FamilyOptimizeResponse(BaseModel):
+    members: list[MemberMatches]
+    conflicts: list[ConflictOut]
+
+
+class DocumentExtractRequest(BaseModel):
+    filename: str
+    mime_type: str
+    base64_data: str
+
+class DocumentExtractResponse(BaseModel):
+    document_type: str
+    name: str | None = None
+    income: float | None = None
+    issue_date: str | None = None
+    expiry_date: str | None = None
+    is_expired: bool | None = None
+    confidence: float
+
+
+class DebuggerRequest(BaseModel):
+    scheme_slug: str
+    profile: EligibilityProfile
+    filename: str
+    mime_type: str
+    base64_data: str
+
+class DebuggerResponse(BaseModel):
+    root_cause: str
+    missing_evidence: str | None = None
+    citation: str
+    next_steps: list[str]
+
+class SimulatorRequest(BaseModel):
+    base_profile: EligibilityProfile
+    hypothetical_profile: EligibilityProfile
+
+class SimulatorResponse(BaseModel):
+    unlocked_schemes: list[SchemeListItem]
+    lost_schemes: list[SchemeListItem]
+
+class CopilotRequest(BaseModel):
+    scheme_slug: str
+    question: str
+    context_field: str | None = None
+
+class CopilotResponse(BaseModel):
+    answer: str
+
+class DeadlineAlert(BaseModel):
+    scheme_slug: str
+    scheme_name: str
+    deadline: str
+    days_left: int

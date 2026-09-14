@@ -66,7 +66,9 @@ function DashboardPage() {
   const { user, isLoading: isAuthLoading } = useAuth()
   const navigate = useNavigate()
 
-  const [data, setData] = useState<RecommendationsResult | null>(null)
+  const [topMatches, setTopMatches] = useState<TopMatch[]>([])
+  const [actionItems, setActionItems] = useState<ActionItem[]>([])
+  const [deadlines, setDeadlines] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -79,13 +81,23 @@ function DashboardPage() {
   useEffect(() => {
     if (!user) return
 
-    recommendationsApi
-      .get()
-      .then(setData)
-      .catch((err) => {
-        setError(err instanceof ApiError ? err.message : 'Could not load your matches.')
-      })
-      .finally(() => setIsLoading(false))
+    async function loadData() {
+      try {
+        const [recData, dlData] = await Promise.all([
+          recommendationsApi.get(),
+          copilotApi.getDeadlines().catch(() => []),
+        ])
+        setTopMatches(recData.topMatches)
+        setActionItems(recData.actionItems)
+        setDeadlines(dlData)
+      } catch (err) {
+        setError(err instanceof ApiError ? err.message : 'Could not load your dashboard data.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadData()
   }, [user])
 
   if (isAuthLoading) {
@@ -94,7 +106,7 @@ function DashboardPage() {
 
   if (!user) return null
 
-  const eligibleCount = data?.topMatches.filter((m) => m.status === 'eligible').length ?? 0
+  const eligibleCount = topMatches.filter((m) => m.status === 'eligible').length ?? 0
 
   return (
     <div>
@@ -102,11 +114,24 @@ function DashboardPage() {
         <div>
           <h1 className="text-3xl text-[var(--color-ink)]">Welcome, {user.name}</h1>
           <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-            {data && data.topMatches.length > 0
+            {topMatches.length > 0
               ? `${eligibleCount} scheme${eligibleCount === 1 ? '' : 's'} you're eligible for right now.`
               : "Complete your profile to see schemes matched to you."}
           </p>
         </div>
+
+        {deadlines && deadlines.length > 0 && (
+          <div className="w-full bg-red-50 border border-red-200 rounded p-4 mb-4">
+            <h3 className="font-bold text-red-800 mb-2">⏰ Urgent Deadlines!</h3>
+            <ul className="space-y-1">
+              {deadlines.map((dl, i) => (
+                <li key={i} className="text-sm font-medium text-red-700">
+                  {dl.scheme_name} expires in {dl.days_left} days ({dl.deadline})
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div className="flex gap-3">
           <Link
