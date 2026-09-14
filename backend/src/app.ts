@@ -4,6 +4,7 @@ import { env } from './config/env.js'
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'
 import { authRouter } from './routes/auth.js'
 import { profileRouter } from './routes/profile.js'
+import { aiRouter } from './routes/ai.js'
 
 export const app = express()
 
@@ -16,6 +17,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRouter)
 app.use('/api/profile', profileRouter)
+app.use('/api/ai', aiRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
