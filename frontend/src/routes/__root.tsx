@@ -36,6 +36,13 @@ function RootLayout() {
                 >
                   Ask Adhikar
                 </Link>
+                <Link
+                  to="/eligibility"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Eligibility Check
+                </Link>
                 <span className="text-[var(--color-ink)]">{user.name}</span>
                 <button
                   onClick={logout}
