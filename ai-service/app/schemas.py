@@ -103,3 +103,25 @@ class EligibilityCheckResponse(BaseModel):
     missing_info_count: int
     not_eligible_count: int
     results: list[SchemeEligibilityOut]
+
+
+class TopMatch(BaseModel):
+    scheme_slug: str
+    scheme_name: str
+    source_url: str
+    category: str
+    benefit: str
+    deadline: str | None
+    status: str
+    match_percentage: int
+
+
+class ActionItem(BaseModel):
+    field: str
+    message: str
+    affected_scheme_count: int
+
+
+class RecommendationsResponse(BaseModel):
+    top_matches: list[TopMatch]
+    action_items: list[ActionItem]
