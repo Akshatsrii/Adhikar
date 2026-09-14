@@ -96,4 +96,22 @@ export const authApi = {
   me: () => request<{ user: AuthUser }>('/auth/me'),
 }
 
+export interface ProfilePayload {
+  age?: number
+  state?: string
+  education?: string
+  income?: number
+  occupation?: string
+}
+
+export const profileApi = {
+  get: () => request<{ profile: UserProfileSummary }>('/profile'),
+
+  update: (payload: ProfilePayload) =>
+    request<{ profile: UserProfileSummary }>('/profile', {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+}
+
 export { ApiError }
