@@ -29,6 +29,13 @@ function RootLayout() {
                 >
                   Dashboard
                 </Link>
+                <Link
+                  to="/assistant"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Ask Adhikar
+                </Link>
                 <span className="text-[var(--color-ink)]">{user.name}</span>
                 <button
                   onClick={logout}
