@@ -5,6 +5,7 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'
 import { authRouter } from './routes/auth.js'
 import { profileRouter } from './routes/profile.js'
 import { aiRouter } from './routes/ai.js'
+import { eligibilityRouter } from './routes/eligibility.js'
 
 export const app = express()
 
@@ -18,6 +19,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRouter)
 app.use('/api/profile', profileRouter)
 app.use('/api/ai', aiRouter)
+app.use('/api/eligibility', eligibilityRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
