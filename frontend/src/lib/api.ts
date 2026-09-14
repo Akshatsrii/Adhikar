@@ -226,4 +226,72 @@ export const eligibilityApi = {
   },
 }
 
+export interface TopMatch {
+  schemeSlug: string
+  schemeName: string
+  sourceUrl: string
+  category: string
+  benefit: string
+  deadline: string | null
+  status: EligibilityStatus
+  matchPercentage: number
+}
+
+export interface ActionItem {
+  field: string
+  message: string
+  affectedSchemeCount: number
+}
+
+export interface RecommendationsResult {
+  topMatches: TopMatch[]
+  actionItems: ActionItem[]
+}
+
+interface RawTopMatch {
+  scheme_slug: string
+  scheme_name: string
+  source_url: string
+  category: string
+  benefit: string
+  deadline: string | null
+  status: EligibilityStatus
+  match_percentage: number
+}
+
+interface RawActionItem {
+  field: string
+  message: string
+  affected_scheme_count: number
+}
+
+interface RawRecommendationsResponse {
+  top_matches: RawTopMatch[]
+  action_items: RawActionItem[]
+}
+
+export const recommendationsApi = {
+  get: async (): Promise<RecommendationsResult> => {
+    const raw = await request<RawRecommendationsResponse>('/recommendations')
+
+    return {
+      topMatches: raw.top_matches.map((m) => ({
+        schemeSlug: m.scheme_slug,
+        schemeName: m.scheme_name,
+        sourceUrl: m.source_url,
+        category: m.category,
+        benefit: m.benefit,
+        deadline: m.deadline,
+        status: m.status,
+        matchPercentage: m.match_percentage,
+      })),
+      actionItems: raw.action_items.map((a) => ({
+        field: a.field,
+        message: a.message,
+        affectedSchemeCount: a.affected_scheme_count,
+      })),
+    }
+  },
+}
+
 export { ApiError }
