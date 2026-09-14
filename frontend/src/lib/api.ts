@@ -114,4 +114,40 @@ export const profileApi = {
     }),
 }
 
+export interface AskSource {
+  schemeSlug: string
+  schemeName: string
+  sourceUrl: string
+  chunkType: string
+}
+
+export interface AskResponse {
+  answer: string
+  sources: AskSource[]
+}
+
+interface RawAskResponse {
+  answer: string
+  sources: { scheme_slug: string; scheme_name: string; source_url: string; chunk_type: string }[]
+}
+
+export const aiApi = {
+  ask: async (query: string): Promise<AskResponse> => {
+    const raw = await request<RawAskResponse>('/ai/ask', {
+      method: 'POST',
+      body: JSON.stringify({ query }),
+    })
+
+    return {
+      answer: raw.answer,
+      sources: raw.sources.map((s) => ({
+        schemeSlug: s.scheme_slug,
+        schemeName: s.scheme_name,
+        sourceUrl: s.source_url,
+        chunkType: s.chunk_type,
+      })),
+    }
+  },
+}
+
 export { ApiError }
