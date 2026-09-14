@@ -150,4 +150,80 @@ export const aiApi = {
   },
 }
 
+export type EligibilityStatus = 'eligible' | 'not_eligible' | 'missing_info'
+
+export interface EligibilityRuleResult {
+  field: string
+  operator: string
+  value: string
+  profileValue: string | null
+  result: 'pass' | 'fail' | 'unknown'
+  explanation: string
+}
+
+export interface SchemeEligibilityResult {
+  schemeSlug: string
+  schemeName: string
+  sourceUrl: string
+  status: EligibilityStatus
+  rules: EligibilityRuleResult[]
+}
+
+export interface EligibilityCheckResult {
+  eligibleCount: number
+  missingInfoCount: number
+  notEligibleCount: number
+  results: SchemeEligibilityResult[]
+}
+
+interface RawRuleResult {
+  field: string
+  operator: string
+  value: string
+  profile_value: string | null
+  result: 'pass' | 'fail' | 'unknown'
+  explanation: string
+}
+
+interface RawSchemeResult {
+  scheme_slug: string
+  scheme_name: string
+  source_url: string
+  status: EligibilityStatus
+  rules: RawRuleResult[]
+}
+
+interface RawEligibilityResponse {
+  eligible_count: number
+  missing_info_count: number
+  not_eligible_count: number
+  results: RawSchemeResult[]
+}
+
+export const eligibilityApi = {
+  check: async (): Promise<EligibilityCheckResult> => {
+    const raw = await request<RawEligibilityResponse>('/eligibility/check', { method: 'POST' })
+
+    return {
+      eligibleCount: raw.eligible_count,
+      missingInfoCount: raw.missing_info_count,
+      notEligibleCount: raw.not_eligible_count,
+      results: raw.results.map((r) => ({
+        schemeSlug: r.scheme_slug,
+        schemeName: r.scheme_name,
+        sourceUrl: r.source_url,
+        status: r.status,
+        rules: r.rules.map((rule) => ({
+          field: rule.field,
+          operator: rule.operator,
+          value: rule.value,
+          profileValue: rule.profile_value,
+          result: rule.result,
+          explanation: rule.explanation,
+        })),
+      })),
+    }
+  },
+}
+
 export { ApiError }
