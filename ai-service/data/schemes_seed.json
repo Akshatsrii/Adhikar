@@ -1,0 +1,93 @@
+[
+  {
+    "slug": "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
+    "name": "Mukhyamantri Uchch Shiksha Scholarship Yojana",
+    "department": "Department of College Education, Government of Rajasthan",
+    "category": "Education",
+    "level": "state",
+    "state": "Rajasthan",
+    "benefit": "Up to ₹40,000 per year for professional degree courses (B.Tech, MBBS, etc.)",
+    "description": "Financial assistance for meritorious students from economically weaker sections of Rajasthan pursuing professional higher education.",
+    "source_url": "https://hte.rajasthan.gov.in",
+    "application_url": "https://sso.rajasthan.gov.in",
+    "deadline": "31 October (annual)",
+    "eligibility_rules": [
+      { "field": "state", "operator": "==", "value": "Rajasthan" },
+      { "field": "income", "operator": "<=", "value": "800000" },
+      { "field": "education", "operator": "in", "value": "B.Tech,B.E,MBBS,B.Pharm" }
+    ],
+    "documents_required": [
+      { "name": "Income certificate", "is_mandatory": true },
+      { "name": "Bonafide Rajasthan domicile certificate", "is_mandatory": true },
+      { "name": "Previous year mark sheet", "is_mandatory": true },
+      { "name": "Aadhaar card", "is_mandatory": true }
+    ]
+  },
+  {
+    "slug": "national-means-cum-merit-scholarship",
+    "name": "National Means-cum-Merit Scholarship Scheme (NMMSS)",
+    "department": "Ministry of Education, Government of India",
+    "category": "Education",
+    "level": "central",
+    "state": null,
+    "benefit": "₹12,000 per year (Class 9 to Class 12)",
+    "description": "Scholarship to economically weaker meritorious students to reduce dropout rate at the secondary stage.",
+    "source_url": "https://scholarships.gov.in",
+    "application_url": "https://scholarships.gov.in",
+    "deadline": "Varies by state — typically September",
+    "eligibility_rules": [
+      { "field": "income", "operator": "<=", "value": "350000" },
+      { "field": "education", "operator": "in", "value": "Class 9,Class 10,Class 11,Class 12" }
+    ],
+    "documents_required": [
+      { "name": "Income certificate", "is_mandatory": true },
+      { "name": "Class 8 marksheet (qualifying exam)", "is_mandatory": true },
+      { "name": "Bank passbook (for DBT)", "is_mandatory": true }
+    ]
+  },
+  {
+    "slug": "pm-kisan-samman-nidhi",
+    "name": "PM Kisan Samman Nidhi",
+    "department": "Ministry of Agriculture and Farmers Welfare, Government of India",
+    "category": "Agriculture",
+    "level": "central",
+    "state": null,
+    "benefit": "₹6,000 per year in three equal installments",
+    "description": "Income support to all landholding farmer families to supplement their financial needs.",
+    "source_url": "https://pmkisan.gov.in",
+    "application_url": "https://pmkisan.gov.in",
+    "deadline": "Rolling — no fixed deadline",
+    "eligibility_rules": [
+      { "field": "occupation", "operator": "==", "value": "Farmer" },
+      { "field": "landholding", "operator": ">", "value": "0" }
+    ],
+    "documents_required": [
+      { "name": "Aadhaar card", "is_mandatory": true },
+      { "name": "Land ownership records", "is_mandatory": true },
+      { "name": "Bank account details (for DBT)", "is_mandatory": true }
+    ]
+  },
+  {
+    "slug": "rajasthan-old-age-pension",
+    "name": "Mukhyamantri Vridhjan Samman Pension Yojana",
+    "department": "Department of Social Justice and Empowerment, Government of Rajasthan",
+    "category": "Social Welfare",
+    "level": "state",
+    "state": "Rajasthan",
+    "benefit": "₹750 to ₹1,500 per month depending on age",
+    "description": "Monthly pension for elderly citizens of Rajasthan without sufficient means of subsistence.",
+    "source_url": "https://sje.rajasthan.gov.in",
+    "application_url": "https://ssp2.rajasthan.gov.in",
+    "deadline": "Rolling — no fixed deadline",
+    "eligibility_rules": [
+      { "field": "state", "operator": "==", "value": "Rajasthan" },
+      { "field": "age", "operator": ">=", "value": "60" },
+      { "field": "income", "operator": "<=", "value": "48000" }
+    ],
+    "documents_required": [
+      { "name": "Age proof", "is_mandatory": true },
+      { "name": "Income certificate", "is_mandatory": true },
+      { "name": "Bank passbook (for DBT)", "is_mandatory": true }
+    ]
+  }
+]
