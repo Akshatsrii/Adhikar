@@ -67,3 +67,39 @@ class AskSource(BaseModel):
 class AskResponse(BaseModel):
     answer: str
     sources: list[AskSource]
+
+
+class EligibilityProfile(BaseModel):
+    age: int | None = None
+    state: str | None = None
+    education: str | None = None
+    income: float | None = None
+    occupation: str | None = None
+
+
+class EligibilityCheckRequest(BaseModel):
+    profile: EligibilityProfile
+
+
+class RuleEvaluationOut(BaseModel):
+    field: str
+    operator: str
+    value: str
+    profile_value: str | None
+    result: str
+    explanation: str
+
+
+class SchemeEligibilityOut(BaseModel):
+    scheme_slug: str
+    scheme_name: str
+    source_url: str
+    status: str
+    rules: list[RuleEvaluationOut]
+
+
+class EligibilityCheckResponse(BaseModel):
+    eligible_count: int
+    missing_info_count: int
+    not_eligible_count: int
+    results: list[SchemeEligibilityOut]
