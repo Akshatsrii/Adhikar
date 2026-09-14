@@ -1,9 +1,12 @@
 from datetime import datetime
 
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
+
+EMBEDDING_DIM = 768  # Gemini text-embedding-004 output size
 
 
 class Scheme(Base):
@@ -73,3 +76,23 @@ class Source(Base):
     fetched_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     content_hash: Mapped[str] = mapped_column(String(64))
     raw_text: Mapped[str] = mapped_column(Text)
+
+
+class SchemeChunk(Base):
+    """A retrievable, embedded text chunk derived from a scheme record.
+    This is what the RAG pipeline actually searches over — one scheme can
+    produce multiple chunks (overview, eligibility, documents) so retrieval
+    stays precise instead of matching on one giant blob per scheme."""
+
+    __tablename__ = "scheme_chunks"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    scheme_id: Mapped[int] = mapped_column(ForeignKey("schemes.id"))
+
+    chunk_type: Mapped[str] = mapped_column(String(30))  # "overview" | "eligibility" | "documents"
+    content: Mapped[str] = mapped_column(Text)
+    embedding: Mapped[list[float]] = mapped_column(Vector(EMBEDDING_DIM))
+
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+
+    scheme: Mapped["Scheme"] = relationship()
