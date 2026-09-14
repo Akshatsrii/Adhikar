@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import Base, engine
-from app.routers import ai, schemes
+from app.routers import ai, schemes, eligibility
 
 app = FastAPI(title="Adhikar AI Service", version="0.1.0")
 
@@ -30,3 +30,4 @@ def health() -> dict[str, str]:
 
 app.include_router(schemes.router)
 app.include_router(ai.router)
+app.include_router(eligibility.router)
