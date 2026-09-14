@@ -41,3 +41,29 @@ class SchemeDetail(SchemeListItem):
 class SchemeListResponse(BaseModel):
     total: int
     items: list[SchemeListItem]
+
+
+class AskProfile(BaseModel):
+    state: str | None = None
+    age: int | None = None
+    income: float | None = None
+    occupation: str | None = None
+    education: str | None = None
+
+
+class AskRequest(BaseModel):
+    query: str
+    profile: AskProfile | None = None
+    top_k: int = 5
+
+
+class AskSource(BaseModel):
+    scheme_slug: str
+    scheme_name: str
+    source_url: str
+    chunk_type: str
+
+
+class AskResponse(BaseModel):
+    answer: str
+    sources: list[AskSource]
