@@ -85,6 +85,13 @@ function RootLayout() {
                 >
                   Simulator
                 </Link>
+                <Link
+                  to="/admin"
+                  className="hover:text-[var(--color-ink)]"
+                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                >
+                  Admin
+                </Link>
                 <span className="text-[var(--color-ink)]">{user.name}</span>
                 <button
                   onClick={logout}
