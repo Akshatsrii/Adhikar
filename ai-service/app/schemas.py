@@ -167,19 +167,15 @@ class FamilyOptimizeResponse(BaseModel):
     conflicts: list[ConflictOut]
 
 
-class DocumentExtractRequest(BaseModel):
-    filename: str
-    mime_type: str
-    base64_data: str
-
-class DocumentExtractResponse(BaseModel):
+class DocumentExtractionResponse(BaseModel):
     document_type: str
-    name: str | None = None
-    income: float | None = None
-    issue_date: str | None = None
-    expiry_date: str | None = None
-    is_expired: bool | None = None
-    confidence: float
+    full_name: str | None
+    issue_date: str | None
+    income_amount: float | None
+    id_number: str | None
+    issuing_authority: str | None
+    is_expired: bool | None
+    ocr_text_preview: str
 
 
 class DebuggerRequest(BaseModel):
