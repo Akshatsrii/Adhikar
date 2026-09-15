@@ -509,4 +509,19 @@ export const copilotApi = {
   }
 }
 
+export const adminApi = {
+  triggerCrawler: async () => {
+    return await request<any>('/admin/trigger', { method: 'POST' })
+  },
+  getQueue: async () => {
+    return await request<any[]>('/admin/queue')
+  },
+  approveChange: async (queueId: number, action: 'APPROVE' | 'REJECT') => {
+    return await request<any>('/admin/approve', {
+      method: 'POST',
+      body: JSON.stringify({ queueId, action }),
+    })
+  }
+}
+
 export { ApiError }
