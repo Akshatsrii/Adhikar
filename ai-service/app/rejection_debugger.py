@@ -56,12 +56,11 @@ def debug_rejection(db: Session, scheme_slug: str, profile: EligibilityProfile, 
         contents=[
             prompt,
             types.Part.from_bytes(data=image_bytes, mime_type=mime_type)
-        ]
+        ],
+        config=types.GenerateContentConfig(response_mime_type="application/json")
     )
 
     raw = (response.text or "").strip()
-    if raw.startswith("```"):
-        raw = raw.strip("`").removeprefix("json").strip()
 
     try:
         parsed = json.loads(raw)

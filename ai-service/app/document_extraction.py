@@ -48,11 +48,13 @@ def extract_fields(ocr_text: str) -> dict:
         doc_types=", ".join(KNOWN_DOCUMENT_TYPES), ocr_text=ocr_text[:6000]
     )
 
-    response = client.models.generate_content(model=GENERATION_MODEL, contents=prompt)
+    from google.genai import types
+    response = client.models.generate_content(
+        model=GENERATION_MODEL, 
+        contents=prompt,
+        config=types.GenerateContentConfig(response_mime_type="application/json")
+    )
     raw = (response.text or "").strip()
-
-    if raw.startswith("```"):
-        raw = raw.strip("`").removeprefix("json").strip()
 
     try:
         parsed = json.loads(raw)
