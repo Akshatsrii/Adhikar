@@ -374,22 +374,82 @@ export const lifeEventsApi = {
   },
 }
 
-export interface DocumentExtraction {
-  document_type: string
-  name: string | null
-  income: number | null
-  issue_date: string | null
-  expiry_date: string | null
-  is_expired: boolean | null
-  confidence: number
+export interface DocumentRecord {
+  id: string
+  originalFilename: string
+  documentType: string
+  fullName: string | null
+  issueDate: string | null
+  incomeAmount: number | null
+  idNumber: string | null
+  issuingAuthority: string | null
+  isExpired: boolean | null
+  ocrTextPreview: string
+  createdAt: string
+}
+
+interface RawDocumentRecord {
+  _id: string
+  originalFilename: string
+  documentType: string
+  fullName: string | null
+  issueDate: string | null
+  incomeAmount: number | null
+  idNumber: string | null
+  issuingAuthority: string | null
+  isExpired: boolean | null
+  ocrTextPreview: string
+  createdAt: string
+}
+
+function mapDocument(raw: RawDocumentRecord): DocumentRecord {
+  return {
+    id: raw._id,
+    originalFilename: raw.originalFilename,
+    documentType: raw.documentType,
+    fullName: raw.fullName,
+    issueDate: raw.issueDate,
+    incomeAmount: raw.incomeAmount,
+    idNumber: raw.idNumber,
+    issuingAuthority: raw.issuingAuthority,
+    isExpired: raw.isExpired,
+    ocrTextPreview: raw.ocrTextPreview,
+    createdAt: raw.createdAt,
+  }
 }
 
 export const documentsApi = {
-  extract: async (filename: string, mimeType: string, base64Data: string): Promise<DocumentExtraction> => {
-    return await request<DocumentExtraction>('/documents/extract', {
+  upload: async (file: File): Promise<DocumentRecord> => {
+    const form = new FormData()
+    form.append('file', file)
+
+    const token = getToken()
+    const response = await fetch(`${API_BASE}/documents/upload`, {
       method: 'POST',
-      body: JSON.stringify({ filename, mimeType, base64Data }),
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: form,
     })
+
+    const data = await response.json().catch(() => null)
+
+    if (!response.ok) {
+      const message =
+        data && typeof data === 'object' && 'message' in data
+          ? String((data as { message: unknown }).message)
+          : 'Could not process this document.'
+      throw new ApiError(message, response.status)
+    }
+
+    return mapDocument((data as { document: RawDocumentRecord }).document)
+  },
+
+  list: async (): Promise<DocumentRecord[]> => {
+    const res = await request<{ documents: RawDocumentRecord[] }>('/documents')
+    return res.documents.map(mapDocument)
+  },
+
+  remove: async (id: string): Promise<void> => {
+    await request<void>(`/documents/${id}`, { method: 'DELETE' })
   },
 }
 
