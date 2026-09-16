@@ -1,5 +1,5 @@
 import pytest
-from app.routers.eligibility import evaluate_scheme
+from app.routers.eligibility import evaluate_scheme, SchemeStatus
 from app.models import Scheme, EligibilityRule
 from app.schemas import EligibilityProfile
 
@@ -13,8 +13,8 @@ def test_evaluate_scheme_eligible():
     profile = EligibilityProfile(income=400000, state="UP", age=25)
     
     result = evaluate_scheme(scheme, profile)
-    assert result.is_eligible is True
-    assert len(result.missing_fields) == 0
+    assert result.status == SchemeStatus.ELIGIBLE
+    assert all(r.result.value == "pass" for r in result.rules)
 
 def test_evaluate_scheme_ineligible_income():
     scheme = Scheme(slug="test-scheme")
@@ -24,8 +24,8 @@ def test_evaluate_scheme_ineligible_income():
     profile = EligibilityProfile(income=600000)
     
     result = evaluate_scheme(scheme, profile)
-    assert result.is_eligible is False
-    assert any("Income criteria not met" in str(r.message) for r in result.reasons)
+    assert result.status == SchemeStatus.NOT_ELIGIBLE
+    assert any("does not satisfy" in r.explanation for r in result.rules if r.result.value == "fail")
 
 def test_evaluate_scheme_missing_fields():
     scheme = Scheme(slug="test-scheme")
@@ -36,8 +36,8 @@ def test_evaluate_scheme_missing_fields():
     profile = EligibilityProfile(state="UP") # caste is missing
     
     result = evaluate_scheme(scheme, profile)
-    assert result.is_eligible is False
-    assert "caste" in result.missing_fields
+    assert result.status == SchemeStatus.MISSING_INFO
+    assert any(r.result.value == "unknown" for r in result.rules)
 
 def test_evaluate_scheme_in_operator():
     scheme = Scheme(slug="test-scheme")
@@ -46,10 +46,10 @@ def test_evaluate_scheme_in_operator():
     ]
     
     res1 = evaluate_scheme(scheme, EligibilityProfile(state="UP"))
-    assert res1.is_eligible is True
+    assert res1.status == SchemeStatus.ELIGIBLE
     
     res2 = evaluate_scheme(scheme, EligibilityProfile(state="Delhi"))
-    assert res2.is_eligible is False
+    assert res2.status == SchemeStatus.NOT_ELIGIBLE
 
 def test_evaluate_scheme_empty_rules():
     scheme = Scheme(slug="test-scheme")
@@ -57,4 +57,4 @@ def test_evaluate_scheme_empty_rules():
     profile = EligibilityProfile(income=100)
     
     result = evaluate_scheme(scheme, profile)
-    assert result.is_eligible is True # No rules means universally eligible
+    assert result.status == SchemeStatus.ELIGIBLE

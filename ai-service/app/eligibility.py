@@ -54,7 +54,7 @@ def _to_number(raw: str | int | float | None) -> float | None:
 
 
 def evaluate_rule(rule: EligibilityRule, profile: dict) -> RuleEvaluation:
-    profile_value = profile.get(rule.field)
+    profile_value = getattr(profile, rule.field, None)
 
     if profile_value is None or profile_value == "":
         return RuleEvaluation(
