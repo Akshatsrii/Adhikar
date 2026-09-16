@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { applicationsApi, ApiError, copilotApi } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
