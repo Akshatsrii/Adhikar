@@ -37,6 +37,9 @@ Adhikar is deliberately built as a distributed system, not just a monolith:
 <br/>
 
 ## 4. System Architecture
+
+![Adhikar System Architecture](docs/assets/architecture.png)
+
 The AI Service evaluates deterministic rules extracted from government texts and uses Google Gemini 2.0 Flash for NLP and OCR tasks.
 
 ```mermaid
@@ -79,6 +82,13 @@ sequenceDiagram
 | 10 | Predictive Layer & Counterfactual Simulator | ✅ Done |
 | 11 | Deep Family Benefit Optimizer (Conflict Resolution) | ✅ Done |
 | 12 | Application Copilot + Deadline Engine | ✅ Done |
+| 13 | Collectors (Web crawler / PDF collector) | ✅ Done |
+| 14 | Change Detection (Semantic diffs of rules) | ✅ Done |
+| 15 | Impact Analysis (Affected users count) | ✅ Done |
+| 16 | Source Conflict Resolution (Latest authoritative wins) | ✅ Done |
+| 17 | Automatic Eligibility Re-check (Rule change re-evaluation) | ✅ Done |
+| 18 | Affected User Detection & Notification | ✅ Done |
+| 19 | Admin Verification & Approval Queue (AI Confidence + Human Review) | ✅ Done |
 
 <br/>
 
