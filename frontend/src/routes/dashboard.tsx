@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import {
   ApiError,
+  copilotApi,
   recommendationsApi,
   type ActionItem,
-  type RecommendationsResult,
   type TopMatch,
 } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
@@ -68,7 +68,7 @@ function DashboardPage() {
 
   const [topMatches, setTopMatches] = useState<TopMatch[]>([])
   const [actionItems, setActionItems] = useState<ActionItem[]>([])
-  const [deadlines, setDeadlines] = useState<any[]>([])
+  const [deadlines, setDeadlines] = useState<Array<{ scheme_slug: string, scheme_name: string, deadline: string, days_left: number }>>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -160,15 +160,15 @@ function DashboardPage() {
         <p className="mt-8 rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
       )}
 
-      {data && !isLoading && (
+      {!isLoading && (
         <>
-          {data.actionItems.length > 0 && (
+          {actionItems.length > 0 && (
             <div className="mt-8">
               <h2 className="text-sm font-medium text-[var(--color-ink-soft)]">
                 Complete your profile to unlock more matches
               </h2>
               <div className="mt-3 space-y-2">
-                {data.actionItems.map((item) => (
+                {actionItems.map((item) => (
                   <ActionItemRow key={item.field} item={item} />
                 ))}
               </div>
@@ -177,7 +177,7 @@ function DashboardPage() {
 
           <div className="mt-8">
             <h2 className="text-sm font-medium text-[var(--color-ink-soft)]">Top matches</h2>
-            {data.topMatches.length === 0 ? (
+            {topMatches.length === 0 ? (
               <p className="mt-3 text-sm text-[var(--color-ink-soft)]">
                 No matches yet —{' '}
                 <Link to="/profile" className="font-medium text-[var(--color-saffron-deep)]">
@@ -187,7 +187,7 @@ function DashboardPage() {
               </p>
             ) : (
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
-                {data.topMatches.map((m) => (
+                {topMatches.map((m) => (
                   <MatchCard key={m.schemeSlug} match={m} />
                 ))}
               </div>

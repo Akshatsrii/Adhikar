@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { applicationsApi, ApiError } from '@/lib/api'
+import { applicationsApi, ApiError, copilotApi } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
 export const Route = createFileRoute('/apply')({
@@ -9,7 +9,6 @@ export const Route = createFileRoute('/apply')({
 
 function ApplyPage() {
   const { user } = useAuth()
-  const navigate = useNavigate()
 
   const [name, setName] = useState('')
   const [dob, setDob] = useState('')
