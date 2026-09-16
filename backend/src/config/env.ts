@@ -16,4 +16,5 @@ export const env = {
   clientOrigin: process.env.CLIENT_ORIGIN ?? 'http://localhost:5173',
   nodeEnv: process.env.NODE_ENV ?? 'development',
   aiServiceUrl: process.env.AI_SERVICE_URL ?? 'http://localhost:8000',
+  internalAiKey: process.env.INTERNAL_AI_KEY ?? 'default-internal-key-12345',
 }

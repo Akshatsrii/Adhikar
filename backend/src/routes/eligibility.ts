@@ -3,6 +3,7 @@ import { UserModel } from '../models/User.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const eligibilityRouter = Router()
 
@@ -19,9 +20,9 @@ eligibilityRouter.post('/check', async (req, res, next) => {
       throw new AppError('Complete your profile before checking eligibility', 422)
     }
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/eligibility/check`, {
+    const aiResponse = await aiFetch(`/eligibility/check`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         profile: {
           age: user.profile.age,

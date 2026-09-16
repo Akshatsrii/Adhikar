@@ -4,6 +4,7 @@ import { requireAuth } from '../middleware/requireAuth.js'
 import { UserModel } from '../models/User.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const debuggerRouter = Router()
 
@@ -23,9 +24,9 @@ debuggerRouter.post('/debug', async (req, res, next) => {
     const user = await UserModel.findById(req.userId)
     if (!user) throw new AppError('User not found', 404)
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/debugger/debug`, {
+    const aiResponse = await aiFetch(`/debugger/debug`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         scheme_slug: data.schemeSlug,
         profile: user.profile || {},

@@ -3,6 +3,7 @@ import { UserModel } from '../models/User.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const recommendationsRouter = Router()
 
@@ -15,9 +16,9 @@ recommendationsRouter.get('/', async (req, res, next) => {
       throw new AppError('User not found', 404)
     }
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/recommendations`, {
+    const aiResponse = await aiFetch(`/recommendations`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         profile: {
           age: user.profile?.age,

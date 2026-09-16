@@ -5,6 +5,7 @@ import { UserModel } from '../models/User.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const familyRouter = Router()
 
@@ -116,9 +117,9 @@ familyRouter.post('/optimize', async (req, res, next) => {
       })),
     ]
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/family/optimize`, {
+    const aiResponse = await aiFetch(`/family/optimize`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({ members }),
     })
 

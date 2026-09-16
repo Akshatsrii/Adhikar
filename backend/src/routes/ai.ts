@@ -4,6 +4,7 @@ import { UserModel } from '../models/User.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const aiRouter = Router()
 
@@ -23,9 +24,9 @@ aiRouter.post('/ask', async (req, res, next) => {
       throw new AppError('User not found', 404)
     }
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/ai/ask`, {
+    const aiResponse = await aiFetch(`/ai/ask`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query,
         top_k: topK ?? 5,

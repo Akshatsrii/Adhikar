@@ -4,6 +4,7 @@ import { LifeEventModel } from '../models/LifeEvent.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const lifeEventsRouter = Router()
 
@@ -34,9 +35,9 @@ lifeEventsRouter.post('/', async (req, res, next) => {
   try {
     const { text } = classifySchema.parse(req.body)
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/life-events/classify`, {
+    const aiResponse = await aiFetch(`/life-events/classify`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({ text }),
     })
 

@@ -4,7 +4,8 @@ import { z } from 'zod'
 import { DocumentModel } from '../models/Document.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
-import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
+
 
 export const documentsRouter = Router()
 
@@ -39,7 +40,7 @@ documentsRouter.post('/upload', upload.single('file'), async (req, res, next) =>
       req.file.originalname,
     )
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/documents/extract`, {
+    const aiResponse = await aiFetch(`/documents/extract`, {
       method: 'POST',
       body: form,
     })

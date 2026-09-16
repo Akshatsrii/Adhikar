@@ -4,6 +4,7 @@ import { requireAuth } from '../middleware/requireAuth.js'
 import { UserModel } from '../models/User.js'
 import { AppError } from '../utils/AppError.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const simulatorRouter = Router()
 
@@ -32,9 +33,9 @@ simulatorRouter.post('/simulate', async (req, res, next) => {
       state: data.hypotheticalState !== undefined ? data.hypotheticalState : baseProfile.state,
     }
 
-    const aiResponse = await fetch(`${env.aiServiceUrl}/simulator/simulate`, {
+    const aiResponse = await aiFetch(`/simulator/simulate`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         base_profile: baseProfile,
         hypothetical_profile: hypotheticalProfile,

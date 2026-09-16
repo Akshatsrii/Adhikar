@@ -1,11 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import Base, engine
 from app.routers import ai, schemes, eligibility, recommendations, life_events, family, documents, debugger, simulator, copilot, admin
 
-app = FastAPI(title="Adhikar AI Service", version="0.1.0")
+async def verify_internal_key(x_internal_key: str = Header(...)):
+    if x_internal_key != settings.internal_ai_key:
+        raise HTTPException(status_code=403, detail="Forbidden: Invalid internal key")
+
+app = FastAPI(
+    title="Adhikar AI Service", 
+    version="0.1.0",
+    dependencies=[Depends(verify_internal_key)]
+)
 
 app.add_middleware(
     CORSMiddleware,

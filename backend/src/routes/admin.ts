@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { z } from 'zod'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { env } from '../config/env.js'
+import { aiFetch } from '../utils/aiClient.js'
 
 export const adminRouter = Router()
 
@@ -10,7 +11,7 @@ adminRouter.use(requireAuth)
 
 adminRouter.post('/trigger', async (_req, res, next) => {
   try {
-    const aiResponse = await fetch(`${env.aiServiceUrl}/admin/trigger_crawler`, { method: 'POST' })
+    const aiResponse = await aiFetch(`/admin/trigger_crawler`, { method: 'POST' })
     const result = await aiResponse.json()
     res.status(200).json(result)
   } catch (err) {
@@ -20,7 +21,7 @@ adminRouter.post('/trigger', async (_req, res, next) => {
 
 adminRouter.get('/queue', async (_req, res, next) => {
   try {
-    const aiResponse = await fetch(`${env.aiServiceUrl}/admin/queue`)
+    const aiResponse = await aiFetch(`/admin/queue`)
     const result = await aiResponse.json()
     res.status(200).json(result)
   } catch (err) {
@@ -32,9 +33,9 @@ adminRouter.post('/approve', async (req, res, next) => {
   try {
     const data = z.object({ queueId: z.number(), action: z.enum(['APPROVE', 'REJECT']) }).parse(req.body)
     
-    const aiResponse = await fetch(`${env.aiServiceUrl}/admin/approve`, {
+    const aiResponse = await aiFetch(`/admin/approve`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
       body: JSON.stringify({ queue_id: data.queueId, action: data.action }),
     })
     
