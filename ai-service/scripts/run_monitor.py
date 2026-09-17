@@ -82,7 +82,23 @@ def load_citizen_profiles() -> list[tuple[str, dict]]:
     endpoint; returning empty here simply means changes are filed without
     impact numbers rather than the run failing.
     """
-    return []
+    import httpx
+    from app.config import settings
+
+    try:
+        # Assuming the backend is running on port 5000 in dev
+        backend_url = "http://localhost:5000/api/internal/profiles"
+        response = httpx.get(
+            backend_url,
+            headers={"x-internal-key": settings.internal_ai_key},
+            timeout=10,
+        )
+        response.raise_for_status()
+        data = response.json()
+        return [(item["user_id"], item["profile"]) for item in data]
+    except Exception as exc:
+        logger.warning("could not fetch citizen profiles from backend: %s", exc)
+        return []
 
 
 def main() -> None:
