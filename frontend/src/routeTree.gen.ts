@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -20,18 +19,15 @@ import { Route as EligibilityRouteImport } from './routes/eligibility'
 import { Route as FamilyRouteImport } from './routes/family'
 import { Route as LifeEventsRouteImport } from './routes/life-events'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as AdminRegulatoryRouteImport } from './routes/admin.regulatory'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApplyRoute = ApplyRouteImport.update({
@@ -79,6 +75,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -94,10 +95,14 @@ const SimulatorRoute = SimulatorRouteImport.update({
   path: '/simulator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRegulatoryRoute = AdminRegulatoryRouteImport.update({
+  id: '/admin/regulatory',
+  path: '/admin/regulatory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/apply': typeof ApplyRoute
   '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
@@ -107,13 +112,14 @@ export interface FileRoutesByFullPath {
   '/family': typeof FamilyRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/simulator': typeof SimulatorRoute
+  '/admin/regulatory': typeof AdminRegulatoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/apply': typeof ApplyRoute
   '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
@@ -123,14 +129,15 @@ export interface FileRoutesByTo {
   '/family': typeof FamilyRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/simulator': typeof SimulatorRoute
+  '/admin/regulatory': typeof AdminRegulatoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
   '/apply': typeof ApplyRoute
   '/assistant': typeof AssistantRoute
   '/dashboard': typeof DashboardRoute
@@ -140,15 +147,16 @@ export interface FileRoutesById {
   '/family': typeof FamilyRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/simulator': typeof SimulatorRoute
+  '/admin/regulatory': typeof AdminRegulatoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin'
     | '/apply'
     | '/assistant'
     | '/dashboard'
@@ -158,13 +166,14 @@ export interface FileRouteTypes {
     | '/family'
     | '/life-events'
     | '/login'
+    | '/notifications'
     | '/profile'
     | '/register'
     | '/simulator'
+    | '/admin/regulatory'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/apply'
     | '/assistant'
     | '/dashboard'
@@ -174,13 +183,14 @@ export interface FileRouteTypes {
     | '/family'
     | '/life-events'
     | '/login'
+    | '/notifications'
     | '/profile'
     | '/register'
     | '/simulator'
+    | '/admin/regulatory'
   id:
     | '__root__'
     | '/'
-    | '/admin'
     | '/apply'
     | '/assistant'
     | '/dashboard'
@@ -190,14 +200,15 @@ export interface FileRouteTypes {
     | '/family'
     | '/life-events'
     | '/login'
+    | '/notifications'
     | '/profile'
     | '/register'
     | '/simulator'
+    | '/admin/regulatory'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
   ApplyRoute: typeof ApplyRoute
   AssistantRoute: typeof AssistantRoute
   DashboardRoute: typeof DashboardRoute
@@ -207,9 +218,11 @@ export interface RootRouteChildren {
   FamilyRoute: typeof FamilyRoute
   LifeEventsRoute: typeof LifeEventsRoute
   LoginRoute: typeof LoginRoute
+  NotificationsRoute: typeof NotificationsRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   SimulatorRoute: typeof SimulatorRoute
+  AdminRegulatoryRoute: typeof AdminRegulatoryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -219,13 +232,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apply': {
@@ -291,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -312,12 +325,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SimulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/regulatory': {
+      id: '/admin/regulatory'
+      path: '/admin/regulatory'
+      fullPath: '/admin/regulatory'
+      preLoaderRoute: typeof AdminRegulatoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
   ApplyRoute: ApplyRoute,
   AssistantRoute: AssistantRoute,
   DashboardRoute: DashboardRoute,
@@ -327,9 +346,11 @@ const rootRouteChildren: RootRouteChildren = {
   FamilyRoute: FamilyRoute,
   LifeEventsRoute: LifeEventsRoute,
   LoginRoute: LoginRoute,
+  NotificationsRoute: NotificationsRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   SimulatorRoute: SimulatorRoute,
+  AdminRegulatoryRoute: AdminRegulatoryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
