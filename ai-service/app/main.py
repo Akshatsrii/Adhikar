@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import Base, engine
-from app.routers import ai, schemes, eligibility, recommendations, life_events, family, documents, debugger, simulator, copilot, admin
+from app.routers import ai, schemes, eligibility, recommendations, life_events, family, documents, debugger, simulator, copilot, admin, regulatory
 
 async def verify_internal_key(x_internal_key: str = Header(...)):
     if x_internal_key != settings.internal_ai_key:
@@ -47,3 +47,4 @@ app.include_router(debugger.router)
 app.include_router(simulator.router)
 app.include_router(copilot.router)
 app.include_router(admin.router)
+app.include_router(regulatory.router)
