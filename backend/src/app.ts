@@ -17,6 +17,8 @@ import { debuggerRouter } from './routes/debugger.js'
 import { simulatorRouter } from './routes/simulator.js'
 import { copilotRouter } from './routes/copilot.js'
 import { adminRouter } from './routes/admin.js'
+import { notificationsRouter } from './routes/notifications.js'
+
 
 export const app = express()
 
@@ -40,6 +42,7 @@ app.use('/api/debugger', debuggerRouter)
 app.use('/api/simulator', simulatorRouter)
 app.use('/api/copilot', copilotRouter)
 app.use('/api/admin', adminRouter)
+app.use('/api/notifications', notificationsRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)

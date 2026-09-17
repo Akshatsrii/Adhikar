@@ -1,52 +1,172 @@
 import { Router } from 'express'
 import { z } from 'zod'
+import { NotificationModel } from '../models/Notification.js'
 import { requireAuth } from '../middleware/requireAuth.js'
-import { env } from '../config/env.js'
+import { requireAdmin } from '../middleware/requireAdmin.js'
+import { AppError } from '../utils/AppError.js'
+
 import { aiFetch } from '../utils/aiClient.js'
 
 export const adminRouter = Router()
 
-// In a real app, requireAdmin middleware would be used here
-adminRouter.use(requireAuth)
+adminRouter.use(requireAuth, requireAdmin)
 
-adminRouter.post('/trigger', async (_req, res, next) => {
+const reviewSchema = z.object({
+  note: z.string().trim().max(500).optional(),
+})
+
+const impactSchema = z
+  .object({
+    lost_eligibility_user_ids: z.array(z.string()).default([]),
+    gained_eligibility_user_ids: z.array(z.string()).default([]),
+  })
+  .nullable()
+
+const changeSchema = z.object({
+  id: z.number(),
+  scheme_slug: z.string(),
+  scheme_name: z.string(),
+  change_type: z.string(),
+  summary: z.string(),
+  source_url: z.string(),
+  impact: impactSchema,
+})
+
+adminRouter.get('/regulatory/changes', async (req, res, next) => {
   try {
-    const aiResponse = await aiFetch(`/admin/trigger_crawler`, { method: 'POST' })
-    const result = await aiResponse.json()
-    res.status(200).json(result)
+    const status = typeof req.query.status === 'string' ? req.query.status : 'pending'
+
+    const response = await aiFetch(
+      `/regulatory/changes?status=${encodeURIComponent(status)}`,
+    )
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`Regulatory service error: ${detail || response.statusText}`, 502)
+    }
+
+    res.status(200).json(await response.json())
   } catch (err) {
     next(err)
   }
 })
 
-adminRouter.get('/queue', async (_req, res, next) => {
+adminRouter.get('/regulatory/schemes/:slug/versions', async (req, res, next) => {
   try {
-    const aiResponse = await aiFetch(`/admin/queue`)
-    const result = await aiResponse.json()
-    res.status(200).json(result)
+    const response = await aiFetch(
+      `/regulatory/schemes/${encodeURIComponent(req.params.slug)}/versions`,
+    )
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`Regulatory service error: ${detail || response.statusText}`, 502)
+    }
+
+    res.status(200).json(await response.json())
   } catch (err) {
     next(err)
   }
 })
 
-adminRouter.post('/approve', async (req, res, next) => {
+adminRouter.post('/regulatory/changes/:id/approve', async (req, res, next) => {
   try {
-    const data = z.object({ queueId: z.number(), action: z.enum(['APPROVE', 'REJECT']) }).parse(req.body)
-    
-    const aiResponse = await aiFetch(`/admin/approve`, {
-      method: 'POST',
-      headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ queue_id: data.queueId, action: data.action }),
-    })
-    
-    const result = await aiResponse.json()
-    
-    // Stage 18: Notification simulated here. 
-    // In production, we'd find all affected users and insert Notification records into MongoDB.
-    // We skip actual DB insertion of notifications to save time, but the architecture supports it.
-    
-    res.status(200).json(result)
+    const { note } = reviewSchema.parse(req.body ?? {})
+
+    // Fetch the change first so we know which citizens to notify. The AI
+    // service owns regulatory state; Mongo owns who gets told about it.
+    const listResponse = await aiFetch(`/regulatory/changes?status=pending`)
+    if (!listResponse.ok) {
+      throw new AppError('Could not load the pending change', 502)
+    }
+
+    const { items } = (await listResponse.json()) as { items: unknown[] }
+    const change = z
+      .array(changeSchema)
+      .parse(items)
+      .find((c) => c.id === Number(req.params.id))
+
+    if (!change) {
+      throw new AppError('Pending change not found', 404)
+    }
+
+    const approveResponse = await aiFetch(
+      `/regulatory/changes/${req.params.id}/approve`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewed_by: req.userId, note }),
+      },
+    )
+
+    if (!approveResponse.ok) {
+      const detail = await approveResponse.text().catch(() => '')
+      throw new AppError(`Approval failed: ${detail || approveResponse.statusText}`, 502)
+    }
+
+    const result = (await approveResponse.json()) as Record<string, unknown>
+    const notified = await fanOutNotifications(change)
+
+    res.status(200).json({ ...result, notifications_created: notified })
   } catch (err) {
     next(err)
   }
 })
+
+adminRouter.post('/regulatory/changes/:id/reject', async (req, res, next) => {
+  try {
+    const { note } = reviewSchema.parse(req.body ?? {})
+
+    const response = await aiFetch(
+      `/regulatory/changes/${req.params.id}/reject`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reviewed_by: req.userId, note }),
+      },
+    )
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`Rejection failed: ${detail || response.statusText}`, 502)
+    }
+
+    res.status(200).json(await response.json())
+  } catch (err) {
+    next(err)
+  }
+})
+
+/** Stage 18 — turn an approved change into per-citizen alerts. */
+async function fanOutNotifications(change: z.infer<typeof changeSchema>): Promise<number> {
+  if (!change.impact) return 0
+
+  const docs = [
+    ...change.impact.lost_eligibility_user_ids.map((userId) => ({
+      userId,
+      kind: 'eligibility_lost' as const,
+      title: 'Your eligibility may have changed',
+      body:
+        `${change.scheme_name} has updated its rules — ${change.summary} ` +
+        `You may no longer qualify. Please review your eligibility.`,
+    })),
+    ...change.impact.gained_eligibility_user_ids.map((userId) => ({
+      userId,
+      kind: 'eligibility_gained' as const,
+      title: 'You may now qualify for a new scheme',
+      body:
+        `${change.scheme_name} has updated its rules — ${change.summary} ` +
+        `You may now be eligible.`,
+    })),
+  ].map((d) => ({
+    ...d,
+    schemeSlug: change.scheme_slug,
+    schemeName: change.scheme_name,
+    regulatoryChangeId: change.id,
+    sourceUrl: change.source_url,
+  }))
+
+  if (docs.length === 0) return 0
+
+  await NotificationModel.insertMany(docs)
+  return docs.length
+}
