@@ -509,19 +509,165 @@ export const copilotApi = {
   }
 }
 
-export const adminApi = {
-  triggerCrawler: async () => {
-    return await request<any>('/admin/trigger', { method: 'POST' })
-  },
-  getQueue: async () => {
-    return await request<any[]>('/admin/queue')
-  },
-  approveChange: async (queueId: number, action: 'APPROVE' | 'REJECT') => {
-    return await request<any>('/admin/approve', {
-      method: 'POST',
-      body: JSON.stringify({ queueId, action }),
-    })
+export { ApiError }
+// --- Stage 18: citizen notifications ---------------------------------------
+
+export type NotificationKind =
+  | 'eligibility_lost'
+  | 'eligibility_gained'
+  | 'documents_changed'
+  | 'deadline_changed'
+
+export interface AppNotification {
+  id: string
+  kind: NotificationKind
+  schemeSlug: string
+  schemeName: string
+  title: string
+  body: string
+  sourceUrl: string | null
+  readAt: string | null
+  createdAt: string
+}
+
+interface RawNotification {
+  _id: string
+  kind: NotificationKind
+  schemeSlug: string
+  schemeName: string
+  title: string
+  body: string
+  sourceUrl: string | null
+  readAt: string | null
+  createdAt: string
+}
+
+function mapNotification(raw: RawNotification): AppNotification {
+  return {
+    id: raw._id,
+    kind: raw.kind,
+    schemeSlug: raw.schemeSlug,
+    schemeName: raw.schemeName,
+    title: raw.title,
+    body: raw.body,
+    sourceUrl: raw.sourceUrl,
+    readAt: raw.readAt,
+    createdAt: raw.createdAt,
   }
 }
 
-export { ApiError }
+export const notificationsApi = {
+  list: async (): Promise<{ notifications: AppNotification[]; unreadCount: number }> => {
+    const res = await request<{ notifications: RawNotification[]; unreadCount: number }>(
+      '/notifications',
+    )
+    return {
+      notifications: res.notifications.map(mapNotification),
+      unreadCount: res.unreadCount,
+    }
+  },
+
+  markRead: async (id: string): Promise<void> => {
+    await request<unknown>(`/notifications/${id}/read`, { method: 'POST' })
+  },
+
+  markAllRead: async (): Promise<void> => {
+    await request<unknown>('/notifications/read-all', { method: 'POST' })
+  },
+}
+
+// --- Stage 19: admin regulatory review queue -------------------------------
+
+export interface ChangeImpact {
+  totalEvaluated: number
+  lostEligibilityCount: number
+  gainedEligibilityCount: number
+  unchangedCount: number
+}
+
+export interface RegulatoryChange {
+  id: number
+  schemeSlug: string
+  schemeName: string
+  changeType: string
+  field: string | null
+  oldValue: string | null
+  newValue: string | null
+  summary: string
+  confidence: number
+  sourceUrl: string
+  authorityLevel: string
+  impact: ChangeImpact | null
+  status: 'pending' | 'approved' | 'rejected'
+  detectedAt: string
+}
+
+interface RawRegulatoryChange {
+  id: number
+  scheme_slug: string
+  scheme_name: string
+  change_type: string
+  field: string | null
+  old_value: string | null
+  new_value: string | null
+  summary: string
+  confidence: number
+  source_url: string
+  authority_level: string
+  impact: {
+    total_evaluated: number
+    lost_eligibility_count: number
+    gained_eligibility_count: number
+    unchanged_count: number
+  } | null
+  status: 'pending' | 'approved' | 'rejected'
+  detected_at: string
+}
+
+function mapChange(raw: RawRegulatoryChange): RegulatoryChange {
+  return {
+    id: raw.id,
+    schemeSlug: raw.scheme_slug,
+    schemeName: raw.scheme_name,
+    changeType: raw.change_type,
+    field: raw.field,
+    oldValue: raw.old_value,
+    newValue: raw.new_value,
+    summary: raw.summary,
+    confidence: raw.confidence,
+    sourceUrl: raw.source_url,
+    authorityLevel: raw.authority_level,
+    impact: raw.impact
+      ? {
+          totalEvaluated: raw.impact.total_evaluated,
+          lostEligibilityCount: raw.impact.lost_eligibility_count,
+          gainedEligibilityCount: raw.impact.gained_eligibility_count,
+          unchangedCount: raw.impact.unchanged_count,
+        }
+      : null,
+    status: raw.status,
+    detectedAt: raw.detected_at,
+  }
+}
+
+export const adminApi = {
+  listChanges: async (status = 'pending'): Promise<RegulatoryChange[]> => {
+    const res = await request<{ total: number; items: RawRegulatoryChange[] }>(
+      `/admin/regulatory/changes?status=${encodeURIComponent(status)}`,
+    )
+    return res.items.map(mapChange)
+  },
+
+  approve: async (id: number, note?: string): Promise<{ notifications_created: number }> =>
+    request<{ notifications_created: number }>(`/admin/regulatory/changes/${id}/approve`, {
+      method: 'POST',
+      body: JSON.stringify({ note }),
+    }),
+
+  reject: async (id: number, note?: string): Promise<void> => {
+    await request<unknown>(`/admin/regulatory/changes/${id}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ note }),
+    })
+  },
+}
