@@ -57,13 +57,7 @@ function RootLayout() {
                 >
                   Life Events
                 </Link>
-                <Link
-                  to="/documents"
-                  className="hover:text-[var(--color-ink)]"
-                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
-                >
-                  Documents
-                </Link>
+                <Link to="/documents" className="hover:text-[var(--color-ink)]" activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}>Documents</Link><Link to="/notifications" className="hover:text-[var(--color-ink)]" activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}>Alerts</Link>
                 <Link
                   to="/apply"
                   className="hover:text-[var(--color-ink)]"
@@ -86,9 +80,8 @@ function RootLayout() {
                   Simulator
                 </Link>
                 <Link
-                  to="/admin"
-                  className="hover:text-[var(--color-ink)]"
-                  activeProps={{ className: 'text-[var(--color-ink)] font-medium' }}
+                  to="/admin/regulatory"
+                  className="[&.active]:font-semibold [&.active]:text-[var(--color-govgreen)] hover:text-[var(--color-ink)]"
                 >
                   Admin
                 </Link>
@@ -142,3 +135,4 @@ function ShieldMark() {
     </svg>
   )
 }
+
