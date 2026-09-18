@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { z } from 'zod'
 import { NotificationModel } from '../models/Notification.js'
 import { UserModel } from '../models/User.js'
+import { AuditLogModel } from '../models/AuditLog.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { requireAdmin } from '../middleware/requireAdmin.js'
 import { AppError } from '../utils/AppError.js'
@@ -33,6 +34,13 @@ adminRouter.put('/users/:id/role', async (req, res, next) => {
     ).select('-passwordHash')
     
     if (!user) throw new AppError('User not found', 404)
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'change_user_role',
+      target: `user:${req.params.id}`,
+      ip: req.ip
+    })
     res.json(user)
   } catch (err) {
     next(err)
@@ -65,6 +73,13 @@ adminRouter.post('/schemes', async (req, res, next) => {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
     }
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'create_scheme',
+      target: req.body.slug || `unknown`,
+      ip: req.ip
+    })
     res.status(201).json(await response.json())
   } catch (err) {
     next(err)
@@ -82,6 +97,13 @@ adminRouter.put('/schemes/:slug', async (req, res, next) => {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
     }
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'update_scheme',
+      target: `scheme:${req.params.slug}`,
+      ip: req.ip
+    })
     res.json(await response.json())
   } catch (err) {
     next(err)
@@ -97,6 +119,13 @@ adminRouter.delete('/schemes/:slug', async (req, res, next) => {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
     }
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'delete_scheme',
+      target: `scheme:${req.params.slug}`,
+      ip: req.ip
+    })
     res.json(await response.json())
   } catch (err) {
     next(err)
@@ -114,6 +143,13 @@ adminRouter.post('/schemes/bulk', async (req, res, next) => {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
     }
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'bulk_upload_schemes',
+      target: `bulk`,
+      ip: req.ip
+    })
     res.status(201).json(await response.json())
   } catch (err) {
     next(err)
@@ -187,10 +223,11 @@ adminRouter.post('/regulatory/changes/:id/approve', async (req, res, next) => {
     }
 
     const { items } = (await listResponse.json()) as { items: unknown[] }
+    const changeId = Number(req.params.id)
     const change = z
       .array(changeSchema)
       .parse(items)
-      .find((c) => c.id === Number(req.params.id))
+      .find((c) => c.id === changeId)
 
     if (!change) {
       throw new AppError('Pending change not found', 404)
@@ -213,6 +250,13 @@ adminRouter.post('/regulatory/changes/:id/approve', async (req, res, next) => {
     const result = (await approveResponse.json()) as Record<string, unknown>
     const notified = await fanOutNotifications(change)
 
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'approve_change',
+      target: `regulatory_change:${req.params.id}`,
+      ip: req.ip
+    })
     res.status(200).json({ ...result, notifications_created: notified })
   } catch (err) {
     next(err)
@@ -237,6 +281,13 @@ adminRouter.post('/regulatory/changes/:id/reject', async (req, res, next) => {
       throw new AppError(`Rejection failed: ${detail || response.statusText}`, 502)
     }
 
+    
+    await AuditLogModel.create({
+      adminId: req.userId,
+      action: 'reject_change',
+      target: `regulatory_change:${req.params.id}`,
+      ip: req.ip
+    })
     res.status(200).json(await response.json())
   } catch (err) {
     next(err)

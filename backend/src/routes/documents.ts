@@ -5,6 +5,7 @@ import { DocumentModel } from '../models/Document.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { AppError } from '../utils/AppError.js'
 import { aiFetch } from '../utils/aiClient.js'
+import { fileTypeFromBuffer } from 'file-type'
 
 
 export const documentsRouter = Router()
@@ -29,8 +30,13 @@ const extractionSchema = z.object({
 
 documentsRouter.post('/upload', upload.single('file'), async (req, res, next) => {
   try {
-    if (!req.file) {
+if (!req.file) {
       throw new AppError('No file uploaded', 422)
+    }
+
+    const type = await fileTypeFromBuffer(req.file.buffer)
+    if (!type || !['image/jpeg', 'image/png', 'application/pdf'].includes(type.mime)) {
+      throw new AppError('Invalid file type. Only JPEG, PNG, and PDF are allowed.', 415)
     }
 
     const form = new FormData()

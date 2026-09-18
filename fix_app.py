@@ -1,4 +1,17 @@
-import cors from 'cors'
+import re
+
+with open('backend/src/app.ts', 'r', encoding='utf-8') as f:
+    text = f.read()
+
+# I will just extract the exports and then rebuild it.
+lines = text.split('\n')
+clean_lines = []
+for line in lines:
+    if line.startswith('import ') or line.startswith('export const app') or line.startswith('app.') or line.startswith('})') or line.startswith('  res.status') or line.strip() == '':
+        clean_lines.append(line)
+
+# Let's just create a clean version.
+clean_app_ts = '''import cors from 'cors'
 import express from 'express'
 import { env } from './config/env.js'
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'
@@ -47,3 +60,7 @@ app.use('/api/notifications', notificationsRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
+'''
+
+with open('backend/src/app.ts', 'w', encoding='utf-8') as f:
+    f.write(clean_app_ts)
