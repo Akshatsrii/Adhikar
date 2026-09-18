@@ -17,6 +17,7 @@ def db():
     yield session
     session.close()
 
+@pytest.mark.skipif(not os.getenv("GEMINI_API_KEY"), reason="GEMINI_API_KEY not set")
 def test_rag_accuracy_meets_threshold(db):
     """Ensure RAG retrieval accuracy does not drop below 80%."""
     accuracy, total = run_rag_eval(db, DATA_DIR / "rag_golden_set.json")

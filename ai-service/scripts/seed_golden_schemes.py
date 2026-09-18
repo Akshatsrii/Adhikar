@@ -7,6 +7,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from app.database import SessionLocal
 from app.models import Scheme, EligibilityRule, SchemeChunk
 from app.gemini import embed_text
+from app.config import settings
+
+def safe_embed_text(text: str, task_type: str = "RETRIEVAL_DOCUMENT") -> list[float]:
+    if not settings.gemini_api_key:
+        return [0.0] * 3072
+    return embed_text(text, task_type=task_type)
 
 def seed_schemes():
     db = SessionLocal()
@@ -32,7 +38,7 @@ def seed_schemes():
         scheme_id=kisan.id,
         chunk_type="overview",
         content="Pradhan Mantri Kisan Samman Nidhi provides Rs. 6000 per year income support to all landholding farmers in India. It is a central sector scheme for agriculture.",
-        embedding=embed_text("Pradhan Mantri Kisan Samman Nidhi provides Rs. 6000 per year income support to all landholding farmers in India. It is a central sector scheme for agriculture.", task_type="RETRIEVAL_DOCUMENT")
+        embedding=safe_embed_text("Pradhan Mantri Kisan Samman Nidhi provides Rs. 6000 per year income support to all landholding farmers in India. It is a central sector scheme for agriculture.", task_type="RETRIEVAL_DOCUMENT")
     )
     db.add(kisan_chunk)
 
@@ -57,7 +63,7 @@ def seed_schemes():
         scheme_id=ab.id,
         chunk_type="overview",
         content="Ayushman Bharat Pradhan Mantri Jan Arogya Yojana provides health insurance up to Rs. 5 Lakh per family per year for secondary and tertiary care hospitalization to poor and vulnerable families.",
-        embedding=embed_text("Ayushman Bharat Pradhan Mantri Jan Arogya Yojana provides health insurance up to Rs. 5 Lakh per family per year for secondary and tertiary care hospitalization to poor and vulnerable families.", task_type="RETRIEVAL_DOCUMENT")
+        embedding=safe_embed_text("Ayushman Bharat Pradhan Mantri Jan Arogya Yojana provides health insurance up to Rs. 5 Lakh per family per year for secondary and tertiary care hospitalization to poor and vulnerable families.", task_type="RETRIEVAL_DOCUMENT")
     )
     db.add(ab_chunk)
 
@@ -82,7 +88,7 @@ def seed_schemes():
         scheme_id=svanidhi.id,
         chunk_type="overview",
         content="PM SVANidhi is a special micro-credit facility for street vendors to access affordable working capital loans up to Rs. 10000 to resume their livelihoods after the COVID-19 lockdown.",
-        embedding=embed_text("PM SVANidhi is a special micro-credit facility for street vendors to access affordable working capital loans up to Rs. 10000 to resume their livelihoods after the COVID-19 lockdown.", task_type="RETRIEVAL_DOCUMENT")
+        embedding=safe_embed_text("PM SVANidhi is a special micro-credit facility for street vendors to access affordable working capital loans up to Rs. 10000 to resume their livelihoods after the COVID-19 lockdown.", task_type="RETRIEVAL_DOCUMENT")
     )
     db.add(svanidhi_chunk)
 
@@ -107,7 +113,7 @@ def seed_schemes():
         scheme_id=awas.id,
         chunk_type="overview",
         content="Pradhan Mantri Awas Yojana provides financial assistance to poor families to build a pukka house with basic amenities.",
-        embedding=embed_text("Pradhan Mantri Awas Yojana provides financial assistance to poor families to build a pukka house with basic amenities.", task_type="RETRIEVAL_DOCUMENT")
+        embedding=safe_embed_text("Pradhan Mantri Awas Yojana provides financial assistance to poor families to build a pukka house with basic amenities.", task_type="RETRIEVAL_DOCUMENT")
     )
     db.add(awas_chunk)
 
@@ -133,7 +139,7 @@ def seed_schemes():
         scheme_id=atal.id,
         chunk_type="overview",
         content="Atal Pension Yojana is a pension scheme for unorganized sector workers offering a minimum guaranteed pension of Rs 1000 to 5000 per month after age 60.",
-        embedding=embed_text("Atal Pension Yojana is a pension scheme for unorganized sector workers offering a minimum guaranteed pension of Rs 1000 to 5000 per month after age 60.", task_type="RETRIEVAL_DOCUMENT")
+        embedding=safe_embed_text("Atal Pension Yojana is a pension scheme for unorganized sector workers offering a minimum guaranteed pension of Rs 1000 to 5000 per month after age 60.", task_type="RETRIEVAL_DOCUMENT")
     )
     db.add(atal_chunk)
 

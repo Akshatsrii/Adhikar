@@ -46,6 +46,20 @@ jobs:
 
   ai-service-tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: adhikar_ai
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
@@ -58,7 +72,17 @@ jobs:
           pip install -r requirements.txt
           pip install pytest
         working-directory: ./ai-service
+      - name: Initialize Database
+        run: |
+          export PYTHONPATH=.
+          export DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/adhikar_ai
+          python -c "from app.database import Base, engine; Base.metadata.create_all(bind=engine)"
+          python scripts/seed_golden_schemes.py
+        working-directory: ./ai-service
       - name: Run Pytest
+        env:
+          DATABASE_URL: postgresql+psycopg2://postgres:postgres@localhost:5432/adhikar_ai
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           export PYTHONPATH=.
           pytest tests/
