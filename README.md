@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
   <img src="docs/assets/banner.png" alt="Adhikar project banner" width="100%" />
 </div>
 
@@ -68,27 +68,45 @@ sequenceDiagram
 
 ## 5. Completed Technical Roadmap
 
-| Stage | Feature | Status |
-|---|---|---|
-| 1 | MERN + TypeScript foundation, auth | ✅ Done |
-| 2 | Python AI Service + PostgreSQL/pgvector setup | ✅ Done |
-| 3 | Multimodal Data Ingestion Pipeline & Embeddings | ✅ Done |
-| 4 | Deterministic Rule-Based Eligibility Engine | ✅ Done |
-| 5 | Personalized Recommendation & Scoring Engine | ✅ Done |
-| 6 | Life Event Triggers (Marriage, Childbirth, etc.) | ✅ Done |
-| 7 | Document Intelligence (Gemini Multimodal OCR Extraction) | ✅ Done |
-| 8 | Form Mistake Detector & DBT Readiness Checker | ✅ Done |
-| 9 | Rejection Debugger (Root Cause Analysis with Citations) | ✅ Done |
-| 10 | Predictive Layer & Counterfactual Simulator | ✅ Done |
-| 11 | Deep Family Benefit Optimizer (Conflict Resolution) | ✅ Done |
-| 12 | Application Copilot + Deadline Engine | ✅ Done |
-| 13 | Collectors (Web crawler / PDF collector) | ✅ Done |
-| 14 | Change Detection (Semantic diffs of rules) | ✅ Done |
-| 15 | Impact Analysis (Affected users count) | ✅ Done |
-| 16 | Source Conflict Resolution (Latest authoritative wins) | ✅ Done |
-| 17 | Automatic Eligibility Re-check (Rule change re-evaluation) | ✅ Done |
-| 18 | Affected User Detection & Notification | ✅ Done |
-| 19 | Admin Verification & Approval Queue (AI Confidence + Human Review) | ✅ Done |
+**✅ Stage 1 — Foundation**
+Auth system ka poora setup. Frontend (Vite+React+TS+TanStack Router), Backend (Express+TS+MongoDB), JWT+bcrypt login/register. ML: ❌ zaroorat nahi.
+
+**✅ Stage 2 — Profile + Government Scheme Data Pipeline**
+User profile form (age/state/education/income/occupation) + PostgreSQL mein structured scheme database (schemes, eligibility_rules, documents_required). ML: LLM sirf offline PDF→JSON extraction ke liye, optional.
+
+**✅ Stage 3 — RAG Assistant**
+Chat interface jo Gemini embeddings + pgvector similarity search + Gemini generation use karke grounded answers deta hai, source citations ke saath.
+
+**✅ Stage 4 — Deterministic Eligibility Engine**
+Rule-based evaluation (income <= 300000) — kabhi LLM se eligibility decide nahi hoti. Pass/fail/unknown per rule, fully explainable.
+
+**✅ Stage 5 — Recommendation + Dashboard**
+Top Matches, match %, weighted scoring (plain math) — MVP complete hone ka milestone.
+
+**✅ Stage 6 — Life Event Engine + Family Optimizer**
+Free-text life events (LLM classification) → category mapping. Family members add karke per-member eligibility + mutually-exclusive/one-per-family conflict detection.
+
+**✅ Stage 7 — Document Intelligence**
+Tesseract OCR (pretrained) + Gemini field extraction. Expiry detection, structured field preview.
+
+**✅ Stage 8 — Form Mistake Detector + DBT Readiness Checker**
+Fuzzy name matching, field cross-comparison — pure algorithm, ML nahi.
+
+**✅ Stage 9 — Application Risk Predictor + Rejection Debugger**
+Rejection letter + scheme rules + user docs → LLM reasoning se root-cause explanation.
+
+**✅ Stage 10 — Counterfactual Simulator**
+"Agar income ₹50k kam ho toh..." — eligibility engine ko hypothetical inputs ke saath re-run karna.
+
+**✅ Stage 11 — Family Benefit Optimizer (Deep)**
+Stage 6 mein hi merge ho gaya — poore family ke liye best combination.
+
+**✅ Stage 12 — Application Copilot + Deadline Engine**
+Proactive deadline alerts, application-filling guidance.
+
+<br/>
+
+*Note: Stages 13-19 (Regulatory Monitoring Pipeline & Admin Review) are also fully implemented in the backend/AI-service architecture!*
 
 <br/>
 
@@ -146,5 +164,6 @@ CORS_ORIGIN=http://localhost:5173
 <br/>
 
 <div align="center">
-  <sub><b>Adhikar</b> — Your Right, Delivered.</sub>
+  <sub><b>Adhikar</b> â€” Your Right, Delivered.</sub>
 </div>
+
