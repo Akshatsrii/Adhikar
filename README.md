@@ -106,10 +106,28 @@ Proactive deadline alerts, application-filling guidance.
 
 <br/>
 
-*Note: Stages 13-19 (Regulatory Monitoring Pipeline & Admin Review) are also fully implemented in the backend/AI-service architecture!*
+**✅ Stage 13 — Regulatory Data Collection**
+Government sources se raw data uthana (HTML portal fetch, PDF circular/notification fetch) aur content-hash stamp karna. Pure data fetch, no ML.
+
+**✅ Stage 14 — Change Detection (Text & Rule Diff) + Version Control**
+Text diff (hash compare + line diffing) filtering cosmetic changes, and Rule diff (structured snapshot compare). SchemeVersion table maintains immutable history of all changes.
+
+**✅ Stage 15 — Regulatory Impact Analysis**
+Deterministic eligibility engine ko re-run karke existing citizen profiles par change ka impact nikalna (lost eligibility, gained, unchanged).
+
+**✅ Stage 16 — Source Conflict Resolution**
+Authority ranking (gazette > circular > portal > press release) aur recency ke aadhar par conflicting official sources ko resolve karna.
+
+**✅ Stage 17 — Automatic Eligibility Re-check**
+Jab bhi koi eligibility-critical rule change approve hota hai, existing users ki eligibility automatically re-evaluate karna.
+
+**✅ Stage 18 — Affected User Detection & Notification**
+Stage 17 ke output ko actual citizen-facing alerts (unread badge, mark-read, source link) mein convert karna.
+
+**✅ Stage 19 — Admin Verification & Approval Queue**
+Har regulatory change ek admin human-review queue mein aata hai. Approval ke baad hi live rules update hote hain aur notifications fire hote hain.
 
 <br/>
-
 ## 6. Local Setup & Getting Started
 
 ### Frontend (React/Vite)
