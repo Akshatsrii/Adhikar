@@ -12,7 +12,7 @@ from app.config import settings
 
 _client: genai.Client | None = None
 
-EMBEDDING_MODEL = "text-embedding-004"
+EMBEDDING_MODEL = "gemini-embedding-2"
 GENERATION_MODEL = "gemini-2.0-flash"
 
 

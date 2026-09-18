@@ -1,0 +1,22 @@
+[
+  {
+    "question": "I am a farmer looking for income support and agricultural benefits.",
+    "expected_scheme_slug": "pm-kisan"
+  },
+  {
+    "question": "Are there any health insurance schemes for low-income families?",
+    "expected_scheme_slug": "ayushman-bharat"
+  },
+  {
+    "question": "I need financial assistance to build a pukka house.",
+    "expected_scheme_slug": "pm-awas-yojana"
+  },
+  {
+    "question": "Is there a pension scheme for unorganized sector workers?",
+    "expected_scheme_slug": "atal-pension-yojana"
+  },
+  {
+    "question": "I want to take a loan to start a small street vending business.",
+    "expected_scheme_slug": "pm-svanidhi"
+  }
+]

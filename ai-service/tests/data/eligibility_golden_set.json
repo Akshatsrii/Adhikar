@@ -1,0 +1,35 @@
+[
+  {
+    "profile": {
+      "age": 35,
+      "state": "Uttar Pradesh",
+      "occupation": "Farmer",
+      "income": 150000,
+      "education": "10th Pass"
+    },
+    "expected_eligible_slugs": ["pm-kisan"],
+    "expected_ineligible_slugs": ["pm-svanidhi", "ayushman-bharat"]
+  },
+  {
+    "profile": {
+      "age": 45,
+      "state": "Maharashtra",
+      "occupation": "Street Vendor",
+      "income": 90000,
+      "education": "Illiterate"
+    },
+    "expected_eligible_slugs": ["pm-svanidhi", "ayushman-bharat"],
+    "expected_ineligible_slugs": ["pm-kisan"]
+  },
+  {
+    "profile": {
+      "age": 25,
+      "state": "Karnataka",
+      "occupation": "Software Engineer",
+      "income": 1200000,
+      "education": "B.Tech"
+    },
+    "expected_eligible_slugs": [],
+    "expected_ineligible_slugs": ["pm-kisan", "ayushman-bharat", "pm-awas-yojana"]
+  }
+]
