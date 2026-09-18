@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { z } from 'zod'
 import { NotificationModel } from '../models/Notification.js'
+import { UserModel } from '../models/User.js'
 import { requireAuth } from '../middleware/requireAuth.js'
 import { requireAdmin } from '../middleware/requireAdmin.js'
 import { AppError } from '../utils/AppError.js'
@@ -10,6 +11,114 @@ import { aiFetch } from '../utils/aiClient.js'
 export const adminRouter = Router()
 
 adminRouter.use(requireAuth, requireAdmin)
+
+// ======================= User Management =======================
+
+adminRouter.get('/users', async (_req, res, next) => {
+  try {
+    const users = await UserModel.find({}, '-passwordHash').sort({ createdAt: -1 })
+    res.json(users)
+  } catch (err) {
+    next(err)
+  }
+})
+
+adminRouter.put('/users/:id/role', async (req, res, next) => {
+  try {
+    const { role } = z.object({ role: z.enum(['admin', 'citizen']) }).parse(req.body)
+    const user = await UserModel.findByIdAndUpdate(
+      req.params.id,
+      { role },
+      { new: true }
+    ).select('-passwordHash')
+    
+    if (!user) throw new AppError('User not found', 404)
+    res.json(user)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// ======================= Scheme CRUD =======================
+
+adminRouter.get('/schemes', async (_req, res, next) => {
+  try {
+    const response = await aiFetch('/schemes?limit=1000')
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
+    }
+    res.json(await response.json())
+  } catch (err) {
+    next(err)
+  }
+})
+
+adminRouter.post('/schemes', async (req, res, next) => {
+  try {
+    const response = await aiFetch('/admin/schemes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    })
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
+    }
+    res.status(201).json(await response.json())
+  } catch (err) {
+    next(err)
+  }
+})
+
+adminRouter.put('/schemes/:slug', async (req, res, next) => {
+  try {
+    const response = await aiFetch(`/admin/schemes/${encodeURIComponent(req.params.slug)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    })
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
+    }
+    res.json(await response.json())
+  } catch (err) {
+    next(err)
+  }
+})
+
+adminRouter.delete('/schemes/:slug', async (req, res, next) => {
+  try {
+    const response = await aiFetch(`/admin/schemes/${encodeURIComponent(req.params.slug)}`, {
+      method: 'DELETE'
+    })
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
+    }
+    res.json(await response.json())
+  } catch (err) {
+    next(err)
+  }
+})
+
+adminRouter.post('/schemes/bulk', async (req, res, next) => {
+  try {
+    const response = await aiFetch('/admin/schemes/bulk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    })
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '')
+      throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
+    }
+    res.status(201).json(await response.json())
+  } catch (err) {
+    next(err)
+  }
+})
 
 const reviewSchema = z.object({
   note: z.string().trim().max(500).optional(),
@@ -72,8 +181,6 @@ adminRouter.post('/regulatory/changes/:id/approve', async (req, res, next) => {
   try {
     const { note } = reviewSchema.parse(req.body ?? {})
 
-    // Fetch the change first so we know which citizens to notify. The AI
-    // service owns regulatory state; Mongo owns who gets told about it.
     const listResponse = await aiFetch(`/regulatory/changes?status=pending`)
     if (!listResponse.ok) {
       throw new AppError('Could not load the pending change', 502)
@@ -136,7 +243,6 @@ adminRouter.post('/regulatory/changes/:id/reject', async (req, res, next) => {
   }
 })
 
-/** Stage 18 — turn an approved change into per-citizen alerts. */
 async function fanOutNotifications(change: z.infer<typeof changeSchema>): Promise<number> {
   if (!change.impact) return 0
 

@@ -671,4 +671,40 @@ export const adminApi = {
       body: JSON.stringify({ note }),
     })
   },
+
+  getUsers: async (): Promise<AuthUser[]> => 
+    request<AuthUser[]>('/admin/users'),
+
+  listSchemes: async (): Promise<{ items: any[] }> =>
+    request<{ items: any[] }>('/admin/schemes'),
+
+
+  updateUserRole: async (id: string, role: 'admin' | 'citizen'): Promise<AuthUser> =>
+    request<AuthUser>(`/admin/users/${id}/role`, {
+      method: 'PUT',
+      body: JSON.stringify({ role }),
+    }),
+
+  createScheme: async (scheme: any): Promise<any> =>
+    request<any>('/admin/schemes', {
+      method: 'POST',
+      body: JSON.stringify(scheme),
+    }),
+
+  updateScheme: async (slug: string, scheme: any): Promise<any> =>
+    request<any>(`/admin/schemes/${encodeURIComponent(slug)}`, {
+      method: 'PUT',
+      body: JSON.stringify(scheme),
+    }),
+
+  deleteScheme: async (slug: string): Promise<any> =>
+    request<any>(`/admin/schemes/${encodeURIComponent(slug)}`, {
+      method: 'DELETE',
+    }),
+
+  bulkCreateSchemes: async (schemes: any[]): Promise<any> =>
+    request<any>('/admin/schemes/bulk', {
+      method: 'POST',
+      body: JSON.stringify(schemes),
+    }),
 }

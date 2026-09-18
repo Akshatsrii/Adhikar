@@ -23,6 +23,7 @@ import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminRegulatoryRouteImport } from './routes/admin.regulatory'
 
 const IndexRoute = IndexRouteImport.update({
@@ -95,6 +96,11 @@ const SimulatorRoute = SimulatorRouteImport.update({
   path: '/simulator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminRegulatoryRoute = AdminRegulatoryRouteImport.update({
   id: '/admin/regulatory',
   path: '/admin/regulatory',
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/simulator': typeof SimulatorRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
 }
 export interface FileRoutesByTo {
@@ -133,6 +140,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/simulator': typeof SimulatorRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
 }
 export interface FileRoutesById {
@@ -151,6 +159,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
   '/simulator': typeof SimulatorRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
 }
 export interface FileRouteTypes {
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/simulator'
+    | '/admin/dashboard'
     | '/admin/regulatory'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/simulator'
+    | '/admin/dashboard'
     | '/admin/regulatory'
   id:
     | '__root__'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/register'
     | '/simulator'
+    | '/admin/dashboard'
     | '/admin/regulatory'
   fileRoutesById: FileRoutesById
 }
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
   SimulatorRoute: typeof SimulatorRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminRegulatoryRoute: typeof AdminRegulatoryRoute
 }
 
@@ -325,6 +338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SimulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/regulatory': {
       id: '/admin/regulatory'
       path: '/admin/regulatory'
@@ -350,6 +370,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
   SimulatorRoute: SimulatorRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminRegulatoryRoute: AdminRegulatoryRoute,
 }
 export const routeTree = rootRouteImport

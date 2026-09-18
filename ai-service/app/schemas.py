@@ -228,3 +228,33 @@ class AdminQueueItem(BaseModel):
 class AdminApproveRequest(BaseModel):
     queue_id: int
     action: str # "APPROVE" or "REJECT"
+
+
+class SchemeCreate(BaseModel):
+    slug: str
+    name: str
+    department: str
+    category: str
+    level: str
+    state: str | None = None
+    benefit: str
+    description: str
+    source_url: str
+    application_url: str | None = None
+    deadline: str | None = None
+    mutually_exclusive_group: str | None = None
+    one_per_family: bool = False
+
+class SchemeUpdate(BaseModel):
+    name: str | None = None
+    department: str | None = None
+    category: str | None = None
+    level: str | None = None
+    state: str | None = None
+    benefit: str | None = None
+    description: str | None = None
+    source_url: str | None = None
+    application_url: str | None = None
+    deadline: str | None = None
+    mutually_exclusive_group: str | None = None
+    one_per_family: bool | None = None
