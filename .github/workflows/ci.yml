@@ -76,7 +76,7 @@ jobs:
         run: |
           export PYTHONPATH=.
           export DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/adhikar_ai
-          python -c "from app.database import Base, engine; Base.metadata.create_all(bind=engine)"
+          python scripts/init_db.py
           python scripts/seed_golden_schemes.py
         working-directory: ./ai-service
       - name: Run Pytest
