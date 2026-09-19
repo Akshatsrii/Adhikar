@@ -4,7 +4,7 @@ from datetime import datetime
 
 from pgvector.sqlalchemy import Vector
 
-from sqlalchemy import JSON, DateTime, Float, ForeignKey, Integer, String, Text, func
+from sqlalchemy import JSON, DateTime, Float, ForeignKey, Integer, String, Text, func, Index
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -198,7 +198,9 @@ class SchemeChunk(Base):
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
-
+    __table_args__ = (
+        Index('ix_scheme_chunks_embedding_hnsw', 'embedding', postgresql_using='hnsw', postgresql_with={'m': 16, 'ef_construction': 64}, postgresql_ops={'embedding': 'vector_cosine_ops'}),
+    )
 
     scheme: Mapped["Scheme"] = relationship()
 
@@ -254,10 +256,6 @@ class SchemeVersion(Base):
     authority_level: Mapped[str] = mapped_column(String(30), default="portal")
     published_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
-
-    __table_args__ = (
-        Index('ix_scheme_chunks_embedding_hnsw', 'embedding', postgresql_using='hnsw', postgresql_with={'m': 16, 'ef_construction': 64}, postgresql_ops={'embedding': 'vector_cosine_ops'}),
-    )
 
     scheme: Mapped["Scheme"] = relationship()
 
