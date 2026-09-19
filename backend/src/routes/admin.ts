@@ -51,7 +51,7 @@ adminRouter.put('/users/:id/role', async (req, res, next) => {
 
 import { LRUCache } from 'lru-cache'
 
-const schemesCache = new LRUCache({
+const schemesCache = new LRUCache<string, any>({
   max: 100, // cache 100 different page requests
   ttl: 1000 * 60 * 5, // 5 min
 })
@@ -67,7 +67,7 @@ adminRouter.get('/schemes', async (req, res, next) => {
       return
     }
 
-    const response = await aiFetch(`/schemes?skip=${skip}&limit=${limit}`)
+    const response = await aiFetch(`/schemes?offset=${skip}&limit=${limit}`)
     if (!response.ok) {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
