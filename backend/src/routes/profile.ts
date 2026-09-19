@@ -48,3 +48,23 @@ profileRouter.put('/', async (req, res, next) => {
     next(err)
   }
 })
+
+profileRouter.delete('/', async (req, res, next) => {
+  try {
+    // DPDP Act - Right to erasure cascade delete
+    const { NotificationModel } = await import('../models/Notification.js')
+    const { DocumentModel } = await import('../models/Document.js')
+    
+    await NotificationModel.deleteMany({ userId: req.userId })
+    await DocumentModel.deleteMany({ userId: req.userId })
+    const user = await UserModel.findByIdAndDelete(req.userId)
+
+    if (!user) {
+      throw new AppError('User not found', 404)
+    }
+
+    res.status(200).json({ message: 'Account deleted permanently' })
+  } catch (err) {
+    next(err)
+  }
+})
