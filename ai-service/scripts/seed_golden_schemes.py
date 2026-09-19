@@ -11,7 +11,7 @@ from app.config import settings
 
 def safe_embed_text(text: str, task_type: str = "RETRIEVAL_DOCUMENT") -> list[float]:
     if not settings.gemini_api_key:
-        return [0.0] * 3072
+        return [0.0] * 768
     return embed_text(text, task_type=task_type)
 
 def seed_schemes():

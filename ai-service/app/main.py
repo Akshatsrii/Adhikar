@@ -26,6 +26,11 @@ app.add_middleware(
 
 @app.on_event("startup")
 def on_startup() -> None:
+    # Ensure pgvector extension exists before creating tables
+    from sqlalchemy import text
+    with engine.begin() as conn:
+        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+
     # Stage 2: plain table creation is enough. Swap for Alembic migrations
     # once the schema needs versioned, production-safe changes.
     Base.metadata.create_all(bind=engine)

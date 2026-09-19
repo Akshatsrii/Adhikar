@@ -14,7 +14,7 @@ from app.database import Base
 
 
 
-EMBEDDING_DIM = 3072  # Gemini text-embedding-004 output size
+EMBEDDING_DIM = 768  # Gemini text-embedding-004 output size
 
 
 

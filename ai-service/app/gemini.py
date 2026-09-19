@@ -37,7 +37,7 @@ def embed_text(text: str, task_type: str = "RETRIEVAL_DOCUMENT") -> list[float]:
     result = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=text,
-        config=types.EmbedContentConfig(task_type=task_type),
+        config=types.EmbedContentConfig(task_type=task_type, output_dimensionality=768),
     )
     return result.embeddings[0].values
 
@@ -50,7 +50,7 @@ def embed_texts(texts: list[str], task_type: str = "RETRIEVAL_DOCUMENT") -> list
     result = client.models.embed_content(
         model=EMBEDDING_MODEL,
         contents=texts,
-        config=types.EmbedContentConfig(task_type=task_type),
+        config=types.EmbedContentConfig(task_type=task_type, output_dimensionality=768),
     )
     return [e.values for e in result.embeddings]
 
