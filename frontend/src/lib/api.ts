@@ -108,6 +108,8 @@ export interface ProfilePayload {
 export const profileApi = {
   get: () => request<{ profile: UserProfileSummary }>('/profile'),
 
+  delete: () => request<{ message: string }>('/profile', { method: 'DELETE' }),
+
   update: (payload: ProfilePayload) =>
     request<{ profile: UserProfileSummary }>('/profile', {
       method: 'PUT',

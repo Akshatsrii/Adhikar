@@ -225,6 +225,29 @@ function ProfilePage() {
           {isSaving ? 'Saving…' : 'Save profile'}
         </button>
       </form>
+      
+      <div className="mt-12 border-t border-[var(--color-ink-soft)] pt-8">
+        <h2 className="text-xl text-red-600 mb-2">Danger Zone</h2>
+        <p className="text-sm text-[var(--color-ink-soft)] mb-4">
+          Permanently delete your account and all associated data in accordance with the DPDP Act.
+        </p>
+        <button 
+          type="button" 
+          className="rounded border border-red-200 text-red-600 px-4 py-2 hover:bg-red-50 text-sm font-medium"
+          onClick={async () => {
+            if (confirm('Are you sure you want to permanently delete your account? This cannot be undone.')) {
+              try {
+                await profileApi.delete()
+                window.location.href = '/'
+              } catch (err) {
+                alert('Failed to delete account')
+              }
+            }
+          }}
+        >
+          Delete Account
+        </button>
+      </div>
     </div>
   )
 }
