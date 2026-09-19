@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: adhikar_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  ai-service:
+    build:
+      context: ./ai-service
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:postgres@postgres:5432/adhikar_ai
+      - CORS_ORIGIN=http://localhost:5173
+      - INTERNAL_AI_KEY=docker-internal-key-12345
+      # - GEMINI_API_KEY=${GEMINI_API_KEY} # Passed from host
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/adhikar
+      - CLIENT_ORIGIN=http://localhost:5173
+      - AI_SERVICE_URL=http://ai-service:8000
+      - JWT_SECRET=docker-secret-123
+      - INTERNAL_AI_KEY=docker-internal-key-12345
+    depends_on:
+      - mongodb
+      - ai-service
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80" # Maps local 5173 to nginx 80
+    environment:
+      - VITE_API_URL=http://localhost:5000/api
+
+volumes:
+  postgres_data:
+  mongodb_data:
