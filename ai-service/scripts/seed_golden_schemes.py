@@ -17,6 +17,11 @@ def safe_embed_text(text: str, task_type: str = "RETRIEVAL_DOCUMENT") -> list[fl
 def seed_schemes():
     db = SessionLocal()
     
+    if db.query(Scheme).first():
+        print("Database already seeded. Skipping.")
+        db.close()
+        return
+    
     # 1. PM Kisan
     kisan = Scheme(
         slug="pm-kisan",

@@ -208,35 +208,6 @@ class SchemeChunk(Base):
 
 
 
-class AdminUpdateQueue(Base):
-
-    """Stage 19: Verification & Approval queue for detected scheme changes."""
-
-    __tablename__ = "admin_update_queue"
-
-
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-
-    scheme_slug: Mapped[str] = mapped_column(String(160), index=True)
-
-    change_type: Mapped[str] = mapped_column(String(50)) # "NEW_SCHEME", "RULE_CHANGE", "DEADLINE_EXTENSION"
-
-    diff_summary: Mapped[str] = mapped_column(Text) # AI generated semantic diff
-
-    affected_users_count: Mapped[int] = mapped_column(Integer, default=0)
-
-    ai_confidence_score: Mapped[float] = mapped_column(default=0.0)
-
-    source_url: Mapped[str] = mapped_column(String(500))
-
-    raw_extracted_rules: Mapped[str] = mapped_column(Text) # JSON string of new rules
-
-    status: Mapped[str] = mapped_column(String(20), default="PENDING") # "PENDING", "APPROVED", "REJECTED"
-
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
-
-
 class SchemeVersion(Base):
     """Immutable snapshot of a scheme's rule-bearing fields at a point in time (Stage 14 version control).
     Every approved regulatory change writes a new row; nothing is ever updated

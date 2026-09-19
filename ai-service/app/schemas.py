@@ -214,22 +214,6 @@ class DeadlineAlert(BaseModel):
     deadline: str
     days_left: int
 
-class AdminQueueItem(BaseModel):
-    id: int
-    scheme_slug: str
-    change_type: str
-    diff_summary: str
-    affected_users_count: int
-    ai_confidence_score: float
-    source_url: str
-    status: str
-    created_at: datetime
-
-class AdminApproveRequest(BaseModel):
-    queue_id: int
-    action: str # "APPROVE" or "REJECT"
-
-
 class SchemeCreate(BaseModel):
     slug: str
     name: str

@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, Navigate } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
 
 import { ParticleNetwork } from "@designcodeio/threeui"
@@ -13,8 +13,7 @@ function LandingPage() {
   
   if (user) {
     // If already logged in, no need to see landing page
-    window.location.href = '/dashboard'
-    return null
+    return <Navigate to="/dashboard" replace />
   }
 
   return (

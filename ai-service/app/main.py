@@ -11,9 +11,10 @@ async def verify_internal_key(x_internal_key: str = Header(...)):
 
 app = FastAPI(
     title="Adhikar AI Service", 
-    version="0.1.0",
-    dependencies=[Depends(verify_internal_key)]
+    version="0.1.0"
 )
+
+global_dependencies = [Depends(verify_internal_key)]
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,15 +42,15 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-app.include_router(schemes.router)
-app.include_router(ai.router)
-app.include_router(eligibility.router)
-app.include_router(recommendations.router)
-app.include_router(life_events.router)
-app.include_router(family.router)
-app.include_router(documents.router)
-app.include_router(debugger.router)
-app.include_router(simulator.router)
-app.include_router(copilot.router)
-app.include_router(admin.router)
-app.include_router(regulatory.router)
+app.include_router(schemes.router, dependencies=global_dependencies)
+app.include_router(ai.router, dependencies=global_dependencies)
+app.include_router(eligibility.router, dependencies=global_dependencies)
+app.include_router(recommendations.router, dependencies=global_dependencies)
+app.include_router(life_events.router, dependencies=global_dependencies)
+app.include_router(family.router, dependencies=global_dependencies)
+app.include_router(documents.router, dependencies=global_dependencies)
+app.include_router(debugger.router, dependencies=global_dependencies)
+app.include_router(simulator.router, dependencies=global_dependencies)
+app.include_router(copilot.router, dependencies=global_dependencies)
+app.include_router(admin.router, dependencies=global_dependencies)
+app.include_router(regulatory.router, dependencies=global_dependencies)
