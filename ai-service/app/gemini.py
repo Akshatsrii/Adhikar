@@ -13,7 +13,7 @@ from app.config import settings
 _client: genai.Client | None = None
 
 EMBEDDING_MODEL = "gemini-embedding-2"
-GENERATION_MODEL = "gemini-2.0-flash"
+GENERATION_MODEL = "gemini-3.6-flash"
 
 
 def _get_client() -> genai.Client:
