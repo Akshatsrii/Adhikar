@@ -49,16 +49,32 @@ adminRouter.put('/users/:id/role', async (req, res, next) => {
 
 // ======================= Scheme CRUD =======================
 
+import { LRUCache } from 'lru-cache'
+
+const schemesCache = new LRUCache({
+  max: 100, // cache 100 different page requests
+  ttl: 1000 * 60 * 5, // 5 min
+})
+
 adminRouter.get('/schemes', async (req, res, next) => {
   try {
     const skip = parseInt(req.query.skip as string) || 0
     const limit = parseInt(req.query.limit as string) || 50
+    const cacheKey = `schemes:${skip}:${limit}`
+    
+    if (schemesCache.has(cacheKey)) {
+      res.json(schemesCache.get(cacheKey))
+      return
+    }
+
     const response = await aiFetch(`/schemes?skip=${skip}&limit=${limit}`)
     if (!response.ok) {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
     }
-    res.json(await response.json())
+    const data = await response.json()
+    schemesCache.set(cacheKey, data)
+    res.json(data)
   } catch (err) {
     next(err)
   }
@@ -82,6 +98,7 @@ adminRouter.post('/schemes', async (req, res, next) => {
       target: req.body.slug || `unknown`,
       ip: req.ip
     })
+    schemesCache.clear()
     res.status(201).json(await response.json())
   } catch (err) {
     next(err)
@@ -106,6 +123,7 @@ adminRouter.put('/schemes/:slug', async (req, res, next) => {
       target: `scheme:${req.params.slug}`,
       ip: req.ip
     })
+    schemesCache.clear()
     res.json(await response.json())
   } catch (err) {
     next(err)
@@ -128,6 +146,7 @@ adminRouter.delete('/schemes/:slug', async (req, res, next) => {
       target: `scheme:${req.params.slug}`,
       ip: req.ip
     })
+    schemesCache.clear()
     res.json(await response.json())
   } catch (err) {
     next(err)
@@ -152,6 +171,7 @@ adminRouter.post('/schemes/bulk', async (req, res, next) => {
       target: `bulk`,
       ip: req.ip
     })
+    schemesCache.clear()
     res.status(201).json(await response.json())
   } catch (err) {
     next(err)
