@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { AuthProvider } from '@/context/AuthContext'
 import { routeTree } from './routeTree.gen'
 import './index.css'
+import './i18n'
 
 const router = createRouter({ routeTree })
 
