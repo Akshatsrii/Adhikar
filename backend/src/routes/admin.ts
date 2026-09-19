@@ -49,9 +49,11 @@ adminRouter.put('/users/:id/role', async (req, res, next) => {
 
 // ======================= Scheme CRUD =======================
 
-adminRouter.get('/schemes', async (_req, res, next) => {
+adminRouter.get('/schemes', async (req, res, next) => {
   try {
-    const response = await aiFetch('/schemes?limit=1000')
+    const skip = parseInt(req.query.skip as string) || 0
+    const limit = parseInt(req.query.limit as string) || 50
+    const response = await aiFetch(`/schemes?skip=${skip}&limit=${limit}`)
     if (!response.ok) {
       const detail = await response.text().catch(() => '')
       throw new AppError(`AI service error: ${detail || response.statusText}`, 502)
