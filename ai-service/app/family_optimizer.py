@@ -1,4 +1,4 @@
-"""Family Benefit Optimizer — rule-based conflict detection across family
+"""Family Benefit Optimizer ? rule-based conflict detection across family
 members. Reuses the deterministic eligibility engine per member; the only
 new logic here is grouping and flagging overlaps. No ML.
 """
@@ -23,6 +23,7 @@ class Conflict:
     scheme_names: list[str]
     member_ids: list[str]
     message: str
+    recommended_resolution: str = ""
 
 
 def evaluate_family(
