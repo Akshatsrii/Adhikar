@@ -54,9 +54,13 @@ profileRouter.delete('/', async (req, res, next) => {
     // DPDP Act - Right to erasure cascade delete
     const { NotificationModel } = await import('../models/Notification.js')
     const { DocumentModel } = await import('../models/Document.js')
+    const { FamilyMemberModel } = await import('../models/FamilyMember.js')
+    const { LifeEventModel } = await import('../models/LifeEvent.js')
     
     await NotificationModel.deleteMany({ userId: req.userId })
     await DocumentModel.deleteMany({ userId: req.userId })
+    await FamilyMemberModel.deleteMany({ userId: req.userId })
+    await LifeEventModel.deleteMany({ userId: req.userId })
     const user = await UserModel.findByIdAndDelete(req.userId)
 
     if (!user) {
