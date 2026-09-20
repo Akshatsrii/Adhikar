@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
   <img src="docs/assets/banner.png" alt="Adhikar project banner" width="100%" />
 </div>
 
@@ -14,7 +14,7 @@
 ## 1. What is Adhikar?
 India has hundreds of welfare schemes, but citizens struggle with a fragmentation crisis: discovering what they qualify for, interpreting complex legal eligibility rules, tracking deadlines, resolving overlapping family conflicts, and understanding application rejections.
 
-Adhikar is an end-to-end intelligent platform that solves this. It ingests complex government PDFs, converts them into strict deterministic rules, matches them against user profiles, resolves family-level conflicts, provides an AI Copilot for forms, and debugs rejections using multimodal reasoning. 
+Adhikar is an end-to-end intelligent platform that solves this. It ingests complex government PDFs, converts them into strict deterministic rules, matches them against user profiles, resolves family-level conflicts, provides an AI Copilot for forms, debugs rejections using multimodal reasoning, and continuously monitors government portals via a Regulatory Monitoring Pipeline to auto-update rules. 
 
 <br/>
 
@@ -33,6 +33,7 @@ Adhikar is deliberately built as a distributed system, not just a monolith:
 | Application errors | Caught after rejection | Caught via DBT mismatch checker before submit |
 | Application help | Helpdesk | AI Copilot + Auto field extraction (OCR) |
 | Rejections | Generic "Not eligible" | Debugger with exact rule citations |
+| Regulatory changes | Outdated PDF links | Automated Regulatory Monitoring Pipeline (crawls, diffs, and impacts users) |
 
 <br/>
 
