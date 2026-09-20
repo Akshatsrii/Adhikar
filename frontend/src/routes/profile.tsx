@@ -33,7 +33,7 @@ const EDUCATION_LEVELS = [
 ]
 
 function emptyForm(): ProfilePayload {
-  return { age: undefined, state: '', education: '', income: undefined, occupation: '' }
+  return { age: undefined, dob: '', state: '', education: '', income: undefined, occupation: '' }
 }
 
 function ProfilePage() {
@@ -60,6 +60,7 @@ function ProfilePage() {
       .then((res) =>
         setForm({
           age: res.profile.age,
+          dob: (res.profile as any).dob ?? '',
           state: res.profile.state ?? '',
           education: res.profile.education ?? '',
           income: res.profile.income,
@@ -79,6 +80,7 @@ function ProfilePage() {
     try {
       const payload: ProfilePayload = {
         ...(form.age ? { age: form.age } : {}),
+        ...(form.dob ? { dob: form.dob } : {}),
         ...(form.state ? { state: form.state } : {}),
         ...(form.education ? { education: form.education } : {}),
         ...(form.income !== undefined ? { income: form.income } : {}),
@@ -108,7 +110,20 @@ function ProfilePage() {
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <label htmlFor="dob" className="mb-1.5 block text-sm text-[var(--color-ink-soft)]">
+              Date of Birth (Official)
+            </label>
+            <input
+              id="dob"
+              type="date"
+              value={form.dob ?? ''}
+              onChange={(e) => setForm((f) => ({ ...f, dob: e.target.value }))}
+              className="field"
+            />
+          </div>
+
           <div>
             <label htmlFor="age" className="mb-1.5 block text-sm text-[var(--color-ink-soft)]">
               Age

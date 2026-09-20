@@ -33,12 +33,9 @@ applicationsRouter.post('/validate', async (req, res, next) => {
 
     // 2. DOB Match (Exact)
     // Assuming dob might be saved in user.profile. If not available, we can't check.
-    // For MVP, if they have age, we can loosely guess, but let's assume they might add DOB later.
-    // Let's just compare if they have it. 
-    // In our user schema, we have age, not exact DOB. So let's mock a DOB check for the exit criteria.
-    const fakeOfficialDob = "1990-01-01" // In a real app, this would be user.profile.dob
-    if (data.dobOnApplication && data.dobOnApplication !== fakeOfficialDob) {
-      warnings.push(`DOB mismatch: Application has ${data.dobOnApplication}, but official records indicate ${fakeOfficialDob}. Applications are often rejected for this.`)
+    const officialDob = (user.profile as any)?.dob
+    if (officialDob && data.dobOnApplication && data.dobOnApplication !== officialDob) {
+      warnings.push(`DOB mismatch: Application has ${data.dobOnApplication}, but official records indicate ${officialDob}. Applications are often rejected for this.`)
     }
 
     res.status(200).json({

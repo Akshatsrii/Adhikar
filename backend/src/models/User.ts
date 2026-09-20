@@ -3,6 +3,7 @@ import { Schema, model, type InferSchemaType, type HydratedDocument } from 'mong
 const profileSchema = new Schema(
   {
     age: { type: Number, min: 0, max: 120 },
+    dob: { type: String, trim: true },
     state: { type: String, trim: true },
     education: { type: String, trim: true },
     income: { type: Number, min: 0 },

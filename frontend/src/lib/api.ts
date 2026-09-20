@@ -99,6 +99,7 @@ export const authApi = {
 
 export interface ProfilePayload {
   age?: number
+  dob?: string
   state?: string
   education?: string
   income?: number
