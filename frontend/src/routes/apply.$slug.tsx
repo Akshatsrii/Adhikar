@@ -3,11 +3,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { applicationsApi, ApiError, copilotApi } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
-export const Route = createFileRoute('/apply')({
+export const Route = createFileRoute('/apply/$slug')({
   component: ApplyPage,
 })
 
 function ApplyPage() {
+  const { slug } = Route.useParams()
   const { user } = useAuth()
 
   const [name, setName] = useState('')
@@ -26,7 +27,7 @@ function ApplyPage() {
 
     try {
       const result = await applicationsApi.validate({
-        schemeId: 'dummy-scheme-123',
+        schemeId: slug,
         nameOnApplication: name,
         dobOnApplication: dob || undefined,
       })
@@ -53,7 +54,7 @@ function ApplyPage() {
     setIsAsking(true)
     setCopilotAnswer('')
     try {
-      const res = await copilotApi.ask('pm-kisan', copilotQuestion)
+      const res = await copilotApi.ask(slug, copilotQuestion)
       setCopilotAnswer(res.answer)
     } catch (err) {
       setCopilotAnswer('Error reaching copilot.')
@@ -67,20 +68,20 @@ function ApplyPage() {
       <div>
         <h1 className="text-3xl font-bold text-[var(--color-ink)]">Submit Application</h1>
         <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-          Applying for <span className="font-medium text-[var(--color-ink)]">PM-KISAN Samman Nidhi</span>
+          Applying for <span className="font-medium text-[var(--color-ink)]">{slug.replace(/-/g, ' ').toUpperCase()}</span>
         </p>
 
         {error && <div className="mt-4 rounded bg-red-50 p-3 text-sm text-red-700">{error}</div>}
         
         {success && (
           <div className="mt-4 rounded bg-green-50 p-3 text-sm font-medium text-green-800">
-            ✅ Looks perfect! No mismatches found. Application submitted successfully!
+            ✓ Looks perfect! No mismatches found. Application submitted successfully!
           </div>
         )}
 
         {warnings.length > 0 && (
           <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4">
-            <h3 className="font-bold text-red-800 mb-2">⚠️  DBT Mismatch Warnings</h3>
+            <h3 className="font-bold text-red-800 mb-2">⚠️ DBT Mismatch Warnings</h3>
             <p className="text-sm text-red-700 mb-3">
               Your application might be rejected or Direct Benefit Transfer (DBT) could fail due to the following reasons:
             </p>
@@ -104,7 +105,7 @@ function ApplyPage() {
           <div className="rounded border border-[var(--color-line)] p-4 bg-gray-50">
             <p className="text-xs font-medium text-[var(--color-ink-soft)] uppercase tracking-wider mb-2">Official Profile Reference</p>
             <p className="text-sm text-[var(--color-ink)]">Aadhaar Name: <strong>{user?.name || 'Loading...'}</strong></p>
-            <p className="text-sm text-[var(--color-ink)]">Aadhaar DOB: <strong>1990-01-01</strong></p>
+            <p className="text-sm text-[var(--color-ink)]">Aadhaar DOB: <strong>{(user?.profile as any)?.dob || 'Not provided'}</strong></p>
           </div>
 
           <div>
@@ -142,7 +143,7 @@ function ApplyPage() {
       {/* Copilot Section */}
       <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 h-fit mt-8 md:mt-0">
         <h2 className="font-bold text-blue-900 mb-2">🤖 Application Copilot</h2>
-        <p className="text-sm text-blue-800 mb-4">Stuck on a field? Ask me anything about filling this specific PM-KISAN form.</p>
+        <p className="text-sm text-blue-800 mb-4">Stuck on a field? Ask me anything about filling this specific form.</p>
         
         <div className="space-y-3">
           <input 
