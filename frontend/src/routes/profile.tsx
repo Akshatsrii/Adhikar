@@ -109,6 +109,39 @@ function ProfilePage() {
         here is shared outside your account.
       </p>
 
+      <div className="mt-6 p-4 border border-[var(--color-line)] rounded-lg bg-gray-50 flex items-center justify-between">
+        <div>
+          <h3 className="font-bold text-[var(--color-ink)] flex items-center gap-2">
+            <span className="text-[var(--color-govgreen)]">✓</span> DigiLocker Integration
+          </h3>
+          <p className="text-sm text-[var(--color-ink-soft)] mt-1">
+            Auto-fill your verified government records for instant e-KYC.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            // Mock DigiLocker integration
+            if (confirm("Redirecting to DigiLocker for Aadhaar/Income consent...")) {
+              setTimeout(() => {
+                setForm(f => ({
+                  ...f,
+                  dob: '1995-08-15',
+                  age: 30,
+                  state: 'Rajasthan',
+                  income: 180000,
+                  education: 'B.Tech'
+                }))
+                alert("Data fetched successfully from DigiLocker!")
+              }, 1000)
+            }
+          }}
+          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded shadow-sm transition"
+        >
+          Fetch from DigiLocker
+        </button>
+      </div>
+
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
         <div className="grid grid-cols-3 gap-4">
           <div>
