@@ -1,5 +1,6 @@
-import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, Link, useNavigate, useRouterState, createRootRoute } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
+import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 
 export const Route = createRootRoute({
@@ -9,21 +10,35 @@ export const Route = createRootRoute({
 function RootLayout() {
   const { user, logout } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { i18n } = useTranslation()
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng)
+  }
 
   if (!user) {
     // PUBLIC LAYOUT (Landing, Login, Register)
     return (
-      <div className="min-h-screen bg-[var(--color-parchment)] font-sans">
-        <header className="border-b border-[var(--color-line)] bg-white/50 backdrop-blur-md sticky top-0 z-10">
-          <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-            <Link to="/" className="flex items-center gap-3">
-              <ShieldMark />
-              <span className="font-display text-2xl font-bold tracking-tight text-[var(--color-ink)]">
-                Adhikar
-              </span>
-            </Link>
+      <div className="flex min-h-screen flex-col bg-[var(--color-parchment)] font-sans">
+        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 px-6">
+          <Link to="/" className="flex items-center gap-2">
+            <ShieldMark className="w-8 h-8" />
+            <span className="font-display text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+              Adhikar
+            </span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <select 
+              onChange={(e) => changeLanguage(e.target.value)} 
+              value={i18n.language}
+              className="text-sm bg-white border border-[var(--color-line)] rounded px-2 py-1"
+            >
+              <option value="en">English</option>
+              <option value="hi">हिंदी</option>
+              <option value="mr">मारवाड़ी</option>
+            </select>
             <nav className="flex items-center gap-4">
-              <Link to="/login" className="text-sm font-medium text-[var(--color-ink-soft)] hover:text-[var(--color-saffron-deep)] transition">
+              <Link to="/login" className="text-sm font-medium text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]">
                 Log in
               </Link>
               <Link to="/register" className="btn-primary !py-2 !px-4 shadow-sm hover:shadow">
@@ -116,6 +131,18 @@ function RootLayout() {
               </>
             )}
           </nav>
+        </div>
+
+        <div className="px-4 py-2 border-t border-[var(--color-line)]">
+          <select 
+            onChange={(e) => changeLanguage(e.target.value)} 
+            value={i18n.language}
+            className="w-full text-sm bg-white border border-[var(--color-line)] rounded px-2 py-1"
+          >
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मारवाड़ी</option>
+          </select>
         </div>
 
         <div className="border-t border-[var(--color-line)] p-4">

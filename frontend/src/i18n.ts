@@ -11,8 +11,14 @@ const resources = {
   },
   hi: {
     translation: {
-      "welcome": "अधिकार में आपका स्वागत है",
+      "welcome": "Adhikar में आपका स्वागत है",
       "profile": "आपकी प्रोफाइल"
+    }
+  },
+  mr: {
+    translation: {
+      "welcome": "Adhikar म्हे थारो स्वागत है",
+      "profile": "थारी प्रोफाइल"
     }
   }
 }
