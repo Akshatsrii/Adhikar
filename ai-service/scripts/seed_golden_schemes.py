@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.database import SessionLocal
-from app.models import Scheme, EligibilityRule, SchemeChunk
+from app.models import Scheme, EligibilityRule, SchemeChunk, DocumentRequirement
 from app.gemini import embed_text
 from app.config import settings
 
@@ -54,6 +54,14 @@ def seed_schemes():
                 operator=rule.get("operator"), 
                 value=str(rule.get("value"))
             ))
+            
+        docs = item.get("documents_required", [])
+        for doc in docs:
+            db.add(DocumentRequirement(
+                scheme_id=scheme.id,
+                name=doc.get("name"),
+                is_mandatory=doc.get("is_mandatory", True)
+            ))
 
         chunk_content = f"{item.get('name')} provides {item.get('benefit')}. {item.get('description')}"
         scheme_chunk = SchemeChunk(
@@ -63,6 +71,17 @@ def seed_schemes():
             embedding=safe_embed_text(chunk_content, task_type="RETRIEVAL_DOCUMENT")
         )
         db.add(scheme_chunk)
+        
+        if docs:
+            doc_names = [d.get("name") for d in docs]
+            docs_content = f"Documents required for {item.get('name')}: {', '.join(doc_names)}."
+            docs_chunk = SchemeChunk(
+                scheme_id=scheme.id,
+                chunk_type="documents",
+                content=docs_content,
+                embedding=safe_embed_text(docs_content, task_type="RETRIEVAL_DOCUMENT")
+            )
+            db.add(docs_chunk)
 
     db.commit()
     db.close()
