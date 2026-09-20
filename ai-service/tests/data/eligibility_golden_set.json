@@ -4,22 +4,60 @@
       "age": 35,
       "state": "Uttar Pradesh",
       "occupation": "Farmer",
+      "landholding": 2,
       "income": 150000,
       "education": "10th Pass"
     },
-    "expected_eligible_slugs": ["pm-kisan"],
-    "expected_ineligible_slugs": ["pm-svanidhi", "ayushman-bharat"]
+    "expected_eligible_slugs": ["pm-kisan-samman-nidhi"],
+    "expected_ineligible_slugs": [
+      "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
+      "rajasthan-old-age-pension",
+      "national-means-cum-merit-scholarship"
+    ]
   },
   {
     "profile": {
-      "age": 45,
-      "state": "Maharashtra",
-      "occupation": "Street Vendor",
-      "income": 90000,
-      "education": "Illiterate"
+      "age": 21,
+      "state": "Rajasthan",
+      "income": 500000,
+      "education": "B.Tech",
+      "landholding": 0
     },
-    "expected_eligible_slugs": ["pm-svanidhi", "ayushman-bharat"],
-    "expected_ineligible_slugs": ["pm-kisan"]
+    "expected_eligible_slugs": ["rajasthan-mukhyamantri-uchch-shiksha-scholarship"],
+    "expected_ineligible_slugs": [
+      "pm-kisan-samman-nidhi",
+      "rajasthan-old-age-pension",
+      "national-means-cum-merit-scholarship"
+    ]
+  },
+  {
+    "profile": {
+      "age": 65,
+      "state": "Rajasthan",
+      "income": 30000,
+      "occupation": "Retired",
+      "landholding": 0
+    },
+    "expected_eligible_slugs": ["rajasthan-old-age-pension"],
+    "expected_ineligible_slugs": [
+      "pm-kisan-samman-nidhi",
+      "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
+      "national-means-cum-merit-scholarship"
+    ]
+  },
+  {
+    "profile": {
+      "age": 15,
+      "state": "Delhi",
+      "income": 200000,
+      "education": "Class 10"
+    },
+    "expected_eligible_slugs": ["national-means-cum-merit-scholarship"],
+    "expected_ineligible_slugs": [
+      "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
+      "pm-kisan-samman-nidhi",
+      "rajasthan-old-age-pension"
+    ]
   },
   {
     "profile": {
@@ -30,6 +68,11 @@
       "education": "B.Tech"
     },
     "expected_eligible_slugs": [],
-    "expected_ineligible_slugs": ["pm-kisan", "ayushman-bharat", "pm-awas-yojana"]
+    "expected_ineligible_slugs": [
+      "pm-kisan-samman-nidhi",
+      "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
+      "rajasthan-old-age-pension",
+      "national-means-cum-merit-scholarship"
+    ]
   }
 ]
