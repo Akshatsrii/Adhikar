@@ -17,6 +17,7 @@ import { copilotRouter } from './routes/copilot.js'
 import { adminRouter } from './routes/admin.js'
 import { notificationsRouter } from './routes/notifications.js'
 import { internalRouter } from './routes/internal.js'
+import { whatsappRouter } from './routes/whatsapp.js'
 import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
@@ -44,6 +45,7 @@ app.use('/api/copilot', aiLimiter, copilotRouter)
 app.use('/api/admin', adminRouter)
 app.use('/api/internal', internalRouter)
 app.use('/api/notifications', notificationsRouter)
+app.use('/api/whatsapp', express.urlencoded({ extended: true }), whatsappRouter)
 
 app.use(notFoundHandler)
 app.use(errorHandler)
