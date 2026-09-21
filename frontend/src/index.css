@@ -1,22 +1,58 @@
 @import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* --- Adhikar design tokens --- */
   --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: #201409;
-  --color-ink-soft: #4a3624;
-  --color-parchment: #fbf4e8;
-  --color-parchment-dim: #f1e4cc;
-  --color-saffron: #d9720f;
-  --color-saffron-deep: #a64d05;
-  --color-saffron-light: #f2a655;
-  --color-govgreen: #1f7a3d;
-  --color-line: #e2cfa8;
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-parchment: var(--parchment);
+  --color-parchment-dim: var(--parchment-dim);
+  
+  --color-saffron: var(--primary);
+  --color-saffron-deep: var(--primary-deep);
+  --color-saffron-light: var(--primary-light);
+  
+  --color-govgreen: var(--success);
+  --color-line: var(--line);
+  
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-widget: var(--widget);
 }
 
 @layer base {
+  :root {
+    --ink: #0f172a;
+    --ink-soft: #64748b;
+    --parchment: #f8fafc;
+    --parchment-dim: #f1f5f9;
+    --primary: #4f46e5;
+    --primary-deep: #4338ca;
+    --primary-light: #818cf8;
+    --success: #10b981;
+    --line: #e2e8f0;
+    --surface: #ffffff;
+    --surface-hover: #f1f5f9;
+    --widget: #f8fafc;
+  }
+
+  .dark {
+    --ink: #f8fafc;
+    --ink-soft: #94a3b8;
+    --parchment: #040914; 
+    --parchment-dim: #0a1128;
+    --primary: #6366f1;
+    --primary-deep: #4f46e5;
+    --primary-light: #818cf8;
+    --success: #10b981;
+    --line: #1e293b;
+    --surface: #0a1128;
+    --surface-hover: #1e293b;
+    --widget: #0f172a;
+  }
+
   html {
     font-family: var(--font-sans);
   }
@@ -24,28 +60,29 @@
   body {
     background-color: var(--color-parchment);
     color: var(--color-ink);
+    transition: background-color 0.3s, color 0.3s;
   }
 
   h1, h2, h3, h4 {
-    font-family: var(--font-display);
-  }
-
-  ::selection {
-    background-color: var(--color-saffron-light);
-    color: var(--color-ink);
+    font-family: var(--font-sans); /* Use sans for premium look as in mockup */
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
   .field {
-    @apply w-full rounded-md border border-[var(--color-line)] bg-white px-4 py-2.5 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-ink-soft)]/50 outline-none transition focus:border-[var(--color-saffron)] focus:ring-2 focus:ring-[var(--color-saffron-light)]/40;
+    @apply w-full rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)] px-4 py-3 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-ink-soft)]/50 outline-none transition focus:border-[var(--color-saffron)] focus:ring-2 focus:ring-[var(--color-saffron-light)]/40;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-md bg-[var(--color-saffron)] px-5 py-2.5 text-[15px] font-medium text-white transition hover:bg-[var(--color-saffron-deep)] disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[#4f46e5] to-[#7c3aed] px-5 py-2.5 text-[15px] font-medium text-white transition hover:opacity-90 shadow-lg shadow-indigo-500/30;
   }
 
   .card {
-    @apply rounded-xl border border-[var(--color-line)] bg-white/70 p-6 shadow-[0_1px_2px_rgba(32,20,9,0.06)];
+    @apply rounded-2xl border border-[var(--color-line)] bg-[var(--color-surface)] p-6 shadow-sm transition hover:shadow-md hover:border-[var(--color-saffron-light)]/30 relative overflow-hidden;
+  }
+  
+  .glass {
+    @apply bg-white/40 dark:bg-[#0a1128]/60 backdrop-blur-xl border border-white/20 dark:border-white/5;
   }
 }

@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate, useRouterState, createRootRoute } from '@tan
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -20,18 +21,35 @@ function RootLayout() {
     // PUBLIC LAYOUT (Landing, Login, Register)
     return (
       <div className="flex min-h-screen flex-col bg-[var(--color-parchment)] font-sans">
-        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 px-6">
+        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 dark:bg-black/20 backdrop-blur-md px-6 sticky top-0 z-50">
           <Link to="/" className="flex items-center gap-2">
             <ShieldMark className="w-8 h-8" />
-            <span className="font-display text-2xl font-bold tracking-tight text-[var(--color-ink)]">
+            <span className="font-display text-2xl font-bold tracking-tight text-[var(--color-ink)] hidden sm:block">
               Adhikar
             </span>
           </Link>
+          
+          <div className="flex-1 max-w-xl mx-8 hidden md:block">
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span className="text-gray-400 text-sm">🔍</span>
+              </div>
+              <input 
+                type="text" 
+                placeholder="Search schemes, ask questions or describe your need..." 
+                className="w-full pl-10 pr-12 py-2 rounded-full border border-[var(--color-line)] bg-[var(--color-parchment)] text-sm text-[var(--color-ink)] placeholder:text-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                 <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-medium text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">⌘ K</kbd>
+              </div>
+            </div>
+          </div>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <select 
               onChange={(e) => changeLanguage(e.target.value)} 
               value={i18n.language}
-              className="text-sm bg-white border border-[var(--color-line)] rounded px-2 py-1"
+              className="text-sm bg-[var(--color-surface)] border border-[var(--color-line)] rounded px-2 py-1"
             >
               <option value="en">English</option>
               <option value="hi">हिंदी</option>
@@ -90,7 +108,7 @@ function RootLayout() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-white [&.active]:text-[var(--color-saffron-deep)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-saffron-deep)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
               >
                 <span>{item.icon}</span>
                 {item.label}
@@ -106,7 +124,7 @@ function RootLayout() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-white [&.active]:text-[var(--color-saffron-deep)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
+                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-saffron-deep)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
               >
                 <span>{item.icon}</span>
                 {item.label}
@@ -116,14 +134,14 @@ function RootLayout() {
               <>
                 <Link
                   to="/admin/regulatory"
-                  className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-white [&.active]:text-[var(--color-govgreen)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
+                  className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-govgreen)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
                 >
                   <span>⚖️</span>
                   Regulatory Admin
                 </Link>
                 <Link
                   to="/admin/dashboard"
-                  className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-white [&.active]:text-[var(--color-govgreen)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
+                  className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-govgreen)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
                 >
                   <span>⚙️</span>
                   Admin Dashboard
@@ -133,11 +151,24 @@ function RootLayout() {
           </nav>
         </div>
 
-        <div className="px-4 py-2 border-t border-[var(--color-line)]">
+        {/* Floating Help Widget */}
+        <div className="mx-4 mb-4">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-900/50 p-4 text-center">
+             <div className="absolute top-0 right-0 -mt-2 -mr-2 text-6xl opacity-10">🤖</div>
+             <h4 className="text-sm font-bold text-indigo-900 dark:text-indigo-100 mb-1">Need Help?</h4>
+             <p className="text-xs text-indigo-700/80 dark:text-indigo-300/80 mb-3">Ask Adhikar AI</p>
+             <Link to="/assistant" className="block w-full py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold rounded-xl shadow-md hover:opacity-90 transition">
+               Start Chat
+             </Link>
+          </div>
+        </div>
+
+        <div className="px-4 py-3 border-t border-[var(--color-line)] flex gap-2">
+          <ThemeToggle />
           <select 
             onChange={(e) => changeLanguage(e.target.value)} 
             value={i18n.language}
-            className="w-full text-sm bg-white border border-[var(--color-line)] rounded px-2 py-1"
+            className="flex-1 text-sm bg-[var(--color-surface)] border border-[var(--color-line)] rounded px-2 py-1"
           >
             <option value="en">English</option>
             <option value="hi">हिंदी</option>
@@ -162,19 +193,57 @@ function RootLayout() {
         </div>
       </aside>
 
-      {/* MOBILE HEADER */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 px-4 md:hidden">
-          <div className="flex items-center gap-2">
+      {/* MAIN LAYOUT */}
+      <div className="flex flex-1 flex-col overflow-hidden relative">
+        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 dark:bg-black/20 backdrop-blur-md px-6 sticky top-0 z-10">
+          
+          <div className="flex items-center gap-2 md:hidden">
             <ShieldMark className="w-6 h-6" />
-            <span className="font-display text-lg font-bold text-[var(--color-ink)]">Adhikar</span>
           </div>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="rounded-md border border-[var(--color-line)] p-2 text-[var(--color-ink-soft)]"
-          >
-            {isMobileMenuOpen ? '✖' : '☰'}
-          </button>
+
+          <div className="flex-1 max-w-xl mx-4 hidden md:block">
+            <div className="relative group">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <span className="text-gray-400 text-sm">🔍</span>
+              </div>
+              <input 
+                type="text" 
+                placeholder="Search schemes, ask questions or describe your need..." 
+                className="w-full pl-10 pr-12 py-2 rounded-full border border-[var(--color-line)] bg-[var(--color-parchment)] text-sm text-[var(--color-ink)] placeholder:text-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                 <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-medium text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">⌘ K</kbd>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 ml-auto">
+            <ThemeToggle />
+            
+            {/* Notification Bell */}
+            <button className="relative p-2 text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] transition hidden sm:block">
+              <span>🔔</span>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-[var(--color-surface)]"></span>
+            </button>
+            
+            {/* User Dropdown Profile Placeholder */}
+            <div className="hidden md:flex items-center gap-2 px-2 py-1 bg-[var(--color-parchment)] rounded-full border border-[var(--color-line)] cursor-pointer hover:bg-[var(--color-parchment-dim)] transition">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center justify-center text-xs font-bold">
+                {user.name[0]}
+              </div>
+              <span className="text-sm font-medium text-[var(--color-ink)] pr-1">{user.name.split(' ')[0]}</span>
+              <span className="text-xs text-[var(--color-ink-soft)] pr-1">▼</span>
+            </div>
+
+            <div className="md:hidden flex items-center gap-2">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="rounded-md border border-[var(--color-line)] p-2 text-[var(--color-ink-soft)] bg-[var(--color-surface)]"
+              >
+                {isMobileMenuOpen ? '✖' : '☰'}
+              </button>
+            </div>
+          </div>
         </header>
 
         {/* MOBILE MENU DROPDOWN */}

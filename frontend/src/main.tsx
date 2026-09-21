@@ -6,6 +6,8 @@ import { routeTree } from './routeTree.gen'
 import './index.css'
 import './i18n'
 
+import { ThemeProvider } from '@/context/ThemeContext'
+
 const router = createRouter({ routeTree })
 
 declare module '@tanstack/react-router' {
@@ -20,9 +22,11 @@ if (!rootElement.innerHTML) {
   const root = createRoot(rootElement)
   root.render(
     <StrictMode>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ThemeProvider>
     </StrictMode>,
   )
 }
