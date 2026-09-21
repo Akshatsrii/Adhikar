@@ -12,7 +12,7 @@ const whatsappMessageSchema = z.object({
 })
 
 // Webhook endpoint: /api/whatsapp/webhook
-whatsappRouter.post('/webhook', async (req, res, next) => {
+whatsappRouter.post('/webhook', async (req, res) => {
   try {
     const { From, Body } = whatsappMessageSchema.parse(req.body)
 
@@ -34,8 +34,8 @@ whatsappRouter.post('/webhook', async (req, res, next) => {
       throw new Error(`AI Service Failed`)
     }
 
-    const data = await aiResponse.json()
-    const answer = data.answer
+    const data = (await aiResponse.json()) as { answer?: string }
+    const answer = data.answer || "I couldn't process that."
 
     // In a real app, we would use twilioClient.messages.create(...)
     console.log(`[WhatsApp Bot] Replying to ${From}: "${answer}"`)
