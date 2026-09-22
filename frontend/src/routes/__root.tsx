@@ -20,54 +20,8 @@ function RootLayout() {
   if (!user) {
     // PUBLIC LAYOUT (Landing, Login, Register)
     return (
-      <div className="flex min-h-screen flex-col bg-[var(--color-parchment)] font-sans">
-        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 dark:bg-black/20 backdrop-blur-md px-6 sticky top-0 z-50">
-          <Link to="/" className="flex items-center gap-2">
-            <ShieldMark className="w-8 h-8" />
-            <span className="font-display text-2xl font-bold tracking-tight text-[var(--color-ink)] hidden sm:block">
-              Adhikar
-            </span>
-          </Link>
-          
-          <div className="flex-1 max-w-xl mx-8 hidden md:block">
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-gray-400 text-sm">🔍</span>
-              </div>
-              <input 
-                type="text" 
-                placeholder="Search schemes, ask questions or describe your need..." 
-                className="w-full pl-10 pr-12 py-2 rounded-full border border-[var(--color-line)] bg-[var(--color-parchment)] text-sm text-[var(--color-ink)] placeholder:text-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
-              />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                 <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-medium text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">⌘ K</kbd>
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <select 
-              onChange={(e) => changeLanguage(e.target.value)} 
-              value={i18n.language}
-              className="text-sm bg-[var(--color-surface)] border border-[var(--color-line)] rounded px-2 py-1"
-            >
-              <option value="en">English</option>
-              <option value="hi">हिंदी</option>
-              <option value="mr">मारवाड़ी</option>
-            </select>
-            <nav className="flex items-center gap-4">
-              <Link to="/login" className="text-sm font-medium text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]">
-                Log in
-              </Link>
-              <Link to="/register" className="btn-primary !py-2 !px-4 shadow-sm hover:shadow">
-                Get started
-              </Link>
-            </nav>
-          </div>
-        </header>
-        <main className="mx-auto max-w-5xl px-6 py-12">
-          <Outlet />
-        </main>
+      <div className="min-h-screen bg-[var(--color-parchment)] font-sans">
+        <Outlet />
       </div>
     )
   }
@@ -91,7 +45,7 @@ function RootLayout() {
   return (
     <div className="flex min-h-screen bg-[var(--color-parchment)] font-sans">
       {/* SIDEBAR (Desktop) */}
-      <aside className="hidden w-64 flex-col border-r border-[var(--color-line)] bg-white/40 md:flex">
+      <aside className="hidden w-64 flex-col border-r border-[var(--color-line)] bg-[var(--color-surface)] md:flex shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20">
         <div className="flex h-16 items-center px-6 border-b border-[var(--color-line)]">
           <Link to="/" className="flex items-center gap-2">
             <ShieldMark className="w-6 h-6" />
@@ -195,7 +149,7 @@ function RootLayout() {
 
       {/* MAIN LAYOUT */}
       <div className="flex flex-1 flex-col overflow-hidden relative">
-        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-white/40 dark:bg-black/20 backdrop-blur-md px-6 sticky top-0 z-10">
+        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-[var(--color-surface)] px-6 sticky top-0 z-10">
           
           <div className="flex items-center gap-2 md:hidden">
             <ShieldMark className="w-6 h-6" />
