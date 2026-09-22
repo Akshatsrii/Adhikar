@@ -1,8 +1,7 @@
-import { Outlet, Link, useNavigate, useRouterState, createRootRoute } from '@tanstack/react-router'
+import { Outlet, Link, createRootRoute } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { ThemeToggle } from '@/components/ThemeToggle'
+import { Search, ChevronDown, User } from 'lucide-react'
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -10,248 +9,105 @@ export const Route = createRootRoute({
 
 function RootLayout() {
   const { user, logout } = useAuth()
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { i18n } = useTranslation()
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
   }
 
-  if (!user) {
-    // PUBLIC LAYOUT (Landing, Login, Register)
-    return (
-      <div className="min-h-screen bg-[var(--color-parchment)] font-sans">
-        <Outlet />
-      </div>
-    )
-  }
-
-  // APP LAYOUT (Logged In)
-  const navItems = [
-    { label: 'Dashboard', to: '/dashboard', icon: '📊' },
-    { label: 'Alerts', to: '/notifications', icon: '🔔' },
-    { label: 'Ask Adhikar', to: '/assistant', icon: '✨' },
-    { label: 'Eligibility', to: '/eligibility', icon: '✓' },
-    { label: 'Documents', to: '/documents', icon: '📄' },
-    { label: 'Family', to: '/family', icon: '👨‍👩‍👧‍👦' },
-    { label: 'Life Events', to: '/life-events', icon: '🎂' },
-  ]
-
-  const toolItems = [
-    { label: 'Debugger', to: '/debugger', icon: '🔍' },
-    { label: 'Simulator', to: '/simulator', icon: '🔮' },
-  ]
-
   return (
-    <div className="flex min-h-screen bg-[var(--color-parchment)] font-sans">
-      {/* SIDEBAR (Desktop) */}
-      <aside className="hidden w-64 flex-col border-r border-[var(--color-line)] bg-[var(--color-surface)] md:flex shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20">
-        <div className="flex h-16 items-center px-6 border-b border-[var(--color-line)]">
+    <div className="min-h-screen bg-[#f5f6fa] font-sans text-gray-800 flex flex-col">
+      {/* 1. TOP BAR (Thin) */}
+      <div className="bg-[#f1f1f1] border-b border-gray-200 text-[11px] font-medium py-1.5 px-4 md:px-8 flex justify-between items-center text-gray-700">
+        <div className="flex items-center gap-2">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/200px-Emblem_of_India.svg.png" className="h-4" alt="Emblem" />
+          <span>भारत सरकार | Government of India</span>
+        </div>
+        <div className="flex items-center gap-4 divide-x divide-gray-300">
+          <a href="#main" className="hover:text-blue-600 transition">Skip to main content</a>
+          <a href="#" className="pl-4 hover:text-blue-600 transition">Screen Reader Access</a>
+          <div className="pl-4 flex gap-2">
+            <button className="hover:text-blue-600">A-</button>
+            <button className="hover:text-blue-600">A</button>
+            <button className="hover:text-blue-600">A+</button>
+          </div>
+          <div className="pl-4 flex gap-2">
+            <button onClick={() => changeLanguage('hi')} className={i18n.language === 'hi' ? 'text-blue-700 font-bold' : 'hover:text-blue-600'}>हिंदी</button>
+            <span className="px-1">|</span>
+            <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'text-blue-700 font-bold' : 'hover:text-blue-600'}>English</button>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. MAIN HEADER */}
+      <header className="bg-white py-3 px-4 md:px-8 flex items-center justify-between shadow-sm relative z-20">
+        <div className="flex items-center gap-3">
           <Link to="/" className="flex items-center gap-2">
-            <ShieldMark className="w-6 h-6" />
-            <span className="font-display text-xl font-bold text-[var(--color-ink)]">Adhikar</span>
+            <svg viewBox="0 0 100 100" className="w-10 h-10">
+              <path d="M10,80 C30,30 60,10 90,20 C70,70 30,90 10,80 Z" fill="#FF9933" />
+              <path d="M10,80 C40,40 70,30 90,50 C60,80 30,95 10,80 Z" fill="#FFFFFF" />
+              <path d="M10,80 C50,60 80,50 90,80 C50,90 20,100 10,80 Z" fill="#138808" />
+            </svg>
+            <div>
+              <h1 className="text-xl font-bold text-[#00428a] tracking-tight leading-none uppercase">Adhikar</h1>
+              <p className="text-[10px] text-gray-500 font-medium leading-tight">आपका अधिकार, हमारी सहायता<br/>AI Government Scheme Navigator</p>
+            </div>
           </Link>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-6">
-          <p className="px-2 text-xs font-bold uppercase tracking-wider text-[var(--color-ink-soft)]/60 mb-2">
-            Main Menu
-          </p>
-          <nav className="flex flex-col gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-saffron-deep)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
-              >
-                <span>{item.icon}</span>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          <p className="px-2 text-xs font-bold uppercase tracking-wider text-[var(--color-ink-soft)]/60 mt-8 mb-2">
-            Advanced Tools
-          </p>
-          <nav className="flex flex-col gap-1">
-            {toolItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-saffron-deep)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
-              >
-                <span>{item.icon}</span>
-                {item.label}
-              </Link>
-            ))}
-            {user.role === 'admin' && (
-              <>
-                <Link
-                  to="/admin/regulatory"
-                  className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-govgreen)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
-                >
-                  <span>⚖️</span>
-                  Regulatory Admin
-                </Link>
-                <Link
-                  to="/admin/dashboard"
-                  className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-[var(--color-ink-soft)] transition-colors hover:bg-[var(--color-parchment-dim)] hover:text-[var(--color-ink)] [&.active]:bg-[var(--color-surface)] [&.active]:text-[var(--color-govgreen)] [&.active]:shadow-sm [&.active]:border [&.active]:border-[var(--color-line)]"
-                >
-                  <span>⚙️</span>
-                  Admin Dashboard
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
-
-        {/* Floating Help Widget */}
-        <div className="mx-4 mb-4">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-900/50 p-4 text-center">
-             <div className="absolute top-0 right-0 -mt-2 -mr-2 text-6xl opacity-10">🤖</div>
-             <h4 className="text-sm font-bold text-indigo-900 dark:text-indigo-100 mb-1">Need Help?</h4>
-             <p className="text-xs text-indigo-700/80 dark:text-indigo-300/80 mb-3">Ask Adhikar AI</p>
-             <Link to="/assistant" className="block w-full py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-bold rounded-xl shadow-md hover:opacity-90 transition">
-               Start Chat
-             </Link>
-          </div>
-        </div>
-
-        <div className="px-4 py-3 border-t border-[var(--color-line)] flex gap-2">
-          <ThemeToggle />
-          <select 
-            onChange={(e) => changeLanguage(e.target.value)} 
-            value={i18n.language}
-            className="flex-1 text-sm bg-[var(--color-surface)] border border-[var(--color-line)] rounded px-2 py-1"
-          >
-            <option value="en">English</option>
-            <option value="hi">हिंदी</option>
-            <option value="mr">मारवाड़ी</option>
-          </select>
-        </div>
-
-        <div className="border-t border-[var(--color-line)] p-4">
-          <div className="flex items-center justify-between rounded-lg bg-white/60 p-3 border border-[var(--color-line)]">
-            <div className="truncate">
-              <p className="truncate text-sm font-semibold text-[var(--color-ink)]">{user.name}</p>
-              <p className="truncate text-xs text-[var(--color-ink-soft)]">{user.email}</p>
+        <div className="hidden md:flex flex-1 max-w-xl mx-8">
+          <div className="flex w-full shadow-sm rounded-md">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input type="text" placeholder="Search schemes, services, or ask a question..." className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:border-[#00428a] text-sm" />
             </div>
-            <button
-              onClick={logout}
-              title="Log out"
-              className="ml-2 text-lg text-[var(--color-ink-soft)] hover:text-[var(--color-saffron-deep)]"
-            >
-              🚪
+            <button className="bg-[#00428a] text-white px-5 rounded-r-md hover:bg-blue-800 transition">
+               <Search className="w-4 h-4" />
             </button>
           </div>
         </div>
-      </aside>
 
-      {/* MAIN LAYOUT */}
-      <div className="flex flex-1 flex-col overflow-hidden relative">
-        <header className="flex h-16 items-center justify-between border-b border-[var(--color-line)] bg-[var(--color-surface)] px-6 sticky top-0 z-10">
-          
-          <div className="flex items-center gap-2 md:hidden">
-            <ShieldMark className="w-6 h-6" />
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4 border-r border-gray-200 pr-4">
+             <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Digital_India_logo.svg" alt="Digital India" className="h-8 opacity-90" />
+             <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/G20_India_2023_logo.svg" alt="G20" className="h-8 opacity-90" />
           </div>
-
-          <div className="flex-1 max-w-xl mx-4 hidden md:block">
-            <div className="relative group">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-gray-400 text-sm">🔍</span>
+          {!user ? (
+            <Link to="/login" className="bg-[#00428a] text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-800 transition flex items-center gap-2 shadow-sm">
+              <User className="w-4 h-4" /> Login / Register
+            </Link>
+          ) : (
+            <div className="flex items-center gap-3">
+              <div className="flex flex-col text-right">
+                 <span className="text-sm font-bold text-[#00428a] leading-none">{user.name}</span>
+                 <button onClick={logout} className="text-xs text-red-500 hover:underline">Logout</button>
               </div>
-              <input 
-                type="text" 
-                placeholder="Search schemes, ask questions or describe your need..." 
-                className="w-full pl-10 pr-12 py-2 rounded-full border border-[var(--color-line)] bg-[var(--color-parchment)] text-sm text-[var(--color-ink)] placeholder:text-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition"
-              />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                 <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-medium text-gray-500 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">⌘ K</kbd>
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-[#00428a] font-bold">
+                 {user.name[0]}
               </div>
             </div>
-          </div>
+          )}
+        </div>
+      </header>
 
-          <div className="flex items-center gap-4 ml-auto">
-            <ThemeToggle />
-            
-            {/* Notification Bell */}
-            <button className="relative p-2 text-[var(--color-ink-soft)] hover:text-[var(--color-ink)] transition hidden sm:block">
-              <span>🔔</span>
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-[var(--color-surface)]"></span>
-            </button>
-            
-            {/* User Dropdown Profile Placeholder */}
-            <div className="hidden md:flex items-center gap-2 px-2 py-1 bg-[var(--color-parchment)] rounded-full border border-[var(--color-line)] cursor-pointer hover:bg-[var(--color-parchment-dim)] transition">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white flex items-center justify-center text-xs font-bold">
-                {user.name[0]}
-              </div>
-              <span className="text-sm font-medium text-[var(--color-ink)] pr-1">{user.name.split(' ')[0]}</span>
-              <span className="text-xs text-[var(--color-ink-soft)] pr-1">▼</span>
-            </div>
+      {/* 3. NAVIGATION BAR (Blue) */}
+      <nav className="bg-[#00428a] text-white px-4 md:px-8 text-sm font-medium relative z-10 shadow-md">
+        <ul className="flex items-center space-x-1 overflow-x-auto whitespace-nowrap scrollbar-hide">
+          <li><Link to="/" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Home</Link></li>
+          <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">About Adhikar</Link></li>
+          <li><Link to="/schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Government Schemes <ChevronDown className="w-3 h-3"/></Link></li>
+          <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Check Eligibility</Link></li>
+          <li><Link to="/apply" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Apply Online</Link></li>
+          <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">AI Assistant</Link></li>
+          <li><Link to="/documents" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Documents <ChevronDown className="w-3 h-3"/></Link></li>
+          <li><Link to="/state-schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">State Schemes <ChevronDown className="w-3 h-3"/></Link></li>
+          <li><Link to="/contact" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Help & Support <ChevronDown className="w-3 h-3"/></Link></li>
+        </ul>
+      </nav>
 
-            <div className="md:hidden flex items-center gap-2">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="rounded-md border border-[var(--color-line)] p-2 text-[var(--color-ink-soft)] bg-[var(--color-surface)]"
-              >
-                {isMobileMenuOpen ? '✖' : '☰'}
-              </button>
-            </div>
-          </div>
-        </header>
-
-        {/* MOBILE MENU DROPDOWN */}
-        {isMobileMenuOpen && (
-          <div className="absolute top-16 left-0 right-0 z-20 border-b border-[var(--color-line)] bg-white p-4 shadow-lg md:hidden h-[calc(100vh-4rem)] overflow-y-auto">
-             <nav className="flex flex-col gap-2">
-                {[...navItems, ...toolItems].map(item => (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 rounded-md p-3 text-base font-medium text-[var(--color-ink-soft)] hover:bg-[var(--color-parchment-dim)] [&.active]:bg-[var(--color-parchment)] [&.active]:text-[var(--color-saffron-deep)]"
-                  >
-                    <span>{item.icon}</span> {item.label}
-                  </Link>
-                ))}
-                <div className="mt-4 border-t border-[var(--color-line)] pt-4">
-                  <button onClick={logout} className="w-full rounded-md border border-red-200 bg-red-50 p-3 text-left font-medium text-red-700">
-                    Log out ({user.name})
-                  </button>
-                </div>
-             </nav>
-          </div>
-        )}
-
-        {/* MAIN CONTENT AREA */}
-        <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-4xl p-6 md:p-10">
-            <Outlet />
-          </div>
-        </main>
-      </div>
+      <main id="main" className="flex-1 flex flex-col relative w-full pb-12">
+        <Outlet />
+      </main>
     </div>
-  )
-}
-
-function ShieldMark({ className = "w-7 h-7" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M120 14 L206 46 V116 C206 172 170 208 120 226 C70 208 34 172 34 116 V46 Z"
-        fill="var(--color-saffron)"
-        stroke="var(--color-saffron-deep)"
-        strokeWidth="6"
-      />
-      <path
-        d="M55 76 L98 122 L165 58"
-        fill="none"
-        stroke="white"
-        strokeWidth="16"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        transform="translate(0, 20) scale(0.85) translate(21, 5)"
-      />
-    </svg>
   )
 }
