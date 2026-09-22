@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { applicationsApi, ApiError, copilotApi } from '@/lib/api'
-import { useAuth } from '@/context/AuthContext'
+import { ChevronRight, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/apply/$slug')({
   component: ApplyPage,
@@ -9,166 +8,131 @@ export const Route = createFileRoute('/apply/$slug')({
 
 function ApplyPage() {
   const { slug } = Route.useParams()
-  const { user } = useAuth()
-
-  const [name, setName] = useState('')
-  const [dob, setDob] = useState('')
-  const [isValidating, setIsValidating] = useState(false)
-  const [warnings, setWarnings] = useState<string[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setIsValidating(true)
-    setError(null)
-    setWarnings([])
-    setSuccess(false)
-
-    try {
-      const result = await applicationsApi.validate({
-        schemeId: slug,
-        nameOnApplication: name,
-        dobOnApplication: dob || undefined,
-      })
-
-      if (!result.isValid) {
-        setWarnings(result.warnings)
-      } else {
-        setSuccess(true)
-        // Proceed with actual application submission here
-      }
-    } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Validation failed')
-    } finally {
-      setIsValidating(false)
-    }
-  }
-
-  const [copilotQuestion, setCopilotQuestion] = useState('')
-  const [copilotAnswer, setCopilotAnswer] = useState('')
-  const [isAsking, setIsAsking] = useState(false)
-
-  async function askCopilot() {
-    if (!copilotQuestion.trim()) return
-    setIsAsking(true)
-    setCopilotAnswer('')
-    try {
-      const res = await copilotApi.ask(slug, copilotQuestion)
-      setCopilotAnswer(res.answer)
-    } catch (err) {
-      setCopilotAnswer('Error reaching copilot.')
-    } finally {
-      setIsAsking(false)
-    }
-  }
 
   return (
-    <div className="mx-auto max-w-4xl grid md:grid-cols-2 gap-8">
-      <div>
-        <h1 className="text-3xl font-bold text-[var(--color-ink)]">Submit Application</h1>
-        <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-          Applying for <span className="font-medium text-[var(--color-ink)]">{slug.replace(/-/g, ' ').toUpperCase()}</span>
-        </p>
-
-        {error && <div className="mt-4 rounded bg-red-50 p-3 text-sm text-red-700">{error}</div>}
-        
-        {success && (
-          <div className="mt-4 rounded bg-green-50 p-3 text-sm font-medium text-green-800">
-            ✓ Looks perfect! No mismatches found. Application submitted successfully!
-          </div>
-        )}
-
-        {warnings.length > 0 && (
-          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4">
-            <h3 className="font-bold text-red-800 mb-2">⚠️ DBT Mismatch Warnings</h3>
-            <p className="text-sm text-red-700 mb-3">
-              Your application might be rejected or Direct Benefit Transfer (DBT) could fail due to the following reasons:
-            </p>
-            <ul className="list-inside list-disc space-y-1">
-              {warnings.map((w, idx) => (
-                <li key={idx} className="text-sm font-medium text-red-700">{w}</li>
-              ))}
-            </ul>
-            <div className="mt-4 flex gap-3">
-              <button className="rounded bg-red-100 px-3 py-1.5 text-sm font-medium text-red-800 hover:bg-red-200">
-                Edit Application
-              </button>
-              <button className="rounded px-3 py-1.5 text-sm font-medium text-[var(--color-ink-soft)] hover:bg-gray-200">
-                Submit anyway
-              </button>
-            </div>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-          <div className="rounded border border-[var(--color-line)] p-4 bg-gray-50">
-            <p className="text-xs font-medium text-[var(--color-ink-soft)] uppercase tracking-wider mb-2">Official Profile Reference</p>
-            <p className="text-sm text-[var(--color-ink)]">Aadhaar Name: <strong>{user?.name || 'Loading...'}</strong></p>
-            <p className="text-sm text-[var(--color-ink)]">Aadhaar DOB: <strong>{(user?.profile as any)?.dob || 'Not provided'}</strong></p>
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-[var(--color-ink)]">Name on Application Form</label>
-            <input
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="E.g. Akshat S."
-              className="w-full rounded-md border border-[var(--color-line)] p-2.5 text-sm"
-            />
-            <p className="mt-1 text-xs text-[var(--color-ink-soft)]">Enter your name exactly as it appears on your bank account.</p>
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-[var(--color-ink)]">Date of Birth (Optional)</label>
-            <input
-              type="date"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              className="w-full rounded-md border border-[var(--color-line)] p-2.5 text-sm"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isValidating}
-            className="btn-primary w-full mt-4"
-          >
-            {isValidating ? 'Validating DBT Readiness...' : 'Submit Application'}
-          </button>
-        </form>
+    <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 w-full bg-white md:bg-transparent">
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
+        <Link to="/" className="text-blue-600 hover:underline">Home</Link>
+        <ChevronRight className="w-3 h-3" />
+        <span className="text-gray-800">Apply Online</span>
       </div>
-      
-      {/* Copilot Section */}
-      <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 h-fit mt-8 md:mt-0">
-        <h2 className="font-bold text-blue-900 mb-2">🤖 Application Copilot</h2>
-        <p className="text-sm text-blue-800 mb-4">Stuck on a field? Ask me anything about filling this specific form.</p>
-        
-        <div className="space-y-3">
-          <input 
-            type="text" 
-            placeholder="What does 'domicile' mean here?"
-            value={copilotQuestion}
-            onChange={(e) => setCopilotQuestion(e.target.value)}
-            className="w-full rounded border border-blue-200 p-2 text-sm"
-            onKeyDown={(e) => e.key === 'Enter' && askCopilot()}
-          />
-          <button 
-            onClick={askCopilot}
-            disabled={isAsking || !copilotQuestion.trim()}
-            className="w-full rounded bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-50"
-          >
-            {isAsking ? 'Thinking...' : 'Ask Copilot'}
-          </button>
+
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-[#00428a] mb-2">Apply for Government Schemes</h1>
+        <p className="text-sm text-gray-600">Complete your application with step-by-step guidance</p>
+      </div>
+
+      {/* Stepper */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6 md:p-8 shadow-sm mb-6">
+        <div className="flex items-center justify-between mb-8 overflow-x-auto pb-4 scrollbar-hide">
+          
+          <div className="flex items-center gap-2 text-sm font-bold text-gray-400 shrink-0">
+            <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-xs">1</span>
+            <span>Select Scheme</span>
+          </div>
+          
+          <div className="h-[1px] bg-gray-200 flex-1 mx-4 min-w-[30px]"></div>
+          
+          <div className="flex items-center gap-2 text-sm font-bold text-[#00428a] shrink-0">
+            <span className="w-6 h-6 rounded-full bg-[#00428a] text-white flex items-center justify-center text-xs shadow-sm ring-4 ring-blue-50">2</span>
+            <span>Fill Application</span>
+          </div>
+          
+          <div className="h-[1px] bg-gray-200 flex-1 mx-4 min-w-[30px]"></div>
+          
+          <div className="flex items-center gap-2 text-sm font-bold text-gray-400 shrink-0">
+            <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-xs">3</span>
+            <span>Upload Documents</span>
+          </div>
+
+          <div className="h-[1px] bg-gray-200 flex-1 mx-4 min-w-[30px]"></div>
+          
+          <div className="flex items-center gap-2 text-sm font-bold text-gray-400 shrink-0">
+            <span className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center text-xs">4</span>
+            <span>Review & Submit</span>
+          </div>
         </div>
 
-        {copilotAnswer && (
-          <div className="mt-6 rounded bg-white p-4 border border-blue-100 shadow-sm">
-            <p className="text-sm text-blue-900">{copilotAnswer}</p>
+        {/* Selected Scheme Card */}
+        <div className="mb-8 border border-gray-200 rounded-lg overflow-hidden flex gap-4">
+          <div className="w-32 md:w-48 bg-gray-100 shrink-0">
+            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop" alt="Scheme" className="w-full h-full object-cover" />
           </div>
-        )}
+          <div className="p-4 py-5 flex flex-col justify-center">
+            <h3 className="font-bold text-gray-900 text-lg mb-1">Post-Matric Scholarship for SC/ST/OBC Students</h3>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-[10px] font-bold text-white bg-blue-600 px-2 py-0.5 rounded">Education</span>
+              <span className="text-[10px] font-bold text-gray-600 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">Central Scheme</span>
+            </div>
+            <p className="text-xs text-gray-500 mb-3">Financial assistance for higher education of SC/ST/OBC students.</p>
+            <div className="flex items-center gap-4 text-xs font-medium text-gray-700">
+              <span className="flex items-center gap-1 text-[#00428a]">₹ Up to ₹25,000 per year</span>
+              <span className="text-gray-400">|</span>
+              <span className="flex items-center gap-1">⏱ Application Deadline: 30 Jun 2025</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 className="text-lg font-bold text-gray-900 mb-6 pb-2 border-b border-gray-100">Personal Information</h3>
+        
+        <form className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Full Name (as per documents) <span className="text-red-500">*</span></label>
+              <input type="text" defaultValue="Akshat Srivastava" className="w-full border border-gray-300 rounded px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Date of Birth <span className="text-red-500">*</span></label>
+              <input type="date" defaultValue="1999-05-15" className="w-full border border-gray-300 rounded px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Mobile Number <span className="text-red-500">*</span></label>
+              <div className="flex">
+                <select className="border border-gray-300 border-r-0 rounded-l px-2 py-2 text-sm text-gray-700 bg-gray-50 focus:outline-none">
+                  <option>+91</option>
+                </select>
+                <input type="tel" defaultValue="9876543210" placeholder="Enter mobile number" className="flex-1 border border-gray-300 rounded-r px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]" />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Email ID</label>
+              <input type="email" placeholder="Enter email address" className="w-full border border-gray-300 rounded px-3 py-2 text-sm text-gray-900 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]" />
+            </div>
+          </div>
+          
+          <div className="mb-6">
+            <label className="block text-xs font-semibold text-gray-700 mb-2">Gender <span className="text-red-500">*</span></label>
+            <div className="flex gap-6 mt-2">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="gender" defaultChecked className="text-[#00428a] focus:ring-[#00428a]" />
+                <span className="text-sm text-gray-700 font-medium">Male</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="gender" className="text-[#00428a] focus:ring-[#00428a]" />
+                <span className="text-sm text-gray-700 font-medium">Female</span>
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input type="radio" name="gender" className="text-[#00428a] focus:ring-[#00428a]" />
+                <span className="text-sm text-gray-700 font-medium">Other</span>
+              </label>
+            </div>
+          </div>
+
+          <div className="pt-8 border-t border-gray-100 flex items-center justify-between">
+            <button type="button" className="text-gray-600 font-bold py-2 px-4 rounded hover:bg-gray-100 transition flex items-center gap-2 text-sm">
+              <ArrowLeft className="w-4 h-4" /> Back
+            </button>
+            <button type="button" className="bg-[#00428a] text-white font-bold py-2.5 px-6 rounded hover:bg-blue-800 transition flex items-center gap-2 text-sm shadow-sm">
+              Save & Continue <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </form>
       </div>
+
     </div>
   )
 }
