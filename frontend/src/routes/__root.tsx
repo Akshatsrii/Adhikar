@@ -97,7 +97,7 @@ function RootLayout() {
           <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">About Adhikar</Link></li>
           <li><Link to="/schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Government Schemes <ChevronDown className="w-3 h-3"/></Link></li>
           <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Check Eligibility</Link></li>
-          <li><Link to="/apply" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Apply Online</Link></li>
+          <li><Link to="/apply/post-matric-scholarship" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Apply Online</Link></li>
           <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">AI Assistant</Link></li>
           <li><Link to="/documents" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Documents <ChevronDown className="w-3 h-3"/></Link></li>
           <li><Link to="/state-schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">State Schemes <ChevronDown className="w-3 h-3"/></Link></li>
