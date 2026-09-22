@@ -10,35 +10,47 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApplyRouteImport } from './routes/apply'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DebuggerRouteImport } from './routes/debugger'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as EligibilityRouteImport } from './routes/eligibility'
+import { Route as EligibilityResultsRouteImport } from './routes/eligibility-results'
 import { Route as FamilyRouteImport } from './routes/family'
 import { Route as LifeEventsRouteImport } from './routes/life-events'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as SchemesRouteImport } from './routes/schemes'
 import { Route as SimulatorRouteImport } from './routes/simulator'
+import { Route as StateSchemesRouteImport } from './routes/state-schemes'
+import { Route as TrackRouteImport } from './routes/track'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminRegulatoryRouteImport } from './routes/admin.regulatory'
+import { Route as ApplySlugRouteImport } from './routes/apply.$slug'
+import { Route as SchemeSlugRouteImport } from './routes/scheme.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApplyRoute = ApplyRouteImport.update({
-  id: '/apply',
-  path: '/apply',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -59,6 +71,11 @@ const DocumentsRoute = DocumentsRouteImport.update({
 const EligibilityRoute = EligibilityRouteImport.update({
   id: '/eligibility',
   path: '/eligibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EligibilityResultsRoute = EligibilityResultsRouteImport.update({
+  id: '/eligibility-results',
+  path: '/eligibility-results',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FamilyRoute = FamilyRouteImport.update({
@@ -91,9 +108,24 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SchemesRoute = SchemesRouteImport.update({
+  id: '/schemes',
+  path: '/schemes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SimulatorRoute = SimulatorRouteImport.update({
   id: '/simulator',
   path: '/simulator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StateSchemesRoute = StateSchemesRouteImport.update({
+  id: '/state-schemes',
+  path: '/state-schemes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -106,136 +138,195 @@ const AdminRegulatoryRoute = AdminRegulatoryRouteImport.update({
   path: '/admin/regulatory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplySlugRoute = ApplySlugRouteImport.update({
+  id: '/apply/$slug',
+  path: '/apply/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchemeSlugRoute = SchemeSlugRouteImport.update({
+  id: '/scheme/$slug',
+  path: '/scheme/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/apply': typeof ApplyRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/debugger': typeof DebuggerRoute
   '/documents': typeof DocumentsRoute
   '/eligibility': typeof EligibilityRoute
+  '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
+  '/state-schemes': typeof StateSchemesRoute
+  '/track': typeof TrackRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
+  '/apply/$slug': typeof ApplySlugRoute
+  '/scheme/$slug': typeof SchemeSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/apply': typeof ApplyRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/debugger': typeof DebuggerRoute
   '/documents': typeof DocumentsRoute
   '/eligibility': typeof EligibilityRoute
+  '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
+  '/state-schemes': typeof StateSchemesRoute
+  '/track': typeof TrackRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
+  '/apply/$slug': typeof ApplySlugRoute
+  '/scheme/$slug': typeof SchemeSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/apply': typeof ApplyRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
+  '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/debugger': typeof DebuggerRoute
   '/documents': typeof DocumentsRoute
   '/eligibility': typeof EligibilityRoute
+  '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
+  '/state-schemes': typeof StateSchemesRoute
+  '/track': typeof TrackRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
+  '/apply/$slug': typeof ApplySlugRoute
+  '/scheme/$slug': typeof SchemeSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/apply'
+    | '/about'
     | '/assistant'
+    | '/contact'
     | '/dashboard'
     | '/debugger'
     | '/documents'
     | '/eligibility'
+    | '/eligibility-results'
     | '/family'
     | '/life-events'
     | '/login'
     | '/notifications'
     | '/profile'
     | '/register'
+    | '/schemes'
     | '/simulator'
+    | '/state-schemes'
+    | '/track'
     | '/admin/dashboard'
     | '/admin/regulatory'
+    | '/apply/$slug'
+    | '/scheme/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/apply'
+    | '/about'
     | '/assistant'
+    | '/contact'
     | '/dashboard'
     | '/debugger'
     | '/documents'
     | '/eligibility'
+    | '/eligibility-results'
     | '/family'
     | '/life-events'
     | '/login'
     | '/notifications'
     | '/profile'
     | '/register'
+    | '/schemes'
     | '/simulator'
+    | '/state-schemes'
+    | '/track'
     | '/admin/dashboard'
     | '/admin/regulatory'
+    | '/apply/$slug'
+    | '/scheme/$slug'
   id:
     | '__root__'
     | '/'
-    | '/apply'
+    | '/about'
     | '/assistant'
+    | '/contact'
     | '/dashboard'
     | '/debugger'
     | '/documents'
     | '/eligibility'
+    | '/eligibility-results'
     | '/family'
     | '/life-events'
     | '/login'
     | '/notifications'
     | '/profile'
     | '/register'
+    | '/schemes'
     | '/simulator'
+    | '/state-schemes'
+    | '/track'
     | '/admin/dashboard'
     | '/admin/regulatory'
+    | '/apply/$slug'
+    | '/scheme/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ApplyRoute: typeof ApplyRoute
+  AboutRoute: typeof AboutRoute
   AssistantRoute: typeof AssistantRoute
+  ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   DebuggerRoute: typeof DebuggerRoute
   DocumentsRoute: typeof DocumentsRoute
   EligibilityRoute: typeof EligibilityRoute
+  EligibilityResultsRoute: typeof EligibilityResultsRoute
   FamilyRoute: typeof FamilyRoute
   LifeEventsRoute: typeof LifeEventsRoute
   LoginRoute: typeof LoginRoute
   NotificationsRoute: typeof NotificationsRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
+  SchemesRoute: typeof SchemesRoute
   SimulatorRoute: typeof SimulatorRoute
+  StateSchemesRoute: typeof StateSchemesRoute
+  TrackRoute: typeof TrackRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminRegulatoryRoute: typeof AdminRegulatoryRoute
+  ApplySlugRoute: typeof ApplySlugRoute
+  SchemeSlugRoute: typeof SchemeSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -247,11 +338,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/apply': {
-      id: '/apply'
-      path: '/apply'
-      fullPath: '/apply'
-      preLoaderRoute: typeof ApplyRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistant': {
@@ -259,6 +350,13 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -287,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/eligibility'
       fullPath: '/eligibility'
       preLoaderRoute: typeof EligibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/eligibility-results': {
+      id: '/eligibility-results'
+      path: '/eligibility-results'
+      fullPath: '/eligibility-results'
+      preLoaderRoute: typeof EligibilityResultsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/family': {
@@ -331,11 +436,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/schemes': {
+      id: '/schemes'
+      path: '/schemes'
+      fullPath: '/schemes'
+      preLoaderRoute: typeof SchemesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/simulator': {
       id: '/simulator'
       path: '/simulator'
       fullPath: '/simulator'
       preLoaderRoute: typeof SimulatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/state-schemes': {
+      id: '/state-schemes'
+      path: '/state-schemes'
+      fullPath: '/state-schemes'
+      preLoaderRoute: typeof StateSchemesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/dashboard': {
@@ -352,26 +478,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRegulatoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apply/$slug': {
+      id: '/apply/$slug'
+      path: '/apply/$slug'
+      fullPath: '/apply/$slug'
+      preLoaderRoute: typeof ApplySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scheme/$slug': {
+      id: '/scheme/$slug'
+      path: '/scheme/$slug'
+      fullPath: '/scheme/$slug'
+      preLoaderRoute: typeof SchemeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ApplyRoute: ApplyRoute,
+  AboutRoute: AboutRoute,
   AssistantRoute: AssistantRoute,
+  ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   DebuggerRoute: DebuggerRoute,
   DocumentsRoute: DocumentsRoute,
   EligibilityRoute: EligibilityRoute,
+  EligibilityResultsRoute: EligibilityResultsRoute,
   FamilyRoute: FamilyRoute,
   LifeEventsRoute: LifeEventsRoute,
   LoginRoute: LoginRoute,
   NotificationsRoute: NotificationsRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
+  SchemesRoute: SchemesRoute,
   SimulatorRoute: SimulatorRoute,
+  StateSchemesRoute: StateSchemesRoute,
+  TrackRoute: TrackRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminRegulatoryRoute: AdminRegulatoryRoute,
+  ApplySlugRoute: ApplySlugRoute,
+  SchemeSlugRoute: SchemeSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

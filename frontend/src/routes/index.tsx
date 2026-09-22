@@ -18,11 +18,11 @@ function LandingPage() {
     <div className="min-h-screen bg-[#f5f6fa] font-sans text-gray-800">
       
       {/* 4. HERO SECTION */}
-      <div className="relative bg-[#e6f0fa] w-full h-[380px] overflow-hidden flex items-center">
+      <div className="relative bg-[#e6f0fa] w-full h-[450px] overflow-hidden flex items-center">
         {/* Background Image of Parliament / Rashtrapati Bhavan */}
         <div className="absolute right-0 top-0 w-3/4 h-full bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Rashtrapati_Bhavan%2C_New_Delhi.jpg/1280px-Rashtrapati_Bhavan%2C_New_Delhi.jpg')] bg-cover bg-center">
            {/* Color overlay to fade into the left blue area */}
-           <div className="absolute inset-0 bg-gradient-to-r from-[#e6f0fa] via-[#e6f0fa]/80 to-transparent"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-[#e6f0fa] via-[#e6f0fa]/90 to-transparent"></div>
            
            {/* Tricolor swoosh on the right */}
            <svg className="absolute right-0 top-0 h-full w-[400px] opacity-90 hidden md:block" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -33,20 +33,23 @@ function LandingPage() {
         </div>
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
-          <div className="max-w-xl">
+          <div className="max-w-2xl">
             <h2 className="text-[2.2rem] font-bold text-[#00428a] leading-[1.1] mb-4">
               Find the Government Schemes<br/>You're Eligible For
             </h2>
-            <p className="text-gray-700 mb-8 max-w-[400px] leading-snug font-medium">
+            <p className="text-gray-700 mb-8 max-w-[500px] leading-snug font-medium">
               AI-powered guidance to help every citizen access the right schemes, benefits and services.
             </p>
-            <div className="flex gap-4">
-              <Link to="/register" className="bg-[#0056b3] text-white px-6 py-2.5 rounded font-medium hover:bg-blue-800 transition shadow-sm flex items-center gap-2">
-                Check My Eligibility <ArrowRight className="w-4 h-4"/>
-              </Link>
-              <Link to="/assistant" className="bg-white/90 backdrop-blur border border-gray-200 text-[#0056b3] px-6 py-2.5 rounded font-medium hover:bg-gray-50 transition shadow-sm flex items-center gap-2">
-                <Bot className="w-5 h-5"/> Ask Adhikar AI
-              </Link>
+            
+            {/* Search Bar in Hero */}
+            <div className="flex w-full shadow-lg rounded-md max-w-lg bg-white p-1">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input type="text" placeholder="Search schemes, services, or ask a question..." className="w-full pl-10 pr-4 py-3 border-none focus:outline-none text-sm text-gray-800" />
+              </div>
+              <button className="bg-[#00428a] text-white px-6 py-2 rounded hover:bg-blue-800 transition font-bold text-sm">
+                 <Search className="w-4 h-4" />
+              </button>
             </div>
           </div>
           
@@ -55,6 +58,43 @@ function LandingPage() {
             <div className="text-xs font-semibold text-gray-800">Build a Stronger India"</div>
             <div className="text-[10px] text-green-700 mt-1">— Government of India</div>
           </div>
+        </div>
+      </div>
+
+      {/* 4.5. QUICK ACTION BUTTONS ROW */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 -mt-12 relative z-20 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Link to="/eligibility" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
+            <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
+              <Search className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Check Eligibility</h3>
+            <p className="text-[10px] text-gray-500 text-center">Find schemes for you</p>
+          </Link>
+          
+          <Link to="/schemes" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
+            <div className="w-12 h-12 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center mb-3">
+              <FileText className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Apply Online</h3>
+            <p className="text-[10px] text-gray-500 text-center">Submit applications</p>
+          </Link>
+          
+          <Link to="/assistant" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
+            <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-3">
+              <Bot className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Ask Adhikar AI</h3>
+            <p className="text-[10px] text-gray-500 text-center">Get instant guidance</p>
+          </Link>
+          
+          <Link to="/track" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
+            <div className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center mb-3">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Track Application</h3>
+            <p className="text-[10px] text-gray-500 text-center">Check status online</p>
+          </Link>
         </div>
       </div>
 
