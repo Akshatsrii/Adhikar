@@ -20,7 +20,7 @@ function LandingPage() {
       {/* 1. TOP BAR (Thin) */}
       <div className="bg-[#f1f1f1] border-b border-gray-200 text-[11px] font-medium py-1.5 px-4 md:px-8 flex justify-between items-center text-gray-700">
         <div className="flex items-center gap-2">
-          <span>🇮🇳</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/200px-Emblem_of_India.svg.png" className="h-4" alt="Emblem" />
           <span>भारत सरकार | Government of India</span>
         </div>
         <div className="flex items-center gap-4 divide-x divide-gray-300">
@@ -45,12 +45,12 @@ function LandingPage() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <svg viewBox="0 0 100 100" className="w-10 h-10">
-                <path d="M10,80 Q40,10 90,20 Q60,90 10,80 Z" fill="#FF9933" />
-                <path d="M10,80 Q50,40 90,50 Q40,95 10,80 Z" fill="#FFFFFF" />
-                <path d="M10,80 Q60,60 90,80 Q30,100 10,80 Z" fill="#138808" />
+                <path d="M10,80 C30,30 60,10 90,20 C70,70 30,90 10,80 Z" fill="#FF9933" />
+                <path d="M10,80 C40,40 70,30 90,50 C60,80 30,95 10,80 Z" fill="#FFFFFF" />
+                <path d="M10,80 C50,60 80,50 90,80 C50,90 20,100 10,80 Z" fill="#138808" />
               </svg>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 tracking-tight leading-none uppercase">Adhikar</h1>
+                <h1 className="text-xl font-bold text-[#00428a] tracking-tight leading-none uppercase">Adhikar</h1>
                 <p className="text-[10px] text-gray-500 font-medium leading-tight">आपका अधिकार, हमारी सहायता<br/>AI Government Scheme Navigator</p>
               </div>
             </div>
@@ -58,7 +58,7 @@ function LandingPage() {
         </div>
 
         <div className="hidden md:flex flex-1 max-w-xl mx-8">
-          <div className="flex w-full">
+          <div className="flex w-full shadow-sm rounded-md">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input type="text" placeholder="Search schemes, services, or ask a question..." className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:border-[#00428a] text-sm" />
@@ -84,58 +84,64 @@ function LandingPage() {
       {/* 3. NAVIGATION BAR (Blue) */}
       <nav className="bg-[#00428a] text-white px-4 md:px-8 text-sm font-medium">
         <ul className="flex items-center space-x-1 overflow-x-auto whitespace-nowrap scrollbar-hide">
-          <li><Link to="/" className="inline-block px-4 py-3 bg-blue-800">Home</Link></li>
-          <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-blue-800 transition">About Adhikar</Link></li>
+          <li><Link to="/" className="inline-block px-4 py-3 bg-[#003370]">Home</Link></li>
+          <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] transition">About Adhikar</Link></li>
           <li className="relative group">
-            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-blue-800 transition">Government Schemes <ChevronDown className="w-3 h-3"/></button>
+            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] transition">Government Schemes <ChevronDown className="w-3 h-3"/></button>
           </li>
-          <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-blue-800 transition">Check Eligibility</Link></li>
-          <li><Link to="/apply" className="inline-block px-4 py-3 hover:bg-blue-800 transition">Apply Online</Link></li>
-          <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-blue-800 transition">AI Assistant</Link></li>
+          <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] transition">Check Eligibility</Link></li>
+          <li><Link to="/apply" className="inline-block px-4 py-3 hover:bg-[#003370] transition">Apply Online</Link></li>
+          <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] transition">AI Assistant</Link></li>
           <li className="relative group">
-            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-blue-800 transition">Documents <ChevronDown className="w-3 h-3"/></button>
-          </li>
-          <li className="relative group">
-            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-blue-800 transition">State Schemes <ChevronDown className="w-3 h-3"/></button>
+            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] transition">Documents <ChevronDown className="w-3 h-3"/></button>
           </li>
           <li className="relative group">
-            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-blue-800 transition">Help & Support <ChevronDown className="w-3 h-3"/></button>
+            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] transition">State Schemes <ChevronDown className="w-3 h-3"/></button>
           </li>
-          <li><Link to="/contact" className="inline-block px-4 py-3 hover:bg-blue-800 transition">Contact Us</Link></li>
+          <li className="relative group">
+            <button className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] transition">Help & Support <ChevronDown className="w-3 h-3"/></button>
+          </li>
+          <li><Link to="/contact" className="inline-block px-4 py-3 hover:bg-[#003370] transition">Contact Us</Link></li>
         </ul>
       </nav>
 
       {/* 4. HERO SECTION */}
-      <div className="relative bg-white w-full h-[400px] overflow-hidden">
-        {/* Background Image of Parliament */}
-        <div className="absolute right-0 top-0 w-3/4 h-full bg-[url('https://images.unsplash.com/photo-1587474260584-136574528ed5?q=80&w=1280&auto=format&fit=crop')] bg-cover bg-center">
-           {/* Color overlay to match mockup's tricolor swoosh effect */}
-           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent"></div>
-           <div className="absolute inset-0 bg-gradient-to-t from-green-500/10 via-transparent to-orange-500/10 mix-blend-multiply"></div>
+      <div className="relative bg-[#e6f0fa] w-full h-[380px] overflow-hidden flex items-center">
+        {/* Background Image of Parliament / Rashtrapati Bhavan */}
+        <div className="absolute right-0 top-0 w-3/4 h-full bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Rashtrapati_Bhavan%2C_New_Delhi.jpg/1280px-Rashtrapati_Bhavan%2C_New_Delhi.jpg')] bg-cover bg-center">
+           {/* Color overlay to fade into the left blue area */}
+           <div className="absolute inset-0 bg-gradient-to-r from-[#e6f0fa] via-[#e6f0fa]/80 to-transparent"></div>
+           
+           {/* Tricolor swoosh on the right */}
+           <svg className="absolute right-0 top-0 h-full w-[400px] opacity-90 hidden md:block" viewBox="0 0 100 100" preserveAspectRatio="none">
+             <path d="M100,0 C60,20 40,80 0,100 L100,100 Z" fill="#138808" opacity="0.6"/>
+             <path d="M100,0 C70,20 50,80 15,100 L100,100 Z" fill="#FFFFFF" opacity="0.6"/>
+             <path d="M100,0 C80,20 60,80 30,100 L100,100 Z" fill="#FF9933" opacity="0.6"/>
+           </svg>
         </div>
 
-        <div className="relative z-10 h-full max-w-7xl mx-auto px-4 md:px-8 flex flex-col justify-center">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
           <div className="max-w-xl">
-            <h2 className="text-[2.5rem] font-bold text-[#00428a] leading-[1.1] mb-4">
+            <h2 className="text-[2.2rem] font-bold text-[#00428a] leading-[1.1] mb-4">
               Find the Government Schemes<br/>You're Eligible For
             </h2>
-            <p className="text-lg text-gray-700 mb-8 max-w-lg leading-snug font-medium">
+            <p className="text-gray-700 mb-8 max-w-[400px] leading-snug font-medium">
               AI-powered guidance to help every citizen access the right schemes, benefits and services.
             </p>
             <div className="flex gap-4">
-              <Link to="/register" className="bg-[#0056b3] text-white px-6 py-3 rounded-md font-medium hover:bg-blue-800 transition shadow-md flex items-center gap-2">
+              <Link to="/register" className="bg-[#0056b3] text-white px-6 py-2.5 rounded font-medium hover:bg-blue-800 transition shadow-sm flex items-center gap-2">
                 Check My Eligibility <ArrowRight className="w-4 h-4"/>
               </Link>
-              <Link to="/assistant" className="bg-white/80 backdrop-blur border border-[#0056b3] text-[#0056b3] px-6 py-3 rounded-md font-medium hover:bg-blue-50 transition shadow-sm flex items-center gap-2">
+              <Link to="/assistant" className="bg-white/90 backdrop-blur border border-gray-200 text-[#0056b3] px-6 py-2.5 rounded font-medium hover:bg-gray-50 transition shadow-sm flex items-center gap-2">
                 <Bot className="w-5 h-5"/> Ask Adhikar AI
               </Link>
             </div>
           </div>
           
-          <div className="absolute top-12 right-12 text-right hidden lg:block">
-            <div className="text-sm font-semibold text-gray-800">"Empowered Citizens</div>
-            <div className="text-sm font-semibold text-gray-800">Build a Stronger India"</div>
-            <div className="text-xs text-green-700 mt-1">— Government of India</div>
+          <div className="absolute top-4 right-8 text-right hidden lg:block bg-white/70 backdrop-blur px-3 py-2 rounded shadow-sm border border-white">
+            <div className="text-xs font-semibold text-gray-800">"Empowered Citizens</div>
+            <div className="text-xs font-semibold text-gray-800">Build a Stronger India"</div>
+            <div className="text-[10px] text-green-700 mt-1">— Government of India</div>
           </div>
         </div>
       </div>
