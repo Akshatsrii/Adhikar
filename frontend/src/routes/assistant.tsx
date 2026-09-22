@@ -1,8 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ChevronRight, Search, Send, Bot, FileText, ChevronRight as RightArrow } from 'lucide-react'
+import { ChevronRight, Search, Send, Bot, FileText, ChevronRight as RightArrow, Loader2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
+import { aiApi } from '@/lib/api'
 
 export const Route = createFileRoute('/assistant')({
   component: AssistantPage,
@@ -11,16 +12,24 @@ export const Route = createFileRoute('/assistant')({
 function AssistantPage() {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant', content: string }[]>([])
   const [input, setInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuth()
 
-  const handleSend = () => {
-    if (!input.trim()) return
-    setMessages(prev => [...prev, { role: 'user', content: input }])
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return
+    const userMessage = input
+    setMessages(prev => [...prev, { role: 'user', content: userMessage }])
     setInput('')
-    // Mock response
-    setTimeout(() => {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'This is a mock response from Adhikar AI. In a real integration, this would query the backend RAG pipeline to provide accurate government scheme information.' }])
-    }, 1000)
+    setIsLoading(true)
+    
+    try {
+      const res = await aiApi.ask(userMessage)
+      setMessages(prev => [...prev, { role: 'assistant', content: res.answer }])
+    } catch (err) {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I am having trouble connecting to my knowledge base right now. Please try again later.' }])
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const suggestedQuestions = [
@@ -73,6 +82,13 @@ function AssistantPage() {
                    </div>
                  ))
                )}
+               {isLoading && (
+                 <div className="flex justify-start">
+                   <div className="max-w-[80%] rounded-2xl px-5 py-3.5 text-sm bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm flex items-center gap-2">
+                     <Loader2 className="w-4 h-4 animate-spin text-[#00428a]" /> Thinking...
+                   </div>
+                 </div>
+               )}
             </div>
 
             <div className="p-4 bg-white border-t border-gray-100">
@@ -83,14 +99,16 @@ function AssistantPage() {
                    value={input}
                    onChange={(e) => setInput(e.target.value)}
                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                   disabled={isLoading}
                    placeholder="Ask a question about government schemes..." 
-                   className="w-full pl-12 pr-14 py-4 rounded-full border border-gray-300 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a] text-sm shadow-sm"
+                   className="w-full pl-12 pr-14 py-4 rounded-full border border-gray-300 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a] text-sm shadow-sm disabled:opacity-50"
                  />
                  <button 
                    onClick={handleSend}
-                   className="absolute right-2 w-10 h-10 rounded-full bg-[#00428a] text-white flex items-center justify-center hover:bg-blue-800 transition"
+                   disabled={isLoading}
+                   className="absolute right-2 w-10 h-10 rounded-full bg-[#00428a] text-white flex items-center justify-center hover:bg-blue-800 transition disabled:opacity-50"
                  >
-                   <Send className="w-4 h-4 -ml-0.5" />
+                   {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 -ml-0.5" />}
                  </button>
                </div>
                <p className="text-center text-[10px] text-gray-400 mt-3 flex items-center justify-center gap-1">

@@ -8,7 +8,7 @@ export const Route = createFileRoute('/eligibility')({
 
 function EligibilityPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 w-full bg-white md:bg-transparent">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full bg-white md:bg-transparent">
       
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">

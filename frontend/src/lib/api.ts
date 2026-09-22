@@ -513,6 +513,15 @@ export const copilotApi = {
   }
 }
 
+export const aiApi = {
+  ask: async (query: string): Promise<{ answer: string, sources: any[] }> => {
+    return await request<{ answer: string, sources: any[] }>('/ai/ask', {
+      method: 'POST',
+      body: JSON.stringify({ query, top_k: 3 }),
+    })
+  }
+}
+
 export { ApiError }
 // --- Stage 18: citizen notifications ---------------------------------------
 
