@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ArrowRight, ChevronRight, CheckCircle2 } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { statesAndDistricts } from '@/lib/statesDistricts'
 
@@ -9,6 +9,7 @@ export const Route = createFileRoute('/eligibility')({
 })
 
 function EligibilityPage() {
+  const navigate = useNavigate();
   const [selectedState, setSelectedState] = useState('')
   const [selectedDistrict, setSelectedDistrict] = useState('')
 
@@ -102,7 +103,7 @@ function EligibilityPage() {
             </div>
 
             <div className="pt-4 border-t border-gray-100">
-              <button type="button" className="w-full bg-[#00428a] text-white font-bold py-3.5 rounded-md hover:bg-blue-800 transition flex items-center justify-center gap-2 shadow-md">
+              <button type="button" onClick={() => navigate({ to: '/eligibility-results' })} className="w-full bg-[#00428a] text-white font-bold py-3.5 rounded-md hover:bg-blue-800 transition flex items-center justify-center gap-2 shadow-md">
                 Check My Eligibility <ArrowRight className="w-4 h-4" />
               </button>
             </div>

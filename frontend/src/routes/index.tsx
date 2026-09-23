@@ -1,4 +1,4 @@
-import { Link, createFileRoute, Navigate } from '@tanstack/react-router'
+import { Link, createFileRoute, Navigate, useNavigate } from '@tanstack/react-router'
 import { statesAndDistricts } from '@/lib/statesDistricts'
 import { useAuth } from '@/context/AuthContext'
 import { Search, ChevronDown, Bot, ArrowRight, FileText, CheckCircle2, User, Phone, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Megaphone } from 'lucide-react'
@@ -10,6 +10,7 @@ export const Route = createFileRoute('/')({
 })
 
 function LandingPage() {
+  const navigate = useNavigate();
   const { user } = useAuth()
   const { t } = useTranslation()
   
@@ -235,7 +236,7 @@ function LandingPage() {
                 </select>
               </div>
               
-              <button type="button" className="w-full bg-[#00428a] text-white font-bold py-2.5 rounded mt-4 hover:bg-blue-800 transition flex items-center justify-center gap-2">
+              <button type="button" onClick={() => navigate({ to: '/eligibility-results' })} className="w-full bg-[#00428a] text-white font-bold py-2.5 rounded mt-4 hover:bg-blue-800 transition flex items-center justify-center gap-2">
                 Check Eligibility <ArrowRight className="w-4 h-4" />
               </button>
             </form>
