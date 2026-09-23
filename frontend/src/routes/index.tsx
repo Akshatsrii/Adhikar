@@ -2,6 +2,7 @@ import { Link, createFileRoute, Navigate } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
 import { Search, ChevronDown, Bot, ArrowRight, FileText, CheckCircle2, User, Phone, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Megaphone } from 'lucide-react'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/')({
   component: LandingPage,
@@ -9,22 +10,37 @@ export const Route = createFileRoute('/')({
 
 function LandingPage() {
   const { user } = useAuth()
+  const { t } = useTranslation()
   
   if (user) {
     return <Navigate to="/dashboard" replace />
   }
 
+  const categoryCards = [
+    { icon: <Leaf className="w-6 h-6 text-green-600" />, title: 'Agriculture', count: '14 Schemes', color: 'bg-green-50 border-green-200' },
+    { icon: <Briefcase className="w-6 h-6 text-blue-600" />, title: 'Employment', count: '22 Schemes', color: 'bg-blue-50 border-blue-200' },
+    { icon: <Home className="w-6 h-6 text-amber-600" />, title: 'Housing', count: '8 Schemes', color: 'bg-amber-50 border-amber-200' },
+    { icon: <Accessibility className="w-6 h-6 text-purple-600" />, title: 'Disability', count: '12 Schemes', color: 'bg-purple-50 border-purple-200' },
+    { icon: <Users className="w-6 h-6 text-pink-600" />, title: 'Women', count: '18 Schemes', color: 'bg-pink-50 border-pink-200' },
+    { icon: <HeartPulse className="w-6 h-6 text-red-600" />, title: 'Healthcare', count: '15 Schemes', color: 'bg-red-50 border-red-200' },
+    { icon: <Building2 className="w-6 h-6 text-indigo-600" />, title: 'Education', count: '25 Schemes', color: 'bg-indigo-50 border-indigo-200' },
+    { icon: <MoreHorizontal className="w-6 h-6 text-gray-600" />, title: 'View All Categories', count: 'Explore 120+', color: 'bg-gray-50 border-gray-200' },
+  ]
+
+  const featuredSchemes = [
+    { title: 'Post-Matric Scholarship for SC/ST/OBC Students', desc: 'Financial assistance for higher education', tg: 'SC/ST/OBC Students', amt: 'Up to ₹125,000/yr', tag: 'Education', tagColor: 'text-indigo-700 bg-indigo-50' },
+    { title: 'Pradhan Mantri Awas Yojana (Gramin)', desc: 'Financial assistance for construction of pucca houses', tg: 'Rural Families', amt: '₹11.5 - 2.5 Lakh', tag: 'Housing', tagColor: 'text-amber-700 bg-amber-50' },
+    { title: 'PM-KISAN Samman Nidhi', desc: 'Direct income support to small and marginal farmers', tg: 'Small Farmers', amt: '₹16,000/yr', tag: 'Agriculture', tagColor: 'text-green-700 bg-green-50' },
+    { title: 'Ayushman Bharat Yojana', desc: 'Health insurance coverage of up to ₹5 lakh per family per year.', tg: 'Weaker Sections', amt: '₹5 Lakh/yr', tag: 'Healthcare', tagColor: 'text-red-700 bg-red-50' }
+  ]
+
   return (
     <div className="min-h-screen bg-[#f5f6fa] font-sans text-gray-800">
       
-      {/* 4. HERO SECTION */}
+      {/* HERO SECTION */}
       <div className="relative bg-[#e6f0fa] w-full h-[450px] overflow-hidden flex items-center">
-        {/* Background Image of Parliament / Rashtrapati Bhavan */}
         <div className="absolute right-0 top-0 w-3/4 h-full bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Rashtrapati_Bhavan%2C_New_Delhi.jpg/1280px-Rashtrapati_Bhavan%2C_New_Delhi.jpg')] bg-cover bg-center">
-           {/* Color overlay to fade into the left blue area */}
            <div className="absolute inset-0 bg-gradient-to-r from-[#e6f0fa] via-[#e6f0fa]/90 to-transparent"></div>
-           
-           {/* Tricolor swoosh on the right */}
            <svg className="absolute right-0 top-0 h-full w-[400px] opacity-90 hidden md:block" viewBox="0 0 100 100" preserveAspectRatio="none">
              <path d="M100,0 C60,20 40,80 0,100 L100,100 Z" fill="#138808" opacity="0.6"/>
              <path d="M100,0 C70,20 50,80 15,100 L100,100 Z" fill="#FFFFFF" opacity="0.6"/>
@@ -35,20 +51,20 @@ function LandingPage() {
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8">
           <div className="max-w-2xl">
             <h2 className="text-[2.2rem] font-bold text-[#00428a] leading-[1.1] mb-4">
-              Find the Government Schemes<br/>You're Eligible For
+              {t('hero.title1')}<br/>{t('hero.title2')}
             </h2>
             <p className="text-gray-700 mb-8 max-w-[500px] leading-snug font-medium">
-              AI-powered guidance to help every citizen access the right schemes, benefits and services.
+              {t('hero.desc')}
             </p>
             
             {/* Search Bar in Hero */}
             <div className="flex w-full shadow-lg rounded-md max-w-lg bg-white p-1">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input type="text" placeholder="Search schemes, services, or ask a question..." className="w-full pl-10 pr-4 py-3 border-none focus:outline-none text-sm text-gray-800" />
+                <input type="text" placeholder={t('hero.search_placeholder')} className="w-full pl-10 pr-4 py-3 border-none focus:outline-none text-sm text-gray-800" />
               </div>
               <button className="bg-[#00428a] text-white px-6 py-2 rounded hover:bg-blue-800 transition font-bold text-sm">
-                 <Search className="w-4 h-4" />
+                 {t('hero.search_btn')}
               </button>
             </div>
           </div>
@@ -56,121 +72,85 @@ function LandingPage() {
           <div className="absolute top-4 right-8 text-right hidden lg:block bg-white/70 backdrop-blur px-3 py-2 rounded shadow-sm border border-white">
             <div className="text-xs font-semibold text-gray-800">"Empowered Citizens</div>
             <div className="text-xs font-semibold text-gray-800">Build a Stronger India"</div>
-            <div className="text-[10px] text-green-700 mt-1">— Government of India</div>
+            <div className="text-[10px] text-green-700 mt-1">— {t('header.govt')}</div>
           </div>
         </div>
       </div>
 
-      {/* 4.5. QUICK ACTION BUTTONS ROW */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 -mt-12 relative z-20 mb-8">
+      {/* QUICK ACTIONS OVERLAPPING THE HERO BOTTOM */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-20 -mt-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Link to="/eligibility" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3">
-              <Search className="w-6 h-6" />
+          <Link to="/eligibility" className="bg-white border-t-4 border-[#00428a] rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">{t('hero.action_check')}</p>
             </div>
-            <h3 className="font-bold text-gray-900 text-sm mb-1">Check Eligibility</h3>
-            <p className="text-[10px] text-gray-500 text-center">Find schemes for you</p>
+            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
+              <User className="w-5 h-5 text-[#00428a]" />
+            </div>
           </Link>
-          
-          <Link to="/schemes" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center mb-3">
-              <FileText className="w-6 h-6" />
+
+          <Link to="/schemes" className="bg-white border-t-4 border-[#FF9933] rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">{t('hero.action_find')}</p>
             </div>
-            <h3 className="font-bold text-gray-900 text-sm mb-1">Apply Online</h3>
-            <p className="text-[10px] text-gray-500 text-center">Submit applications</p>
+            <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center shrink-0">
+              <Search className="w-5 h-5 text-[#FF9933]" />
+            </div>
           </Link>
-          
-          <Link to="/assistant" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mb-3">
-              <Bot className="w-6 h-6" />
+
+          <Link to="/apply/post-matric-scholarship" className="bg-white border-t-4 border-green-600 rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">{t('hero.action_apply')}</p>
             </div>
-            <h3 className="font-bold text-gray-900 text-sm mb-1">Ask Adhikar AI</h3>
-            <p className="text-[10px] text-gray-500 text-center">Get instant guidance</p>
+            <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center shrink-0">
+              <FileText className="w-5 h-5 text-green-600" />
+            </div>
           </Link>
-          
-          <Link to="/track" className="bg-white rounded-xl shadow-md border border-gray-100 p-6 flex flex-col items-center justify-center hover:-translate-y-1 transition duration-300">
-            <div className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center mb-3">
-              <CheckCircle2 className="w-6 h-6" />
+
+          <Link to="/track" className="bg-white border-t-4 border-purple-600 rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">{t('hero.action_track')}</p>
             </div>
-            <h3 className="font-bold text-gray-900 text-sm mb-1">Track Application</h3>
-            <p className="text-[10px] text-gray-500 text-center">Check status online</p>
+            <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center shrink-0">
+              <Bot className="w-5 h-5 text-purple-600" />
+            </div>
           </Link>
         </div>
       </div>
 
-      {/* 5. CATEGORIES ROW */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 -mt-8 relative z-20">
-        <div className="bg-white rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 flex items-stretch overflow-hidden divide-x divide-gray-100">
-          {[
-            { icon: <Building2 className="w-6 h-6 text-blue-600"/>, title: 'Education', desc: 'Scholarships, Fee Support' },
-            { icon: <Home className="w-6 h-6 text-green-600"/>, title: 'Housing', desc: 'Homes, Rental Support' },
-            { icon: <Briefcase className="w-6 h-6 text-red-500"/>, title: 'Employment', desc: 'Jobs, Skill Development' },
-            { icon: <Leaf className="w-6 h-6 text-green-700"/>, title: 'Agriculture', desc: 'Farmer Support, Subsidies' },
-            { icon: <Users className="w-6 h-6 text-purple-600"/>, title: 'Women', desc: 'Welfare & Empowerment' },
-            { icon: <HeartPulse className="w-6 h-6 text-orange-500"/>, title: 'Healthcare', desc: 'Health Insurance, Treatment' },
-            { icon: <Users className="w-6 h-6 text-indigo-500"/>, title: 'Senior Citizens', desc: 'Pension, Care & Support' },
-            { icon: <Accessibility className="w-6 h-6 text-blue-500"/>, title: 'Divyangjan', desc: 'Accessibility, Assistance' },
-            { icon: <MoreHorizontal className="w-6 h-6 text-gray-600"/>, title: 'More Categories', desc: 'Explore All' },
-          ].map((cat, i) => (
-            <Link key={i} to="/eligibility" className="flex-1 flex flex-col items-center justify-center p-4 hover:bg-blue-50 transition text-center min-w-[120px]">
-              <div className="mb-2">{cat.icon}</div>
-              <h4 className="font-bold text-gray-900 text-[13px]">{cat.title}</h4>
-              <p className="text-[10px] text-gray-500 leading-tight mt-0.5">{cat.desc}</p>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* 6. LATEST ANNOUNCEMENTS TICKER */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 mt-6">
-        <div className="bg-white border border-gray-200 rounded flex items-center overflow-hidden text-sm">
-          <div className="bg-[#00428a] text-white px-4 py-2 font-medium flex items-center gap-2 whitespace-nowrap shrink-0">
-            <Megaphone className="w-4 h-4"/> Latest Announcements
-          </div>
-          <div className="flex-1 px-4 overflow-hidden relative flex items-center text-gray-700 whitespace-nowrap text-[13px]">
-            <span className="inline-flex items-center gap-2">Applications open for Post-Matric Scholarship 2025 <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">New</span></span>
-            <span className="mx-4 text-gray-300">|</span>
-            <span className="inline-flex items-center gap-2">PM Kisan 20th Installment Released <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">New</span></span>
-            <span className="mx-4 text-gray-300">|</span>
-            <span>Rajasthan Skill Development Scheme Updated</span>
-            <span className="mx-4 text-gray-300">|</span>
-            <span>New Housing Scheme Guidelines</span>
-          </div>
-          <Link to="/announcements" className="px-4 py-2 text-blue-600 font-medium text-xs whitespace-nowrap hover:underline flex items-center gap-1 shrink-0">
-            <ArrowRight className="w-3 h-3"/> View All
-          </Link>
-        </div>
-      </div>
-
-      {/* 7. MAIN CONTENT SPLIT */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 mt-8 grid lg:grid-cols-3 gap-6 pb-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 flex flex-col md:flex-row gap-8">
         
-        {/* Left Side: Popular Schemes */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* Left Side: Main Content */}
+        <div className="flex-1 space-y-8">
+          
+          {/* Categories Grid */}
           <div className="bg-white rounded border border-gray-200 p-6">
-            <div className="flex justify-between items-end border-b border-gray-200 pb-3 mb-5">
-              <h3 className="text-xl font-bold text-gray-900">Popular Schemes</h3>
-              <div className="flex items-center gap-6 text-sm">
-                <button className="text-[#00428a] font-bold border-b-2 border-[#00428a] pb-3 -mb-[14px]">Central Schemes</button>
-                <button className="text-gray-500 hover:text-gray-900 pb-3">State Schemes</button>
-                <button className="text-gray-500 hover:text-gray-900 pb-3">Latest Schemes</button>
-                <Link to="/eligibility" className="text-blue-600 font-bold hover:underline flex items-center gap-1 pb-3">View All <ArrowRight className="w-3 h-3"/></Link>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-4">
-              {[
-                { img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop', tag: 'Education', title: 'Post-Matric Scholarship for SC/ST/OBC Students', desc: 'Financial assistance for higher education of SC/ST/OBC students.', amt: 'Up to ₹25,000 per year', tg: 'Students' },
-                { img: 'https://images.unsplash.com/photo-1592982537447-6f23342d2bf5?q=80&w=400&auto=format&fit=crop', tag: 'Agriculture', title: 'PM-KISAN Samman Nidhi', desc: 'Direct income support to small and marginal farmers.', amt: '₹6,000 per year', tg: 'Farmers' },
-                { img: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=400&auto=format&fit=crop', tag: 'Housing', title: 'Pradhan Mantri Awas Yojana (Gramin/Urban)', desc: 'Financial assistance for construction of pucca houses.', amt: '₹1.5 - 2.5 Lakh', tg: 'Rural/Urban Families' }
-              ].map((s, i) => (
-                <div key={i} className="border border-gray-200 rounded flex flex-col overflow-hidden hover:shadow-md transition">
-                  <div className="h-32 relative bg-gray-100">
-                    <img src={s.img} alt={s.title} className="w-full h-full object-cover" />
-                    <span className="absolute top-2 left-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-gray-700 flex items-center gap-1">
-                      <span className={i === 0 ? 'text-blue-500' : i === 1 ? 'text-green-500' : 'text-red-500'}>⚲</span> {s.tag}
-                    </span>
+            <h3 className="text-xl font-bold text-gray-900 mb-5">Browse by Categories</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {categoryCards.map((cat, i) => (
+                <div key={i} className={`p-4 rounded border ${cat.color} flex flex-col items-center justify-center text-center gap-2 hover:-translate-y-1 hover:shadow-md transition cursor-pointer group`}>
+                  <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition">
+                    {cat.icon}
                   </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-[13px]">{cat.title}</h4>
+                    <p className="text-[10px] text-gray-500 font-medium">{cat.count}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Featured Schemes */}
+          <div className="bg-white rounded border border-gray-200 p-6">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="text-xl font-bold text-gray-900">Featured Schemes</h3>
+              <Link to="/schemes" className="text-sm text-blue-600 font-semibold hover:underline flex items-center gap-1">View All <ArrowRight className="w-4 h-4"/></Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {featuredSchemes.map((s, i) => (
+                <div key={i} className="border border-gray-200 rounded flex flex-col overflow-hidden hover:border-[#00428a] hover:shadow-md transition">
+                  <div className="h-1.5 w-full bg-[#00428a]"></div>
                   <div className="p-4 flex flex-col flex-1">
                     <h4 className="font-bold text-gray-900 text-sm leading-tight mb-2 line-clamp-2 h-10">{s.title}</h4>
                     <p className="text-[11px] text-gray-500 mb-4 line-clamp-2">{s.desc}</p>
@@ -268,7 +248,7 @@ function LandingPage() {
             <div className="grid grid-cols-4 gap-2">
               <div className="border border-gray-100 p-2 flex flex-col items-center justify-center text-center gap-1 hover:border-blue-200 transition">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/MyGov_logo.png" className="h-6 object-contain" alt="MyGov" />
-                <span className="text-[9px] font-medium text-gray-600 leading-tight">मेरी सरकार</span>
+                <span className="text-[9px] font-medium text-gray-600 leading-tight">Meri Sarkar</span>
               </div>
               <div className="border border-gray-100 p-2 flex flex-col items-center justify-center text-center gap-1 hover:border-blue-200 transition">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/UMANG_App_Logo.png" className="h-6 object-contain" alt="UMANG" />
