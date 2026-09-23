@@ -1,9 +1,10 @@
-import { Link, createFileRoute, Navigate, useNavigate } from '@tanstack/react-router'
-import { statesAndDistricts } from '@/lib/statesDistricts'
-import { useAuth } from '@/context/AuthContext'
+import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
 import { Search, ChevronDown, Bot, ArrowRight, FileText, CheckCircle2, User, Phone, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Megaphone } from 'lucide-react'
-import { ThemeToggle } from '@/components/ThemeToggle'
+import { useState, useEffect } from 'react'
+import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
+import { schemesApi } from '@/lib/api'
+import type { PublicScheme } from '@/lib/api'
 
 export const Route = createFileRoute('/')({
   component: LandingPage,
@@ -13,28 +14,40 @@ function LandingPage() {
   const navigate = useNavigate();
   const { user } = useAuth()
   const { t } = useTranslation()
+  const [featuredSchemes, setFeaturedSchemes] = useState<PublicScheme[]>([])
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({})
   
+  useEffect(() => {
+    // Fetch all to get accurate counts and top 4 for featured
+    schemesApi.list(0, 100).then(res => {
+      const counts: Record<string, number> = {};
+      res.items.forEach(s => {
+        counts[s.category] = (counts[s.category] || 0) + 1;
+      });
+      setCategoryCounts(counts);
+      setFeaturedSchemes(res.items.slice(0, 4));
+    }).catch(console.error);
+  }, []);
+
   if (user) {
     return <Navigate to="/dashboard" replace />
   }
 
-  const categoryCards = [
-    { icon: <Leaf className="w-6 h-6 text-green-600" />, title: 'Agriculture', count: '14 Schemes', color: 'bg-green-50 border-green-200' },
-    { icon: <Briefcase className="w-6 h-6 text-blue-600" />, title: 'Employment', count: '22 Schemes', color: 'bg-blue-50 border-blue-200' },
-    { icon: <Home className="w-6 h-6 text-amber-600" />, title: 'Housing', count: '8 Schemes', color: 'bg-amber-50 border-amber-200' },
-    { icon: <Accessibility className="w-6 h-6 text-purple-600" />, title: 'Disability', count: '12 Schemes', color: 'bg-purple-50 border-purple-200' },
-    { icon: <Users className="w-6 h-6 text-pink-600" />, title: 'Women', count: '18 Schemes', color: 'bg-pink-50 border-pink-200' },
-    { icon: <HeartPulse className="w-6 h-6 text-red-600" />, title: 'Healthcare', count: '15 Schemes', color: 'bg-red-50 border-red-200' },
-    { icon: <Building2 className="w-6 h-6 text-indigo-600" />, title: 'Education', count: '25 Schemes', color: 'bg-indigo-50 border-indigo-200' },
-    { icon: <MoreHorizontal className="w-6 h-6 text-gray-600" />, title: 'View All Categories', count: 'Explore 120+', color: 'bg-gray-50 border-gray-200' },
+  const baseCategories = [
+    { icon: <Leaf className="w-6 h-6 text-green-600" />, title: 'Agriculture', color: 'bg-green-50 border-green-200' },
+    { icon: <Briefcase className="w-6 h-6 text-blue-600" />, title: 'Employment', color: 'bg-blue-50 border-blue-200' },
+    { icon: <Home className="w-6 h-6 text-amber-600" />, title: 'Housing', color: 'bg-amber-50 border-amber-200' },
+    { icon: <Accessibility className="w-6 h-6 text-purple-600" />, title: 'Disability', color: 'bg-purple-50 border-purple-200' },
+    { icon: <Users className="w-6 h-6 text-pink-600" />, title: 'Women', color: 'bg-pink-50 border-pink-200' },
+    { icon: <HeartPulse className="w-6 h-6 text-red-600" />, title: 'Healthcare', color: 'bg-red-50 border-red-200' },
+    { icon: <Building2 className="w-6 h-6 text-indigo-600" />, title: 'Education', color: 'bg-indigo-50 border-indigo-200' },
+    { icon: <MoreHorizontal className="w-6 h-6 text-gray-600" />, title: 'Social Welfare', color: 'bg-gray-50 border-gray-200' },
   ]
 
-  const featuredSchemes = [
-    { title: 'Post-Matric Scholarship for SC/ST/OBC Students', desc: 'Financial assistance for higher education', tg: 'SC/ST/OBC Students', amt: 'Up to ₹125,000/yr', tag: 'Education', tagColor: 'text-indigo-700 bg-indigo-50' },
-    { title: 'Pradhan Mantri Awas Yojana (Gramin)', desc: 'Financial assistance for construction of pucca houses', tg: 'Rural Families', amt: '₹11.5 - 2.5 Lakh', tag: 'Housing', tagColor: 'text-amber-700 bg-amber-50' },
-    { title: 'PM-KISAN Samman Nidhi', desc: 'Direct income support to small and marginal farmers', tg: 'Small Farmers', amt: '₹16,000/yr', tag: 'Agriculture', tagColor: 'text-green-700 bg-green-50' },
-    { title: 'Ayushman Bharat Yojana', desc: 'Health insurance coverage of up to ₹5 lakh per family per year.', tg: 'Weaker Sections', amt: '₹5 Lakh/yr', tag: 'Healthcare', tagColor: 'text-red-700 bg-red-50' }
-  ]
+  const categoryCards = baseCategories.map(cat => ({
+    ...cat,
+    count: `${categoryCounts[cat.title] || 0} Schemes`
+  }))
 
   return (
     <div className="min-h-screen bg-[#f5f6fa] font-sans text-gray-800">
@@ -60,12 +73,12 @@ function LandingPage() {
             </p>
             
             {/* Search Bar in Hero */}
-            <div className="flex w-full shadow-lg rounded-md max-w-lg bg-white p-1">
-              <div className="relative flex-1">
+            <div className="bg-white p-2 rounded-lg shadow-lg flex gap-2 max-w-lg border border-gray-100 relative z-20">
+              <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input type="text" placeholder={t('hero.search_placeholder')} className="w-full pl-10 pr-4 py-3 border-none focus:outline-none text-sm text-gray-800" />
               </div>
-              <button className="bg-[#00428a] text-white px-6 py-2 rounded hover:bg-blue-800 transition font-bold text-sm">
+              <button onClick={() => navigate({ to: '/schemes' })} className="bg-[#00428a] text-white px-6 py-2 rounded hover:bg-blue-800 transition font-bold text-sm">
                  {t('hero.search_btn')}
               </button>
             </div>
@@ -73,64 +86,32 @@ function LandingPage() {
           
           <div className="absolute top-4 right-8 text-right hidden lg:block bg-white/70 backdrop-blur px-3 py-2 rounded shadow-sm border border-white">
             <div className="text-xs font-semibold text-gray-800">"Empowered Citizens</div>
-            <div className="text-xs font-semibold text-gray-800">Build a Stronger India"</div>
-            <div className="text-[10px] text-green-700 mt-1">— {t('header.govt')}</div>
+            <div className="text-xs font-semibold text-gray-800">Prosperous India"</div>
           </div>
         </div>
       </div>
 
-      {/* QUICK ACTIONS OVERLAPPING THE HERO BOTTOM */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-20 -mt-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Link to="/eligibility" className="bg-white border-t-4 border-[#00428a] rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
-            <div>
-              <p className="font-bold text-gray-900 text-sm">{t('hero.action_check')}</p>
+      <div className="bg-[#00428a] w-full py-2 overflow-hidden flex items-center">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 w-full flex items-center gap-4 text-xs font-semibold text-white">
+          <span className="bg-red-600 px-2 py-0.5 rounded flex items-center gap-1 shrink-0 uppercase tracking-wider text-[10px]"><Megaphone className="w-3 h-3"/> {t('hero.updates')}</span>
+          <div className="whitespace-nowrap flex-1 overflow-hidden">
+            <div className="inline-block animate-[marquee_20s_linear_infinite] pl-[100%]">
+              New schemes for students announced. Direct benefit transfers initiated for PM-KISAN. Scholarships portal open till 30th November.
             </div>
-            <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
-              <User className="w-5 h-5 text-[#00428a]" />
-            </div>
-          </Link>
-
-          <Link to="/schemes" className="bg-white border-t-4 border-[#FF9933] rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
-            <div>
-              <p className="font-bold text-gray-900 text-sm">{t('hero.action_find')}</p>
-            </div>
-            <div className="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center shrink-0">
-              <Search className="w-5 h-5 text-[#FF9933]" />
-            </div>
-          </Link>
-
-          <Link to="/apply/post-matric-scholarship" className="bg-white border-t-4 border-green-600 rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
-            <div>
-              <p className="font-bold text-gray-900 text-sm">{t('hero.action_apply')}</p>
-            </div>
-            <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center shrink-0">
-              <FileText className="w-5 h-5 text-green-600" />
-            </div>
-          </Link>
-
-          <Link to="/track" className="bg-white border-t-4 border-purple-600 rounded shadow-md p-4 flex items-center justify-between hover:-translate-y-1 hover:shadow-lg transition">
-            <div>
-              <p className="font-bold text-gray-900 text-sm">{t('hero.action_track')}</p>
-            </div>
-            <div className="w-10 h-10 bg-purple-50 rounded-full flex items-center justify-center shrink-0">
-              <Bot className="w-5 h-5 text-purple-600" />
-            </div>
-          </Link>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 flex flex-col md:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-8">
         
-        {/* Left Side: Main Content */}
-        <div className="flex-1 space-y-8">
+        <div className="space-y-8">
           
           {/* Categories Grid */}
           <div className="bg-white rounded border border-gray-200 p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-5">Browse by Categories</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {categoryCards.map((cat, i) => (
-                <div key={i} className={`p-4 rounded border ${cat.color} flex flex-col items-center justify-center text-center gap-2 hover:-translate-y-1 hover:shadow-md transition cursor-pointer group`}>
+                <Link key={i} to="/schemes" search={{ category: cat.title }} className={`p-4 rounded border ${cat.color} flex flex-col items-center justify-center text-center gap-2 hover:-translate-y-1 hover:shadow-md transition cursor-pointer group`}>
                   <div className="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition">
                     {cat.icon}
                   </div>
@@ -138,7 +119,7 @@ function LandingPage() {
                     <h4 className="font-bold text-gray-900 text-[13px]">{cat.title}</h4>
                     <p className="text-[10px] text-gray-500 font-medium">{cat.count}</p>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -150,23 +131,27 @@ function LandingPage() {
               <Link to="/schemes" className="text-sm text-blue-600 font-semibold hover:underline flex items-center gap-1">View All <ArrowRight className="w-4 h-4"/></Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {featuredSchemes.map((s, i) => (
-                <div key={i} className="border border-gray-200 rounded flex flex-col overflow-hidden hover:border-[#00428a] hover:shadow-md transition">
-                  <div className="h-1.5 w-full bg-[#00428a]"></div>
-                  <div className="p-4 flex flex-col flex-1">
-                    <h4 className="font-bold text-gray-900 text-sm leading-tight mb-2 line-clamp-2 h-10">{s.title}</h4>
-                    <p className="text-[11px] text-gray-500 mb-4 line-clamp-2">{s.desc}</p>
-                    <div className="mt-auto space-y-2 mb-4">
-                      <div className="flex items-center text-[11px] text-gray-600 gap-1"><span className="text-[#00428a]">₹</span> {s.amt}</div>
-                      <div className="flex items-center text-[11px] text-gray-600 gap-1"><Users className="w-3 h-3 text-[#00428a]"/> {s.tg}</div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 mt-auto">
-                      <button className="border border-gray-300 text-gray-700 text-xs font-semibold py-1.5 rounded hover:bg-gray-50 transition">View Details</button>
-                      <button className="bg-[#00428a] text-white text-xs font-semibold py-1.5 rounded hover:bg-blue-800 transition">Apply Now</button>
+              {featuredSchemes.length === 0 ? (
+                 <div className="col-span-2 text-center text-gray-500 py-10">Loading schemes...</div>
+              ) : (
+                featuredSchemes.map((s, i) => (
+                  <div key={i} className="border border-gray-200 rounded flex flex-col overflow-hidden hover:border-[#00428a] hover:shadow-md transition">
+                    <div className="h-1.5 w-full bg-[#00428a]"></div>
+                    <div className="p-4 flex flex-col flex-1">
+                      <h4 className="font-bold text-gray-900 text-sm leading-tight mb-2 line-clamp-2 h-10">{s.name}</h4>
+                      <p className="text-[11px] text-gray-500 mb-4 line-clamp-2">{s.description}</p>
+                      <div className="mt-auto space-y-2 mb-4">
+                        <div className="flex items-center text-[11px] text-gray-600 gap-1"><span className="text-[#00428a]">₹</span> {s.benefit || 'Variable Support'}</div>
+                        <div className="flex items-center text-[11px] text-gray-600 gap-1"><Users className="w-3 h-3 text-[#00428a]"/> {s.category}</div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mt-auto">
+                        <Link to="/scheme/$slug" params={{ slug: s.slug }} className="border border-gray-300 text-center text-gray-700 text-xs font-semibold py-1.5 rounded hover:bg-gray-50 transition">View Details</Link>
+                        <a href={s.source_url} target="_blank" rel="noopener noreferrer" className="bg-[#00428a] text-center text-white text-xs font-semibold py-1.5 rounded hover:bg-blue-800 transition">Apply Now</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
           
