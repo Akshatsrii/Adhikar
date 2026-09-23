@@ -462,9 +462,28 @@ export interface ApplicationValidation {
   warnings: string[]
 }
 
+export interface ApplicationRecord {
+  _id: string;
+  schemeId: string;
+  schemeName: string;
+  applicationId: string;
+  status: string;
+  appliedDate: string;
+}
+
 export const applicationsApi = {
   validate: async (data: { schemeId: string, nameOnApplication: string, dobOnApplication?: string }): Promise<ApplicationValidation> => {
     return await request<ApplicationValidation>('/applications/validate', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+  list: async (): Promise<ApplicationRecord[]> => {
+    const res = await request<{ items: ApplicationRecord[] }>('/applications')
+    return res.items
+  },
+  track: async (data: { schemeId: string, schemeName: string }): Promise<ApplicationRecord> => {
+    return await request<ApplicationRecord>('/applications', {
       method: 'POST',
       body: JSON.stringify(data),
     })
