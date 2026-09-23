@@ -1,74 +1,75 @@
-import { Outlet, Link, createRootRoute } from '@tanstack/react-router'
+import { createRootRoute, Outlet, Link, useNavigate, useLocation } from '@tanstack/react-router'
+import { ChevronDown } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
-import { Search, ChevronDown, User } from 'lucide-react'
+import { useEffect } from 'react'
 
 export const Route = createRootRoute({
-  component: RootLayout,
+  component: RootComponent,
 })
 
-function RootLayout() {
+function RootComponent() {
   const { user, logout } = useAuth()
   const { i18n } = useTranslation()
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f6fa] font-sans text-gray-800 flex flex-col">
-      {/* 1. TOP BAR (Thin) */}
+    <div className="min-h-screen bg-[var(--color-parchment)] font-sans">
+      
+      {/* 1. THIN TOP BAR (Gray) */}
       <div className="bg-[#f1f1f1] border-b border-gray-200 text-[11px] font-medium text-gray-700 w-full">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-1.5 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/200px-Emblem_of_India.svg.png" className="h-4" alt="Emblem" />
+            <img src="/images/emblem.svg" className="h-4" alt="Emblem" />
             <span>भारत सरकार | Government of India</span>
           </div>
-          
-          <div className="flex items-center gap-4 divide-x divide-gray-300">
-            <a href="#main" className="hover:text-blue-600 transition">Skip to main content</a>
-            <a href="#" className="pl-4 hover:text-blue-600 transition">Screen Reader Access</a>
-            
-            <div className="pl-4 flex gap-2">
-              <button className="hover:text-blue-600">A-</button>
-              <button className="hover:text-blue-600">A</button>
-              <button className="hover:text-blue-600">A+</button>
+          <div className="flex items-center gap-4">
+            <span className="hidden sm:inline hover:underline cursor-pointer">Skip to main content</span>
+            <span className="hidden sm:inline hover:underline cursor-pointer border-r border-gray-300 pr-4">Screen Reader Access</span>
+            <div className="flex items-center gap-2 border-r border-gray-300 pr-4">
+              <button className="hover:bg-gray-200 px-1 rounded">A-</button>
+              <button className="hover:bg-gray-200 px-1 rounded">A</button>
+              <button className="hover:bg-gray-200 px-1 rounded">A+</button>
             </div>
-            
-            <div className="pl-4 flex gap-2">
-              <button onClick={() => changeLanguage('hi')} className={i18n.language === 'hi' ? 'text-blue-700 font-bold' : 'hover:text-blue-600'}>हिन्दी</button>
-              <span className="px-1">|</span>
-              <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'text-blue-700 font-bold' : 'hover:text-blue-600'}>English</button>
+            <div className="flex items-center gap-2 font-bold">
+              <button onClick={() => changeLanguage('hi')} className={i18n.language === 'hi' ? 'text-blue-800' : 'hover:text-blue-600'}>हिन्दी</button>
+              <span className="text-gray-400">|</span>
+              <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'text-blue-800' : 'hover:text-blue-600'}>English</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN HEADER */}
-      <header className="bg-white shadow-sm relative z-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="flex items-center gap-2">
-              <svg viewBox="0 0 100 100" className="w-10 h-10">
-                <path d="M10,80 C30,30 60,10 90,20 C70,70 30,90 10,80 Z" fill="#FF9933" />
-                <path d="M10,80 C40,40 70,30 90,50 C60,80 30,95 10,80 Z" fill="#FFFFFF" />
-                <path d="M10,80 C50,60 80,50 90,80 C50,90 20,100 10,80 Z" fill="#138808" />
-              </svg>
-              <div>
-                <h1 className="text-xl font-bold text-[#00428a] tracking-tight leading-none uppercase">Adhikar</h1>
-                <p className="text-[10px] text-gray-500 font-medium leading-tight">मेरी सरकार, मेरा अधिकार<br/>AI Government Scheme Navigator</p>
-              </div>
-            </Link>
-          </div>
-
-          <div className="hidden md:flex flex-1 max-w-xl mx-8">
-            {/* Empty space where search used to be */}
-          </div>
+      {/* 2. MAIN HEADER (White) */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 w-full">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#FF9933] via-white to-[#138808] p-1 rounded-full shadow-sm flex items-center justify-center shrink-0">
+               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
+                 <div className="w-6 h-6 border-2 border-[#000080] rounded-full flex items-center justify-center">
+                   <div className="w-1 h-4 bg-[#000080] transform rotate-45"></div>
+                   <div className="w-1 h-4 bg-[#000080] transform -rotate-45 absolute"></div>
+                 </div>
+               </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-2xl font-black text-[#00428a] tracking-tight leading-none group-hover:text-blue-800 transition">ADHIKAR</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">मेरी सरकार, मेरा अधिकार</span>
+              <span className="text-[10px] text-gray-400">AI Government Scheme Navigator</span>
+            </div>
+          </Link>
 
           <div className="flex items-center gap-4">
             <div className="hidden lg:flex items-center gap-4 border-r border-gray-200 pr-4">
-               <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Digital_India_logo.svg" alt="Digital India" className="h-8 opacity-90" />
-               <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/G20_India_2023_logo.svg" alt="G20" className="h-8 opacity-90" />
+               <img src="/images/digital-india.svg" alt="Digital India" className="h-8 opacity-90" />
             </div>
             {!user ? (
               <Link to="/login" className="bg-[#00428a] text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-800 transition flex items-center gap-2 shadow-sm">
