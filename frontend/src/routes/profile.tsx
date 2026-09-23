@@ -8,18 +8,9 @@ export const Route = createFileRoute('/profile')({
   component: ProfilePage,
 })
 
-const INDIAN_STATES = [
-  'Rajasthan',
-  'Delhi',
-  'Maharashtra',
-  'Uttar Pradesh',
-  'Gujarat',
-  'Punjab',
-  'Haryana',
-  'Madhya Pradesh',
-  'Bihar',
-  'West Bengal',
-]
+import { statesAndDistricts } from '@/lib/statesDistricts'
+
+const INDIAN_STATES = Object.keys(statesAndDistricts)
 
 const EDUCATION_LEVELS = [
   'Class 10',
