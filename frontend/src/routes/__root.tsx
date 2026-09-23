@@ -10,7 +10,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const { user, logout } = useAuth()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -29,11 +29,11 @@ function RootComponent() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-1.5 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <img src="/images/emblem.svg" className="h-4" alt="Emblem" />
-            <span>भारत सरकार | Government of India</span>
+            <span>{t('header.govt')}</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="hidden sm:inline hover:underline cursor-pointer">Skip to main content</span>
-            <span className="hidden sm:inline hover:underline cursor-pointer border-r border-gray-300 pr-4">Screen Reader Access</span>
+            <span className="hidden sm:inline hover:underline cursor-pointer">{t('header.skip')}</span>
+            <span className="hidden sm:inline hover:underline cursor-pointer border-r border-gray-300 pr-4">{t('header.screen_reader')}</span>
             <div className="flex items-center gap-2 border-r border-gray-300 pr-4">
               <button className="hover:bg-gray-200 px-1 rounded">A-</button>
               <button className="hover:bg-gray-200 px-1 rounded">A</button>
@@ -61,9 +61,9 @@ function RootComponent() {
                </div>
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-black text-[#00428a] tracking-tight leading-none group-hover:text-blue-800 transition">ADHIKAR</span>
-              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">मेरी सरकार, मेरा अधिकार</span>
-              <span className="text-[10px] text-gray-400">AI Government Scheme Navigator</span>
+              <span className="text-2xl font-black text-[#00428a] tracking-tight leading-none group-hover:text-blue-800 transition">{t('header.title')}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">{t('header.subtitle')}</span>
+              <span className="text-[10px] text-gray-400">{t('header.desc')}</span>
             </div>
           </Link>
 
@@ -73,13 +73,13 @@ function RootComponent() {
             </div>
             {!user ? (
               <Link to="/login" className="bg-[#00428a] text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-800 transition flex items-center gap-2 shadow-sm">
-                Login / Register
+                {t('header.login')}
               </Link>
             ) : (
               <div className="flex items-center gap-3">
                 <div className="flex flex-col text-right">
                    <span className="text-sm font-bold text-[#00428a] leading-none">{user.name}</span>
-                   <button onClick={logout} className="text-xs text-red-500 hover:underline">Logout</button>
+                   <button onClick={logout} className="text-xs text-red-500 hover:underline">{t('header.logout')}</button>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-[#00428a] font-bold">
                    {user.name[0]}
@@ -94,15 +94,15 @@ function RootComponent() {
       <div className="bg-[#00428a] text-white text-sm font-bold shadow-md relative z-10">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <ul className="flex items-center overflow-x-auto scrollbar-hide -mx-4 md:mx-0">
-            <li><Link to="/" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Home</Link></li>
-            <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">About Adhikar</Link></li>
-            <li><Link to="/schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Government Schemes <ChevronDown className="w-3 h-3"/></Link></li>
-            <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Check Eligibility</Link></li>
-            <li><Link to="/apply/post-matric-scholarship" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Apply Online</Link></li>
-            <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">AI Assistant</Link></li>
-            <li><Link to="/documents" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Documents <ChevronDown className="w-3 h-3"/></Link></li>
-            <li><Link to="/state-schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">State Schemes <ChevronDown className="w-3 h-3"/></Link></li>
-            <li><Link to="/contact" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">Help & Support <ChevronDown className="w-3 h-3"/></Link></li>
+            <li><Link to="/" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.home')}</Link></li>
+            <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.about')}</Link></li>
+            <li><Link to="/schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.schemes')} <ChevronDown className="w-3 h-3"/></Link></li>
+            <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.eligibility')}</Link></li>
+            <li><Link to="/apply/post-matric-scholarship" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.apply')}</Link></li>
+            <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.assistant')}</Link></li>
+            <li><Link to="/documents" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.documents')} <ChevronDown className="w-3 h-3"/></Link></li>
+            <li><Link to="/state-schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.state_schemes')} <ChevronDown className="w-3 h-3"/></Link></li>
+            <li><Link to="/contact" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.help')} <ChevronDown className="w-3 h-3"/></Link></li>
           </ul>
         </div>
       </div>

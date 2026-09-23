@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { ChevronRight, Share2, Printer, MapPin, Building2, Banknote, Users, CheckCircle2, Monitor, Calendar, Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { schemesApi, PublicScheme } from '@/lib/api'
+import { schemesApi } from '@/lib/api'; import type { PublicScheme } from '@/lib/api';
 
 export const Route = createFileRoute('/scheme/$slug')({
   component: SchemeDetailPage,

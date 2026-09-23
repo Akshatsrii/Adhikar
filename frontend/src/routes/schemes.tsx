@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { Search, Users, SlidersHorizontal, Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { schemesApi, PublicScheme } from '@/lib/api'
+import { schemesApi } from '@/lib/api'; import type { PublicScheme } from '@/lib/api';
 
 export const Route = createFileRoute('/schemes')({
   component: SchemesPage,
