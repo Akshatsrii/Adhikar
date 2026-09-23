@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { ChevronRight, Search, Send, Bot, FileText, ChevronRight as RightArrow, Loader2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -16,6 +16,10 @@ function AssistantPage() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuth()
+
+  if (!user) {
+    return <Navigate to="/login" replace />
+  }
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return

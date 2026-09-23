@@ -42,14 +42,31 @@ aiRouter.post('/ask', async (req, res, next) => {
       }),
     })
 
-    if (!aiResponse.ok) {
-      const detail = await aiResponse.text().catch(() => '')
-      throw new AppError(`AI service error: ${detail || aiResponse.statusText}`, 502)
+    let data;
+    if (aiResponse.ok) {
+      data = await aiResponse.json();
+    } else {
+      // Fallback to direct Gemini API call
+      console.log('AI Service offline or failed, falling back to direct Gemini API...');
+      if (!env.geminiApiKey) {
+        throw new AppError('AI service offline and no fallback Gemini Key found', 502);
+      }
+      const { GoogleGenerativeAI } = await import('@google/generative-ai');
+      const genAI = new GoogleGenerativeAI(env.geminiApiKey);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      
+      const prompt = `You are Adhikar AI, a helpful government scheme assistant for Indian citizens.
+User profile: ${JSON.stringify(user.profile)}
+User question: ${query}
+Provide a clear, helpful, and concise response in markdown.`;
+      
+      const result = await model.generateContent(prompt);
+      data = { answer: result.response.text(), sources: [] };
     }
-
-    const data = await aiResponse.json()
+    
     res.status(200).json(data)
   } catch (err) {
+    console.error('AI Route Error:', err);
     next(err)
   }
 })
