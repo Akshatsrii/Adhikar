@@ -113,7 +113,7 @@ function StateSchemesPage() {
               {filteredSchemes.map((s, i) => (
                 <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
                   <div className="h-40 w-full overflow-hidden relative">
-                    <img src={getCategoryImg(s.category)} alt={s.name} className="w-full h-full object-cover" />
+                    <img src={getCategoryImg(s.category)} alt={s.name} onError={(e) => e.currentTarget.src='/images/emblem.svg'} className="w-full h-full object-cover" />
                     <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[#00428a] uppercase tracking-wider shadow-sm">
                       {s.category}
                     </div>

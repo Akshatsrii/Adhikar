@@ -149,7 +149,7 @@ function SchemesPage() {
               {filteredSchemes.map((scheme) => (
                 <div key={scheme.slug} className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition group flex flex-col md:flex-row gap-5 md:items-center">
                   <div className="w-full md:w-48 h-32 rounded overflow-hidden shrink-0 bg-gray-100">
-                    <img src={getCategoryImg(scheme.category)} alt={scheme.category} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                    <img src={getCategoryImg(scheme.category)} alt={scheme.category} onError={(e) => e.currentTarget.src='/images/emblem.svg'} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
