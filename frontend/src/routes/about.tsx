@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { FileText, Megaphone, Laptop, Users, Bot, Search, FileSignature, Globe2, TrendingUp, Handshake, ShieldCheck, HeartHandshake } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -66,7 +66,7 @@ function AboutPage() {
               </p>
               
               <div className="grid md:grid-cols-4 gap-6">
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group">
+                <Link to="/schemes" className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group block cursor-pointer">
                   <div className="w-14 h-14 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <FileText className="w-7 h-7" />
                   </div>
@@ -74,8 +74,8 @@ function AboutPage() {
                   <p className="text-xs text-gray-600 leading-relaxed">
                     Make discovering and understanding government schemes effortless for every citizen, regardless of digital literacy.
                   </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group">
+                </Link>
+                <Link to="/notifications" className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group block cursor-pointer">
                   <div className="w-14 h-14 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <Megaphone className="w-7 h-7" />
                   </div>
@@ -83,8 +83,8 @@ function AboutPage() {
                   <p className="text-xs text-gray-600 leading-relaxed">
                     Proactively notify citizens about new schemes and deadlines they are eligible for.
                   </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group">
+                </Link>
+                <Link to="/eligibility" className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group block cursor-pointer">
                   <div className="w-14 h-14 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <Laptop className="w-7 h-7" />
                   </div>
@@ -92,8 +92,8 @@ function AboutPage() {
                   <p className="text-xs text-gray-600 leading-relaxed">
                     Provide step-by-step guidance, document preparation, and direct portal linking for applications.
                   </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group">
+                </Link>
+                <Link to="/assistant" className="bg-gray-50 rounded-xl border border-gray-100 p-6 hover:shadow-lg hover:border-blue-200 transition group block cursor-pointer">
                   <div className="w-14 h-14 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
                     <Users className="w-7 h-7" />
                   </div>
@@ -101,7 +101,7 @@ function AboutPage() {
                   <p className="text-xs text-gray-600 leading-relaxed">
                     Ensure absolutely no eligible beneficiary is left behind in India's growth story.
                   </p>
-                </div>
+                </Link>
               </div>
             </div>
           )}
