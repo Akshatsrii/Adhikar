@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
-import { CheckCircle2, ChevronRight, FileText, Search, UploadCloud, FileEdit, Bell, FileSignature, AlertCircle } from 'lucide-react'
+import { CheckCircle2, ChevronRight, FileText, Search, UploadCloud, FileEdit, Bell, FileSignature, AlertCircle, Loader2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { schemesApi, PublicScheme } from '@/lib/api'
 
 export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
@@ -11,11 +13,15 @@ function DashboardPage() {
   const { user } = useAuth()
   const firstName = user?.name?.split(' ')[0] || 'Citizen'
 
-  const recentSchemes = [
-    { title: 'Post-Matric Scholarship for SC/ST/OBC', tag: 'Education', status: 'Eligible', action: 'Apply Now' },
-    { title: 'PM-KISAN Samman Nidhi', tag: 'Agriculture', status: 'Needs More Info', action: 'View Details' },
-    { title: 'Pradhan Mantri Awas Yojana (Gramin)', tag: 'Housing', status: 'Eligible', action: 'Apply Now' }
-  ]
+  const [recentSchemes, setRecentSchemes] = useState<PublicScheme[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    schemesApi.list(0, 3).then(res => {
+      setRecentSchemes(res.items)
+    }).catch(console.error)
+      .finally(() => setIsLoading(false))
+  }, [])
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full bg-[#f5f6fa]">
@@ -126,36 +132,35 @@ function DashboardPage() {
           <Link to="/eligibility" className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">View All <ChevronRight className="w-3 h-3"/></Link>
         </div>
         <div className="divide-y divide-gray-100">
-          {recentSchemes.map((scheme, idx) => (
-            <div key={idx} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-gray-50/30 transition">
-              <div className="flex items-start gap-4 flex-1">
-                <div className={`w-10 h-10 rounded shrink-0 flex items-center justify-center text-white font-bold text-xs ${
-                  scheme.tag === 'Education' ? 'bg-blue-600' : scheme.tag === 'Agriculture' ? 'bg-green-600' : 'bg-red-500'
-                }`}>
-                  {scheme.tag[0]}
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900 text-sm mb-1">{scheme.title}</h4>
-                  <p className="text-[11px] font-medium text-gray-500">{scheme.tag}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between md:justify-end gap-6 md:w-[400px]">
-                <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border ${
-                  scheme.status === 'Eligible' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200'
-                }`}>
-                  {scheme.status === 'Eligible' ? <CheckCircle2 className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
-                  {scheme.status}
+          {isLoading ? (
+            <div className="p-12 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-[#00428a]" /></div>
+          ) : (
+            recentSchemes.map((scheme, idx) => (
+              <div key={idx} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-gray-50/30 transition">
+                <div className="flex items-start gap-4 flex-1">
+                  <div className={`w-10 h-10 rounded shrink-0 flex items-center justify-center text-white font-bold text-xs ${
+                    scheme.category === 'Education' ? 'bg-blue-600' : scheme.category === 'Agriculture' ? 'bg-green-600' : 'bg-red-500'
+                  }`}>
+                    {scheme.category?.[0] || 'S'}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-sm mb-1">{scheme.name}</h4>
+                    <p className="text-[11px] font-medium text-gray-500">{scheme.category}</p>
+                  </div>
                 </div>
                 
-                <button className={`px-5 py-2 rounded text-xs font-bold transition shadow-sm ${
-                  scheme.status === 'Eligible' ? 'bg-[#00428a] text-white hover:bg-blue-800' : 'border border-[#00428a]/20 text-[#00428a] hover:bg-blue-50'
-                }`}>
-                  {scheme.action}
-                </button>
+                <div className="flex items-center justify-between md:justify-end gap-6 md:w-[400px]">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold border bg-green-50 text-green-700 border-green-200">
+                    <CheckCircle2 className="w-3 h-3" /> Recommended
+                  </div>
+                  
+                  <Link to={`/scheme/${scheme.slug}`} className="px-5 py-2 rounded text-xs font-bold transition shadow-sm bg-[#00428a] text-white hover:bg-blue-800 text-center w-32">
+                    View Details
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 

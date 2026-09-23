@@ -18,6 +18,7 @@ import { adminRouter } from './routes/admin.js'
 import { notificationsRouter } from './routes/notifications.js'
 import { internalRouter } from './routes/internal.js'
 import { whatsappRouter } from './routes/whatsapp.js'
+import { schemesRouter } from './routes/schemes.js'
 import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
@@ -33,6 +34,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authLimiter, authRouter)
 app.use('/api/profile', profileRouter)
 app.use('/api/ai', aiLimiter, aiRouter)
+app.use('/api/schemes', schemesRouter)
 app.use('/api/eligibility', aiLimiter, eligibilityRouter)
 app.use('/api/recommendations', aiLimiter, recommendationsRouter)
 app.use('/api/family', familyRouter)

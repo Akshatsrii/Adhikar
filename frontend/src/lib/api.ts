@@ -513,7 +513,26 @@ export const copilotApi = {
   }
 }
 
+export interface PublicScheme {
+  slug: string
+  name: string
+  department: string
+  category: string
+  level: string
+  state: string | null
+  benefit: string
+  description: string
+  source_url: string
+}
 
+export const schemesApi = {
+  list: async (skip = 0, limit = 50): Promise<{ total: number, items: PublicScheme[] }> => {
+    return await request<{ total: number, items: PublicScheme[] }>(`/schemes?skip=${skip}&limit=${limit}`)
+  },
+  get: async (slug: string): Promise<PublicScheme> => {
+    return await request<PublicScheme>(`/schemes/${encodeURIComponent(slug)}`)
+  }
+}
 
 export { ApiError }
 // --- Stage 18: citizen notifications ---------------------------------------
