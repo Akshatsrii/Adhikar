@@ -1,12 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ArrowRight, ChevronRight, CheckCircle2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import { useState } from 'react'
+import { statesAndDistricts } from '@/lib/statesDistricts'
 
 export const Route = createFileRoute('/eligibility')({
   component: EligibilityPage,
 })
 
 function EligibilityPage() {
+  const [selectedState, setSelectedState] = useState('')
+  const [selectedDistrict, setSelectedDistrict] = useState('')
+
+  const states = Object.keys(statesAndDistricts)
+  const districts = selectedState ? statesAndDistricts[selectedState] : []
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full bg-white md:bg-transparent">
       
@@ -32,18 +39,28 @@ function EligibilityPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">State <span className="text-red-500">*</span></label>
-                <select className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-700 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]">
-                  <option>Select State</option>
-                  <option>Rajasthan</option>
-                  <option>Maharashtra</option>
+                <select 
+                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-700 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]"
+                  value={selectedState}
+                  onChange={(e) => {
+                    setSelectedState(e.target.value)
+                    setSelectedDistrict('')
+                  }}
+                >
+                  <option value="">Select State</option>
+                  {states.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">District</label>
-                <select className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-700 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]">
-                  <option>Select District</option>
-                  <option>Jaipur</option>
-                  <option>Jodhpur</option>
+                <select 
+                  className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-700 bg-gray-50 focus:bg-white focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]"
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                  disabled={!selectedState}
+                >
+                  <option value="">Select District</option>
+                  {districts.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
               </div>
             </div>

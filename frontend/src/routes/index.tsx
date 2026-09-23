@@ -1,4 +1,5 @@
 import { Link, createFileRoute, Navigate } from '@tanstack/react-router'
+import { statesAndDistricts } from '@/lib/statesDistricts'
 import { useAuth } from '@/context/AuthContext'
 import { Search, ChevronDown, Bot, ArrowRight, FileText, CheckCircle2, User, Phone, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Megaphone } from 'lucide-react'
 import { ThemeToggle } from '@/components/ThemeToggle'
