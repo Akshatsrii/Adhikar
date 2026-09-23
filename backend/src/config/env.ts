@@ -17,4 +17,5 @@ export const env = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
   aiServiceUrl: process.env.AI_SERVICE_URL ?? 'http://127.0.0.1:8000',
   internalAiKey: process.env.INTERNAL_AI_KEY ?? 'default-internal-key-12345',
+  geminiApiKey: process.env.GEMINI_API_KEY,
 }

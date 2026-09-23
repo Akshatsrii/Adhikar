@@ -10,7 +10,9 @@ export const Route = createFileRoute('/assistant')({
 })
 
 function AssistantPage() {
-  const [messages, setMessages] = useState<{ role: 'user' | 'assistant', content: string }[]>([])
+  const [messages, setMessages] = useState<{ role: 'user' | 'assistant', content: string }[]>([
+    { role: 'assistant', content: "👋 Hello! I am Adhikar AI\nI can help you find schemes, check eligibility, understand documents and guide you through the application process." }
+  ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuth()
