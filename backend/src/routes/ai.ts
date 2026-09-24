@@ -53,7 +53,7 @@ aiRouter.post('/ask', async (req, res, next) => {
       }
       const { GoogleGenerativeAI } = await import('@google/generative-ai');
       const genAI = new GoogleGenerativeAI(env.geminiApiKey);
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+      const model = genAI.getGenerativeModel({ model: 'gemini-3.6-flash' });
       
       const prompt = `You are Adhikar AI, a helpful government scheme assistant for Indian citizens.
 User profile: ${JSON.stringify(user.profile)}
