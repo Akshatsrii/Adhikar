@@ -86,9 +86,9 @@ function EligibilityResultsPage() {
                     Eligible
                   </div>
                   {/* Dynamic external link opening the official portal */}
-                  <a href={scheme.source_url || '#'} target="_blank" rel="noopener noreferrer" className="px-5 py-2 rounded text-xs font-bold transition shadow-sm w-32 bg-[#00428a] text-white hover:bg-blue-800 text-center inline-block">
+                  <Link to="/apply/$slug" params={{ slug: scheme.slug }} className="px-5 py-2 rounded text-xs font-bold transition shadow-sm w-32 bg-[#00428a] text-white hover:bg-blue-800 text-center inline-block">
                     Apply Now
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))

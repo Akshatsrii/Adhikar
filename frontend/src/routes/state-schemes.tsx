@@ -133,7 +133,7 @@ function StateSchemesPage() {
                     
                     <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t border-gray-100">
                       <Link to="/scheme/$slug" params={{ slug: s.slug }} className="border border-gray-300 text-center text-gray-700 text-xs font-bold py-2 rounded hover:bg-gray-50 transition">Details</Link>
-                      <a href={s.source_url || '#'} target="_blank" rel="noopener noreferrer" className="bg-[#00428a] text-center text-white text-xs font-bold py-2 rounded hover:bg-blue-800 transition">Apply Now</a>
+                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-[#00428a] text-center text-white text-xs font-bold py-2 rounded hover:bg-blue-800 transition">Apply Now</Link>
                     </div>
                   </div>
                 </div>
