@@ -19,6 +19,7 @@ import { notificationsRouter } from './routes/notifications.js'
 import { internalRouter } from './routes/internal.js'
 import { whatsappRouter } from './routes/whatsapp.js'
 import { schemesRouter } from './routes/schemes.js'
+import { grievancesRouter } from './routes/grievances.js'
 import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
@@ -41,6 +42,7 @@ app.use('/api/family', familyRouter)
 app.use('/api/life-events', lifeEventsRouter)
 app.use('/api/documents', documentsRouter)
 app.use('/api/applications', applicationsRouter)
+app.use('/api/grievances', grievancesRouter)
 app.use('/api/debugger', debuggerRouter)
 app.use('/api/simulator', aiLimiter, simulatorRouter)
 app.use('/api/copilot', aiLimiter, copilotRouter)
