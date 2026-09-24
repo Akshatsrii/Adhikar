@@ -154,7 +154,7 @@ function DashboardPage() {
                     <CheckCircle2 className="w-3 h-3" /> Recommended
                   </div>
                   
-                  <Link to={`/scheme/${scheme.slug}`} className="px-5 py-2 rounded text-xs font-bold transition shadow-sm bg-[#00428a] text-white hover:bg-blue-800 text-center w-32">
+                  <Link to="/scheme/$slug" params={{ slug: scheme.slug }} className="px-5 py-2 rounded text-xs font-bold transition shadow-sm bg-[#00428a] text-white hover:bg-blue-800 text-center w-32">
                     View Details
                   </Link>
                 </div>

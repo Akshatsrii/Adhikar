@@ -2,7 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { ChevronRight, Search, MapPin, Users, Loader2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { schemesApi, PublicScheme } from '@/lib/api'
+import { schemesApi } from '@/lib/api'
+import type { PublicScheme } from '@/lib/api'
 
 export const Route = createFileRoute('/state-schemes')({
   component: StateSchemesPage,

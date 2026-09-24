@@ -2,7 +2,8 @@ import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { ChevronRight, Plus, User, Trash2, Loader2, Save, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { familyApi, FamilyMember, FamilyMemberInput } from '@/lib/api'
+import { familyApi } from '@/lib/api'
+import type { FamilyMember, FamilyMemberInput } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
 export const Route = createFileRoute('/family')({

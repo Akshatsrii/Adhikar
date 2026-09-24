@@ -2,7 +2,8 @@ import { createFileRoute, Navigate, useNavigate } from '@tanstack/react-router'
 import { ChevronRight, ArrowRight, ArrowLeft, Loader2, Info } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
-import { schemesApi, applicationsApi, PublicScheme } from '@/lib/api'
+import { schemesApi, applicationsApi } from '@/lib/api'
+import type { PublicScheme } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
 export const Route = createFileRoute('/apply/$slug')({
@@ -33,7 +34,7 @@ function ApplyPage() {
   // Pre-fill form from user profile
   const [formData, setFormData] = useState({
     fullName: user?.name || '',
-    dob: user?.profile?.dob || '',
+    dob: (user?.profile as any)?.dob || '',
     mobile: '',
     email: '',
     gender: 'Male'

@@ -2,7 +2,8 @@ import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { ChevronRight, CheckCircle2, Clock, FileText, Bell, Check, Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { notificationsApi, AppNotification } from '@/lib/api'
+import { notificationsApi } from '@/lib/api'
+import type { AppNotification } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
 export const Route = createFileRoute('/notifications')({

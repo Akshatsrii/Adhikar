@@ -2,7 +2,8 @@ import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { ChevronRight, Plus, FileText, CheckCircle2, Clock, MoreVertical, Eye, Upload, Trash2, Loader2, AlertCircle } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect, useRef } from 'react'
-import { documentsApi, DocumentRecord } from '@/lib/api'
+import { documentsApi } from '@/lib/api'
+import type { DocumentRecord } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
 export const Route = createFileRoute('/documents')({

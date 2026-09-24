@@ -2,7 +2,8 @@ import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { ChevronRight, Clock, CheckCircle2, FileText, Loader2, Search } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { applicationsApi, ApplicationRecord } from '@/lib/api'
+import { applicationsApi } from '@/lib/api'
+import type { ApplicationRecord } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 
 export const Route = createFileRoute('/track')({

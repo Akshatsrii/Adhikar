@@ -65,7 +65,7 @@ function SchemeDetailPage() {
            </div>
            
            <div className="flex flex-col gap-3 w-full md:w-56 shrink-0 md:text-right">
-             <Link to={`/apply/${scheme.slug}`} className="bg-[#00428a] text-white px-6 py-3 rounded text-sm font-bold shadow-sm hover:bg-blue-800 transition text-center flex items-center justify-center gap-2">
+             <Link to="/apply/$slug" params={{ slug: scheme.slug }} className="bg-[#00428a] text-white px-6 py-3 rounded text-sm font-bold shadow-sm hover:bg-blue-800 transition text-center flex items-center justify-center gap-2">
                Apply Online <ChevronRight className="w-4 h-4" />
              </Link>
              <div className="flex gap-2">

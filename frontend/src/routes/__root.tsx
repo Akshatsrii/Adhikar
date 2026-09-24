@@ -98,7 +98,7 @@ function RootComponent() {
             <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.about')}</Link></li>
             <li><Link to="/schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.schemes')} <ChevronDown className="w-3 h-3"/></Link></li>
             <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.eligibility')}</Link></li>
-            <li><Link to="/apply/post-matric-scholarship" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.apply')}</Link></li>
+            <li><Link to="/apply/$slug" params={{ slug: 'post-matric-scholarship' }} className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.apply')}</Link></li>
             <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.assistant')}</Link></li>
             <li><Link to="/documents" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.documents')} <ChevronDown className="w-3 h-3"/></Link></li>
             <li><Link to="/state-schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.state_schemes')} <ChevronDown className="w-3 h-3"/></Link></li>
