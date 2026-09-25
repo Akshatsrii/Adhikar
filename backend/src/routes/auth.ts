@@ -40,15 +40,15 @@ const verifyOtpSchema = z.object({
 function toPublicUser(user: {
   _id: unknown
   name: string
-  email?: string
-  phone?: string
+  email?: string | null
+  phone?: string | null
   profile?: unknown
 }) {
   return {
     id: String(user._id),
     name: user.name,
-    email: user.email,
-    phone: user.phone,
+    email: user.email || undefined,
+    phone: user.phone || undefined,
     profile: user.profile,
   }
 }
