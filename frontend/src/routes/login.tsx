@@ -3,7 +3,7 @@ import type { FormEvent } from 'react'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ApiError, authApi } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
-import { CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, ChevronRight, Loader2, Smartphone, Mail } from 'lucide-react'
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -13,13 +13,20 @@ function LoginPage() {
   const navigate = useNavigate()
   const { login } = useAuth()
 
+  // Tabs for Auth Method
+  const [authMethod, setAuthMethod] = useState<'otp' | 'email'>('otp')
+
+  // Form State
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [phone, setPhone] = useState('')
+  const [otp, setOtp] = useState('')
+  
+  const [step, setStep] = useState<'phone' | 'otp'>('phone') // For OTP flow
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [tab, setTab] = useState<'citizen' | 'org'>('citizen')
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleEmailLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError(null)
     setIsSubmitting(true)
@@ -29,109 +36,189 @@ function LoginPage() {
       login(res.user, res.token)
       navigate({ to: '/dashboard' })
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Could not log you in.')
+      setError(err instanceof ApiError ? err.message : 'Login failed')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  async function handleSendOtp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (phone.length !== 10) return setError('Please enter a valid 10-digit mobile number')
+    
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      await authApi.sendOtp(phone)
+      setStep('otp')
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Failed to send OTP')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  async function handleVerifyOtp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (otp.length !== 6) return setError('OTP must be exactly 6 digits')
+    
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      const res = await authApi.verifyOtp({ phone, otp })
+      login(res.user, res.token)
+      navigate({ to: '/dashboard' })
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Invalid OTP')
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <div className="flex-1 flex bg-[#f5f6fa] p-4 md:p-8 justify-center items-center">
-      <div className="bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] overflow-hidden w-full max-w-5xl flex flex-col md:flex-row min-h-[550px]">
-        
-        {/* Left Side - Form */}
-        <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col justify-center">
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-900">Welcome Back</h1>
-            <p className="text-sm text-gray-500 mt-1">Login to your Adhikar account</p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-[#00428a]">Meri Sarkar, Mera Adhikar</h2>
+          <p className="mt-2 text-sm text-gray-600">Access your personalized citizen services dashboard</p>
+        </div>
 
-          <div className="flex border-b border-gray-200 mb-8 max-w-md mx-auto w-full">
-            <button 
-              onClick={() => setTab('citizen')}
-              className={`flex-1 pb-3 text-sm font-bold border-b-2 transition ${tab === 'citizen' ? 'text-[#00428a] border-[#00428a]' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
-            >
-              Citizen
-            </button>
-            <button 
-              onClick={() => setTab('org')}
-              className={`flex-1 pb-3 text-sm font-bold border-b-2 transition ${tab === 'org' ? 'text-[#00428a] border-[#00428a]' : 'text-gray-400 border-transparent hover:text-gray-600'}`}
-            >
-              Organization
-            </button>
-          </div>
+        {/* Auth Method Toggle */}
+        <div className="flex p-1 bg-gray-100 rounded-lg">
+          <button
+            onClick={() => { setAuthMethod('otp'); setStep('phone'); setError(null) }}
+            className={`flex-1 py-2 text-sm font-bold rounded-md flex items-center justify-center gap-2 transition ${authMethod === 'otp' ? 'bg-white shadow-sm text-[#00428a]' : 'text-gray-500 hover:text-gray-900'}`}
+          >
+            <Smartphone className="w-4 h-4" /> Mobile OTP
+          </button>
+          <button
+            onClick={() => { setAuthMethod('email'); setError(null) }}
+            className={`flex-1 py-2 text-sm font-bold rounded-md flex items-center justify-center gap-2 transition ${authMethod === 'email' ? 'bg-white shadow-sm text-[#00428a]' : 'text-gray-500 hover:text-gray-900'}`}
+          >
+            <Mail className="w-4 h-4" /> Email & Password
+          </button>
+        </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5 max-w-md mx-auto w-full">
+        {error && (
+          <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium text-center border border-red-100">
+            {error}
+          </div>
+        )}
+
+        {/* OTP Flow */}
+        {authMethod === 'otp' && step === 'phone' && (
+          <form className="mt-8 space-y-6" onSubmit={handleSendOtp}>
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-2">Mobile Number / Email <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-bold text-gray-700 mb-1">Mobile Number</label>
               <div className="flex">
-                <select className="border border-gray-300 border-r-0 rounded-l px-2 py-2.5 text-sm text-gray-700 bg-gray-50 focus:outline-none">
-                  <option>+91</option>
-                </select>
+                <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 font-bold sm:text-sm">
+                  +91
+                </span>
                 <input
                   type="text"
+                  maxLength={10}
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                  className="flex-1 min-w-0 block w-full px-3 py-3 rounded-none rounded-r-lg focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm border-gray-300"
+                  placeholder="Enter 10-digit number"
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting || phone.length !== 10}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-[#00428a] hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00428a] transition disabled:opacity-50"
+            >
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Get OTP'}
+            </button>
+            <p className="text-xs text-center text-gray-500 mt-4">
+              By continuing, you agree to our Terms of Service and Privacy Policy. New users will be registered automatically.
+            </p>
+          </form>
+        )}
+
+        {authMethod === 'otp' && step === 'otp' && (
+          <form className="mt-8 space-y-6" onSubmit={handleVerifyOtp}>
+            <div className="text-center">
+              <p className="text-sm text-gray-600 mb-1">Enter the 6-digit OTP sent to</p>
+              <p className="font-bold text-gray-900">+91 {phone} <button type="button" onClick={() => setStep('phone')} className="text-[#00428a] text-xs underline ml-2">Edit</button></p>
+              <p className="text-[10px] text-gray-400 mt-1">(Hint: Use 123456 for demo)</p>
+            </div>
+            <div>
+              <input
+                type="text"
+                maxLength={6}
+                required
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
+                className="appearance-none block w-full px-3 py-3 text-center tracking-[0.5em] text-2xl border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-[#00428a] focus:border-[#00428a]"
+                placeholder="------"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={isSubmitting || otp.length !== 6}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-[#00428a] hover:bg-blue-800 focus:outline-none transition disabled:opacity-50"
+            >
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Verify & Login'}
+            </button>
+          </form>
+        )}
+
+        {/* Email Flow */}
+        {authMethod === 'email' && (
+          <form className="mt-8 space-y-6" onSubmit={handleEmailLogin}>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Email address</label>
+                <input
+                  type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 border border-gray-300 rounded-r px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]"
-                  placeholder="Enter mobile number or email"
+                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm"
+                  placeholder="Citizen Email"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-1">Password</label>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm"
+                  placeholder="••••••••"
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-2">Password <span className="text-red-500">*</span></label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#00428a] focus:ring-1 focus:ring-[#00428a]"
-                placeholder="••••••••"
-              />
-              <div className="text-right mt-2">
-                 <button type="button" className="text-xs font-bold text-[#00428a] hover:underline">Forgot Password?</button>
+            <div className="flex items-center justify-between">
+              <div className="text-sm">
+                <a href="#" className="font-bold text-[#00428a] hover:text-blue-800">
+                  Forgot your password?
+                </a>
               </div>
             </div>
 
-            {error && (
-              <p className="rounded-md bg-red-50 px-3 py-2 text-xs font-bold text-red-600">{error}</p>
-            )}
-
-            <button type="submit" disabled={isSubmitting} className="w-full bg-[#00428a] text-white font-bold py-3 rounded hover:bg-blue-800 transition shadow-sm mt-2">
-              {isSubmitting ? 'Logging in...' : 'Login'}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-[#00428a] hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00428a] transition disabled:opacity-50"
+            >
+              {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Sign In securely'}
             </button>
+            <div className="text-center text-sm">
+              <span className="text-gray-500">Don't have an email account?</span>{' '}
+              <Link to="/register" className="font-bold text-[#00428a] hover:text-blue-800">
+                Register here
+              </Link>
+            </div>
           </form>
-
-          <p className="text-center text-sm text-gray-600 mt-8">
-            Don't have an account? <Link to="/register" className="font-bold text-[#00428a] hover:underline">Register</Link>
-          </p>
-        </div>
-
-        {/* Right Side - Benefits */}
-        <div className="w-full md:w-[45%] relative bg-blue-50 hidden md:block">
-           <div className="absolute inset-0 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Parliament_House_of_India_New_Delhi.jpg/1280px-Parliament_House_of_India_New_Delhi.jpg')] bg-cover bg-center opacity-[0.15]"></div>
-           <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-transparent"></div>
-           
-           <div className="relative z-10 p-12 flex flex-col justify-center h-full">
-             <h2 className="text-xl font-bold text-[#00428a] mb-6">Benefits of Logging in</h2>
-             <ul className="space-y-6">
-                {[
-                  "Personalized scheme matches",
-                  "Save and track applications",
-                  "Manage family profiles",
-                  "Get deadline reminders"
-                ].map((benefit, i) => (
-                  <li key={i} className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-[#00428a]">
-                       <CheckCircle2 className="w-5 h-5" />
-                    </div>
-                    <span className="text-sm font-semibold text-gray-800">{benefit}</span>
-                  </li>
-                ))}
-             </ul>
-           </div>
-        </div>
+        )}
 
       </div>
     </div>
