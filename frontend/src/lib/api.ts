@@ -11,7 +11,8 @@ export interface UserProfileSummary {
 export interface AuthUser {
   id: string
   name: string
-  email: string
+  email?: string
+  phone?: string
   role?: 'citizen' | 'admin'
   profile?: UserProfileSummary
 }
@@ -124,7 +125,14 @@ export interface ProfilePayload {
 export const profileApi = {
   get: () => request<{ profile: UserProfileSummary }>('/profile'),
 
-  delete: () => request<{ message: string }>('/profile', { method: 'DELETE' }),
+  
+  updateAccount: async (payload: { name?: string, email?: string, phone?: string }) =>
+    request<{ id: string; name: string; email?: string; phone?: string; profile?: any }>('/profile/account', {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }),
+  deleteAccount: () => request<{ message: string }>('/profile', { method: 'DELETE' }),
+
 
   update: (payload: ProfilePayload) =>
     request<{ profile: UserProfileSummary }>('/profile', {
