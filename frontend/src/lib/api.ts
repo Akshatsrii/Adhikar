@@ -91,6 +91,18 @@ export const authApi = {
       body: JSON.stringify({ phone }),
     })
   },
+  
+  forgotPassword: async (email: string) =>
+    request<{ message: string }>('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    }),
+  resetPassword: async (data: { email: string, otp: string, newPassword: string }) =>
+    request<{ message: string }>('/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
   verifyOtp: async (data: { phone: string, otp: string }): Promise<AuthResponse> => {
     return await request<AuthResponse>('/auth/verify-otp', {
       method: 'POST',

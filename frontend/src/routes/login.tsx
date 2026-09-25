@@ -198,9 +198,9 @@ function LoginPage() {
 
             <div className="flex items-center justify-between">
               <div className="text-sm">
-                <a href="#" className="font-bold text-[#00428a] hover:text-blue-800">
+                <Link to="/forgot-password" className="font-bold text-[#00428a] hover:text-blue-800">
                   Forgot your password?
-                </a>
+                </Link>
               </div>
             </div>
 
