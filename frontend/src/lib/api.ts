@@ -82,6 +82,20 @@ export function clearToken(): void {
 }
 
 export const authApi = {
+
+  sendOtp: async (phone: string): Promise<{ message: string }> => {
+    return await request<{ message: string }>('/auth/send-otp', {
+      method: 'POST',
+      body: JSON.stringify({ phone }),
+    })
+  },
+  verifyOtp: async (data: { phone: string, otp: string }): Promise<AuthResponse> => {
+    return await request<AuthResponse>('/auth/verify-otp', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
   register: (payload: RegisterPayload) =>
     request<AuthResponse>('/auth/register', {
       method: 'POST',
