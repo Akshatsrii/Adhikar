@@ -17,12 +17,20 @@ const userSchema = new Schema(
     name: { type: String, required: true, trim: true },
     email: {
       type: String,
-      required: true,
+      required: false, // Make email optional for phone-only logins
       unique: true,
+      sparse: true,
       lowercase: true,
       trim: true,
     },
-    passwordHash: { type: String, required: true, select: false },
+    phone: {
+      type: String,
+      required: false,
+      unique: true,
+      sparse: true,
+      trim: true,
+    },
+    passwordHash: { type: String, required: false, select: false },
     role: { type: String, enum: ['citizen', 'admin'], default: 'citizen' },
     profile: { type: profileSchema, default: {} },
   },
