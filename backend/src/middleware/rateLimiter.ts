@@ -26,3 +26,12 @@ export const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 })
+
+// Strict rate limit for OTP generation to prevent SMS bombing
+export const otpLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5, // 5 OTPs per hour per IP
+  message: { message: 'Too many OTP requests, please try again after an hour' },
+  standardHeaders: true,
+  legacyHeaders: false,
+})
