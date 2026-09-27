@@ -1,9 +1,8 @@
 import { Router } from 'express'
+import { SchemeModel } from '../models/Scheme.js'
 import { aiFetch } from '../utils/aiClient.js'
 import { AppError } from '../utils/AppError.js'
 import { LRUCache } from 'lru-cache'
-import fs from 'fs'
-import path from 'path'
 
 export const schemesRouter = Router()
 
@@ -12,45 +11,49 @@ const schemesCache = new LRUCache<string, any>({
   ttl: 1000 * 60 * 5, // 5 min
 })
 
-// Fallback loader to read from seed data if backend DB is down (e.g. Docker restart)
-function getFallbackSchemes() {
-  try {
-    const filePath = path.resolve(process.cwd(), '../ai-service/data/schemes_seed.json')
-    if (fs.existsSync(filePath)) {
-      return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
-    }
-  } catch (e) {
-    console.error("Failed to load fallback schemes", e)
-  }
-  return []
-}
-
 schemesRouter.get('/', async (req, res, next) => {
   try {
     const skip = parseInt(req.query.skip as string) || 0
     const limit = parseInt(req.query.limit as string) || 50
-    const cacheKey = `schemes:${skip}:${limit}`
+    const category = req.query.category as string
+    const state = req.query.state as string
+    const query = req.query.query as string
+
+    const cacheKey = `schemes:${skip}:${limit}:${category || ''}:${state || ''}:${query || ''}`
     
     if (schemesCache.has(cacheKey)) {
       res.json(schemesCache.get(cacheKey))
       return
     }
 
-    try {
-      const response = await aiFetch(`/schemes?offset=${skip}&limit=${limit}`)
-      if (response.ok) {
-        const data = await response.json()
-        schemesCache.set(cacheKey, data)
-        return res.json(data)
+    // Try AI Backend first for semantic search if 'query' is provided
+    if (query) {
+      try {
+        const response = await aiFetch(`/schemes?q=${encodeURIComponent(query)}&offset=${skip}&limit=${limit}`)
+        if (response.ok) {
+          const data = await response.json()
+          schemesCache.set(cacheKey, data)
+          return res.json(data)
+        }
+      } catch (err) {
+        console.warn("AI semantic search failed, falling back to local DB search")
       }
-    } catch (err) {
-      console.warn("AI backend failed, falling back to JSON seed data")
     }
 
-    // Fallback logic
-    const allSchemes = getFallbackSchemes()
-    const paginated = allSchemes.slice(skip, skip + limit)
-    const data = { total: allSchemes.length, items: paginated }
+    // Standard Database Query
+    const filter: any = {}
+    if (category) filter.category = new RegExp(category, 'i')
+    if (state) filter.state = new RegExp(state, 'i')
+    if (query) filter.name = new RegExp(query, 'i')
+
+    const total = await SchemeModel.countDocuments(filter)
+    const items = await SchemeModel.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 })
+      .lean()
+
+    const data = { total, items }
     schemesCache.set(cacheKey, data)
     res.json(data)
   } catch (err) {
@@ -67,23 +70,21 @@ schemesRouter.get('/:slug', async (req, res, next) => {
       return
     }
 
-    try {
-      const response = await aiFetch(`/schemes/${encodeURIComponent(req.params.slug)}`)
-      if (response.ok) {
-        const data = await response.json()
-        schemesCache.set(cacheKey, data)
-        return res.json(data)
-      }
-    } catch (err) {
-      console.warn("AI backend failed, falling back to JSON seed data")
-    }
-
-    // Fallback logic
-    const allSchemes = getFallbackSchemes()
-    const scheme = allSchemes.find((s: any) => s.slug === req.params.slug)
+    const scheme = await SchemeModel.findOne({ slug: req.params.slug }).lean()
+    
     if (!scheme) {
+      // If not in primary DB, try AI fallback (legacy)
+      try {
+        const response = await aiFetch(`/schemes/${encodeURIComponent(req.params.slug)}`)
+        if (response.ok) {
+          const data = await response.json()
+          schemesCache.set(cacheKey, data)
+          return res.json(data)
+        }
+      } catch (err) {}
       throw new AppError('Scheme not found', 404)
     }
+
     schemesCache.set(cacheKey, scheme)
     res.json(scheme)
   } catch (err) {
