@@ -13,6 +13,20 @@ function DashboardPage() {
   const { user } = useAuth()
   const firstName = user?.name?.split(' ')[0] || 'Citizen'
 
+  // Dynamic Profile Completion
+  let filledFields = 0;
+  const totalFields = 6;
+  if (user?.profile) {
+    if (user.profile.age) filledFields++;
+    if ((user.profile as any).dob) filledFields++;
+    if (user.profile.state) filledFields++;
+    if (user.profile.education) filledFields++;
+    if (user.profile.income) filledFields++;
+    if (user.profile.occupation) filledFields++;
+  }
+  const completionPercentage = Math.round((filledFields / totalFields) * 100);
+  const strokeDasharray = `${completionPercentage}, 100`;
+
   const [recentSchemes, setRecentSchemes] = useState<PublicScheme[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -42,15 +56,15 @@ function DashboardPage() {
             <div className="relative w-20 h-20 flex items-center justify-center shrink-0">
               <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <path className="text-gray-100" strokeWidth="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path className="text-[#00428a]" strokeWidth="3" strokeDasharray="80, 100" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path className="text-[#00428a]" strokeWidth="3" strokeDasharray={strokeDasharray} stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
               </svg>
-              <span className="absolute text-lg font-bold text-[#00428a]">80%</span>
+              <span className="absolute text-lg font-bold text-[#00428a]">{completionPercentage}%</span>
             </div>
             <div>
               <p className="text-xs text-gray-500 mb-3">Complete your profile to get more accurate scheme recommendations.</p>
-              <button className="text-[#00428a] font-bold text-xs border border-[#00428a] rounded px-4 py-1.5 hover:bg-blue-50 transition">
-                Complete Profile
-              </button>
+              <Link to="/profile" className="inline-block text-[#00428a] font-bold text-xs border border-[#00428a] rounded px-4 py-1.5 hover:bg-blue-50 transition">
+                Update Profile
+              </Link>
             </div>
           </div>
         </div>
