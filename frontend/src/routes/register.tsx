@@ -3,7 +3,7 @@ import type { FormEvent } from 'react'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ApiError, authApi } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
-import { CheckCircle2, Loader2, Smartphone, Mail } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 
 export const Route = createFileRoute('/register')({
   component: RegisterPage,
@@ -15,7 +15,6 @@ function RegisterPage() {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -30,15 +29,10 @@ function RegisterPage() {
       return
     }
 
-    if (phone && phone.length !== 10) {
-      setError("Please enter a valid 10-digit mobile number")
-      return
-    }
-
     setIsSubmitting(true)
 
     try {
-      const res = await authApi.register({ name, email, phone: phone || undefined, password })
+      const res = await authApi.register({ name, email, password })
       login(res.user, res.token)
       navigate({ to: '/dashboard' })
     } catch (err) {
@@ -55,10 +49,6 @@ function RegisterPage() {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-[#00428a]">Create an Account</h2>
           <p className="mt-2 text-sm text-gray-600">Register to access Adhikar citizen services</p>
-        </div>
-
-        <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl text-xs text-blue-800 font-medium">
-          <CheckCircle2 className="w-4 h-4 inline-block mr-1 mb-0.5" /> Note: For a faster experience, you can login directly using Mobile OTP without registering here.
         </div>
 
         {error && (
@@ -91,23 +81,6 @@ function RegisterPage() {
               className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm"
               placeholder="citizen@india.gov.in"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">Mobile Number <span className="text-gray-400 font-normal">(Optional)</span></label>
-            <div className="flex">
-              <span className="inline-flex items-center px-4 rounded-l-lg border border-r-0 border-gray-300 bg-gray-50 text-gray-500 font-bold sm:text-sm">
-                +91
-              </span>
-              <input
-                type="text"
-                maxLength={10}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                className="flex-1 min-w-0 block w-full px-3 py-3 rounded-none rounded-r-lg focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm border-gray-300"
-                placeholder="Required for OTP Login later"
-              />
-            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
