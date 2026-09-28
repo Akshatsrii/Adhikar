@@ -29,8 +29,8 @@ const SchemeSchema = new Schema<IScheme>(
     source_url: { type: String },
     application_url: { type: String },
     deadline: { type: String },
-    eligibility_rules: { type: [Schema.Types.Mixed], default: [] },
-    documents_required: { type: [Schema.Types.Mixed], default: [] }
+    eligibility_rules: { type: [Schema.Types.Mixed] as any, default: [] },
+    documents_required: { type: [Schema.Types.Mixed] as any, default: [] }
   },
   { timestamps: true }
 )
