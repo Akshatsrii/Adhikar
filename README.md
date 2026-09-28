@@ -186,3 +186,12 @@ CORS_ORIGIN=http://localhost:5173
   <sub><b>Adhikar</b> â€” Your Right, Delivered.</sub>
 </div>
 
+
+## 6. Recent Highlights & Architecture Updates
+We recently implemented significant architectural resilience and security enhancements to bring Adhikar closer to a production-grade government platform:
+- **Graceful DB Degradation:** The AI microservice now starts smoothly with built-in heuristics even if PostgreSQL (pgvector) fails, degrading non-essential features while keeping the core routing alive.
+- **Dual-Database Resilience:** Node.js seamlessly routes scheme searches through the primary MongoDB database if the Python Semantic Search microservice goes offline, using dynamic filtering heuristics.
+- **Robust OCR Fallbacks:** Document extractions elegantly degrade to heuristic parsing if the AI document model is unavailable, ensuring upload flows are never blocked.
+- **Strict Authentication & Security:** Integrated robust user models, bcrypt hashing, API-layer JWT validation, secure password recovery flows, and explicit type checking. Rate limiting secures critical endpoints from spam.
+- **Helpdesk & Grievance Redressal:** Centralized ticketing system for citizens integrated natively with backend Mongoose models for tracking state-level complaints.
+
