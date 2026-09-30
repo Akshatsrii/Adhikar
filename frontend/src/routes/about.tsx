@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { FileText, Megaphone, Laptop, Users, Bot, Search, FileSignature, Globe2, TrendingUp, Handshake, ShieldCheck, HeartHandshake } from 'lucide-react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/about')({
   component: AboutPage,
@@ -9,7 +8,7 @@ export const Route = createFileRoute('/about')({
 
 function AboutPage() {
   const [activeTab, setActiveTab] = useState('mission')
-  const { t } = useTranslation()
+  
 
   const tabs = [
     { id: 'mission', label: 'Our Mission' },

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
-import { ChevronRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react'
+import { ChevronRight, CheckCircle2, Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'

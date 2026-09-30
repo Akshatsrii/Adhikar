@@ -1,4 +1,4 @@
-import { createRootRoute, Outlet, Link, useNavigate, useLocation } from '@tanstack/react-router'
+import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
 import { ChevronDown } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'

@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ArrowRight, ChevronRight, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, ChevronRight, } from 'lucide-react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { statesAndDistricts } from '@/lib/statesDistricts'

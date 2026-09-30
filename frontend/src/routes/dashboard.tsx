@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
-import { CheckCircle2, ChevronRight, FileText, Search, UploadCloud, FileEdit, Bell, FileSignature, AlertCircle, Loader2 } from 'lucide-react'
+import { CheckCircle2, ChevronRight, Search, UploadCloud, FileEdit, FileSignature, AlertCircle, Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'; import type { PublicScheme } from '@/lib/api';
 

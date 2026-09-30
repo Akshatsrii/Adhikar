@@ -1,5 +1,5 @@
 import { createFileRoute, Navigate } from '@tanstack/react-router'
-import { ChevronRight, Plus, FileText, CheckCircle2, Clock, MoreVertical, Eye, Upload, Trash2, Loader2, AlertCircle } from 'lucide-react'
+import { ChevronRight, FileText, CheckCircle2, Clock, Upload, Trash2, Loader2, AlertCircle } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect, useRef } from 'react'
 import { documentsApi } from '@/lib/api'

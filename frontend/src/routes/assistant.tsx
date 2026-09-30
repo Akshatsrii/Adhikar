@@ -1,5 +1,5 @@
 import { createFileRoute, Navigate } from '@tanstack/react-router'
-import { ChevronRight, Search, Send, Bot, FileText, ChevronRight as RightArrow, Loader2 } from 'lucide-react'
+import { ChevronRight, Search, Send, Bot, ChevronRight as RightArrow, Loader2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'

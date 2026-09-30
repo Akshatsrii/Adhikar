@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ChevronRight, Phone, Mail, MapPin, ChevronDown, CheckCircle2, MessageSquare, Loader2, FileText, ChevronUp } from 'lucide-react'
+import { ChevronRight, Phone, Mail, MapPin, ChevronDown, MessageSquare, Loader2, FileText, ChevronUp } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { grievancesApi } from '@/lib/api'

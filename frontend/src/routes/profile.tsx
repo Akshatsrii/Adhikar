@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
-import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { ApiError, profileApi, type ProfilePayload } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
 import { statesAndDistricts } from '@/lib/statesDistricts'
-import { ChevronRight, Loader2, User, Phone, Mail, Settings, ShieldAlert } from 'lucide-react'
+import { ChevronRight, Loader2, User, Mail, Settings, ShieldAlert } from 'lucide-react'
 
 export const Route = createFileRoute('/profile')({
   component: ProfilePage,
@@ -19,7 +19,7 @@ function emptyProfile(): ProfilePayload {
 
 function ProfilePage() {
   const { user, login } = useAuth()
-  const navigate = useNavigate()
+  
 
   // Tab State
   const [activeTab, setActiveTab] = useState<'profile' | 'account'>('profile')
@@ -28,7 +28,7 @@ function ProfilePage() {
   const [profileForm, setProfileForm] = useState<ProfilePayload>(emptyProfile())
   
   // Account Form
-  const [accountForm, setAccountForm] = useState({ name: '', email: '', phone: '' })
+  const [accountForm, setAccountForm] = useState({ name: '', email: '' })
 
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
@@ -38,7 +38,7 @@ function ProfilePage() {
   useEffect(() => {
     if (!user) return
     // Load existing basic auth user data
-    setAccountForm({ name: user.name, email: user.email || '', phone: user.phone || '' })
+    setAccountForm({ name: user.name, email: user.email || '' })
 
     // Load rich profile
     profileApi.get()
@@ -91,7 +91,7 @@ function ProfilePage() {
       const payload = {
         name: accountForm.name,
         email: accountForm.email,
-        phone: accountForm.phone
+        
       }
       const updatedUser = await profileApi.updateAccount(payload)
       // Update the AuthContext token/user? The token remains valid. We can just update user state directly if `login` allows it without token.
@@ -283,20 +283,7 @@ function ProfilePage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-1">Mobile Number</label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                        <Phone className="w-4 h-4" />
-                      </div>
-                      <input
-                        type="text"
-                        maxLength={10}
-                        value={accountForm.phone}
-                        onChange={(e) => setAccountForm({ ...accountForm, phone: e.target.value.replace(/\D/g, '') })}
-                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-[#00428a] focus:border-[#00428a]"
-                        placeholder="Optional, required for OTP Login"
-                      />
-                    </div>
+                    
                   </div>
                 </div>
 

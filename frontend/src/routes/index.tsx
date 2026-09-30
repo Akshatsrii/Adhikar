@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
-import { Search, ChevronDown, Bot, ArrowRight, FileText, CheckCircle2, User, Phone, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Megaphone } from 'lucide-react'
+import { Search, ChevronDown, ArrowRight, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Megaphone } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'

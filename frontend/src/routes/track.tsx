@@ -1,6 +1,6 @@
 import { createFileRoute, Navigate } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
-import { ChevronRight, Clock, CheckCircle2, FileText, Loader2, Search } from 'lucide-react'
+import { ChevronRight, Clock, CheckCircle2, FileText, Loader2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { applicationsApi } from '@/lib/api'
 import type { ApplicationRecord } from '@/lib/api'
