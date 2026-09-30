@@ -24,7 +24,13 @@ import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
 
-app.use(cors({ origin: env.clientOrigin, credentials: true }))
+const allowedOrigins = [
+  env.clientOrigin,
+  'https://adhikar-seven.vercel.app',
+  'http://localhost:5173'
+]
+
+app.use(cors({ origin: allowedOrigins, credentials: true }))
 app.use(express.json({ limit: '10mb' }))
 app.use(apiLimiter)
 

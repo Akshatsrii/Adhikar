@@ -18,7 +18,7 @@ global_dependencies = [Depends(verify_internal_key)]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.cors_origin],
+    allow_origins=[settings.cors_origin, "https://adhikar-seven.vercel.app", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
