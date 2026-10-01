@@ -113,7 +113,7 @@ function ProfilePage() {
       await profileApi.deleteAccount()
       localStorage.removeItem('token')
       window.location.href = '/'
-    } catch (err) {
+    } catch (_err) {
       alert('Failed to delete account')
     }
   }

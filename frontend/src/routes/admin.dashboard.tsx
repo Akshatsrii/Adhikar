@@ -91,7 +91,7 @@ function SchemesManager() {
     try {
       await adminApi.deleteScheme(slug)
       await loadSchemes()
-    } catch (err) {
+    } catch (_err) {
       alert('Delete failed')
     }
   }
@@ -224,7 +224,7 @@ function UsersManager() {
     try {
       await adminApi.updateUserRole(id, newRole)
       await loadUsers()
-    } catch (err) {
+    } catch (_err) {
       alert('Update failed')
     }
   }

@@ -77,11 +77,11 @@ def run_eligibility_eval(db, golden_set_path: Path):
         expected_ineligible = set(item["expected_ineligible_slugs"])
         
         for expected_slug in expected_eligible | expected_ineligible:
-            total_outcomes += 1
             if expected_slug not in scheme_dict:
                 logger.warning(f"Scheme {expected_slug} not found in DB, skipping.")
                 continue
             
+            total_outcomes += 1
             scheme = scheme_dict[expected_slug]
             evaluation = evaluate_scheme(scheme, profile)
             
