@@ -13,37 +13,120 @@
 
 <br/>
 
-## 1. What is Adhikar?
-India has hundreds of welfare schemes, but citizens struggle with a fragmentation crisis: discovering what they qualify for, interpreting complex legal eligibility rules, tracking deadlines, resolving overlapping family conflicts, and understanding application rejections.
+<div align="center">
 
-Adhikar is an end-to-end intelligent platform that solves this. It ingests complex government PDFs, converts them into strict deterministic rules, matches them against user profiles, resolves family-level conflicts, provides an AI Copilot for forms, debugs rejections using multimodal reasoning, and continuously monitors government portals via a Regulatory Monitoring Pipeline to auto-update rules. 
+![React](https://img.shields.io/badge/Frontend-React%20%2B%20Vite%20%2B%20TS-61DAFB?logo=react&logoColor=white)
+![Node](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933?logo=nodedotjs&logoColor=white)
+![FastAPI](https://img.shields.io/badge/AI%20Service-FastAPI-009688?logo=fastapi&logoColor=white)
+![MongoDB](https://img.shields.io/badge/DB-MongoDB-47A248?logo=mongodb&logoColor=white)
+![Postgres](https://img.shields.io/badge/Vector%20DB-PostgreSQL%20%2B%20pgvector-4169E1?logo=postgresql&logoColor=white)
+![Gemini](https://img.shields.io/badge/LLM-Gemini%202.0%20Flash-8E75B2?logo=googlegemini&logoColor=white)
+![Status](https://img.shields.io/badge/Roadmap-19%20stages%20complete-success)
 
-<br/>
+</div>
 
-## 2. Why Two Backends?
-Adhikar is deliberately built as a distributed system, not just a monolith:
-- **Node.js / Express (Product Backend):** Owns fast, typed CRUD operations (users, families, applications) and MongoDB.
-- **Python / FastAPI (AI Service):** Owns complex reasoning, embeddings, LangGraph, multimodal document extraction, and the deterministic rule engine, using PostgreSQL + `pgvector`.
+---
 
-<br/>
+## 📑 Table of Contents
 
-## 3. Core Capabilities
+- [What is Adhikar?](#-what-is-adhikar)
+- [Key Features](#-key-features)
+- [Adhikar vs Traditional Platforms](#-adhikar-vs-traditional-platforms)
+- [Why Two Backends?](#-why-two-backends)
+- [System Architecture](#-system-architecture)
+- [Tech Stack](#-tech-stack)
+- [Roadmap](#-roadmap)
+- [Resilience & Security](#-resilience--security)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [Contributing](#-contributing)
+- [Author](#-author)
+
+---
+
+## 🎯 What is Adhikar?
+
+India has hundreds of welfare schemes, yet citizens face a **fragmentation crisis**: finding what they qualify for, decoding legal eligibility language, tracking deadlines, resolving overlapping family-level conflicts, and understanding why an application was rejected.
+
+**Adhikar** is an end-to-end intelligent platform that solves this. It:
+
+1. **Ingests** complex government PDFs and portals.
+2. **Converts** them into strict, deterministic eligibility rules.
+3. **Matches** those rules against citizen and family profiles.
+4. **Guides** applications with an AI Copilot and OCR-based field extraction.
+5. **Debugs** rejections with multimodal reasoning and exact rule citations.
+6. **Monitors** government sources continuously and auto-updates rules through a human-approved Regulatory Pipeline.
+
+> **Design principle:** the LLM never decides eligibility. Eligibility is always computed by a deterministic, explainable rule engine. AI is used only for understanding, extraction, and explanation.
+
+---
+
+## ✨ Key Features
+
+| Area | What Adhikar does |
+|---|---|
+| 🔍 **Scheme Discovery** | RAG assistant with Gemini embeddings + pgvector search, returning grounded answers with source citations |
+| ⚖️ **Eligibility Engine** | Rule-based pass / fail / unknown per rule (e.g. `income <= 300000`), fully explainable |
+| 🏆 **Recommendations** | Top matches with weighted match-percentage scoring |
+| 👨‍👩‍👧 **Family Optimizer** | Per-member eligibility with mutually-exclusive / one-per-family conflict detection |
+| 🌱 **Life Event Engine** | Free-text life events (marriage, job loss, birth…) classified into scheme categories |
+| 📄 **Document Intelligence** | Tesseract OCR + Gemini field extraction, expiry detection, structured preview |
+| ✅ **Pre-submit Checks** | Form mistake detector + DBT readiness checker (fuzzy name matching, cross-field comparison) |
+| 🚨 **Rejection Debugger** | Rejection letter + scheme rules + user docs → root-cause explanation with rule citations |
+| 🔮 **Counterfactual Simulator** | "What if my income were ₹50k lower?" — re-runs the engine on hypothetical inputs |
+| 🤖 **Application Copilot** | Step-by-step form guidance and proactive deadline alerts |
+| 📡 **Regulatory Monitoring** | Crawls, diffs, versions, and analyzes impact of every government rule change |
+| 🎫 **Helpdesk & Grievance** | Citizen ticketing system for tracking state-level complaints |
+
+---
+
+## 🆚 Adhikar vs Traditional Platforms
+
 | Feature | Traditional Platforms | Adhikar |
 |---|---|---|
 | Rule interpretation | Manual reading | Automated deterministic evaluation |
 | Scope | Individual | Full family optimization |
-| Application errors | Caught after rejection | Caught via DBT mismatch checker before submit |
-| Application help | Helpdesk | AI Copilot + Auto field extraction (OCR) |
+| Application errors | Caught after rejection | Caught by DBT mismatch checker **before** submit |
+| Application help | Helpdesk | AI Copilot + automatic OCR field extraction |
 | Rejections | Generic "Not eligible" | Debugger with exact rule citations |
-| Regulatory changes | Outdated PDF links | Automated Regulatory Monitoring Pipeline (crawls, diffs, and impacts users) |
+| Regulatory changes | Outdated PDF links | Automated pipeline: crawl → diff → impact → notify |
 
-<br/>
+---
 
-## 4. System Architecture
+## 🧩 Why Two Backends?
+
+Adhikar is deliberately a **distributed system**, not a monolith:
+
+- **Node.js / Express — Product Backend**
+  Owns fast, typed CRUD (users, families, applications, tickets) on **MongoDB**.
+- **Python / FastAPI — AI Service**
+  Owns reasoning, embeddings, LangGraph workflows, multimodal document extraction, and the deterministic rule engine on **PostgreSQL + pgvector**.
+
+This separation lets each service use the best tooling for its job and scale independently.
+
+---
+
+## 🏗️ System Architecture
 
 ![Adhikar System Architecture](docs/assets/architecture.png)
 
-The AI Service evaluates deterministic rules extracted from government texts and uses Google Gemini 2.0 Flash for NLP and OCR tasks.
+### High-level components
+
+```mermaid
+flowchart LR
+    C([Citizen]) --> FE[React Frontend]
+    FE --> API[Node / Express API]
+    API --> M[(MongoDB)]
+    API --> AI[Python FastAPI AI Service]
+    AI --> PG[(PostgreSQL + pgvector)]
+    AI --> G[Google Gemini 2.0 Flash]
+    AI --> OCR[Tesseract OCR]
+    CR[Regulatory Crawler] --> AI
+    AI --> Q[Admin Approval Queue]
+    Q --> API
+```
+
+### Example flow — RAG question answering
 
 ```mermaid
 sequenceDiagram
@@ -67,106 +150,148 @@ sequenceDiagram
     FE-->>Citizen: Answer card with source links
 ```
 
-<br/>
+### Regulatory monitoring pipeline
 
-## 5. Completed Technical Roadmap
+```mermaid
+flowchart LR
+    A[Fetch portals & PDFs] --> B[Hash & text diff]
+    B --> C[Rule diff + version history]
+    C --> D[Source conflict resolution]
+    D --> E[Admin review queue]
+    E -->|approved| F[Update live rules]
+    F --> G[Impact analysis]
+    G --> H[Auto eligibility re-check]
+    H --> I[Notify affected citizens]
+```
 
-**✅ Stage 1 — Foundation**
-Auth system ka poora setup. Frontend (Vite+React+TS+TanStack Router), Backend (Express+TS+MongoDB), JWT+bcrypt login/register. ML: ❌ zaroorat nahi.
+---
 
-**✅ Stage 2 — Profile + Government Scheme Data Pipeline**
-User profile form (age/state/education/income/occupation) + PostgreSQL mein structured scheme database (schemes, eligibility_rules, documents_required). ML: LLM sirf offline PDF→JSON extraction ke liye, optional.
+## 🛠️ Tech Stack
 
-**✅ Stage 3 — RAG Assistant**
-Chat interface jo Gemini embeddings + pgvector similarity search + Gemini generation use karke grounded answers deta hai, source citations ke saath.
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React, Vite, TypeScript, TanStack Router |
+| **Product Backend** | Node.js, Express, TypeScript, MongoDB (Mongoose), JWT, bcrypt |
+| **AI Service** | Python, FastAPI, LangGraph, SQLAlchemy |
+| **Databases** | MongoDB, PostgreSQL with `pgvector` |
+| **AI / ML** | Google Gemini 2.0 Flash (NLP, OCR assist, embeddings), Tesseract OCR |
 
-**✅ Stage 4 — Deterministic Eligibility Engine**
-Rule-based evaluation (income <= 300000) — kabhi LLM se eligibility decide nahi hoti. Pass/fail/unknown per rule, fully explainable.
+---
 
-**✅ Stage 5 — Recommendation + Dashboard**
-Top Matches, match %, weighted scoring (plain math) — MVP complete hone ka milestone.
+## 🗺️ Roadmap
 
-**✅ Stage 6 — Life Event Engine + Family Optimizer**
-Free-text life events (LLM classification) → category mapping. Family members add karke per-member eligibility + mutually-exclusive/one-per-family conflict detection.
+All stages below are **implemented**.
 
-**✅ Stage 7 — Document Intelligence**
-Tesseract OCR (pretrained) + Gemini field extraction. Expiry detection, structured field preview.
+### Phase 1 — Core Platform
 
-**✅ Stage 8 — Form Mistake Detector + DBT Readiness Checker**
-Fuzzy name matching, field cross-comparison — pure algorithm, ML nahi.
+| Stage | Module | Highlights |
+|---|---|---|
+| ✅ 1 | **Foundation** | Vite + React + TS + TanStack Router frontend, Express + TS + MongoDB backend, JWT + bcrypt auth |
+| ✅ 2 | **Profile & Scheme Data Pipeline** | Profile form (age, state, education, income, occupation); structured scheme DB (schemes, eligibility rules, required documents); optional offline PDF→JSON extraction |
+| ✅ 3 | **RAG Assistant** | Gemini embeddings + pgvector similarity search + grounded generation with citations |
+| ✅ 4 | **Deterministic Eligibility Engine** | Pass / fail / unknown per rule, fully explainable, never LLM-decided |
+| ✅ 5 | **Recommendations & Dashboard** | Top matches, weighted scoring (plain math) — MVP milestone |
+| ✅ 6 | **Life Event Engine + Family Optimizer** | LLM-classified life events; per-member eligibility and conflict detection |
+| ✅ 7 | **Document Intelligence** | Tesseract OCR + Gemini field extraction, expiry detection |
+| ✅ 8 | **Form Mistake Detector + DBT Readiness** | Fuzzy name matching and field cross-comparison (pure algorithms) |
+| ✅ 9 | **Risk Predictor + Rejection Debugger** | Rejection letter + rules + docs → root-cause explanation |
+| ✅ 10 | **Counterfactual Simulator** | Re-run eligibility with hypothetical inputs |
+| ✅ 11 | **Family Benefit Optimizer (Deep)** | Best scheme combination across the whole family (merged into Stage 6) |
+| ✅ 12 | **Application Copilot + Deadline Engine** | Proactive deadline alerts and filling guidance |
 
-**✅ Stage 9 — Application Risk Predictor + Rejection Debugger**
-Rejection letter + scheme rules + user docs → LLM reasoning se root-cause explanation.
+### Phase 2 — Regulatory Monitoring Pipeline
 
-**✅ Stage 10 — Counterfactual Simulator**
-"Agar income ₹50k kam ho toh..." — eligibility engine ko hypothetical inputs ke saath re-run karna.
+| Stage | Module | Highlights |
+|---|---|---|
+| ✅ 13 | **Regulatory Data Collection** | Fetch HTML portals and PDF circulars; content-hash stamping (no ML) |
+| ✅ 14 | **Change Detection & Version Control** | Hash compare + line diff filtering cosmetic changes; structured rule diff; immutable `SchemeVersion` history |
+| ✅ 15 | **Regulatory Impact Analysis** | Re-run engine on existing profiles to find lost / gained / unchanged eligibility |
+| ✅ 16 | **Source Conflict Resolution** | Authority ranking (gazette > circular > portal > press release) plus recency |
+| ✅ 17 | **Automatic Eligibility Re-check** | Auto re-evaluate users when an eligibility-critical rule change is approved |
+| ✅ 18 | **Affected User Notification** | Citizen alerts with unread badge, mark-as-read, and source link |
+| ✅ 19 | **Admin Verification & Approval Queue** | Human review of every change; rules go live and notifications fire only after approval |
 
-**✅ Stage 11 — Family Benefit Optimizer (Deep)**
-Stage 6 mein hi merge ho gaya — poore family ke liye best combination.
+---
 
-**✅ Stage 12 — Application Copilot + Deadline Engine**
-Proactive deadline alerts, application-filling guidance.
+## 🛡️ Resilience & Security
 
-<br/>
+Recent upgrades bring Adhikar closer to a production-grade government platform:
 
-**✅ Stage 13 — Regulatory Data Collection**
-Government sources se raw data uthana (HTML portal fetch, PDF circular/notification fetch) aur content-hash stamp karna. Pure data fetch, no ML.
+- **Graceful DB degradation** — the AI service starts with built-in heuristics even if PostgreSQL/pgvector is down, degrading non-essential features while core routing stays alive.
+- **Dual-database resilience** — Node.js falls back to MongoDB-based scheme search with dynamic filtering if the Python semantic-search service goes offline.
+- **Robust OCR fallbacks** — document extraction degrades to heuristic parsing when the AI model is unavailable, so uploads are never blocked.
+- **Strict authentication & security** — bcrypt hashing, API-layer JWT validation, secure password-recovery flows, explicit type checking, and rate limiting on critical endpoints.
+- **Helpdesk & grievance redressal** — centralized citizen ticketing, integrated with backend Mongoose models, for tracking state-level complaints.
 
-**✅ Stage 14 — Change Detection (Text & Rule Diff) + Version Control**
-Text diff (hash compare + line diffing) filtering cosmetic changes, and Rule diff (structured snapshot compare). SchemeVersion table maintains immutable history of all changes.
+---
 
-**✅ Stage 15 — Regulatory Impact Analysis**
-Deterministic eligibility engine ko re-run karke existing citizen profiles par change ka impact nikalna (lost eligibility, gained, unchanged).
+## 🚀 Getting Started
 
-**✅ Stage 16 — Source Conflict Resolution**
-Authority ranking (gazette > circular > portal > press release) aur recency ke aadhar par conflicting official sources ko resolve karna.
+### Prerequisites
 
-**✅ Stage 17 — Automatic Eligibility Re-check**
-Jab bhi koi eligibility-critical rule change approve hota hai, existing users ki eligibility automatically re-evaluate karna.
+- Node.js 18+ and npm
+- Python 3.10+
+- MongoDB running locally on the default port
+- PostgreSQL with the `pgvector` extension
+- A Google Gemini API key
 
-**✅ Stage 18 — Affected User Detection & Notification**
-Stage 17 ke output ko actual citizen-facing alerts (unread badge, mark-read, source link) mein convert karna.
+### 1. Clone the repository
 
-**✅ Stage 19 — Admin Verification & Approval Queue**
-Har regulatory change ek admin human-review queue mein aata hai. Approval ke baad hi live rules update hote hain aur notifications fire hote hain.
+```bash
+git clone https://github.com/Akshatsrii/<your-repo-name>.git
+cd <your-repo-name>
+```
 
-<br/>
-## 6. Local Setup & Getting Started
+### 2. Frontend (React / Vite)
 
-### Frontend (React/Vite)
 ```bash
 cd frontend
 npm install
 npm run dev
-# Running on http://localhost:5173
+# http://localhost:5173
 ```
 
-### Backend (Node.js/Express)
-*Requires local MongoDB running on default port.*
+### 3. Backend (Node.js / Express)
+
+> Requires local MongoDB on the default port.
+
 ```bash
 cd backend
 npm install
 npm run dev
-# Running on http://localhost:5000
+# http://localhost:5000
 ```
 
-### AI Service (Python/FastAPI)
-*Requires local PostgreSQL with `pgvector` extension running on default port.*
+### 4. AI Service (Python / FastAPI)
+
+> Requires local PostgreSQL with the `pgvector` extension on the default port.
+
 ```bash
 cd ai-service
-# (Windows)
+
+# Windows
 python -m venv venv
 venv\Scripts\activate
+
+# macOS / Linux
+# python3 -m venv venv
+# source venv/bin/activate
+
 pip install -r requirements.txt
 python -m uvicorn app.main:app --port 8000 --reload
-# Running on http://localhost:8000
+# http://localhost:8000
 ```
 
-<br/>
+> FastAPI interactive docs are available at `http://localhost:8000/docs`.
 
-## 7. Environment Variables
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file in each service. **Never commit real secrets** — keep `.env` in `.gitignore`.
 
 **`backend/.env`**
+
 ```env
 PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/adhikar
@@ -176,24 +301,34 @@ AI_SERVICE_URL=http://127.0.0.1:8000
 ```
 
 **`ai-service/.env`**
+
 ```env
 DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/adhikar_ai
 GEMINI_API_KEY=your_gemini_api_key
 CORS_ORIGIN=http://localhost:5173
 ```
 
-<br/>
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome.
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m "feat: add amazing feature"`
+4. Push the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+---
+
+## 👤 Author
+
+**Akshat Srivastava**
+GitHub: [@Akshatsrii](https://github.com/Akshatsrii)
+
+---
 
 <div align="center">
-  <sub><b>Adhikar</b> â€” Your Right, Delivered.</sub>
+  <sub><b>Adhikar</b> — Your Right, Delivered. 🇮🇳</sub>
 </div>
-
-
-## 6. Recent Highlights & Architecture Updates
-We recently implemented significant architectural resilience and security enhancements to bring Adhikar closer to a production-grade government platform:
-- **Graceful DB Degradation:** The AI microservice now starts smoothly with built-in heuristics even if PostgreSQL (pgvector) fails, degrading non-essential features while keeping the core routing alive.
-- **Dual-Database Resilience:** Node.js seamlessly routes scheme searches through the primary MongoDB database if the Python Semantic Search microservice goes offline, using dynamic filtering heuristics.
-- **Robust OCR Fallbacks:** Document extractions elegantly degrade to heuristic parsing if the AI document model is unavailable, ensuring upload flows are never blocked.
-- **Strict Authentication & Security:** Integrated robust user models, bcrypt hashing, API-layer JWT validation, secure password recovery flows, and explicit type checking. Rate limiting secures critical endpoints from spam.
-- **Helpdesk & Grievance Redressal:** Centralized ticketing system for citizens integrated natively with backend Mongoose models for tracking state-level complaints.
-
