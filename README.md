@@ -7,6 +7,8 @@
 <div align="center">
   <p><strong>Because claiming a government scheme shouldn't feel like a government scheme.</strong></p>
   <p><i>A dual-backend AI platform (Node.js + FastAPI + Gemini + pgvector) for government scheme discovery, deterministic eligibility, family optimization, and AI-assisted applications.</i></p>
+  <br/>
+  <h3>🚀 <a href="https://adhikar-seven.vercel.app/" target="_blank">Live Demo: adhikar-seven.vercel.app</a> 🚀</h3>
 </div>
 
 <br/>
