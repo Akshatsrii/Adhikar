@@ -24,6 +24,9 @@ import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
 
+app.get("/health", (req, res) => res.json({status: "ok", time: Date.now()}));
+
+
 const allowedOrigins = [
   env.clientOrigin,
   'https://adhikar-seven.vercel.app',
