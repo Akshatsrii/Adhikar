@@ -737,4 +737,5 @@ Contributions, issues, and feature requests are welcome!
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF9933,50:FFFFFF,100:138808&height=120&section=footer&text=Adhikar%20%E2%80%94%20Your%20Right%2C%20Delivered.&fontSize=22&fontColor=000080&animation=fadeIn&fontAlignY=70" width="100%" alt="footer"/>
 u p d a t e  
+ u p d a t e 2  
  
