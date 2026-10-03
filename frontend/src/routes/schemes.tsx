@@ -175,9 +175,9 @@ function SchemesPage() {
                     <Link to="/scheme/$slug" params={{ slug: scheme.slug }} className="w-full py-2 bg-white border-2 border-[#00428a] text-[#00428a] text-center text-xs font-bold rounded hover:bg-blue-50 transition">
                       View Details
                     </Link>
-                    <Link to="/apply/$slug" params={{ slug: scheme.slug }} className="w-full py-2 bg-[#00428a] text-white text-center text-xs font-bold rounded hover:bg-blue-800 transition">
+                    <a href={scheme.application_url || scheme.source_url || "#"} target="_blank" rel="noopener noreferrer" className="px-5 py-2 rounded text-xs font-bold transition shadow-sm bg-[#00428a] text-white hover:bg-blue-800 text-center inline-block">
                       Apply Now
-                    </Link>
+                    </a>
                   </div>
                 </div>
               ))}

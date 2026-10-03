@@ -166,7 +166,8 @@ export interface AskResponse {
 
 interface RawAskResponse {
   answer: string
-  sources: { scheme_slug: string; scheme_name: string; source_url: string; chunk_type: string }[]
+  sources: { scheme_slug: string; scheme_name: string; source_url: string
+  application_url?: string; chunk_type: string }[]
 }
 
 export const aiApi = {
@@ -227,6 +228,7 @@ interface RawSchemeResult {
   scheme_slug: string
   scheme_name: string
   source_url: string
+  application_url?: string
   status: EligibilityStatus
   rules: RawRuleResult[]
 }
@@ -290,6 +292,7 @@ interface RawTopMatch {
   scheme_slug: string
   scheme_name: string
   source_url: string
+  application_url?: string
   category: string
   benefit: string
   deadline: string | null
@@ -576,6 +579,7 @@ export interface PublicScheme {
   benefit: string
   description: string
   source_url: string
+  application_url?: string
 }
 
 export const schemesApi = {
@@ -691,6 +695,7 @@ interface RawRegulatoryChange {
   summary: string
   confidence: number
   source_url: string
+  application_url?: string
   authority_level: string
   impact: {
     total_evaluated: number
