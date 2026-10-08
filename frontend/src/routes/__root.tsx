@@ -49,7 +49,7 @@ function RootComponent() {
       </div>
 
       {/* 2. MAIN HEADER (White) */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 w-full">
+      <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-50 w-full shadow-[0_4px_30px_rgba(0,0,0,0.03)] transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-12 h-12 bg-gradient-to-br from-[#FF9933] via-white to-[#138808] p-1 rounded-full shadow-sm flex items-center justify-center shrink-0">
