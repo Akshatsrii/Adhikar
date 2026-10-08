@@ -43,7 +43,7 @@ function EligibilityResultsPage() {
         <p className="text-sm text-gray-600">Based on your profile, here are the real schemes you are matched with.</p>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white/95 backdrop-blur-3xl rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden">
         
         {/* Tabs */}
         <div className="flex overflow-x-auto border-b border-gray-200 px-2 scrollbar-hide">
@@ -62,7 +62,7 @@ function EligibilityResultsPage() {
             <div className="py-12 text-center text-gray-500">No matching schemes found.</div>
           ) : (
             schemes.map((scheme, i) => (
-              <div key={i} className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border border-gray-100 rounded-lg hover:shadow-md transition">
+              <div key={i} className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 border border-gray-100 rounded-lg hover:shadow-[0_10px_40px_rgb(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-300">
                 <div className="flex items-center gap-4 flex-1">
                   <div className="w-16 h-16 rounded overflow-hidden shrink-0 bg-gray-50 border border-gray-100 flex items-center justify-center p-2">
                     {/* Using our reliable local emblem svg */}
