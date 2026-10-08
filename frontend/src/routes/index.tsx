@@ -50,7 +50,7 @@ function LandingPage() {
   }))
 
   return (
-    <div className="min-h-screen bg-[#f5f6fa] font-sans text-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-[#f5f6fa] to-white font-sans text-gray-800">
       
       {/* HERO SECTION - PREMIUM REDESIGN */}
       <div className="relative w-full h-[500px] overflow-hidden flex items-center bg-slate-950">
