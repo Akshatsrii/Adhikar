@@ -12,8 +12,8 @@ from app.config import settings
 
 _client: genai.Client | None = None
 
-EMBEDDING_MODEL = "text-embedding-004"
-GENERATION_MODEL = "gemini-1.5-flash"
+EMBEDDING_MODEL = "gemini-embedding-001"
+GENERATION_MODEL = "gemini-3.8-flash"
 
 
 def _get_client() -> genai.Client:
