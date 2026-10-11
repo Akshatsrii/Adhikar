@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
-import { ChevronDown } from 'lucide-react'
+import { Sparkles, Globe, ArrowRight, ShieldCheck, User } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
@@ -10,7 +10,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const { user, logout } = useAuth()
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const { pathname } = useLocation()
 
   useEffect(() => {
@@ -22,67 +22,127 @@ function RootComponent() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-parchment)] font-sans">
+    <div className="min-h-screen bg-slate-50/50 text-slate-900 font-sans flex flex-col selection:bg-blue-600 selection:text-white">
       
-      {/* 1. THIN TOP BAR (Gray) */}
-      <div className="bg-[#f1f1f1] border-b border-gray-200 text-[11px] font-medium text-gray-700 w-full">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-1.5 flex justify-between items-center">
+      {/* 1. Sleek Modern Top Announcement Banner */}
+      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 text-white text-xs font-medium py-2 px-4 shadow-sm">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/images/emblem.svg" className="h-4" alt="Emblem" />
-            <span>{t('header.govt')}</span>
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+            </span>
+            <span className="tracking-wide font-medium flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>Next-Gen Welfare AI: Real-time discovery & 1-click official applications</span>
+            </span>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="hidden sm:inline hover:underline cursor-pointer">{t('header.skip')}</span>
-            <span className="hidden sm:inline hover:underline cursor-pointer border-r border-gray-300 pr-4">{t('header.screen_reader')}</span>
-            <div className="flex items-center gap-2 border-r border-gray-300 pr-4">
-              <button className="hover:bg-gray-200 px-1 rounded">A-</button>
-              <button className="hover:bg-gray-200 px-1 rounded">A</button>
-              <button className="hover:bg-gray-200 px-1 rounded">A+</button>
-            </div>
-            <div className="flex items-center gap-2 font-bold">
-              <button onClick={() => changeLanguage('hi')} className={i18n.language === 'hi' ? 'text-blue-800' : 'hover:text-blue-600'}>हिन्दी</button>
-              <span className="text-gray-400">|</span>
-              <button onClick={() => changeLanguage('en')} className={i18n.language === 'en' ? 'text-blue-800' : 'hover:text-blue-600'}>English</button>
+          <div className="flex items-center gap-4 text-xs font-semibold">
+            <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-md rounded-full px-2.5 py-0.5 border border-white/20">
+              <Globe className="w-3 h-3 text-white/80" />
+              <button 
+                onClick={() => changeLanguage('hi')} 
+                className={`px-1.5 py-0.5 rounded transition ${i18n.language === 'hi' ? 'bg-white text-blue-900 font-bold' : 'hover:text-white/80'}`}
+              >
+                हिन्दी
+              </button>
+              <span className="text-white/40">|</span>
+              <button 
+                onClick={() => changeLanguage('en')} 
+                className={`px-1.5 py-0.5 rounded transition ${i18n.language === 'en' ? 'bg-white text-blue-900 font-bold' : 'hover:text-white/80'}`}
+              >
+                English
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2. MAIN HEADER (White) */}
-      <header className="bg-white/80 backdrop-blur-xl border-b border-gray-200/50 sticky top-0 z-50 w-full shadow-[0_4px_30px_rgba(0,0,0,0.03)] transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center">
+      {/* 2. Unified Modern Glassmorphic Navbar */}
+      <header className="bg-white/85 backdrop-blur-xl border-b border-slate-200/80 sticky top-0 z-50 w-full transition-all duration-300 shadow-[0_4px_25px_rgba(0,0,0,0.03)]">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
+          
+          {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-gradient-to-br from-[#FF9933] via-white to-[#138808] p-1 rounded-full shadow-sm flex items-center justify-center shrink-0">
-               <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                 <div className="w-6 h-6 border-2 border-[#000080] rounded-full flex items-center justify-center">
-                   <div className="w-1 h-4 bg-[#000080] transform rotate-45"></div>
-                   <div className="w-1 h-4 bg-[#000080] transform -rotate-45 absolute"></div>
-                 </div>
-               </div>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
+              <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-black text-[#00428a] tracking-tight leading-none group-hover:text-blue-800 transition">{t('header.title')}</span>
-              <span className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-0.5">{t('header.subtitle')}</span>
-              <span className="text-[10px] text-gray-400">{t('header.desc')}</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-2xl font-black bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-900 bg-clip-text text-transparent tracking-tight">
+                  Adhikar
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200/60 shadow-xs">
+                  AI Copilot
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-400 font-medium tracking-tight">Citizen Welfare Platform</span>
             </div>
           </Link>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden lg:flex items-center gap-4 border-r border-gray-200 pr-4">
-               <img src="/images/digital-india.svg" alt="Digital India" className="h-8 opacity-90" />
-            </div>
+          {/* Centered Navigation */}
+          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/70 p-1 rounded-full border border-slate-200/60 backdrop-blur-md">
+            <Link 
+              to="/" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
+            >
+              Home
+            </Link>
+            <Link 
+              to="/schemes" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
+            >
+              Schemes
+            </Link>
+            <Link 
+              to="/eligibility" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
+            >
+              Check Eligibility
+            </Link>
+            <Link 
+              to="/assistant" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs flex items-center gap-1.5"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              AI Assistant
+            </Link>
+            <Link 
+              to="/documents" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
+            >
+              Documents
+            </Link>
+            <Link 
+              to="/contact" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
+            >
+              Helpdesk
+            </Link>
+          </nav>
+
+          {/* Right Action / Auth */}
+          <div className="flex items-center gap-3">
             {!user ? (
-              <Link to="/login" className="bg-[#00428a] text-white text-sm font-medium px-5 py-2.5 rounded hover:bg-blue-800 transition flex items-center gap-2 shadow-sm">
-                {t('header.login')}
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link 
+                  to="/login" 
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold px-5 py-2.5 rounded-full hover:from-blue-700 hover:to-indigo-700 transition shadow-sm hover:shadow-md hover:scale-[1.02] flex items-center gap-1.5"
+                >
+                  <span>Sign In</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             ) : (
-              <div className="flex items-center gap-3">
-                <div className="flex flex-col text-right">
-                   <span className="text-sm font-bold text-[#00428a] leading-none">{user.name}</span>
-                   <button onClick={logout} className="text-xs text-red-500 hover:underline">{t('header.logout')}</button>
+              <div className="flex items-center gap-3 bg-slate-100/60 p-1 pr-3 rounded-full border border-slate-200/60">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                  {user.name ? user.name[0].toUpperCase() : <User className="w-4 h-4" />}
                 </div>
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-[#00428a] font-bold">
-                   {user.name[0]}
+                <div className="flex flex-col text-left">
+                  <span className="text-xs font-bold text-slate-900 leading-tight max-w-[120px] truncate">{user.name}</span>
+                  <button onClick={logout} className="text-[10px] font-semibold text-rose-500 hover:text-rose-700 text-left transition">
+                    Logout
+                  </button>
                 </div>
               </div>
             )}
@@ -90,80 +150,73 @@ function RootComponent() {
         </div>
       </header>
 
-      {/* 3. NAVIGATION (Blue) */}
-      <div className="bg-[#00428a] text-white text-sm font-bold shadow-md relative z-10">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <ul className="flex items-center overflow-x-auto scrollbar-hide -mx-4 md:mx-0">
-            <li><Link to="/" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.home')}</Link></li>
-            <li><Link to="/about" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.about')}</Link></li>
-            <li><Link to="/schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.schemes')} <ChevronDown className="w-3 h-3"/></Link></li>
-            <li><Link to="/eligibility" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.eligibility')}</Link></li>
-            <li><Link to="/apply/$slug" params={{ slug: 'post-matric-scholarship' }} className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.apply')}</Link></li>
-            <li><Link to="/assistant" className="inline-block px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.assistant')}</Link></li>
-            <li><Link to="/documents" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.documents')} <ChevronDown className="w-3 h-3"/></Link></li>
-            <li><Link to="/state-schemes" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.state_schemes')} <ChevronDown className="w-3 h-3"/></Link></li>
-            <li><Link to="/contact" className="inline-flex items-center gap-1 px-4 py-3 hover:bg-[#003370] [&.active]:bg-[#003370] transition">{t('nav.help')} <ChevronDown className="w-3 h-3"/></Link></li>
-          </ul>
-        </div>
-      </div>
-
-      <main id="main" className="flex-1 flex flex-col relative w-full pb-12">
+      {/* Main Content Area */}
+      <main id="main" className="flex-1 flex flex-col relative w-full">
         <Outlet />
       </main>
     
-      <footer className="bg-[#1e293b] text-white pt-12 pb-8 mt-auto w-full">
+      {/* 3. Modern Sleek Footer */}
+      <footer className="bg-slate-950 text-slate-400 pt-16 pb-12 w-full border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-white p-1 rounded-full flex items-center justify-center shrink-0">
-                   <img src="/images/emblem.svg" className="h-full object-contain" alt="Emblem" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            
+            <div className="space-y-4">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-500 to-indigo-500 flex items-center justify-center text-white">
+                  <ShieldCheck className="w-5 h-5" />
                 </div>
-                <div>
-                  <span className="text-xl font-black text-white tracking-tight leading-none">Adhikar</span>
-                  <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">Govt of India</div>
-                </div>
+                <span className="text-xl font-black text-white tracking-tight">Adhikar</span>
               </div>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Adhikar is a centralized AI-powered platform for citizens to discover, understand, and apply for government schemes effortlessly.
+              <p className="text-xs text-slate-400 leading-relaxed font-normal">
+                Next-generation citizen intelligence platform bridging India's welfare gap with Gemini AI reasoning and deterministic eligibility verification.
               </p>
+              <div className="flex items-center gap-2 pt-2">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  All Systems Operational
+                </span>
+              </div>
             </div>
             
             <div>
-              <h4 className="font-bold text-lg mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to="/" className="hover:text-white transition">Home</Link></li>
-                <li><Link to="/schemes" className="hover:text-white transition">All Schemes</Link></li>
-                <li><Link to="/eligibility" className="hover:text-white transition">Check Eligibility</Link></li>
-                <li><Link to="/assistant" className="hover:text-white transition">Adhikar AI Chat</Link></li>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Platform</h4>
+              <ul className="space-y-2.5 text-xs">
+                <li><Link to="/schemes" className="hover:text-white transition">Schemes Catalog</Link></li>
+                <li><Link to="/eligibility" className="hover:text-white transition">Eligibility Engine</Link></li>
+                <li><Link to="/assistant" className="hover:text-white transition">AI Copilot</Link></li>
+                <li><Link to="/documents" className="hover:text-white transition">Smart Document Hub</Link></li>
+                <li><Link to="/state-schemes" className="hover:text-white transition">State Level Welfare</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold text-lg mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><Link to="/" className="hover:text-white transition">Terms & Conditions</Link></li>
-                <li><Link to="/" className="hover:text-white transition">Privacy Policy</Link></li>
-                <li><Link to="/" className="hover:text-white transition">Copyright Policy</Link></li>
-                <li><Link to="/" className="hover:text-white transition">Disclaimer</Link></li>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Resources</h4>
+              <ul className="space-y-2.5 text-xs">
+                <li><Link to="/about" className="hover:text-white transition">About Architecture</Link></li>
+                <li><Link to="/contact" className="hover:text-white transition">Citizen Grievance Redressal</Link></li>
+                <li><a href="https://pmkisan.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition">PM-KISAN Portal</a></li>
+                <li><a href="https://pmjay.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition">Ayushman Bharat Portal</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold text-lg mb-4">Contact Us</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>Helpline: 1800-11-0000</li>
-                <li>Email: support@adhikar.gov.in</li>
-                <li className="mt-4">
-                  <img src="/images/digital-india.svg" alt="Digital India" className="h-8 opacity-80" />
-                </li>
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Support & Trust</h4>
+              <ul className="space-y-2.5 text-xs">
+                <li className="text-slate-300 font-semibold">Toll-Free National Helpline:</li>
+                <li className="text-white font-mono text-sm">1800-11-0000</li>
+                <li className="text-slate-300 font-semibold pt-2">Direct Contact:</li>
+                <li>support@adhikar-platform.in</li>
               </ul>
             </div>
           </div>
           
-          <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-            <p>&copy; {new Date().getFullYear()} Adhikar. Designed and Developed by NIC.</p>
-            <p>Last Updated: {new Date().toLocaleDateString()}</p>
+          <div className="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+            <p>&copy; {new Date().getFullYear()} Adhikar. Built for Bharat with Modern Microservices.</p>
+            <div className="flex gap-6">
+              <Link to="/about" className="hover:text-slate-400 transition">Privacy</Link>
+              <Link to="/about" className="hover:text-slate-400 transition">Terms</Link>
+              <Link to="/about" className="hover:text-slate-400 transition">Security</Link>
+            </div>
           </div>
         </div>
       </footer>
