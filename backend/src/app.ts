@@ -24,7 +24,7 @@ import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
 
-app.get("/health", (req, res) => res.json({status: "ok", time: Date.now()}));
+app.get("/health", (_req, res) => res.json({status: "ok", time: Date.now()}));
 
 
 const allowedOrigins = [
