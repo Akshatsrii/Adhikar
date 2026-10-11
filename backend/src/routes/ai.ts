@@ -29,7 +29,7 @@ aiRouter.post('/ask', async (req, res, next) => {
     // 1. Try remote AI microservice with timeout & safety catch
     try {
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 6000) // 6s timeout
+      const timeoutId = setTimeout(() => controller.abort(), 1200) // 1.2s fast timeout
 
       const aiResponse = await aiFetch(`/ai/ask`, {
         method: 'POST',
