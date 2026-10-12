@@ -167,7 +167,8 @@ export interface AskResponse {
 interface RawAskResponse {
   answer: string
   sources: { scheme_slug: string; scheme_name: string; source_url: string
-  application_url?: string; chunk_type: string }[]
+  application_url?: string
+  deadline?: string; chunk_type: string }[]
 }
 
 export const aiApi = {
@@ -580,6 +581,7 @@ export interface PublicScheme {
   description: string
   source_url: string
   application_url?: string
+  deadline?: string
 }
 
 export const schemesApi = {

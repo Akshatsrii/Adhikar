@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ChevronRight, Share2, Printer, MapPin, Building2, Banknote, Users, CheckCircle2, Monitor, Calendar, Loader2 } from 'lucide-react'
+import { ChevronRight, Share2, Building2, Banknote, Users, CheckCircle2, Monitor, Calendar, Loader2, ExternalLink, Sparkles, ShieldCheck, FileText } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { schemesApi } from '@/lib/api'; import type { PublicScheme } from '@/lib/api';
+import { schemesApi } from '@/lib/api'
+import type { PublicScheme } from '@/lib/api'
 
 export const Route = createFileRoute('/scheme/$slug')({
   component: SchemeDetailPage,
@@ -11,168 +12,323 @@ function SchemeDetailPage() {
   const { slug } = Route.useParams()
   const [scheme, setScheme] = useState<PublicScheme | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<'overview' | 'eligibility' | 'process' | 'documents'>('overview')
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
-    schemesApi.get(slug).then(res => {
-      setScheme(res)
-    }).catch(console.error)
+    schemesApi
+      .get(slug)
+      .then((res) => {
+        setScheme(res)
+      })
+      .catch(console.error)
       .finally(() => setIsLoading(false))
   }, [slug])
 
+  const handleShare = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-32 w-full flex items-center justify-center">
-        <Loader2 className="w-10 h-10 animate-spin text-[#00428a]" />
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-32 w-full flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+        <p className="text-xs text-slate-400 font-medium">Fetching verified scheme particulars...</p>
       </div>
     )
   }
 
   if (!scheme) {
     return (
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-32 w-full flex items-center justify-center text-gray-500">
-        Scheme not found.
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-32 w-full flex flex-col items-center justify-center text-center">
+        <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-400 mb-4">
+          <FileText className="w-8 h-8" />
+        </div>
+        <h2 className="text-lg font-bold text-slate-900 mb-1">Scheme particulars not found</h2>
+        <p className="text-xs text-slate-500 mb-6">The requested scheme might have expired or been relocated.</p>
+        <Link to="/schemes" className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition">
+          Return to Schemes Directory
+        </Link>
       </div>
     )
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full bg-[#f5f6fa]">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
-        <Link to="/" className="text-blue-600 hover:underline">Home</Link>
+      <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6">
+        <Link to="/" className="text-blue-600 hover:underline">
+          Home
+        </Link>
         <ChevronRight className="w-3 h-3" />
-        <Link to="/schemes" className="text-blue-600 hover:underline">Government Schemes</Link>
+        <Link to="/schemes" className="text-blue-600 hover:underline">
+          Schemes
+        </Link>
         <ChevronRight className="w-3 h-3" />
-        <span className="text-gray-800">{scheme.name}</span>
+        <span className="text-slate-700 truncate max-w-xs">{scheme.name}</span>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
-        
-        {/* Header */}
-        <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 items-start border-b border-gray-200 relative">
-           <div className="flex-1">
-             <div className="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider mb-3">
-               {scheme.category}
-             </div>
-             <h1 className="text-2xl font-bold text-gray-900 mb-3">{scheme.name}</h1>
-             <p className="text-sm text-gray-600 mb-5 leading-relaxed max-w-3xl">
-               {scheme.description}
-             </p>
-             <div className="flex flex-wrap gap-4 text-xs font-medium text-gray-500">
-                <div className="flex items-center gap-1.5"><Building2 className="w-4 h-4 text-gray-400" /> {scheme.department}</div>
-                <div className="flex items-center gap-1.5 capitalize"><MapPin className="w-4 h-4 text-gray-400" /> {scheme.level} {scheme.state ? `(${scheme.state})` : ''}</div>
-             </div>
-           </div>
-           
-           <div className="flex flex-col gap-3 w-full md:w-56 shrink-0 md:text-right">
-             <a href={scheme.application_url || scheme.source_url || "#"} target="_blank" rel="noopener noreferrer" className="px-5 py-2 rounded text-xs font-bold transition shadow-sm bg-[#00428a] text-white hover:bg-blue-800 text-center inline-block">
-               Apply Online <ChevronRight className="w-4 h-4" />
-             </a>
-             <div className="flex gap-2">
-               <button className="flex-1 bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded text-xs font-bold hover:bg-gray-50 flex items-center justify-center gap-2">
-                 <Share2 className="w-3.5 h-3.5" /> Share
-               </button>
-               <button className="flex-1 bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded text-xs font-bold hover:bg-gray-50 flex items-center justify-center gap-2">
-                 <Printer className="w-3.5 h-3.5" /> Print
-               </button>
-             </div>
-           </div>
-        </div>
-
-        <div className="flex flex-col md:flex-row">
-          {/* Main Content Area */}
-          <div className="flex-1 p-6 md:p-8 border-r border-gray-100">
-            {/* Tabs */}
-            <div className="flex gap-8 border-b border-gray-200 mb-8">
-              <button className="pb-3 text-sm font-bold text-[#00428a] border-b-2 border-[#00428a]">Overview</button>
-              <button className="pb-3 text-sm font-semibold text-gray-500 hover:text-gray-800">Eligibility</button>
-              <button className="pb-3 text-sm font-semibold text-gray-500 hover:text-gray-800">Benefits</button>
-              <button className="pb-3 text-sm font-semibold text-gray-500 hover:text-gray-800">Documents Required</button>
+      <div className="bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
+        {/* Header Hero */}
+        <div className="p-7 md:p-10 flex flex-col md:flex-row gap-8 items-start border-b border-slate-100 bg-gradient-to-b from-slate-50/70 to-white">
+          <div className="flex-1 space-y-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200/60">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                Verified Entitlement
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                {scheme.category}
+              </span>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                {scheme.level || 'Central'} {scheme.state ? `(${scheme.state})` : ''}
+              </span>
             </div>
 
-            <div className="space-y-8">
-              <section>
-                <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                  <Banknote className="w-5 h-5 text-[#00428a]" /> Scheme Benefit
-                </h3>
-                <div className="bg-green-50 border border-green-100 rounded-lg p-5">
-                  <p className="text-sm text-green-800 font-medium">
-                    {scheme.benefit}
-                  </p>
-                </div>
-              </section>
+            <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight">{scheme.name}</h1>
 
-              <section>
-                <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                  <Users className="w-5 h-5 text-[#00428a]" /> Eligibility Criteria
-                </h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-700">Must be a resident of the specified state (if state level)</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
-                    <span className="text-sm text-gray-700">Follows guidelines set by {scheme.department}</span>
-                  </li>
-                </ul>
-              </section>
+            <p className="text-xs md:text-sm text-slate-600 leading-relaxed max-w-3xl font-normal">{scheme.description}</p>
 
-              <section>
-                <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-                  <Monitor className="w-5 h-5 text-[#00428a]" /> Application Process
-                </h3>
-                <div className="space-y-4">
-                  <p className="text-sm text-gray-600">The application for this scheme can be submitted online through the portal or by visiting your nearest e-Mitra/CSC center.</p>
-                  <ol className="list-decimal pl-5 space-y-2 text-sm text-gray-700">
-                    <li>Register or Login to the portal.</li>
-                    <li>Fill out the application form with correct details.</li>
-                    <li>Upload the mandatory documents.</li>
-                    <li>Submit and track your application status online.</li>
-                  </ol>
-                </div>
-              </section>
+            <div className="flex flex-wrap items-center gap-6 pt-2 text-xs text-slate-500 font-medium">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-slate-400" />
+                <span>{scheme.department || 'Government of India'}</span>
+              </div>
             </div>
           </div>
 
-          {/* Right Sidebar - Quick Info */}
-          <div className="w-full md:w-80 p-6 md:p-8 bg-gray-50/50">
-            <h3 className="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">Key Highlights</h3>
-            
-            <div className="space-y-5">
+          {/* Action CTAs */}
+          <div className="flex flex-col gap-3 w-full md:w-60 shrink-0">
+            <a
+              href={scheme.application_url || scheme.source_url || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3.5 px-5 rounded-2xl text-xs font-bold transition shadow-md shadow-blue-500/20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 text-center flex items-center justify-center gap-2"
+            >
+              <span>Apply on Official Portal</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+
+            <div className="flex gap-2">
+              <button
+                onClick={handleShare}
+                className="flex-1 bg-slate-50 border border-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition"
+              >
+                <Share2 className="w-3.5 h-3.5 text-slate-500" />
+                <span>{copied ? 'Copied Link!' : 'Share'}</span>
+              </button>
+              <Link
+                to="/assistant"
+                className="flex-1 bg-blue-50 border border-blue-200/60 text-blue-700 py-2.5 rounded-xl text-xs font-bold hover:bg-blue-100 flex items-center justify-center gap-1.5 transition"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                <span>Ask AI</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Content Section & Sidebar */}
+        <div className="flex flex-col lg:flex-row">
+          {/* Main Details */}
+          <div className="flex-1 p-7 md:p-10 lg:border-r border-slate-100">
+            {/* Navigation Tabs */}
+            <div className="flex gap-2 overflow-x-auto border-b border-slate-100 pb-3 mb-8">
+              {[
+                { id: 'overview', label: 'Overview' },
+                { id: 'eligibility', label: 'Eligibility Rules' },
+                { id: 'process', label: 'Application Steps' },
+                { id: 'documents', label: 'Required Documents' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+                    activeTab === tab.id ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab Contents */}
+            <div className="space-y-8">
+              {activeTab === 'overview' && (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
+                      <Banknote className="w-4 h-4 text-emerald-600" /> Financial & Social Benefits
+                    </h3>
+                    <div className="bg-emerald-50/70 border border-emerald-100 rounded-2xl p-5">
+                      <p className="text-xs md:text-sm text-emerald-950 font-semibold leading-relaxed">
+                        {scheme.benefit || 'Direct financial assistance or subsidy per central guidelines.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-blue-600" /> Nodal Department & Objective
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                      Administered by {scheme.department || 'the concerned Ministry'}. The mission aims to eliminate socioeconomic
+                      barriers through direct benefit transfers (DBT) deposited directly into Aadhaar-seeded bank accounts without middlemen.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'eligibility' && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
+                    <Users className="w-4 h-4 text-indigo-600" /> Qualifying Criteria
+                  </h3>
+                  <div className="space-y-2.5">
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-slate-50/50">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span className="text-xs text-slate-700 font-medium">Must be a bona fide citizen of India.</span>
+                    </div>
+                    {scheme.state && (
+                      <div className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-slate-50/50">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span className="text-xs text-slate-700 font-medium">
+                          Permanent domicile of {scheme.state} required for state quotas.
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-slate-50/50">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span className="text-xs text-slate-700 font-medium">
+                        Must possess an active Aadhaar card linked to a valid bank savings account (DBT enabled).
+                      </span>
+                    </div>
+                    <div className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-slate-50/50">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span className="text-xs text-slate-700 font-medium">
+                        Must satisfy socioeconomic conditions designated for {scheme.category} category beneficiaries.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'process' && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
+                    <Monitor className="w-4 h-4 text-blue-600" /> 4-Step Application Procedure
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                    <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 01</span>
+                      <h4 className="font-bold text-xs text-slate-900">Visit Official Portal</h4>
+                      <p className="text-[11px] text-slate-500">Access the authentic portal link verified above.</p>
+                    </div>
+                    <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 02</span>
+                      <h4 className="font-bold text-xs text-slate-900">Authenticate via Aadhaar</h4>
+                      <p className="text-[11px] text-slate-500">Complete OTP e-KYC using registered mobile number.</p>
+                    </div>
+                    <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 03</span>
+                      <h4 className="font-bold text-xs text-slate-900">Submit Application Form</h4>
+                      <p className="text-[11px] text-slate-500">Input demographic and income particulars accurately.</p>
+                    </div>
+                    <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 04</span>
+                      <h4 className="font-bold text-xs text-slate-900">Track Direct Benefit</h4>
+                      <p className="text-[11px] text-slate-500">Receive application reference number for PFMS tracking.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'documents' && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
+                    <FileText className="w-4 h-4 text-purple-600" /> Mandatory Documents
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                      'Aadhaar Card (UIDAI Verified)',
+                      'Bank Passbook / Cancelled Cheque (DBT Enabled)',
+                      'Income Certificate (Issued by Tehsildar / Competent Authority)',
+                      'Caste / Category Certificate (if applicable)',
+                      'Domicile / Residence Certificate',
+                      'Passport Size Photograph & Mobile Number',
+                    ].map((doc, idx) => (
+                      <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-100 bg-slate-50/50 text-xs font-semibold text-slate-700">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <span>{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Right Sidebar - Key Highlights */}
+          <div className="w-full lg:w-80 p-7 md:p-10 bg-slate-50/50 space-y-6">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 pb-2 border-b border-slate-200">
+              Key Highlights
+            </h3>
+
+            <div className="space-y-4 text-xs">
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">State / Level</p>
-                <p className="text-sm font-bold text-gray-900 capitalize">{scheme.level} {scheme.state ? `(${scheme.state})` : ''}</p>
+                <p className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Administrative Level</p>
+                <p className="font-bold text-slate-900 text-sm capitalize mt-0.5">
+                  {scheme.level || 'Central'} {scheme.state ? `(${scheme.state})` : ''}
+                </p>
               </div>
-              
+
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Sector</p>
-                <p className="text-sm font-bold text-gray-900">{scheme.category}</p>
+                <p className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Beneficiary Sector</p>
+                <p className="font-bold text-slate-900 text-sm mt-0.5">{scheme.category}</p>
               </div>
-              
+
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Official Website</p>
-                <a href={scheme.source_url} target="_blank" rel="noreferrer" className="text-sm font-bold text-blue-600 hover:underline break-words">
+                <p className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Application Window</p>
+                <div className="flex items-center gap-1.5 text-emerald-700 font-bold mt-0.5">
+                  <Calendar className="w-3.5 h-3.5" />
+                  <span>{scheme.deadline || 'Active Year-Round'}</span>
+                </div>
+              </div>
+
+              <div>
+                <p className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Official Web Portal</p>
+                <a
+                  href={scheme.source_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-blue-600 hover:underline break-all block mt-0.5"
+                >
                   {scheme.source_url}
                 </a>
               </div>
             </div>
 
-            <div className="mt-8 bg-white border border-orange-200 rounded-lg p-5">
-              <h4 className="font-bold text-orange-800 flex items-center gap-2 mb-2">
-                <Calendar className="w-4 h-4" /> Important Dates
-              </h4>
-              <div className="space-y-2 mt-3">
-                <div className="flex justify-between text-xs">
-                  <span className="text-gray-600 font-medium">Application Start</span>
-                  <span className="font-bold text-gray-900">Always Open</span>
-                </div>
+            {/* AI Assistant Banner */}
+            <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white space-y-2.5 shadow-md shadow-blue-500/10">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold text-blue-100 uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Need Help Applying?
               </div>
+              <p className="text-xs text-blue-100/90 leading-relaxed font-normal">
+                Ask Adhikar AI any question regarding documentation or eligibility for this specific scheme.
+              </p>
+              <Link
+                to="/assistant"
+                className="inline-block px-4 py-2 bg-white text-blue-700 rounded-xl text-xs font-bold hover:bg-blue-50 transition shadow-xs mt-1"
+              >
+                Chat with Copilot
+              </Link>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
   )

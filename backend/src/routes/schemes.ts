@@ -8,7 +8,7 @@ export const schemesRouter = Router()
 
 const schemesCache = new LRUCache<string, any>({
   max: 100,
-  ttl: 1000 * 60 * 5, // 5 min
+  ttl: 1000 * 30, // 30 sec for responsive updates
 })
 
 schemesRouter.get('/', async (req, res, next) => {
