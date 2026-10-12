@@ -1,0 +1,7 @@
+{
+  "name": "adhikar-workspace",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend run build"
+  }
+}
