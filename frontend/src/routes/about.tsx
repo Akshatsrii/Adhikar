@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { FileText, Megaphone, Laptop, Users, Sparkles, ShieldCheck, Cpu, Database, CheckCircle2 } from 'lucide-react'
+import { FileText, Megaphone, Laptop, Sparkles, Cpu, Database } from 'lucide-react'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/about')({

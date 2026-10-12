@@ -19,11 +19,11 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {
-        name: 'Adhikar',
+        name: 'Adhikar AI Welfare Copilot',
         short_name: 'Adhikar',
-        description: 'Claim your government schemes without the red tape',
-        theme_color: '#000000',
-        background_color: '#000000',
+        description: 'Next-Gen Welfare Intelligence: Direct Government Schemes & Eligibility Verification',
+        theme_color: '#2563eb',
+        background_color: '#0f172a',
         display: 'standalone',
         icons: [
           {

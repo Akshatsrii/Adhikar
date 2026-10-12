@@ -56,7 +56,7 @@ function ProfilePage() {
         if (res.profile) {
           setProfileForm({
             age: res.profile.age,
-            dob: res.profile.dob || '',
+            dob: (res.profile as any).dob || '',
             state: res.profile.state || '',
             education: res.profile.education || '',
             income: res.profile.income,
