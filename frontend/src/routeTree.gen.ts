@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as CalculatorRouteImport } from './routes/calculator'
+import { Route as CompareRouteImport } from './routes/compare'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DebuggerRouteImport } from './routes/debugger'
@@ -24,7 +26,9 @@ import { Route as LifeEventsRouteImport } from './routes/life-events'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ReadinessRouteImport } from './routes/readiness'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SchemesRouteImport } from './routes/schemes'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as StateSchemesRouteImport } from './routes/state-schemes'
@@ -47,6 +51,16 @@ const AboutRoute = AboutRouteImport.update({
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalculatorRoute = CalculatorRouteImport.update({
+  id: '/calculator',
+  path: '/calculator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareRoute = CompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -109,9 +123,19 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReadinessRoute = ReadinessRouteImport.update({
+  id: '/readiness',
+  path: '/readiness',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SchemesRoute = SchemesRouteImport.update({
@@ -159,6 +183,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
+  '/calculator': typeof CalculatorRoute
+  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/debugger': typeof DebuggerRoute
@@ -171,7 +197,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
+  '/readiness': typeof ReadinessRoute
   '/register': typeof RegisterRoute
+  '/saved': typeof SavedRoute
   '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
   '/state-schemes': typeof StateSchemesRoute
@@ -185,6 +213,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
+  '/calculator': typeof CalculatorRoute
+  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/debugger': typeof DebuggerRoute
@@ -197,7 +227,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
+  '/readiness': typeof ReadinessRoute
   '/register': typeof RegisterRoute
+  '/saved': typeof SavedRoute
   '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
   '/state-schemes': typeof StateSchemesRoute
@@ -212,6 +244,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
+  '/calculator': typeof CalculatorRoute
+  '/compare': typeof CompareRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/debugger': typeof DebuggerRoute
@@ -224,7 +258,9 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
+  '/readiness': typeof ReadinessRoute
   '/register': typeof RegisterRoute
+  '/saved': typeof SavedRoute
   '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
   '/state-schemes': typeof StateSchemesRoute
@@ -240,6 +276,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/assistant'
+    | '/calculator'
+    | '/compare'
     | '/contact'
     | '/dashboard'
     | '/debugger'
@@ -252,7 +290,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/notifications'
     | '/profile'
+    | '/readiness'
     | '/register'
+    | '/saved'
     | '/schemes'
     | '/simulator'
     | '/state-schemes'
@@ -266,6 +306,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/assistant'
+    | '/calculator'
+    | '/compare'
     | '/contact'
     | '/dashboard'
     | '/debugger'
@@ -278,7 +320,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/notifications'
     | '/profile'
+    | '/readiness'
     | '/register'
+    | '/saved'
     | '/schemes'
     | '/simulator'
     | '/state-schemes'
@@ -292,6 +336,8 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/assistant'
+    | '/calculator'
+    | '/compare'
     | '/contact'
     | '/dashboard'
     | '/debugger'
@@ -304,7 +350,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/notifications'
     | '/profile'
+    | '/readiness'
     | '/register'
+    | '/saved'
     | '/schemes'
     | '/simulator'
     | '/state-schemes'
@@ -319,6 +367,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AssistantRoute: typeof AssistantRoute
+  CalculatorRoute: typeof CalculatorRoute
+  CompareRoute: typeof CompareRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   DebuggerRoute: typeof DebuggerRoute
@@ -331,7 +381,9 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   NotificationsRoute: typeof NotificationsRoute
   ProfileRoute: typeof ProfileRoute
+  ReadinessRoute: typeof ReadinessRoute
   RegisterRoute: typeof RegisterRoute
+  SavedRoute: typeof SavedRoute
   SchemesRoute: typeof SchemesRoute
   SimulatorRoute: typeof SimulatorRoute
   StateSchemesRoute: typeof StateSchemesRoute
@@ -363,6 +415,20 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calculator': {
+      id: '/calculator'
+      path: '/calculator'
+      fullPath: '/calculator'
+      preLoaderRoute: typeof CalculatorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare': {
+      id: '/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof CompareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -449,11 +515,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/readiness': {
+      id: '/readiness'
+      path: '/readiness'
+      fullPath: '/readiness'
+      preLoaderRoute: typeof ReadinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/schemes': {
@@ -519,6 +599,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AssistantRoute: AssistantRoute,
+  CalculatorRoute: CalculatorRoute,
+  CompareRoute: CompareRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   DebuggerRoute: DebuggerRoute,
@@ -531,7 +613,9 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   NotificationsRoute: NotificationsRoute,
   ProfileRoute: ProfileRoute,
+  ReadinessRoute: ReadinessRoute,
   RegisterRoute: RegisterRoute,
+  SavedRoute: SavedRoute,
   SchemesRoute: SchemesRoute,
   SimulatorRoute: SimulatorRoute,
   StateSchemesRoute: StateSchemesRoute,

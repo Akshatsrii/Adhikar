@@ -1,8 +1,9 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
-import { Sparkles, Globe, ArrowRight, ShieldCheck, User } from 'lucide-react'
+import { Sparkles, Globe, ArrowRight, ShieldCheck, User, Search } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { CommandPalette } from '@/components/CommandPalette'
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -12,10 +13,22 @@ function RootComponent() {
   const { user, logout } = useAuth()
   const { i18n } = useTranslation()
   const { pathname } = useLocation()
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [pathname])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setIsCommandPaletteOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
@@ -114,6 +127,12 @@ function RootComponent() {
               Documents
             </Link>
             <Link 
+              to="/calculator" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
+            >
+              Calculators
+            </Link>
+            <Link 
               to="/contact" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-blue-700 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-blue-700 [&.active]:shadow-xs"
             >
@@ -123,6 +142,19 @@ function RootComponent() {
 
           {/* Right Action / Auth */}
           <div className="flex items-center gap-3">
+            {/* Quick Spotlight Trigger */}
+            <button
+              onClick={() => setIsCommandPaletteOpen(true)}
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 text-slate-600 border border-slate-200 transition shadow-xs group"
+              title="Search schemes and tools (Ctrl+K)"
+            >
+              <Search className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-600 transition" />
+              <span className="hidden sm:inline text-slate-500 font-medium">Search</span>
+              <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                ⌘K
+              </kbd>
+            </button>
+
             {!user ? (
               <div className="flex items-center gap-2">
                 <Link 
@@ -182,6 +214,10 @@ function RootComponent() {
               <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">Platform</h4>
               <ul className="space-y-2.5 text-xs">
                 <li><Link to="/schemes" className="hover:text-white transition">Schemes Catalog</Link></li>
+                <li><Link to="/saved" className="hover:text-white transition">My Saved Schemes</Link></li>
+                <li><Link to="/calculator" className="hover:text-white transition">Subsidy Calculators</Link></li>
+                <li><Link to="/compare" className="hover:text-white transition">Scheme Comparator</Link></li>
+                <li><Link to="/readiness" className="hover:text-white transition">Readiness Audit</Link></li>
                 <li><Link to="/eligibility" className="hover:text-white transition">Eligibility Engine</Link></li>
                 <li><Link to="/assistant" className="hover:text-white transition">AI Copilot</Link></li>
                 <li><Link to="/documents" className="hover:text-white transition">Smart Document Hub</Link></li>
@@ -220,6 +256,12 @@ function RootComponent() {
           </div>
         </div>
       </footer>
+
+      {/* Global Spotlight / Command Palette */}
+      <CommandPalette 
+        isOpen={isCommandPaletteOpen} 
+        onClose={() => setIsCommandPaletteOpen(false)} 
+      />
     </div>
   )
 }
