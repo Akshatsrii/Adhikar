@@ -241,7 +241,7 @@ function SchemesPage() {
                     <Link 
                       to="/scheme/$slug" 
                       params={{ slug: scheme.slug }} 
-                      className="w-full py-2.5 bg-slate-50 border border-slate-200 text-slate-700 text-center text-xs font-bold rounded-xl hover:bg-slate-100 transition"
+                      className="w-full py-2 bg-slate-50 border border-slate-200 text-slate-700 text-center text-xs font-bold rounded-xl hover:bg-slate-100 transition"
                     >
                       View Details
                     </Link>
@@ -251,11 +251,18 @@ function SchemesPage() {
                       href={scheme.application_url || scheme.source_url || '#'} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="w-full py-2.5 rounded-xl text-xs font-bold transition shadow-xs bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 text-center flex items-center justify-center gap-1"
+                      className="w-full py-2 rounded-xl text-xs font-bold transition shadow-xs bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 text-center flex items-center justify-center gap-1"
                     >
                       <span>Apply Now</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
+
+                    <Link 
+                      to="/compare" 
+                      className="w-full py-1 text-center text-[10px] font-bold text-slate-500 hover:text-blue-600 transition"
+                    >
+                      Compare Scheme
+                    </Link>
                   </div>
                 </div>
               ))}
