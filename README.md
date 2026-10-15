@@ -191,6 +191,46 @@ Citizen ticketing to track state-level complaints end to end.
 
 </td>
 </tr>
+<tr>
+<td valign="top">
+
+### 🧮 Welfare Calculators (`/calculator`)
+Interactive subsidy & benefit calculators for PMAY CLSS interest subsidies, APY guaranteed pension, PM-KISAN cashflows, and SSY maturity wealth.
+
+</td>
+<td valign="top">
+
+### ⚖️ Scheme Comparator (`/compare`)
+Side-by-side matrix comparing monetary benefits, income thresholds, age brackets, documents, and 1-click apply links across schemes.
+
+</td>
+<td valign="top">
+
+### 🗣️ Multilingual Voice Guide
+Web Speech API text-to-speech reader in Hindi and English with animated soundwaves for elderly and rural citizen accessibility.
+
+</td>
+</tr>
+<tr>
+<td valign="top">
+
+### 🎯 Welfare Readiness Audit (`/readiness`)
+100-point citizen KYC & documentation audit with dynamic SVG speedometer gauge and instant remedial steps.
+
+</td>
+<td valign="top">
+
+### 📌 Saved Schemes & Dossier (`/saved`)
+Private application tracking vault with custom notes, status management, and printable physical verification dossier.
+
+</td>
+<td valign="top">
+
+### ⚡ Global Spotlight (`Ctrl+K`)
+Blazing-fast command palette across 25+ real schemes, categories, and direct civic actions with keyboard navigation.
+
+</td>
+</tr>
 </table>
 
 ## 🧭 How It Works
