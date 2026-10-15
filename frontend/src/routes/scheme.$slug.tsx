@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ChevronRight, Share2, Building2, Banknote, Users, CheckCircle2, Monitor, Calendar, Loader2, ExternalLink, Sparkles, ShieldCheck, FileText } from 'lucide-react'
+import { ChevronRight, Share2, Building2, Banknote, Users, CheckCircle2, Monitor, Calendar, Loader2, ExternalLink, Sparkles, ShieldCheck, FileText, Bookmark, Scale } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
+import { AudioNarrator } from '@/components/AudioNarrator'
 
 export const Route = createFileRoute('/scheme/$slug')({
   component: SchemeDetailPage,
@@ -14,6 +15,48 @@ function SchemeDetailPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'eligibility' | 'process' | 'documents'>('overview')
   const [copied, setCopied] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('adhikar_saved_schemes')
+      if (raw) {
+        const parsed = JSON.parse(raw)
+        if (Array.isArray(parsed) && parsed.some((i: any) => i.slug === slug)) {
+          setIsSaved(true)
+        }
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [slug])
+
+  const handleToggleSave = () => {
+    if (!scheme) return
+    try {
+      const raw = localStorage.getItem('adhikar_saved_schemes')
+      let list = raw ? JSON.parse(raw) : []
+      if (!Array.isArray(list)) list = []
+      if (isSaved) {
+        list = list.filter((i: any) => i.slug !== scheme.slug)
+        setIsSaved(false)
+      } else {
+        list.unshift({
+          slug: scheme.slug,
+          name: scheme.name,
+          category: scheme.category,
+          benefit: scheme.benefit || 'Direct government assistance',
+          status: 'bookmarked',
+          note: 'Saved from scheme details page.',
+          savedAt: new Date().toLocaleDateString('en-IN'),
+        })
+        setIsSaved(true)
+      }
+      localStorage.setItem('adhikar_saved_schemes', JSON.stringify(list))
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   useEffect(() => {
     schemesApi
@@ -116,20 +159,50 @@ function SchemeDetailPage() {
             <div className="flex gap-2">
               <button
                 onClick={handleShare}
-                className="flex-1 bg-slate-50 border border-slate-200 text-slate-700 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition"
+                className="flex-1 bg-slate-50 border border-slate-200 text-slate-700 py-2 rounded-xl text-xs font-bold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition"
               >
                 <Share2 className="w-3.5 h-3.5 text-slate-500" />
-                <span>{copied ? 'Copied Link!' : 'Share'}</span>
+                <span>{copied ? 'Copied!' : 'Share'}</span>
               </button>
+              <button
+                onClick={handleToggleSave}
+                className={`flex-1 border py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                  isSaved
+                    ? 'bg-amber-50 border-amber-300 text-amber-700'
+                    : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <Bookmark className={`w-3.5 h-3.5 ${isSaved ? 'fill-current text-amber-500' : 'text-slate-500'}`} />
+                <span>{isSaved ? 'Saved' : 'Save'}</span>
+              </button>
+            </div>
+
+            <div className="flex gap-2">
+              <Link
+                to="/compare"
+                className="flex-1 bg-slate-50 border border-slate-200 text-slate-700 py-2 rounded-xl text-xs font-bold hover:bg-slate-100 flex items-center justify-center gap-1.5 transition text-center"
+              >
+                <Scale className="w-3.5 h-3.5 text-slate-500" />
+                <span>Compare</span>
+              </Link>
               <Link
                 to="/assistant"
-                className="flex-1 bg-blue-50 border border-blue-200/60 text-blue-700 py-2.5 rounded-xl text-xs font-bold hover:bg-blue-100 flex items-center justify-center gap-1.5 transition"
+                className="flex-1 bg-blue-50 border border-blue-200/60 text-blue-700 py-2 rounded-xl text-xs font-bold hover:bg-blue-100 flex items-center justify-center gap-1.5 transition"
               >
                 <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                 <span>Ask AI</span>
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Multilingual Voice Narrator */}
+        <div className="px-7 md:px-10 py-5 bg-slate-50/50 border-b border-slate-100">
+          <AudioNarrator
+            schemeName={scheme.name}
+            benefitText={scheme.benefit || 'Direct government assistance'}
+            descriptionText={scheme.description}
+          />
         </div>
 
         {/* Content Section & Sidebar */}
