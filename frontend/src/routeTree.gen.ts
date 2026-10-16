@@ -22,8 +22,10 @@ import { Route as EligibilityRouteImport } from './routes/eligibility'
 import { Route as EligibilityResultsRouteImport } from './routes/eligibility-results'
 import { Route as FamilyRouteImport } from './routes/family'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as LifeEventsRouteImport } from './routes/life-events'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ReadinessRouteImport } from './routes/readiness'
@@ -32,6 +34,7 @@ import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SchemesRouteImport } from './routes/schemes'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as StateSchemesRouteImport } from './routes/state-schemes'
+import { Route as TimelineRouteImport } from './routes/timeline'
 import { Route as TrackRouteImport } from './routes/track'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminRegulatoryRouteImport } from './routes/admin.regulatory'
@@ -103,6 +106,11 @@ const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LifeEventsRoute = LifeEventsRouteImport.update({
   id: '/life-events',
   path: '/life-events',
@@ -111,6 +119,11 @@ const LifeEventsRoute = LifeEventsRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NotificationsRoute = NotificationsRouteImport.update({
@@ -153,6 +166,11 @@ const StateSchemesRoute = StateSchemesRouteImport.update({
   path: '/state-schemes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TimelineRoute = TimelineRouteImport.update({
+  id: '/timeline',
+  path: '/timeline',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrackRoute = TrackRouteImport.update({
   id: '/track',
   path: '/track',
@@ -193,8 +211,10 @@ export interface FileRoutesByFullPath {
   '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/impact': typeof ImpactRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/readiness': typeof ReadinessRoute
@@ -203,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
   '/state-schemes': typeof StateSchemesRoute
+  '/timeline': typeof TimelineRoute
   '/track': typeof TrackRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
@@ -223,8 +244,10 @@ export interface FileRoutesByTo {
   '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/impact': typeof ImpactRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/readiness': typeof ReadinessRoute
@@ -233,6 +256,7 @@ export interface FileRoutesByTo {
   '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
   '/state-schemes': typeof StateSchemesRoute
+  '/timeline': typeof TimelineRoute
   '/track': typeof TrackRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
@@ -254,8 +278,10 @@ export interface FileRoutesById {
   '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/impact': typeof ImpactRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
+  '/news': typeof NewsRoute
   '/notifications': typeof NotificationsRoute
   '/profile': typeof ProfileRoute
   '/readiness': typeof ReadinessRoute
@@ -264,6 +290,7 @@ export interface FileRoutesById {
   '/schemes': typeof SchemesRoute
   '/simulator': typeof SimulatorRoute
   '/state-schemes': typeof StateSchemesRoute
+  '/timeline': typeof TimelineRoute
   '/track': typeof TrackRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/regulatory': typeof AdminRegulatoryRoute
@@ -286,8 +313,10 @@ export interface FileRouteTypes {
     | '/eligibility-results'
     | '/family'
     | '/forgot-password'
+    | '/impact'
     | '/life-events'
     | '/login'
+    | '/news'
     | '/notifications'
     | '/profile'
     | '/readiness'
@@ -296,6 +325,7 @@ export interface FileRouteTypes {
     | '/schemes'
     | '/simulator'
     | '/state-schemes'
+    | '/timeline'
     | '/track'
     | '/admin/dashboard'
     | '/admin/regulatory'
@@ -316,8 +346,10 @@ export interface FileRouteTypes {
     | '/eligibility-results'
     | '/family'
     | '/forgot-password'
+    | '/impact'
     | '/life-events'
     | '/login'
+    | '/news'
     | '/notifications'
     | '/profile'
     | '/readiness'
@@ -326,6 +358,7 @@ export interface FileRouteTypes {
     | '/schemes'
     | '/simulator'
     | '/state-schemes'
+    | '/timeline'
     | '/track'
     | '/admin/dashboard'
     | '/admin/regulatory'
@@ -346,8 +379,10 @@ export interface FileRouteTypes {
     | '/eligibility-results'
     | '/family'
     | '/forgot-password'
+    | '/impact'
     | '/life-events'
     | '/login'
+    | '/news'
     | '/notifications'
     | '/profile'
     | '/readiness'
@@ -356,6 +391,7 @@ export interface FileRouteTypes {
     | '/schemes'
     | '/simulator'
     | '/state-schemes'
+    | '/timeline'
     | '/track'
     | '/admin/dashboard'
     | '/admin/regulatory'
@@ -377,8 +413,10 @@ export interface RootRouteChildren {
   EligibilityResultsRoute: typeof EligibilityResultsRoute
   FamilyRoute: typeof FamilyRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  ImpactRoute: typeof ImpactRoute
   LifeEventsRoute: typeof LifeEventsRoute
   LoginRoute: typeof LoginRoute
+  NewsRoute: typeof NewsRoute
   NotificationsRoute: typeof NotificationsRoute
   ProfileRoute: typeof ProfileRoute
   ReadinessRoute: typeof ReadinessRoute
@@ -387,6 +425,7 @@ export interface RootRouteChildren {
   SchemesRoute: typeof SchemesRoute
   SimulatorRoute: typeof SimulatorRoute
   StateSchemesRoute: typeof StateSchemesRoute
+  TimelineRoute: typeof TimelineRoute
   TrackRoute: typeof TrackRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminRegulatoryRoute: typeof AdminRegulatoryRoute
@@ -487,6 +526,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/life-events': {
       id: '/life-events'
       path: '/life-events'
@@ -499,6 +545,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notifications': {
@@ -557,6 +610,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StateSchemesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/timeline': {
+      id: '/timeline'
+      path: '/timeline'
+      fullPath: '/timeline'
+      preLoaderRoute: typeof TimelineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/track': {
       id: '/track'
       path: '/track'
@@ -609,8 +669,10 @@ const rootRouteChildren: RootRouteChildren = {
   EligibilityResultsRoute: EligibilityResultsRoute,
   FamilyRoute: FamilyRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  ImpactRoute: ImpactRoute,
   LifeEventsRoute: LifeEventsRoute,
   LoginRoute: LoginRoute,
+  NewsRoute: NewsRoute,
   NotificationsRoute: NotificationsRoute,
   ProfileRoute: ProfileRoute,
   ReadinessRoute: ReadinessRoute,
@@ -619,6 +681,7 @@ const rootRouteChildren: RootRouteChildren = {
   SchemesRoute: SchemesRoute,
   SimulatorRoute: SimulatorRoute,
   StateSchemesRoute: StateSchemesRoute,
+  TimelineRoute: TimelineRoute,
   TrackRoute: TrackRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminRegulatoryRoute: AdminRegulatoryRoute,
