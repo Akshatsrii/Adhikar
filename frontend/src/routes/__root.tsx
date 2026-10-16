@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import { CommandPalette } from '@/components/CommandPalette'
+import { AIChatBubble } from '@/components/AIChatBubble'
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -222,6 +223,9 @@ function RootComponent() {
                 <li><Link to="/assistant" className="hover:text-white transition">AI Copilot</Link></li>
                 <li><Link to="/documents" className="hover:text-white transition">Smart Document Hub</Link></li>
                 <li><Link to="/state-schemes" className="hover:text-white transition">State Level Welfare</Link></li>
+                <li><Link to="/impact" className="hover:text-white transition">Social Impact Dashboard</Link></li>
+                <li><Link to="/news" className="hover:text-white transition">Welfare News Feed</Link></li>
+                <li><Link to="/timeline" className="hover:text-white transition">My Application Timeline</Link></li>
               </ul>
             </div>
 
@@ -262,6 +266,9 @@ function RootComponent() {
         isOpen={isCommandPaletteOpen} 
         onClose={() => setIsCommandPaletteOpen(false)} 
       />
+
+      {/* Floating AI Chat Bubble */}
+      <AIChatBubble />
     </div>
   )
 }
