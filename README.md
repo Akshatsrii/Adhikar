@@ -231,6 +231,26 @@ Blazing-fast command palette across 25+ real schemes, categories, and direct civ
 
 </td>
 </tr>
+<tr>
+<td valign="top">
+
+### 📊 Social Impact Dashboard (`/impact`)
+Real-time national DBT expenditure visualizer with animated counter tick-ups, sector budget distributions, and state leadership benchmarks.
+
+</td>
+<td valign="top">
+
+### 📰 Welfare News Feed (`/news`)
+Live curated feed of official gazettes, quota extensions, and portal deadlines with sentiment tagging and breaking news tickers.
+
+</td>
+<td valign="top">
+
+### ⏳ Application Timeline & AI Bubble (`/timeline`)
+Visual status journey tracker with Kanban progress bars, combined with a persistent pulsating AI Copilot bubble on every page.
+
+</td>
+</tr>
 </table>
 
 ## 🧭 How It Works
