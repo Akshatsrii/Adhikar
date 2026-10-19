@@ -157,6 +157,8 @@ export interface AskSource {
   schemeName: string
   sourceUrl: string
   chunkType: string
+  category?: string
+  benefit?: string
 }
 
 export interface AskResponse {
@@ -166,25 +168,37 @@ export interface AskResponse {
 
 interface RawAskResponse {
   answer: string
-  sources: { scheme_slug: string; scheme_name: string; source_url: string
-  application_url?: string
-  deadline?: string; chunk_type: string }[]
+  sources?: {
+    scheme_slug: string
+    scheme_name: string
+    source_url: string
+    application_url?: string
+    deadline?: string
+    chunk_type?: string
+    category?: string
+    benefit?: string
+  }[]
 }
 
 export const aiApi = {
-  ask: async (query: string): Promise<AskResponse> => {
+  ask: async (
+    query: string,
+    history?: { role: 'user' | 'assistant'; content: string }[]
+  ): Promise<AskResponse> => {
     const raw = await request<RawAskResponse>('/ai/ask', {
       method: 'POST',
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, history }),
     })
 
     return {
       answer: raw.answer,
-      sources: raw.sources.map((s) => ({
+      sources: (raw.sources || []).map((s) => ({
         schemeSlug: s.scheme_slug,
         schemeName: s.scheme_name,
-        sourceUrl: s.source_url,
-        chunkType: s.chunk_type,
+        sourceUrl: s.source_url || s.application_url || 'https://myscheme.gov.in',
+        chunkType: s.chunk_type || 'overview',
+        category: s.category,
+        benefit: s.benefit,
       })),
     }
   },

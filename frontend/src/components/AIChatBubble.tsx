@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
-import { Sparkles, X, Send, Bot, User, Loader2, ChevronDown, Minimize2 } from 'lucide-react'
-import { aiApi } from '@/lib/api'
+import { Sparkles, X, Send, Bot, User, Loader2, ChevronDown, Minimize2, ExternalLink, RotateCcw } from 'lucide-react'
+import { aiApi, type AskSource } from '@/lib/api'
 
 interface Message {
   id: number
   role: 'user' | 'assistant'
   text: string
   loading?: boolean
+  sources?: AskSource[]
 }
 
 const SUGGESTED = [
@@ -23,7 +24,7 @@ export function AIChatBubble() {
     {
       id: 0,
       role: 'assistant',
-      text: "Namaste! 🙏 I'm Adhikar AI Copilot. Ask me anything about government welfare schemes, eligibility, or how to apply.",
+      text: "Namaste! 🙏 I'm Adhikar AI Copilot. Ask me anything about government welfare schemes, eligibility rules, or how to apply.",
     },
   ])
   const [input, setInput] = useState('')
@@ -41,27 +42,59 @@ export function AIChatBubble() {
   const sendMessage = async (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || loading) return
+
     const userMsg: Message = { id: Date.now(), role: 'user', text: trimmed }
     const loadingMsg: Message = { id: Date.now() + 1, role: 'assistant', text: '', loading: true }
-    setMessages(prev => [...prev, userMsg, loadingMsg])
+
+    // Build multi-turn conversational history
+    const recentHistory = messages
+      .filter((m) => m.id !== 0 && !m.loading)
+      .slice(-4)
+      .map((m) => ({ role: m.role, content: m.text }))
+
+    setMessages((prev) => [...prev, userMsg, loadingMsg])
     setInput('')
     setLoading(true)
+
     try {
-      const res = await aiApi.ask(trimmed)
-      setMessages(prev =>
-        prev.map(m =>
-          m.loading ? { ...m, text: res.answer || 'I could not find a specific answer. Please try rephrasing.', loading: false } : m
+      const res = await aiApi.ask(trimmed, recentHistory)
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.loading
+            ? {
+                ...m,
+                text: res.answer || 'I could not find a specific answer. Please try rephrasing your question.',
+                sources: res.sources,
+                loading: false,
+              }
+            : m
         )
       )
     } catch {
-      setMessages(prev =>
-        prev.map(m =>
-          m.loading ? { ...m, text: 'Sorry, I am temporarily unavailable. Please try again shortly.', loading: false } : m
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.loading
+            ? {
+                ...m,
+                text: 'Sorry, I am temporarily unavailable. Please try again with a specific scheme like PM-KISAN or PMAY.',
+                loading: false,
+              }
+            : m
         )
       )
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleReset = () => {
+    setMessages([
+      {
+        id: Date.now(),
+        role: 'assistant',
+        text: "Namaste! 🙏 Chat history cleared. How can I help you find government benefits today?",
+      },
+    ])
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -76,7 +109,10 @@ export function AIChatBubble() {
       {/* Floating Bubble Button */}
       {!open && (
         <button
-          onClick={() => { setOpen(true); setMinimized(false) }}
+          onClick={() => {
+            setOpen(true)
+            setMinimized(false)
+          }}
           className="fixed bottom-6 right-6 z-50 group"
           aria-label="Open AI Assistant"
         >
@@ -98,8 +134,8 @@ export function AIChatBubble() {
       {/* Chat Panel */}
       {open && (
         <div
-          className={`fixed bottom-6 right-6 z-50 w-[360px] rounded-2xl shadow-2xl border border-slate-200 bg-white flex flex-col overflow-hidden transition-all duration-300 ${
-            minimized ? 'h-14' : 'h-[520px]'
+          className={`fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] rounded-2xl shadow-2xl border border-slate-200 bg-white flex flex-col overflow-hidden transition-all duration-300 ${
+            minimized ? 'h-14' : 'h-[540px]'
           }`}
           style={{ boxShadow: '0 25px 60px rgba(0,0,0,0.18), 0 0 0 1px rgba(99,102,241,0.12)' }}
         >
@@ -112,12 +148,19 @@ export function AIChatBubble() {
               <div className="text-white text-xs font-black leading-tight">Adhikar AI Copilot</div>
               <div className="text-blue-200 text-[10px] font-medium flex items-center gap-1">
                 <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full inline-block animate-pulse" />
-                Online · Gemini AI
+                Online · Grounded RAG
               </div>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               <button
-                onClick={() => setMinimized(p => !p)}
+                onClick={handleReset}
+                className="p-1 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition"
+                title="Reset conversation"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={() => setMinimized((p) => !p)}
                 className="p-1 rounded-lg text-white/70 hover:text-white hover:bg-white/10 transition"
                 title={minimized ? 'Expand' : 'Minimize'}
               >
@@ -139,26 +182,55 @@ export function AIChatBubble() {
               <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-slate-50/60">
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      msg.role === 'assistant'
-                        ? 'bg-gradient-to-br from-blue-500 to-indigo-600'
-                        : 'bg-gradient-to-br from-slate-600 to-slate-700'
-                    }`}>
-                      {msg.role === 'assistant'
-                        ? <Bot className="w-3.5 h-3.5 text-white" />
-                        : <User className="w-3.5 h-3.5 text-white" />}
+                    <div
+                      className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        msg.role === 'assistant'
+                          ? 'bg-gradient-to-br from-blue-500 to-indigo-600'
+                          : 'bg-gradient-to-br from-slate-600 to-slate-700'
+                      }`}
+                    >
+                      {msg.role === 'assistant' ? (
+                        <Bot className="w-3.5 h-3.5 text-white" />
+                      ) : (
+                        <User className="w-3.5 h-3.5 text-white" />
+                      )}
                     </div>
-                    <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-xs leading-relaxed ${
-                      msg.role === 'user'
-                        ? 'bg-indigo-600 text-white rounded-tr-sm'
-                        : 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-xs'
-                    }`}>
-                      {msg.loading
-                        ? <div className="flex items-center gap-2 text-slate-500">
+
+                    <div className="flex flex-col gap-1.5 max-w-[82%]">
+                      <div
+                        className={`px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap ${
+                          msg.role === 'user'
+                            ? 'bg-indigo-600 text-white rounded-tr-sm shadow-xs'
+                            : 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm shadow-xs'
+                        }`}
+                      >
+                        {msg.loading ? (
+                          <div className="flex items-center gap-2 text-slate-500">
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            <span>Thinking…</span>
+                            <span>Retrieving verified scheme data…</span>
                           </div>
-                        : msg.text}
+                        ) : (
+                          msg.text
+                        )}
+                      </div>
+
+                      {/* Source Pills if provided */}
+                      {msg.sources && msg.sources.length > 0 && (
+                        <div className="flex flex-wrap gap-1 pt-0.5">
+                          {msg.sources.slice(0, 3).map((src, i) => (
+                            <a
+                              key={i}
+                              href={src.sourceUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1 text-[10px] font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-full transition"
+                            >
+                              <span className="truncate max-w-[140px]">{src.schemeName}</span>
+                              <ExternalLink className="w-2.5 h-2.5 text-blue-500 shrink-0" />
+                            </a>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -185,9 +257,9 @@ export function AIChatBubble() {
                 <input
                   ref={inputRef}
                   value={input}
-                  onChange={e => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="Ask about any scheme…"
+                  placeholder="Ask about any scheme in English or Hindi…"
                   disabled={loading}
                   className="flex-1 text-xs px-3 py-2.5 bg-slate-100 rounded-xl border-0 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-60 placeholder:text-slate-400"
                 />
