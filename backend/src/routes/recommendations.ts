@@ -17,9 +17,14 @@ recommendationsRouter.get('/', async (req, res, next) => {
       throw new AppError('User not found', 404)
     }
 
+    // 1. Try remote AI microservice
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 1800)
+
       const aiResponse = await aiFetch(`/recommendations`, {
         method: 'POST',
+        signal: controller.signal,
         headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           profile: {
@@ -32,44 +37,85 @@ recommendationsRouter.get('/', async (req, res, next) => {
         }),
       })
 
+      clearTimeout(timeoutId)
+
       if (aiResponse.ok) {
         const data = await aiResponse.json()
         return res.status(200).json(data)
       }
-    } catch (err) {
-      console.warn("AI recommendations service failed, falling back to heuristic DB query")
+    } catch {
+      console.warn('AI recommendations service failed, falling back to deterministic profile matching')
     }
 
-    // Heuristic Fallback using Mongoose
-    const filter: any = {}
-    if (user.profile?.state) {
-      filter.$or = [{ state: user.profile.state }, { level: 'Central' }]
-    }
-    
-    // Very basic keyword matching for occupation/education
-    const keywords = [user.profile?.occupation, user.profile?.education].filter(Boolean)
-    if (keywords.length > 0) {
-      filter.$or = filter.$or || []
-      keywords.forEach(kw => {
-        filter.$or.push({ category: new RegExp(kw as string, 'i') })
-        filter.$or.push({ description: new RegExp(kw as string, 'i') })
-      })
-    }
+    // 2. Intelligent Deterministic Matching Fallback
+    const profile = user.profile || {}
+    const schemes = await SchemeModel.find({}).limit(50).lean()
 
-    const schemes = await SchemeModel.find(filter)
-      .limit(6)
-      .lean()
+    const scoredSchemes = schemes.map((s) => {
+      let score = 50
+      const reasons: string[] = []
 
-    // Format like AI service
-    const recommendations = schemes.map(s => ({
-      slug: s.slug,
-      name: s.name,
-      match_score: 85, // Fake score for fallback
-      reason: "Based on your state and profile details.",
-      benefit: s.benefit
-    }))
+      // State matching
+      if (s.state && profile.state) {
+        if (s.state.toLowerCase() === profile.state.toLowerCase()) {
+          score += 25
+          reasons.push(`Tailored for residents of ${s.state}`)
+        } else if (s.level?.toLowerCase() !== 'central') {
+          score -= 30 // Other state scheme
+        }
+      } else if (s.level?.toLowerCase() === 'central') {
+        score += 15
+        reasons.push('Nationwide Central Government scheme')
+      }
 
-    res.status(200).json({ recommendations })
+      // Occupation alignment
+      if (profile.occupation) {
+        const occLower = profile.occupation.toLowerCase()
+        const descLower = (s.description || '').toLowerCase()
+        const catLower = (s.category || '').toLowerCase()
+
+        if (catLower.includes(occLower) || descLower.includes(occLower)) {
+          score += 20
+          reasons.push(`Directly benefits ${profile.occupation} households`)
+        }
+      }
+
+      // Income limit check
+      if (profile.income && Array.isArray(s.eligibility_rules)) {
+        const incomeRule = s.eligibility_rules.find((r: any) => r.field === 'income')
+        if (incomeRule) {
+          const limitVal = parseFloat(incomeRule.value)
+          if (!isNaN(limitVal)) {
+            if (profile.income <= limitVal) {
+              score += 15
+              reasons.push(`Income under ceiling limit of ₹${limitVal.toLocaleString('en-IN')}`)
+            } else {
+              score -= 40
+            }
+          }
+        }
+      }
+
+      // Final bounded score
+      const finalScore = Math.min(Math.max(score, 45), 98)
+      const primaryReason = reasons.length > 0
+        ? reasons.join('. ') + '.'
+        : 'Aligns with your citizen profile and household demographic.'
+
+      return {
+        slug: s.slug,
+        name: s.name,
+        category: s.category,
+        benefit: s.benefit,
+        match_score: finalScore,
+        reason: primaryReason,
+      }
+    })
+
+    // Sort by highest score
+    scoredSchemes.sort((a, b) => b.match_score - a.match_score)
+
+    res.status(200).json({ recommendations: scoredSchemes.slice(0, 6) })
   } catch (err) {
     next(err)
   }
