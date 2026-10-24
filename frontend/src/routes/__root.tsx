@@ -139,6 +139,13 @@ function RootComponent() {
             >
               Helpdesk
             </Link>
+            <Link 
+              to="/grievance" 
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-slate-600 hover:text-rose-600 hover:bg-white transition-all [&.active]:bg-white [&.active]:text-rose-600 [&.active]:shadow-xs flex items-center gap-1"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+              Grievance
+            </Link>
           </nav>
 
           {/* Right Action / Auth */}
@@ -234,6 +241,7 @@ function RootComponent() {
               <ul className="space-y-2.5 text-xs">
                 <li><Link to="/about" className="hover:text-white transition">About Architecture</Link></li>
                 <li><Link to="/contact" className="hover:text-white transition">Citizen Grievance Redressal</Link></li>
+                <li><Link to="/grievance" className="hover:text-white transition">File / Track Grievance</Link></li>
                 <li><a href="https://pmkisan.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition">PM-KISAN Portal</a></li>
                 <li><a href="https://pmjay.gov.in" target="_blank" rel="noreferrer" className="hover:text-white transition">Ayushman Bharat Portal</a></li>
               </ul>
