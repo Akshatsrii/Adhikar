@@ -22,6 +22,7 @@ import { Route as EligibilityRouteImport } from './routes/eligibility'
 import { Route as EligibilityResultsRouteImport } from './routes/eligibility-results'
 import { Route as FamilyRouteImport } from './routes/family'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as GrievanceRouteImport } from './routes/grievance'
 import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as LifeEventsRouteImport } from './routes/life-events'
 import { Route as LoginRouteImport } from './routes/login'
@@ -104,6 +105,11 @@ const FamilyRoute = FamilyRouteImport.update({
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GrievanceRoute = GrievanceRouteImport.update({
+  id: '/grievance',
+  path: '/grievance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ImpactRoute = ImpactRouteImport.update({
@@ -211,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/grievance': typeof GrievanceRoute
   '/impact': typeof ImpactRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/grievance': typeof GrievanceRoute
   '/impact': typeof ImpactRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/eligibility-results': typeof EligibilityResultsRoute
   '/family': typeof FamilyRoute
   '/forgot-password': typeof ForgotPasswordRoute
+  '/grievance': typeof GrievanceRoute
   '/impact': typeof ImpactRoute
   '/life-events': typeof LifeEventsRoute
   '/login': typeof LoginRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/eligibility-results'
     | '/family'
     | '/forgot-password'
+    | '/grievance'
     | '/impact'
     | '/life-events'
     | '/login'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
     | '/eligibility-results'
     | '/family'
     | '/forgot-password'
+    | '/grievance'
     | '/impact'
     | '/life-events'
     | '/login'
@@ -379,6 +390,7 @@ export interface FileRouteTypes {
     | '/eligibility-results'
     | '/family'
     | '/forgot-password'
+    | '/grievance'
     | '/impact'
     | '/life-events'
     | '/login'
@@ -413,6 +425,7 @@ export interface RootRouteChildren {
   EligibilityResultsRoute: typeof EligibilityResultsRoute
   FamilyRoute: typeof FamilyRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
+  GrievanceRoute: typeof GrievanceRoute
   ImpactRoute: typeof ImpactRoute
   LifeEventsRoute: typeof LifeEventsRoute
   LoginRoute: typeof LoginRoute
@@ -524,6 +537,13 @@ declare module '@tanstack/react-router' {
       path: '/forgot-password'
       fullPath: '/forgot-password'
       preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/grievance': {
+      id: '/grievance'
+      path: '/grievance'
+      fullPath: '/grievance'
+      preLoaderRoute: typeof GrievanceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/impact': {
@@ -669,6 +689,7 @@ const rootRouteChildren: RootRouteChildren = {
   EligibilityResultsRoute: EligibilityResultsRoute,
   FamilyRoute: FamilyRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
+  GrievanceRoute: GrievanceRoute,
   ImpactRoute: ImpactRoute,
   LifeEventsRoute: LifeEventsRoute,
   LoginRoute: LoginRoute,
