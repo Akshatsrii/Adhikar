@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
-import { Search, Users, SlidersHorizontal, Loader2, FilterX, ExternalLink } from 'lucide-react'
+import { Search, SlidersHorizontal, ExternalLink, Zap, FilterX, Loader2, Users } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
@@ -35,7 +35,14 @@ function SchemesPage() {
   const [isLoading, setIsLoading] = useState(true)
   
   const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState<string | null>(search.category || null)
+
+  // Debounce search
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(searchQuery), 250)
+    return () => clearTimeout(t)
+  }, [searchQuery])
 
   useEffect(() => {
     schemesApi.list(0, 200).then(res => {
@@ -56,46 +63,85 @@ function SchemesPage() {
   }
 
   const filteredSchemes = schemes.filter(s => {
-    if (searchQuery && !s.name.toLowerCase().includes(searchQuery.toLowerCase())) return false
+    if (debouncedQuery && !s.name.toLowerCase().includes(debouncedQuery.toLowerCase()) && !s.description?.toLowerCase().includes(debouncedQuery.toLowerCase())) return false
     if (activeCategory && s.category !== activeCategory) return false
     return true
   })
 
+  const catDots: Record<string, string> = {
+    Agriculture: 'bg-emerald-500', Employment: 'bg-blue-500', Housing: 'bg-amber-500',
+    Healthcare: 'bg-rose-500', Education: 'bg-indigo-500', 'Social Welfare': 'bg-violet-500',
+    Women: 'bg-pink-500', Disability: 'bg-purple-500',
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">
-      
-      {/* Top Banner Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/60">
-              Verified Schemes Catalog
-            </span>
-            <span className="text-[11px] font-semibold text-slate-400">Direct Portals</span>
+    <div className="min-h-screen bg-slate-50 font-sans">
+
+      {/* FAANG-level Hero Header */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white py-14 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
+            <Zap className="w-3.5 h-3.5 text-blue-400" />
+            <span className="text-blue-400">Verified Catalog</span>
+            <span>·</span>
+            <span>Direct Government Portals Only</span>
           </div>
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Explore Government Entitlements</h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Displaying {filteredSchemes.length} verified national & state welfare initiatives
-          </p>
-        </div>
-        
-        {/* Search Bar */}
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input 
-            type="text" 
-            placeholder="Search by scheme name or keyword..." 
-            value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 text-xs font-medium border border-slate-200 rounded-xl bg-white shadow-xs focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-400"
-          />
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-2 animate-fade-in-up">Government Schemes</h1>
+              <p className="text-slate-400 text-sm max-w-xl animate-fade-in-up-1">
+                {isLoading ? 'Loading verified schemes...' : `${filteredSchemes.length} of ${schemes.length} schemes`} · Updated from official portals weekly
+              </p>
+            </div>
+            {/* Search */}
+            <div className="relative w-full md:w-80 animate-fade-in-up-2">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search schemes or keywords..."
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-slate-400 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-white/40 focus:ring-4 focus:ring-white/10 transition font-medium"
+              />
+            </div>
+          </div>
+
+          {/* Category pill filters */}
+          <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-white/10">
+            <button
+              onClick={() => handleCategoryChange(null)}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition border ${
+                activeCategory === null
+                  ? 'bg-white text-slate-900 border-white shadow-sm'
+                  : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
+              }`}
+            >
+              All ({schemes.length})
+            </button>
+            {CATEGORIES.map(cat => (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition border flex items-center gap-1.5 ${
+                  activeCategory === cat
+                    ? 'bg-white text-slate-900 border-white shadow-sm'
+                    : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
+                }`}
+              >
+                <span className={`w-1.5 h-1.5 rounded-full ${catDots[cat] || 'bg-slate-400'}`} />
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
+      {/* Body: Sidebar + Cards */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
       <div className="flex flex-col md:flex-row gap-8">
         
         {/* Left Sidebar - Filters */}
-        <div className="w-full md:w-64 shrink-0">
+        <div className="w-full md:w-56 shrink-0">
           <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-[0_8px_30px_rgb(0,0,0,0.03)] sticky top-24">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
@@ -269,6 +315,7 @@ function SchemesPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )
