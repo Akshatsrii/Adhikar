@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
-import { Sparkles, Globe, ArrowRight, ShieldCheck, User, Search } from 'lucide-react'
+import { Sparkles, Globe, ArrowRight, ShieldCheck, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, Newspaper, MessageSquareWarning, Phone, BookOpen, TrendingUp } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
@@ -15,9 +15,12 @@ function RootComponent() {
   const { i18n } = useTranslation()
   const { pathname } = useLocation()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    setMobileOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -27,8 +30,13 @@ function RootComponent() {
         setIsCommandPaletteOpen((prev) => !prev)
       }
     }
+    const handleScroll = () => setScrolled(window.scrollY > 12)
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   const changeLanguage = (lng: string) => {
@@ -72,8 +80,8 @@ function RootComponent() {
         </div>
       </div>
 
-      {/* 2. Unified Modern Glassmorphic Navbar */}
-      <header className="bg-white/85 backdrop-blur-xl border-b border-slate-200/80 sticky top-0 z-50 w-full transition-all duration-300 shadow-[0_4px_25px_rgba(0,0,0,0.03)]">
+      {/* 2. Scroll-Aware Glassmorphic Navbar */}
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-2xl border-b border-slate-200/80 shadow-[0_4px_30px_rgba(0,0,0,0.08)]' : 'bg-white/70 backdrop-blur-xl border-b border-slate-100/60 shadow-none'}`}>
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
           
           {/* Brand Logo */}
@@ -149,45 +157,74 @@ function RootComponent() {
           </nav>
 
           {/* Right Action / Auth */}
-          <div className="flex items-center gap-3">
-            {/* Quick Spotlight Trigger */}
+          <div className="flex items-center gap-2">
+            {/* Spotlight */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 text-slate-600 border border-slate-200 transition shadow-xs group"
-              title="Search schemes and tools (Ctrl+K)"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 transition group"
+              title="Search (Ctrl+K)"
             >
               <Search className="w-3.5 h-3.5 text-slate-500 group-hover:text-blue-600 transition" />
               <span className="hidden sm:inline text-slate-500 font-medium">Search</span>
-              <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200">
-                ⌘K
-              </kbd>
+              <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-slate-400 bg-white px-1.5 py-0.5 rounded border border-slate-200">⌘K</kbd>
             </button>
 
             {!user ? (
-              <div className="flex items-center gap-2">
-                <Link 
-                  to="/login" 
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-bold px-5 py-2.5 rounded-full hover:from-blue-700 hover:to-indigo-700 transition shadow-sm hover:shadow-md hover:scale-[1.02] flex items-center gap-1.5"
-                >
-                  <span>Sign In</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <Link
+                to="/login"
+                className="btn-shimmer text-white text-xs font-bold px-5 py-2.5 rounded-full hover:scale-[1.02] active:scale-[0.98] flex items-center gap-1.5 shadow-md shadow-indigo-500/20 transition-transform"
+              >
+                Sign In <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             ) : (
-              <div className="flex items-center gap-3 bg-slate-100/60 p-1 pr-3 rounded-full border border-slate-200/60">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+              <div className="flex items-center gap-2.5 bg-slate-100/80 p-1 pr-3.5 rounded-full border border-slate-200/60">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-black text-xs shadow-sm ring-2 ring-blue-100">
                   {user.name ? user.name[0].toUpperCase() : <User className="w-4 h-4" />}
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="text-xs font-bold text-slate-900 leading-tight max-w-[120px] truncate">{user.name}</span>
-                  <button onClick={logout} className="text-[10px] font-semibold text-rose-500 hover:text-rose-700 text-left transition">
-                    Logout
-                  </button>
+                  <span className="text-xs font-bold text-slate-900 leading-tight max-w-[110px] truncate">{user.name}</span>
+                  <button onClick={logout} className="text-[10px] font-semibold text-rose-500 hover:text-rose-700 text-left transition">Sign out</button>
                 </div>
               </div>
             )}
+
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setMobileOpen(o => !o)}
+              className="lg:hidden w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-600 transition"
+            >
+              {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Drawer */}
+        {mobileOpen && (
+          <div className="lg:hidden border-t border-slate-100 bg-white/95 backdrop-blur-xl">
+            <nav className="px-4 py-4 grid grid-cols-2 gap-2">
+              {[
+                { to: '/', label: 'Home', icon: <LayoutDashboard className="w-4 h-4" /> },
+                { to: '/schemes', label: 'Schemes', icon: <BookOpen className="w-4 h-4" /> },
+                { to: '/eligibility', label: 'Eligibility', icon: <TrendingUp className="w-4 h-4" /> },
+                { to: '/assistant', label: 'AI Copilot', icon: <Sparkles className="w-4 h-4" /> },
+                { to: '/documents', label: 'Documents', icon: <FileText className="w-4 h-4" /> },
+                { to: '/calculator', label: 'Calculators', icon: <Calculator className="w-4 h-4" /> },
+                { to: '/news', label: 'News', icon: <Newspaper className="w-4 h-4" /> },
+                { to: '/grievance', label: 'Grievance', icon: <MessageSquareWarning className="w-4 h-4" /> },
+                { to: '/contact', label: 'Helpdesk', icon: <Phone className="w-4 h-4" /> },
+              ].map(item => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition [&.active]:bg-blue-50 [&.active]:text-blue-700"
+                >
+                  <span className="text-slate-400">{item.icon}</span>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Main Content Area */}
