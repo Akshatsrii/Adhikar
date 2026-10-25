@@ -1,11 +1,18 @@
-<div align="center">  <img src="docs/assets/banner.png" alt="Adhikar project banner" width="100%" /></div> <br/>
+<div align="center">
+  <img src="docs/assets/banner.png" alt="Adhikar: Your Right, Delivered." width="100%" />
+</div>
+
 <br/>
 
 <div align="center">
 
-  <img src="docs/assets/logo.svg" alt="Adhikar logo" width="120" />
+  <a href="https://adhikar-seven.vercel.app/">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=900&color=FF9933&center=true&vCenter=true&width=820&lines=Because+claiming+a+government+scheme;shouldn%27t+feel+like+a+government+scheme.;Discover+%E2%86%92+Verify+%E2%86%92+Apply+%E2%86%92+Track;Deterministic+eligibility.+Zero+LLM+guesswork.;Your+Right%2C+Delivered.+%F0%9F%87%AE%F0%9F%87%B3" alt="Adhikar animated tagline" />
+  </a>
 
-  <h3>Because claiming a government scheme shouldn't feel like a government scheme.</h3>
+  <br/><br/>
+
+  <img src="docs/assets/logo.png" alt="Adhikar logo" width="110" />
 
   <p><i>A dual-backend AI platform (Node.js + FastAPI + Gemini + pgvector) for government scheme discovery, deterministic eligibility, family optimization, and AI-assisted applications.</i></p>
 
@@ -1129,7 +1136,7 @@ Contributions, issues, and feature requests are welcome!
 
 <div align="center">
 
-<img src="docs/assets/logo.svg" alt="Adhikar" width="64" />
+<img src="docs/assets/logo.png" alt="Adhikar" width="64" />
 
 **Akshat Srivastava**
 
