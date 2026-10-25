@@ -1,7 +1,4 @@
-<div align="center">
-  <img src="docs/assets/banner.svg" alt="Adhikar: Your Right, Delivered." width="100%" />
-</div>
-
+<div align="center">  <img src="docs/assets/banner.png" alt="Adhikar project banner" width="100%" /></div> <br/>
 <br/>
 
 <div align="center">
