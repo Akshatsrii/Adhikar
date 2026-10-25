@@ -1,6 +1,10 @@
-import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
-import { Search, ArrowRight, Home, Building2, Briefcase, Leaf, Users, HeartPulse, Accessibility, MoreHorizontal, Sparkles, ExternalLink, CheckCircle2 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+﻿import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
+import {
+  Search, ArrowRight, Home, Building2, Briefcase, Leaf, Users, HeartPulse,
+  Accessibility, MoreHorizontal, Sparkles, ExternalLink, CheckCircle2,
+  Zap, ShieldCheck, TrendingUp, Globe, ChevronRight, Star, Award
+} from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
@@ -9,37 +13,50 @@ export const Route = createFileRoute('/')({
   component: LandingPage,
 })
 
+function AnimatedStat({ value, label }: { value: string; label: string }) {
+  const [visible, setVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true) }, { threshold: 0.3 })
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [])
+  return (
+    <div ref={ref} className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className="text-2xl md:text-3xl font-black text-white tracking-tight">{value}</div>
+      <div className="text-[11px] text-slate-400 font-medium mt-0.5">{label}</div>
+    </div>
+  )
+}
+
 function LandingPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const [featuredSchemes, setFeaturedSchemes] = useState<PublicScheme[]>([])
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({})
   const [searchQuery, setSearchQuery] = useState('')
-  
+  const [searchFocused, setSearchFocused] = useState(false)
+
   useEffect(() => {
     schemesApi.list(0, 100).then(res => {
       const counts: Record<string, number> = {}
-      res.items.forEach(s => {
-        counts[s.category] = (counts[s.category] || 0) + 1
-      })
+      res.items.forEach(s => { counts[s.category] = (counts[s.category] || 0) + 1 })
       setCategoryCounts(counts)
-      setFeaturedSchemes(res.items.slice(0, 4))
+      setFeaturedSchemes(res.items.slice(0, 6))
     }).catch(console.error)
   }, [])
 
-  if (user) {
-    return <Navigate to="/dashboard" replace />
-  }
+  if (user) return <Navigate to="/dashboard" replace />
 
   const baseCategories = [
-    { icon: <Leaf className="w-5 h-5 text-emerald-600" />, title: 'Agriculture', color: 'bg-emerald-50 border-emerald-100/80 text-emerald-700' },
-    { icon: <Briefcase className="w-5 h-5 text-blue-600" />, title: 'Employment', color: 'bg-blue-50 border-blue-100/80 text-blue-700' },
-    { icon: <Home className="w-5 h-5 text-amber-600" />, title: 'Housing', color: 'bg-amber-50 border-amber-100/80 text-amber-700' },
-    { icon: <Accessibility className="w-5 h-5 text-violet-600" />, title: 'Disability', color: 'bg-violet-50 border-violet-100/80 text-violet-700' },
-    { icon: <Users className="w-5 h-5 text-pink-600" />, title: 'Women', color: 'bg-pink-50 border-pink-100/80 text-pink-700' },
-    { icon: <HeartPulse className="w-5 h-5 text-rose-600" />, title: 'Healthcare', color: 'bg-rose-50 border-rose-100/80 text-rose-700' },
-    { icon: <Building2 className="w-5 h-5 text-indigo-600" />, title: 'Education', color: 'bg-indigo-50 border-indigo-100/80 text-indigo-700' },
-    { icon: <MoreHorizontal className="w-5 h-5 text-slate-600" />, title: 'Social Welfare', color: 'bg-slate-50 border-slate-200 text-slate-700' },
+    { icon: <Leaf className="w-5 h-5" />, title: 'Agriculture', color: 'from-emerald-500 to-green-600' },
+    { icon: <Briefcase className="w-5 h-5" />, title: 'Employment', color: 'from-blue-500 to-blue-600' },
+    { icon: <Home className="w-5 h-5" />, title: 'Housing', color: 'from-amber-500 to-orange-600' },
+    { icon: <Accessibility className="w-5 h-5" />, title: 'Disability', color: 'from-violet-500 to-purple-600' },
+    { icon: <Users className="w-5 h-5" />, title: 'Women', color: 'from-pink-500 to-rose-500' },
+    { icon: <HeartPulse className="w-5 h-5" />, title: 'Healthcare', color: 'from-rose-500 to-red-600' },
+    { icon: <Building2 className="w-5 h-5" />, title: 'Education', color: 'from-indigo-500 to-blue-700' },
+    { icon: <MoreHorizontal className="w-5 h-5" />, title: 'Social Welfare', color: 'from-slate-500 to-slate-600' },
   ]
 
   const categoryCards = baseCategories.map(cat => ({
@@ -49,289 +66,368 @@ function LandingPage() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (searchQuery.trim()) {
-      navigate({ to: '/schemes', search: { category: searchQuery.trim() } })
-    } else {
-      navigate({ to: '/schemes' })
-    }
+    navigate({ to: '/schemes', search: { category: searchQuery.trim() || undefined } as any })
+  }
+
+  const trustBadges = [
+    'PM-KISAN', 'Ayushman Bharat', 'PMAY', 'NSP Scholarships', 'e-Shram',
+    'PM Vishwakarma', 'MGNREGA', 'Jan Dhan', 'Sukanya Samriddhi', 'Atal Pension',
+    'PM-KISAN', 'Ayushman Bharat', 'PMAY', 'NSP Scholarships', 'e-Shram',
+    'PM Vishwakarma', 'MGNREGA', 'Jan Dhan', 'Sukanya Samriddhi', 'Atal Pension',
+  ]
+
+  const catColors: Record<string, string> = {
+    Agriculture: 'from-emerald-500 to-green-600',
+    Employment: 'from-blue-500 to-blue-700',
+    Housing: 'from-amber-500 to-orange-500',
+    Healthcare: 'from-rose-500 to-red-600',
+    Education: 'from-indigo-500 to-blue-700',
+    'Social Welfare': 'from-violet-500 to-purple-600',
+    Women: 'from-pink-500 to-rose-500',
+    Disability: 'from-purple-500 to-violet-600',
   }
 
   return (
-    <div className="min-h-screen bg-slate-50/60 font-sans text-slate-800">
-      
-      {/* 1. HERO SECTION - MODERN CIVIC-TECH */}
-      <section className="relative w-full overflow-hidden bg-slate-950 pt-16 pb-20 md:py-24 text-white">
-        {/* Ambient Gradient Background Glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-blue-600/25 via-indigo-600/20 to-purple-600/10 rounded-full blur-[120px]"></div>
-          <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px]"></div>
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden">
+
+      {/* HERO */}
+      <section className="relative w-full overflow-hidden mesh-bg min-h-[88vh] flex items-center">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] animate-breathe" />
+          <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-violet-600/15 rounded-full blur-[100px] animate-breathe" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] animate-breathe" style={{ animationDelay: '2s' }} />
+          <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-blue-200 shadow-sm">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-20 w-full">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="animate-fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full glass-dark text-xs font-semibold text-blue-200 mb-8 mx-auto">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping-sm absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+              </span>
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>Next-Gen Welfare Intelligence Engine</span>
-              <span className="text-white/40">·</span>
-              <span className="text-white/80 font-normal">v1.0 Live</span>
+              <span>Next-Gen Welfare Intelligence &middot; Powered by Gemini AI</span>
+              <span className="bg-white/15 text-white/80 text-[10px] px-2 py-0.5 rounded-full font-normal">v2.0 Live</span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] text-white">
-              Every Citizen Entitlement.{' '}
-              <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-300 bg-clip-text text-transparent">
-                One Intelligent Click.
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.05] text-white mb-6">
+              <span className="animate-fade-in-up block">Every Citizen</span>
+              <span className="animate-fade-in-up-1 block">
+                Entitlement.{' '}
+                <span className="text-gradient-hero">One Click.</span>
               </span>
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-base md:text-xl text-slate-300 leading-relaxed font-normal max-w-2xl mx-auto">
-              Bridging India's welfare gap with Gemini AI & deterministic rule engines. Discover your exact benefits, check eligibility, and apply directly to official government portals.
+            <p className="animate-fade-in-up-2 text-lg md:text-xl text-slate-300 leading-relaxed font-normal max-w-2xl mx-auto mb-10">
+              Bridging India's welfare gap with Gemini AI &amp; deterministic rule engines.
+              Discover exact benefits, verify eligibility instantly, and apply to official government portals.
             </p>
-            
-            {/* Search Input Box */}
-            <form onSubmit={handleSearchSubmit} className="pt-2 max-w-xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-xl p-1.5 rounded-2xl shadow-2xl flex items-center gap-2 border border-white/20 hover:border-white/30 transition-all focus-within:ring-4 focus-within:ring-blue-500/20">
-                <div className="flex-1 flex items-center pl-4 gap-3">
-                  <Search className="w-5 h-5 text-slate-400" />
-                  <input 
-                    type="text" 
+
+            <form onSubmit={handleSearchSubmit} className="animate-fade-in-up-3 max-w-2xl mx-auto mb-10">
+              <div className={`relative flex items-center gap-2 p-2 rounded-2xl transition-all duration-300 ${searchFocused ? 'glass-dark shadow-[0_0_0_2px_rgba(99,102,241,0.5),0_20px_60px_rgba(0,0,0,0.4)]' : 'glass-dark shadow-[0_8px_40px_rgba(0,0,0,0.3)]'}`}>
+                <div className="flex-1 flex items-center pl-3 gap-3">
+                  <Search className="w-5 h-5 text-slate-400 shrink-0" />
+                  <input
+                    type="text"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search schemes (e.g. PM-KISAN, Student, Healthcare)..." 
-                    className="w-full py-3 bg-transparent border-none focus:outline-none text-sm text-white placeholder:text-slate-400 font-medium" 
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onFocus={() => setSearchFocused(true)}
+                    onBlur={() => setSearchFocused(false)}
+                    placeholder="Search schemes - PM-KISAN, Ayushman, Housing, Student..."
+                    className="w-full py-3.5 bg-transparent border-none focus:outline-none text-sm text-white placeholder:text-slate-500 font-medium"
                   />
                 </div>
-                <button 
-                  type="submit" 
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-6 py-3 rounded-xl transition-all font-bold text-xs shadow-md shadow-blue-500/25 shrink-0 flex items-center gap-1.5"
+                <button
+                  type="submit"
+                  className="btn-shimmer text-white px-7 py-3.5 rounded-xl font-bold text-sm shrink-0 flex items-center gap-2 transition-transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span>Explore</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
+              <p className="text-xs text-slate-500 mt-2.5 text-center">500+ verified government schemes indexed &amp; updated weekly</p>
             </form>
 
-            {/* Quick Metrics */}
-            <div className="pt-6 grid grid-cols-3 gap-4 max-w-lg mx-auto text-left border-t border-white/10">
-              <div>
-                <div className="text-xl md:text-2xl font-black text-white">₹50K+ Cr</div>
-                <div className="text-[11px] text-slate-400 font-medium">Benefits Unlocked</div>
-              </div>
-              <div>
-                <div className="text-xl md:text-2xl font-black text-white">500+</div>
-                <div className="text-[11px] text-slate-400 font-medium">Schemes Indexed</div>
-              </div>
-              <div>
-                <div className="text-xl md:text-2xl font-black text-white">100%</div>
-                <div className="text-[11px] text-slate-400 font-medium">Official Portals</div>
-              </div>
+            <div className="animate-fade-in-up-4 grid grid-cols-3 gap-6 max-w-xl mx-auto pt-8 border-t border-white/10">
+              <AnimatedStat value="50K+ Cr" label="Benefits Unlocked" />
+              <AnimatedStat value="500+" label="Schemes Indexed" />
+              <AnimatedStat value="100%" label="Official Portals" />
             </div>
-
           </div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none" />
       </section>
 
-      {/* 2. MAIN BODY CONTENT */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
-        
-        <div className="space-y-10">
-          
-          {/* Categories Grid */}
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
-            <div className="flex justify-between items-center mb-6">
+      {/* TRUST TICKER */}
+      <div className="bg-white border-y border-slate-200 py-4 overflow-hidden relative">
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+        <div className="animate-ticker flex whitespace-nowrap gap-8 w-max">
+          {trustBadges.map((name, i) => (
+            <div key={i} className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 px-4">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              <span>{name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* MAIN BODY */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10">
+        <div className="space-y-12">
+
+          {/* Categories */}
+          <div className="animate-fade-in-up">
+            <div className="flex justify-between items-end mb-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight">Browse by Category</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Explore initiatives tailored for different sectors and demographics</p>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 uppercase tracking-wider mb-1.5">
+                  <Zap className="w-3 h-3" /> Browse Categories
+                </div>
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Find Schemes by Sector</h2>
+                <p className="text-sm text-slate-500 mt-1">Initiatives tailored for every demographic and sector</p>
               </div>
-              <Link to="/schemes" className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                View All <ArrowRight className="w-3 h-3" />
+              <Link to="/schemes" className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group">
+                All Schemes <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
-            
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {categoryCards.map((cat, i) => (
-                <Link 
-                  key={i} 
-                  to="/schemes" 
-                  search={{ category: cat.title }} 
-                  className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 flex flex-col items-center justify-center text-center gap-2.5 hover:-translate-y-1 hover:shadow-lg hover:border-blue-100 hover:bg-white transition-all duration-300 cursor-pointer group"
+                <Link
+                  key={i}
+                  to="/schemes"
+                  search={{ category: cat.title } as any}
+                  className="group relative p-5 rounded-2xl border border-slate-100 bg-white flex flex-col items-center justify-center text-center gap-3 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden"
                 >
-                  <div className={`w-12 h-12 rounded-xl ${cat.color} border flex items-center justify-center shadow-xs group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                  <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
                     {cat.icon}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-800 text-xs">{cat.title}</h4>
-                    <p className="text-[11px] text-slate-500 font-medium mt-0.5">{cat.count}</p>
+                    <h4 className="font-bold text-slate-800 text-sm group-hover:text-slate-900 transition">{cat.title}</h4>
+                    <p className="text-[11px] text-slate-400 font-semibold mt-0.5">{cat.count}</p>
                   </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </Link>
               ))}
             </div>
           </div>
 
           {/* Featured Schemes */}
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
-            <div className="flex justify-between items-center mb-6">
+          <div className="animate-fade-in-up-1">
+            <div className="flex justify-between items-end mb-6">
               <div>
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight">Featured Indian Welfare Schemes</h3>
-                <p className="text-xs text-slate-500 mt-0.5">High-impact national and state initiatives with direct DBT benefits</p>
+                <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1.5">
+                  <Star className="w-3 h-3" /> Featured
+                </div>
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">High-Impact Welfare Schemes</h2>
+                <p className="text-sm text-slate-500 mt-1">Direct DBT benefits from verified national portals</p>
               </div>
               <Link to="/schemes" className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group">
-                All Schemes <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform"/>
+                All Schemes <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {featuredSchemes.length === 0 ? (
-                 <div className="col-span-2 text-center text-slate-400 py-12 text-sm font-medium">Loading verified schemes...</div>
-              ) : (
-                featuredSchemes.map((s, i) => (
-                  <div key={i} className="border border-slate-200/80 bg-white rounded-2xl flex flex-col overflow-hidden hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group">
-                    <div className="p-6 flex flex-col flex-1 relative">
-                      <div className="flex justify-between items-start gap-2 mb-2">
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/50">
-                          {s.level || 'Central'}
-                        </span>
-                        <span className="text-[10px] font-semibold text-slate-400">
-                          {s.category}
-                        </span>
-                      </div>
-                      
-                      <h4 className="font-bold text-slate-900 text-sm leading-snug mb-2 line-clamp-2 h-10 group-hover:text-blue-700 transition">
-                        {s.name}
-                      </h4>
-                      <p className="text-xs text-slate-500 mb-5 line-clamp-2 leading-relaxed">
-                        {s.description}
-                      </p>
-                      
-                      <div className="mt-auto space-y-2 mb-5 pt-3 border-t border-slate-100">
-                        <div className="flex items-center text-xs font-semibold text-slate-700 gap-2">
-                          <span className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-xs font-bold">₹</span>
-                          <span className="truncate">{s.benefit || 'Direct Benefit Transfer'}</span>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2.5 mt-auto">
-                        <Link 
-                          to="/scheme/$slug" 
-                          params={{ slug: s.slug }} 
-                          className="border border-slate-200 text-center text-slate-700 text-xs font-bold py-2.5 rounded-xl hover:bg-slate-50 transition-all"
-                        >
-                          Details
-                        </Link>
-                        {/* Direct External Official Application Link */}
-                        <a 
-                          href={s.application_url || s.source_url || '#'} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="bg-blue-600 text-center text-white text-xs font-bold py-2.5 rounded-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-1 shadow-xs"
-                        >
-                          <span>Apply</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      </div>
+            {featuredSchemes.length === 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="rounded-2xl border border-slate-100 overflow-hidden">
+                    <div className="skeleton h-2 w-full" />
+                    <div className="p-6 space-y-3">
+                      <div className="skeleton h-4 w-1/3" />
+                      <div className="skeleton h-5 w-full" />
+                      <div className="skeleton h-4 w-4/5" />
+                      <div className="skeleton h-10 w-full mt-4" />
                     </div>
                   </div>
-                ))
-              )}
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {featuredSchemes.map((s, i) => {
+                  const gradient = catColors[s.category] || 'from-blue-500 to-indigo-600'
+                  return (
+                    <div key={i} className="group border border-slate-200/80 bg-white rounded-2xl flex flex-col overflow-hidden hover:border-transparent hover:shadow-2xl hover:shadow-blue-500/8 transition-all duration-300">
+                      <div className={`h-1.5 bg-gradient-to-r ${gradient} w-full`} />
+                      <div className="p-6 flex flex-col flex-1">
+                        <div className="flex justify-between items-start gap-2 mb-3">
+                          <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-gradient-to-r ${gradient} text-white`}>
+                            {s.category}
+                          </span>
+                          <span className="text-[10px] font-semibold text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-100">
+                            {s.level || 'Central'}
+                          </span>
+                        </div>
+                        <h3 className="font-black text-slate-900 text-sm leading-snug mb-2 line-clamp-2 group-hover:text-blue-700 transition-colors duration-200">
+                          {s.name}
+                        </h3>
+                        <p className="text-xs text-slate-500 mb-5 line-clamp-2 leading-relaxed flex-1">{s.description}</p>
+                        <div className="flex items-center gap-2 mb-5 pb-4 border-b border-slate-100">
+                          <div className="w-6 h-6 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center text-xs font-bold border border-emerald-100">Rs</div>
+                          <span className="text-xs font-bold text-slate-700 truncate">{s.benefit || 'Direct Benefit Transfer'}</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2.5">
+                          <Link to="/scheme/$slug" params={{ slug: s.slug }} className="text-center text-slate-700 text-xs font-bold py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all">
+                            Details
+                          </Link>
+                          <a href={s.application_url || s.source_url || '#'} target="_blank" rel="noopener noreferrer" className={`bg-gradient-to-r ${gradient} text-center text-white text-xs font-bold py-2.5 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-1.5 shadow-sm`}>
+                            Apply Now <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* How It Works */}
+          <div className="animate-fade-in-up-2 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-violet-600 uppercase tracking-wider mb-2">
+              <Award className="w-3 h-3" /> Process
+            </div>
+            <h2 className="text-2xl font-black text-slate-900 mb-1 tracking-tight">How Adhikar Works</h2>
+            <p className="text-sm text-slate-500 mb-10">From eligibility to official disbursement in 4 steps</p>
+            <div className="relative grid grid-cols-1 sm:grid-cols-4 gap-6">
+              <div className="hidden sm:block absolute top-7 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-blue-200 via-indigo-200 to-violet-200" />
+              {[
+                { num: '01', title: 'Profile Setup', desc: 'Input age, state, income, and category.', color: 'from-blue-500 to-blue-600' },
+                { num: '02', title: 'AI Matching', desc: 'Deterministic engine matches 500+ verified rules.', color: 'from-indigo-500 to-indigo-600' },
+                { num: '03', title: 'Gemini Copilot', desc: 'AI guides documentation requirements.', color: 'from-violet-500 to-violet-600' },
+                { num: '04', title: 'Direct Apply', desc: 'Redirects to official .gov.in portals.', color: 'from-emerald-500 to-emerald-600' },
+              ].map((step, i) => (
+                <div key={i} className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-3 group">
+                  <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${step.color} shadow-lg text-white flex items-center justify-center font-black text-lg group-hover:scale-110 transition-transform duration-300 z-10`}>
+                    {step.num}
+                  </div>
+                  <h4 className="font-black text-slate-900 text-sm">{step.title}</h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
+              <Link to="/eligibility" className="btn-shimmer text-white font-bold text-sm px-8 py-3.5 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-transform">
+                Check My Eligibility <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/assistant" className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl border-2 border-slate-200 text-slate-700 font-bold text-sm hover:border-indigo-300 hover:text-indigo-700 hover:bg-indigo-50 transition-all">
+                <Sparkles className="w-4 h-4" /> Talk to AI Copilot
+              </Link>
             </div>
           </div>
 
-          {/* How Adhikar Works */}
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
-            <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">How Adhikar Works</h3>
-            <p className="text-xs text-slate-500 mb-8">From eligibility verification to official disbursement in 4 simple steps</p>
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
-               {[
-                 { num: 1, title: 'Profile Setup', desc: 'Input basic age, state, and income criteria.', color: 'bg-blue-600 shadow-blue-200' },
-                 { num: 2, title: 'AI Match', desc: 'Deterministic engine matches 100% verified rules.', color: 'bg-indigo-600 shadow-indigo-200' },
-                 { num: 3, title: 'Smart Copilot', desc: 'Gemini AI assistant guides documentation.', color: 'bg-emerald-600 shadow-emerald-200' },
-                 { num: 4, title: 'Direct Apply', desc: 'Redirect straight to the government portal.', color: 'bg-violet-600 shadow-violet-200' },
-               ].map((step, i) => (
-                 <div key={i} className="flex flex-col space-y-2">
-                    <div className={`w-9 h-9 rounded-xl ${step.color} shadow-md text-white flex items-center justify-center font-bold text-xs shrink-0`}>
-                      {step.num}
-                    </div>
-                    <h4 className="font-bold text-slate-900 text-xs">{step.title}</h4>
-                    <p className="text-[11px] text-slate-500 leading-relaxed">{step.desc}</p>
-                 </div>
-               ))}
-            </div>
-          </div>
         </div>
-        
-        {/* Right Side: Quick Eligibility Card */}
+
+        {/* RIGHT SIDEBAR */}
         <div className="space-y-6">
-          <div className="bg-white rounded-3xl border border-slate-200/80 p-7 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <h3 className="text-base font-bold text-slate-900">Instant Eligibility</h3>
+
+          {/* Instant Eligibility */}
+          <div className="bg-white rounded-3xl border border-slate-200/80 p-7 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500" />
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-md">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
+              <h3 className="text-base font-black text-slate-900">Instant Eligibility</h3>
             </div>
-            <p className="text-xs text-slate-500 mb-6">Filter schemes for your personal and household criteria</p>
-            
+            <p className="text-xs text-slate-500 mb-6 ml-10">Check schemes matching your profile in seconds</p>
             <form className="space-y-4">
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">State</label>
-                <select className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition-all font-medium">
-                  <option>All States</option>
-                  <option>Rajasthan</option>
-                  <option>Delhi</option>
-                  <option>Maharashtra</option>
-                  <option>Uttar Pradesh</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1.5">Category</label>
-                <select className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition-all font-medium">
-                  <option>All Categories</option>
-                  <option>Agriculture</option>
-                  <option>Healthcare</option>
-                  <option>Education</option>
-                  <option>Housing</option>
-                </select>
-              </div>
+              {[
+                { label: 'State', opts: ['All States', 'Uttar Pradesh', 'Maharashtra', 'Rajasthan', 'Bihar', 'Delhi', 'Madhya Pradesh'] },
+                { label: 'Category', opts: ['All Categories', 'Agriculture', 'Healthcare', 'Education', 'Housing', 'Employment'] },
+              ].map((f, i) => (
+                <div key={i}>
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">{f.label}</label>
+                  <select className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 bg-slate-50/60 focus:bg-white focus:outline-none focus:border-indigo-400 focus:ring-3 focus:ring-indigo-400/15 transition-all font-medium appearance-none cursor-pointer">
+                    {f.opts.map(o => <option key={o}>{o}</option>)}
+                  </select>
+                </div>
+              ))}
               <div>
                 <label className="block text-xs font-bold text-slate-700 mb-1.5">Age</label>
-                <input 
-                  type="number" 
-                  placeholder="e.g. 28" 
-                  className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition-all font-medium placeholder:text-slate-400" 
-                />
+                <input type="number" placeholder="e.g. 28" className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 bg-slate-50/60 focus:bg-white focus:outline-none focus:border-indigo-400 focus:ring-3 focus:ring-indigo-400/15 transition-all font-medium placeholder:text-slate-400" />
               </div>
-              
-              <button 
-                type="button" 
-                onClick={() => navigate({ to: '/eligibility-results' })} 
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold py-3 rounded-xl mt-4 shadow-md shadow-blue-500/20 hover:from-blue-700 hover:to-indigo-700 transition flex items-center justify-center gap-2 text-xs"
+              <button
+                type="button"
+                onClick={() => navigate({ to: '/eligibility-results' })}
+                className="w-full btn-shimmer text-white font-bold py-3.5 rounded-xl mt-2 flex items-center justify-center gap-2 text-sm hover:scale-[1.01] active:scale-[0.99] transition-transform shadow-lg shadow-indigo-500/20"
               >
-                <span>Check Matches</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <Zap className="w-4 h-4" /> Check My Matches
               </button>
+              <p className="text-center text-[11px] text-slate-400 font-medium">
+                Or <Link to="/register" className="text-indigo-600 font-bold hover:underline">create a free account</Link> for personalized tracking
+              </p>
             </form>
           </div>
 
-          {/* Official Integration Badge */}
-          <div className="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-6 shadow-md relative overflow-hidden">
-            <div className="relative z-10 space-y-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-blue-200 border border-white/15">
-                Official Portals
-              </span>
-              <h4 className="font-bold text-sm text-white">Direct Government Applications</h4>
-              <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                Every application redirects directly to authentic government domains (.gov.in / .nic.in). No middlemen, zero commissions.
-              </p>
-              <div className="pt-2">
-                <Link to="/schemes" className="text-xs font-bold text-blue-300 hover:text-white flex items-center gap-1.5">
-                  Browse All Schemes <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+          {/* Official Portals */}
+          <div className="relative overflow-hidden rounded-3xl p-7 mesh-bg text-white">
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/10 text-blue-200 border border-white/15 mb-4">
+                <ShieldCheck className="w-3 h-3" /> 100% Verified
               </div>
+              <h4 className="font-black text-base text-white mb-2">Direct Government Applications</h4>
+              <p className="text-xs text-slate-300 leading-relaxed mb-5">
+                Every application links directly to authentic government domains (.gov.in / .nic.in). Zero middlemen, zero commissions.
+              </p>
+              <div className="space-y-2.5 mb-5">
+                {['pmkisan.gov.in', 'pmjay.gov.in', 'pmaymis.gov.in', 'scholarships.gov.in'].map((d, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs text-slate-300">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span className="font-mono">{d}</span>
+                  </div>
+                ))}
+              </div>
+              <Link to="/schemes" className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-300 hover:text-white transition">
+                Browse All Schemes <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
-        </div>
 
+          {/* Stats */}
+          <div className="bg-white rounded-3xl border border-slate-100 p-7 shadow-sm">
+            <div className="flex items-center gap-2 mb-5">
+              <TrendingUp className="w-4 h-4 text-blue-600" />
+              <h4 className="font-black text-sm text-slate-900">Platform Impact</h4>
+            </div>
+            <div className="space-y-4">
+              {[
+                { label: 'Schemes Indexed', value: '500+', color: 'bg-blue-500' },
+                { label: 'States Covered', value: '36/36', color: 'bg-emerald-500' },
+                { label: 'Eligibility Rules', value: '1,200+', color: 'bg-violet-500' },
+                { label: 'Official Sources', value: '100%', color: 'bg-amber-500' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center justify-between py-2.5 border-b border-slate-50 last:border-0">
+                  <div className="flex items-center gap-2.5">
+                    <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                    <span className="text-xs text-slate-600 font-medium">{item.label}</span>
+                  </div>
+                  <span className="text-sm font-black text-slate-900">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* AI CTA */}
+          <Link to="/assistant" className="group block bg-gradient-to-br from-indigo-600 to-violet-700 rounded-3xl p-6 text-white shadow-xl shadow-indigo-500/20 hover:shadow-2xl hover:shadow-indigo-500/30 hover:-translate-y-1 transition-all duration-300">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center animate-breathe">
+                <Sparkles className="w-5 h-5 text-amber-300" />
+              </div>
+              <div>
+                <div className="font-black text-sm">Gemini AI Copilot</div>
+                <div className="text-[11px] text-indigo-200">Ask anything about welfare schemes</div>
+              </div>
+            </div>
+            <p className="text-xs text-indigo-200 leading-relaxed mb-4">
+              "Which schemes am I eligible for as a farmer in Uttar Pradesh with Rs 1L annual income?"
+            </p>
+            <div className="flex items-center gap-1.5 text-xs font-bold text-white group-hover:gap-2.5 transition-all">
+              <Globe className="w-3.5 h-3.5" /> Ask AI now <ArrowRight className="w-3.5 h-3.5" />
+            </div>
+          </Link>
+
+        </div>
       </div>
     </div>
   )
