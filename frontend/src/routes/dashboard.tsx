@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { useAuth } from '@/context/AuthContext'
-import { CheckCircle2, ChevronRight, Search, UploadCloud, FileEdit, FileSignature, AlertCircle, Loader2, Sparkles, ExternalLink, MessageSquareWarning, Newspaper, TrendingUp, Zap } from 'lucide-react'
+import { CheckCircle2, ChevronRight, Search, UploadCloud, FileEdit, FileSignature, AlertCircle, Loader2, Sparkles, ExternalLink, MessageSquareWarning, Newspaper, TrendingUp, Zap, Sun, Sunset, Moon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
@@ -13,6 +13,11 @@ export const Route = createFileRoute('/dashboard')({
 function DashboardPage() {
   const { user } = useAuth()
   const firstName = user?.name?.split(' ')[0] || 'Citizen'
+
+  // Time-of-day greeting
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good Morning' : hour < 17 ? 'Good Afternoon' : 'Good Evening'
+  const GreetIcon = hour < 12 ? Sun : hour < 17 ? Sunset : Moon
 
   // Dynamic Profile Completion
   let filledFields = 0
@@ -26,43 +31,87 @@ function DashboardPage() {
     if (user.profile.occupation) filledFields++
   }
   const completionPercentage = Math.round((filledFields / totalFields) * 100)
-  const strokeDasharray = `${completionPercentage}, 100`
+
+  // SVG ring calculation
+  const radius = 38
+  const circumference = 2 * Math.PI * radius
+  const strokeDashoffset = circumference - (completionPercentage / 100) * circumference
 
   const [recentSchemes, setRecentSchemes] = useState<PublicScheme[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [ringAnimated, setRingAnimated] = useState(false)
 
   useEffect(() => {
     schemesApi.list(0, 4).then(res => {
       setRecentSchemes(res.items)
     }).catch(console.error)
       .finally(() => setIsLoading(false))
+    // Trigger ring animation after mount
+    const t = setTimeout(() => setRingAnimated(true), 300)
+    return () => clearTimeout(t)
   }, [])
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">
       
-      {/* Modern Greeting Header */}
-      <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="relative z-10 space-y-1">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">👋</span>
-            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-white">
-              Welcome back, {firstName}!
+      {/* FAANG-level Greeting Header */}
+      <div className="mb-8 relative overflow-hidden rounded-3xl mesh-bg text-white p-8 shadow-2xl">
+        {/* Ambient glows */}
+        <div className="absolute right-0 top-0 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute left-1/2 bottom-0 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Grid */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="animate-fade-in-up space-y-2">
+            <div className="flex items-center gap-2.5 text-xs text-blue-300 font-semibold mb-1">
+              <GreetIcon className="w-4 h-4" />
+              <span>{greeting}, {firstName}</span>
+            </div>
+            <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white leading-tight">
+              Your Welfare Dashboard
             </h1>
+            <p className="text-sm text-blue-200/70 font-normal max-w-md">
+              Personalized scheme discovery, eligibility tracking, and AI-powered assistance — all in one place.
+            </p>
           </div>
-          <p className="text-xs md:text-sm text-blue-200/80 font-normal">
-            Your centralized citizen dashboard for schemes, AI recommendations, and verified applications.
-          </p>
+
+          {/* SVG Circular Progress Ring */}
+          <div className="animate-scale-in flex-shrink-0 flex flex-col items-center gap-2">
+            <div className="relative w-28 h-28">
+              <svg className="w-28 h-28 -rotate-90" viewBox="0 0 90 90">
+                {/* Track */}
+                <circle cx="45" cy="45" r={radius} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+                {/* Progress */}
+                <circle
+                  cx="45" cy="45" r={radius} fill="none"
+                  stroke="url(#ringGrad)"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={ringAnimated ? strokeDashoffset : circumference}
+                  style={{ transition: 'stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s' }}
+                />
+                <defs>
+                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#60a5fa" />
+                    <stop offset="100%" stopColor="#34d399" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-2xl font-black text-white">{completionPercentage}%</span>
+                <span className="text-[9px] text-blue-300 font-bold uppercase tracking-wider">Profile</span>
+              </div>
+            </div>
+            <span className="text-[11px] text-blue-200 font-medium">Readiness Score</span>
+          </div>
         </div>
-        
-        <div className="relative z-10 flex items-center gap-3">
-          <Link 
-            to="/assistant" 
-            className="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition backdrop-blur-md flex items-center gap-1.5"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>Ask AI Copilot</span>
+
+        {/* Quick Actions row */}
+        <div className="relative z-10 flex flex-wrap gap-3 mt-6 pt-6 border-t border-white/10">
+          <Link to="/assistant" className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white px-4 py-2 rounded-xl text-xs font-bold transition backdrop-blur-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Ask AI Copilot
           </Link>
           <Link 
             to="/eligibility" 
@@ -88,7 +137,7 @@ function DashboardPage() {
               <div className="relative w-20 h-20 flex items-center justify-center shrink-0">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                   <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  <path className="text-blue-600" strokeWidth="3.5" strokeDasharray={strokeDasharray} stroke="currentColor" strokeLinecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path className="text-blue-600" strokeWidth="3.5" strokeDasharray={`${completionPercentage}, 100`} stroke="currentColor" strokeLinecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
                 <span className="absolute text-base font-black text-slate-900">{completionPercentage}%</span>
               </div>
