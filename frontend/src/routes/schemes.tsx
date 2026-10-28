@@ -77,7 +77,7 @@ function SchemesPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
 
-      {/* FAANG-level Hero Header */}
+      {/* Header & filters */}
       <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white py-14 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
