@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ChevronRight, Search, Send, Bot, Sparkles, User, ExternalLink, RefreshCw, LogIn } from 'lucide-react'
+import { ChevronRight, Send, Bot, Sparkles, User, ExternalLink, RefreshCw, LogIn } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { aiApi, type AskSource } from '@/lib/api'
@@ -164,43 +164,40 @@ function AssistantPage() {
 
           <div className="flex-1 bg-white rounded-3xl border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.03)] flex flex-col overflow-hidden">
             {/* Messages Scroll Area */}
-            <div className="flex-1 overflow-y-auto p-6 bg-slate-50/40 flex flex-col gap-5">
+            <div className="flex-1 overflow-y-auto p-6 bg-slate-50/40 flex flex-col gap-4">
               {messages.map((msg) => (
-                <div key={msg.id} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div
+                  key={msg.id}
+                  className={`animate-fade-in-up flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
                   {msg.role === 'assistant' && (
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-sm">
                       <Bot className="w-4 h-4" />
                     </div>
                   )}
 
-                  <div className="flex flex-col gap-2 max-w-[85%] md:max-w-[78%]">
-                    <div
-                      className={`rounded-2xl px-5 py-3.5 text-xs md:text-sm leading-relaxed whitespace-pre-wrap ${
-                        msg.role === 'user'
-                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-tr-none shadow-md shadow-blue-500/10 font-medium'
-                          : 'bg-white border border-slate-200/80 text-slate-800 rounded-tl-none shadow-xs font-normal'
-                      }`}
-                    >
+                  <div className="flex max-w-[85%] flex-col gap-2 md:max-w-[78%]">
+                    <div className={`whitespace-pre-wrap rounded-2xl px-5 py-3.5 text-xs leading-relaxed md:text-sm ${
+                      msg.role === 'user'
+                        ? 'rounded-tr-none bg-gradient-to-r from-blue-600 to-indigo-600 font-medium text-white shadow-md shadow-blue-500/10'
+                        : 'rounded-tl-none border border-slate-200/80 bg-white font-normal text-slate-800 shadow-sm'
+                    }`}>
                       {msg.content}
                     </div>
 
-                    {/* Verified Scheme Source Badges if provided by RAG */}
                     {msg.sources && msg.sources.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider py-1">
-                          Verified Sources:
-                        </span>
-                        {msg.sources.map((src, sIdx) => (
+                        <span className="py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">Sources:</span>
+                        {msg.sources.map((src, idx) => (
                           <a
-                            key={sIdx}
+                            key={idx}
                             href={src.sourceUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200/60 px-2.5 py-0.5 rounded-full transition"
-                            title={src.benefit ? `Benefit: ${src.benefit}` : src.schemeName}
+                            title={src.benefit || src.schemeName}
+                            className="inline-flex items-center gap-1 rounded-full border border-blue-200/60 bg-blue-50 px-2.5 py-0.5 text-[11px] font-semibold text-blue-700 transition hover:bg-blue-100"
                           >
-                            <span>{src.schemeName}</span>
-                            <ExternalLink className="w-3 h-3 text-blue-500" />
+                            {src.schemeName} <ExternalLink className="w-3 h-3 text-blue-400" />
                           </a>
                         ))}
                       </div>
@@ -208,26 +205,24 @@ function AssistantPage() {
                   </div>
 
                   {msg.role === 'user' && (
-                    <div className="w-8 h-8 rounded-xl bg-slate-900 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-white shadow-sm">
                       <User className="w-4 h-4" />
                     </div>
                   )}
                 </div>
               ))}
 
-              {/* Pulsating Thinking State */}
+              {/* Typing indicator */}
               {isLoading && (
-                <div className="flex items-start gap-3 justify-start">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-xs animate-pulse">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-sm">
                     <Sparkles className="w-4 h-4 text-amber-300" />
                   </div>
-                  <div className="bg-white border border-slate-200/80 rounded-2xl rounded-tl-none px-5 py-3 text-xs text-slate-500 shadow-xs flex items-center gap-2">
-                    <span className="flex gap-1 items-center">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-bounce"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-bounce [animation-delay:0.2s]"></span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-bounce [animation-delay:0.4s]"></span>
-                    </span>
-                    <span className="font-medium text-slate-600">Retrieving welfare criteria from RAG engine...</span>
+                  <div className="flex items-center gap-2 rounded-2xl rounded-tl-none border border-slate-200/80 bg-white px-5 py-3.5 shadow-sm">
+                    <span className="typing-dot h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                    <span className="typing-dot h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                    <span className="typing-dot h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                    <span className="ml-1 text-xs font-medium text-slate-500">Searching welfare database…</span>
                   </div>
                 </div>
               )}
@@ -235,29 +230,28 @@ function AssistantPage() {
             </div>
 
             {/* Input Bar */}
-            <div className="p-4 bg-white border-t border-slate-100">
-              <div className="relative flex items-center max-w-4xl mx-auto">
-                <Search className="absolute left-4 w-4 h-4 text-slate-400" />
+            <div className="border-t border-slate-100 bg-white p-4">
+              <div className="relative mx-auto flex max-w-4xl items-center">
                 <input
                   type="text"
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleSend()}
                   disabled={isLoading}
-                  placeholder="Ask any question in English, Hindi, or Hinglish..."
-                  className="w-full pl-11 pr-14 py-3.5 rounded-full border border-slate-200 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 text-xs md:text-sm font-medium shadow-xs disabled:opacity-50 placeholder:text-slate-400"
+                  placeholder="Ask in English or Hinglish…"
+                  className="w-full rounded-full border border-slate-200 py-3.5 pl-5 pr-14 text-xs font-medium shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 disabled:opacity-50 md:text-sm"
                 />
                 <button
                   onClick={() => handleSend()}
                   disabled={isLoading || !input.trim()}
-                  className="absolute right-2 w-9 h-9 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-center hover:from-blue-700 hover:to-indigo-700 transition disabled:opacity-40 shadow-xs"
+                  className="absolute right-2 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm transition hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40"
                 >
-                  <Send className="w-3.5 h-3.5 -ml-0.5" />
+                  <Send className="h-3.5 w-3.5 -ml-0.5" />
                 </button>
               </div>
-              <p className="text-center text-[11px] text-slate-400 mt-2.5 flex items-center justify-center gap-1.5">
-                <Sparkles className="w-3 h-3 text-blue-600" />
-                <span>Responses grounded in verified Government of India gazettes, DBT Bharat & MyScheme portal data.</span>
+              <p className="mt-2.5 flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-400">
+                <Sparkles className="w-3 h-3 text-blue-500" />
+                Answers grounded in Government of India gazettes &amp; MyScheme portal data
               </p>
             </div>
           </div>

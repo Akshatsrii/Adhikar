@@ -54,7 +54,7 @@ function DashboardPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">
       
-      {/* FAANG-level Greeting Header */}
+      {/* Header & Quick stats */}
       <div className="mb-8 relative overflow-hidden rounded-3xl mesh-bg text-white p-8 shadow-2xl">
         {/* Ambient glows */}
         <div className="absolute right-0 top-0 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
