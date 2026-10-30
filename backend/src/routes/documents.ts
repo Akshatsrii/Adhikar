@@ -10,9 +10,12 @@ import { fileTypeFromBuffer } from 'file-type'
 export const documentsRouter = Router()
 documentsRouter.use(requireAuth)
 
+const ALLOWED = new Set(['image/jpeg', 'image/png', 'application/pdf'])
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 8 * 1024 * 1024 }, // 8MB
+  fileFilter: (_req, file, cb) =>
+    ALLOWED.has(file.mimetype) ? cb(null, true) : cb(new Error('Only JPG, PNG or PDF files are allowed')),
 })
 
 const extractionSchema = z.object({

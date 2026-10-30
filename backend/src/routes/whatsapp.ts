@@ -1,59 +1,48 @@
-import { Router } from 'express'
+import crypto from 'node:crypto'
+import { Router, type Request } from 'express'
+import rateLimit from 'express-rate-limit'
 import { z } from 'zod'
 import { env } from '../config/env.js'
 import { aiFetch } from '../utils/aiClient.js'
 
 export const whatsappRouter = Router()
 
-// Simple schema for Twilio-style incoming WhatsApp webhook
-const whatsappMessageSchema = z.object({
-  From: z.string(), // "whatsapp:+919876543210"
-  Body: z.string(), // "Hi, are there any schemes for B.Tech students?"
-})
+whatsappRouter.use(rateLimit({ windowMs: 60_000, limit: 20, standardHeaders: true }))
 
-// Webhook endpoint: /api/whatsapp/webhook
+const bodySchema = z.object({ From: z.string().max(40), Body: z.string().min(1).max(1000) })
+
+const escapeXml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+
+// Twilio: base64(HMAC-SHA1(authToken, url + sorted(key+value)))
+function validTwilioSignature(req: Request): boolean {
+  if (!env.twilioAuthToken || !env.publicBaseUrl) return env.nodeEnv !== 'production'
+  const url = `${env.publicBaseUrl}/api/whatsapp/webhook`
+  const data = Object.keys(req.body).sort().reduce((acc, k) => acc + k + req.body[k], url)
+  const expected = crypto.createHmac('sha1', env.twilioAuthToken).update(data).digest('base64')
+  const got = String(req.header('x-twilio-signature') ?? '')
+  const a = Buffer.from(expected)
+  const b = Buffer.from(got)
+  return a.length === b.length && crypto.timingSafeEqual(a, b)
+}
+
+const twiml = (msg: string) => `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${escapeXml(msg)}</Message></Response>`
+
 whatsappRouter.post('/webhook', async (req, res) => {
+  res.type('text/xml')
+  if (!validTwilioSignature(req)) return res.status(403).send(twiml('Forbidden'))
   try {
-    const { From, Body } = whatsappMessageSchema.parse(req.body)
-
-    console.log(`[WhatsApp Bot] Received message from ${From}: "${Body}"`)
-
-    // In a real app, we would look up the user profile by phone number (From)
-    // For now, we pass a blank profile to the AI service
-    const aiResponse = await aiFetch(`/ai/ask`, {
+    const { Body } = bodySchema.parse(req.body)
+    const aiResponse = await aiFetch('/ai/ask', {
       method: 'POST',
       headers: { 'x-internal-key': env.internalAiKey, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: Body,
-        top_k: 3,
-        profile: null, // No profile known yet, could extract from CRM
-      }),
+      body: JSON.stringify({ query: Body, top_k: 3, profile: null }),
     })
-
-    if (!aiResponse.ok) {
-      throw new Error(`AI Service Failed`)
-    }
-
+    if (!aiResponse.ok) throw new Error('AI service failed')
     const data = (await aiResponse.json()) as { answer?: string }
-    const answer = data.answer || "I couldn't process that."
-
-    // In a real app, we would use twilioClient.messages.create(...)
-    console.log(`[WhatsApp Bot] Replying to ${From}: "${answer}"`)
-
-    // Respond back to webhook provider (e.g. Twilio TwiML)
-    res.setHeader('Content-Type', 'text/xml')
-    res.send(`
-      <Response>
-        <Message>${answer}</Message>
-      </Response>
-    `)
+    res.send(twiml((data.answer ?? "I couldn't process that.").slice(0, 1500)))
   } catch (err) {
-    console.error('[WhatsApp Bot] Error:', err)
-    res.setHeader('Content-Type', 'text/xml')
-    res.send(`
-      <Response>
-        <Message>Sorry, Adhikar Bot is currently down for maintenance.</Message>
-      </Response>
-    `)
+    console.error('[WhatsApp] error:', (err as Error).message) // phone/message log nahi
+    res.send(twiml('Sorry, Adhikar is unavailable right now. Please try again later.'))
   }
 })

@@ -1,6 +1,9 @@
 import cors from 'cors'
 import express from 'express'
+import helmet from 'helmet'
+import mongoose from 'mongoose'
 import { env } from './config/env.js'
+import { aiFetch } from './utils/aiClient.js'
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'
 import { authRouter } from './routes/auth.js'
 import { profileRouter } from './routes/profile.js'
@@ -24,21 +27,20 @@ import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
 
-app.get("/health", (_req, res) => res.json({status: "ok", time: Date.now()}));
-
-
-const allowedOrigins = [
-  env.clientOrigin,
-  'https://adhikar-seven.vercel.app',
-  'http://localhost:5173'
-]
-
-app.use(cors({ origin: allowedOrigins, credentials: true }))
+app.use(helmet())
+app.use(cors({ origin: env.clientOrigins, credentials: true }))
 app.use(express.json({ limit: '10mb' }))
 app.use(apiLimiter)
 
-app.get('/api/health', (_req, res) => {
-  res.status(200).json({ status: 'ok' })
+app.get('/api/health', async (_req, res) => {
+  const mongo = mongoose.connection.readyState === 1
+  let ai = false
+  try {
+    ai = (await aiFetch('/health')).ok
+  } catch {
+    /* ai down */
+  }
+  res.status(mongo && ai ? 200 : 503).json({ status: mongo && ai ? 'ok' : 'degraded', mongo, ai })
 })
 
 app.use('/api/auth', authLimiter, authRouter)

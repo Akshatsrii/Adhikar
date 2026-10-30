@@ -2,20 +2,26 @@ import 'dotenv/config'
 
 function required(name: string, fallback?: string): string {
   const value = process.env[name] ?? fallback
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`)
-  }
+  if (!value) throw new Error(`Missing required environment variable: ${name}`)
   return value
 }
 
+const nodeEnv = process.env.NODE_ENV ?? 'development'
+const isProd = nodeEnv === 'production'
+
 export const env = {
   port: Number(process.env.PORT ?? 5000),
-  mongoUri: required('MONGO_URI', 'mongodb://localhost:27017/adhikar'),
+  mongoUri: required('MONGO_URI', isProd ? undefined : 'mongodb://localhost:27017/adhikar'),
   jwtSecret: required('JWT_SECRET'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
-  clientOrigin: process.env.CLIENT_ORIGIN ?? 'http://localhost:5173',
-  nodeEnv: process.env.NODE_ENV ?? 'development',
-  aiServiceUrl: process.env.AI_SERVICE_URL ?? 'https://adhikar-pk7d.onrender.com',
-  internalAiKey: process.env.INTERNAL_AI_KEY ?? 'default-internal-key-12345',
+  clientOrigins: (process.env.CLIENT_ORIGINS ?? process.env.CLIENT_ORIGIN ?? 'http://localhost:5173')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean),
+  nodeEnv,
+  aiServiceUrl: required('AI_SERVICE_URL', isProd ? undefined : 'http://localhost:8000'),
+  internalAiKey: required('INTERNAL_AI_KEY', isProd ? undefined : 'dev-only-internal-key'),
   geminiApiKey: process.env.GEMINI_API_KEY,
+  twilioAuthToken: process.env.TWILIO_AUTH_TOKEN ?? '',
+  publicBaseUrl: process.env.PUBLIC_BASE_URL ?? '',
 }
