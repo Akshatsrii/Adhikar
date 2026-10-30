@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+﻿import { createFileRoute, Link } from '@tanstack/react-router'
 import { ChevronRight, Send, Bot, Sparkles, User, ExternalLink, RefreshCw, LogIn } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
@@ -22,11 +22,19 @@ function AssistantPage() {
       id: 'welcome',
       role: 'assistant',
       content:
-        "👋 **Namaste! I am Adhikar AI Copilot.**\n\nI can help you with:\n- Discovering welfare schemes for your household\n- Verifying eligibility criteria (age, income, land, caste category)\n- Understanding document checklists & application procedures\n- Direct official portal links for central & state benefits\n\nWhat would you like to explore today?",
+        "ðŸ‘‹ **Namaste! I am Adhikar AI Copilot.**\n\nI can help you with:\n- Discovering welfare schemes for your household\n- Verifying eligibility criteria (age, income, land, caste category)\n- Understanding document checklists & application procedures\n- Direct official portal links for central & state benefits\n\nWhat would you like to explore today?",
     },
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isWarmingUp, setIsWarmingUp] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/health')
+      .then(r => r.json())
+      .then(d => { if (d.status === 'degraded' || !d.ai) setIsWarmingUp(true) })
+      .catch(() => setIsWarmingUp(true))
+  }, [])
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -83,14 +91,14 @@ function AssistantPage() {
         id: 'welcome',
         role: 'assistant',
         content:
-          "👋 **Namaste! I am Adhikar AI Copilot.**\n\nChat history reset. How can I assist you with government welfare benefits today?",
+          "ðŸ‘‹ **Namaste! I am Adhikar AI Copilot.**\n\nChat history reset. How can I assist you with government welfare benefits today?",
       },
     ])
   }
 
   const suggestedQuestions = [
     'What is PM-KISAN scheme and who qualifies?',
-    'Ayushman Bharat ₹5 Lakh health cover details',
+    'Ayushman Bharat â‚¹5 Lakh health cover details',
     'How do I apply for Pradhan Mantri Awas Yojana (PMAY)?',
     'Pensions available for senior citizens above 60',
     'Post-Matric scholarship eligibility for students',
@@ -222,7 +230,7 @@ function AssistantPage() {
                     <span className="typing-dot h-1.5 w-1.5 rounded-full bg-indigo-500" />
                     <span className="typing-dot h-1.5 w-1.5 rounded-full bg-indigo-500" />
                     <span className="typing-dot h-1.5 w-1.5 rounded-full bg-indigo-500" />
-                    <span className="ml-1 text-xs font-medium text-slate-500">Searching welfare database…</span>
+                    <span className="ml-1 text-xs font-medium text-slate-500">{isWarmingUp ? "Server is waking up from sleep, 20-30s lag sakte hain..." : "Searching welfare database..."}</span>
                   </div>
                 </div>
               )}
@@ -238,7 +246,7 @@ function AssistantPage() {
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleSend()}
                   disabled={isLoading}
-                  placeholder="Ask in English or Hinglish…"
+                  placeholder="Ask in English or Hinglishâ€¦"
                   className="w-full rounded-full border border-slate-200 py-3.5 pl-5 pr-14 text-xs font-medium shadow-sm transition focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 disabled:opacity-50 md:text-sm"
                 />
                 <button
@@ -285,7 +293,7 @@ function AssistantPage() {
             <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 text-slate-700 space-y-1">
               <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700">Multilingual AI</span>
               <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
-                You can ask questions in English or Hinglish (e.g. <em>"Kisan yojana me ₹6,000 kab milta hai?"</em>).
+                You can ask questions in English or Hinglish (e.g. <em>"Kisan yojana me â‚¹6,000 kab milta hai?"</em>).
               </p>
             </div>
           </div>
