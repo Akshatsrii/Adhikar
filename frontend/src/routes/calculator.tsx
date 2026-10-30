@@ -12,8 +12,8 @@ function CalculatorPage() {
   const [activeTab, setActiveTab] = useState<CalculatorTab>('pmay')
 
   // PMAY state
-  const [pmayIncome, setPmayIncome] = useState<number>(300000) // â‚¹3 Lakh (EWS/LIG)
-  const [pmayLoan, setPmayLoan] = useState<number>(1500000) // â‚¹15 Lakh
+  const [pmayIncome, setPmayIncome] = useState<number>(300000) // ₹3 Lakh (EWS/LIG)
+  const [pmayLoan, setPmayLoan] = useState<number>(1500000) // ₹15 Lakh
   const [pmayTenure, setPmayTenure] = useState<number>(20) // 20 years
 
   // APY state
@@ -29,7 +29,7 @@ function CalculatorPage() {
 
   // Calculations:
   // 1. PMAY Subsidy
-  // EWS/LIG (income <= 6L): 6.5% interest subsidy on up to 6L loan, NPV max ~ â‚¹2,67,280
+  // EWS/LIG (income <= 6L): 6.5% interest subsidy on up to 6L loan, NPV max ~ ₹2,67,280
   const isEwsLig = pmayIncome <= 600000
   const eligibleLoanCap = isEwsLig ? Math.min(pmayLoan, 600000) : Math.min(pmayLoan, 900000)
   const estimatedUpfrontSubsidy = isEwsLig
@@ -103,9 +103,9 @@ function CalculatorPage() {
       {/* Calculator Mode Switcher */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         {[
-          { id: 'pmay', title: 'PMAY Housing Subsidy', icon: Home, desc: 'Up to â‚¹2.67 Lakh CLSS' },
-          { id: 'pmkisan', title: 'PM-KISAN DBT Schedule', icon: TrendingUp, desc: 'â‚¹6,000/yr Cashflow' },
-          { id: 'apy', title: 'Atal Pension Yojana', icon: Landmark, desc: 'â‚¹1,000 - â‚¹5,000 Pension' },
+          { id: 'pmay', title: 'PMAY Housing Subsidy', icon: Home, desc: 'Up to ₹2.67 Lakh CLSS' },
+          { id: 'pmkisan', title: 'PM-KISAN DBT Schedule', icon: TrendingUp, desc: '₹6,000/yr Cashflow' },
+          { id: 'apy', title: 'Atal Pension Yojana', icon: Landmark, desc: '₹1,000 - ₹5,000 Pension' },
           { id: 'ssy', title: 'Sukanya Samriddhi', icon: Heart, desc: '8.2% Child Wealth' },
         ].map(tab => {
           const Icon = tab.icon
@@ -149,7 +149,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Annual Household Income</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">â‚¹{pmayIncome.toLocaleString('en-IN')}</span>
+                  <span className="font-black text-blue-600 font-mono text-sm">₹{pmayIncome.toLocaleString('en-IN')}</span>
                 </div>
                 <input
                   type="range"
@@ -161,10 +161,10 @@ function CalculatorPage() {
                   className="w-full accent-blue-600 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
-                  <span>EWS (&le; â‚¹3L)</span>
-                  <span>LIG (â‚¹3L - â‚¹6L)</span>
-                  <span>MIG-I (â‚¹6L - â‚¹12L)</span>
-                  <span>MIG-II (â‚¹12L - â‚¹18L)</span>
+                  <span>EWS (&le; ₹3L)</span>
+                  <span>LIG (₹3L - ₹6L)</span>
+                  <span>MIG-I (₹6L - ₹12L)</span>
+                  <span>MIG-II (₹12L - ₹18L)</span>
                 </div>
               </div>
 
@@ -172,7 +172,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Home Loan Amount Required</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">â‚¹{pmayLoan.toLocaleString('en-IN')}</span>
+                  <span className="font-black text-blue-600 font-mono text-sm">₹{pmayLoan.toLocaleString('en-IN')}</span>
                 </div>
                 <input
                   type="range"
@@ -184,9 +184,9 @@ function CalculatorPage() {
                   className="w-full accent-blue-600 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
-                  <span>â‚¹3 Lakh</span>
-                  <span>â‚¹25 Lakh</span>
-                  <span>â‚¹50 Lakh</span>
+                  <span>₹3 Lakh</span>
+                  <span>₹25 Lakh</span>
+                  <span>₹50 Lakh</span>
                 </div>
               </div>
 
@@ -225,7 +225,7 @@ function CalculatorPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-base font-bold text-slate-900 mb-1">PM-KISAN Cashflow Projection</h3>
-                <p className="text-xs text-slate-500">Direct â‚¹2,000 DBT cash installments transferred every 4 months to farmer bank accounts.</p>
+                <p className="text-xs text-slate-500">Direct ₹2,000 DBT cash installments transferred every 4 months to farmer bank accounts.</p>
               </div>
 
               <div className="space-y-2">
@@ -243,9 +243,9 @@ function CalculatorPage() {
                   className="w-full accent-emerald-600 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
-                  <span>1 Year (â‚¹6,000)</span>
-                  <span>5 Years (â‚¹30,000)</span>
-                  <span>15 Years (â‚¹90,000)</span>
+                  <span>1 Year (₹6,000)</span>
+                  <span>5 Years (₹30,000)</span>
+                  <span>15 Years (₹90,000)</span>
                 </div>
               </div>
 
@@ -253,17 +253,17 @@ function CalculatorPage() {
                 <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                   <div className="text-[10px] font-bold uppercase text-slate-400">Cycle 1</div>
                   <div className="text-xs font-bold text-slate-900 mt-1">April â€“ July</div>
-                  <div className="text-xs font-black text-emerald-600 mt-0.5">â‚¹2,000 DBT</div>
+                  <div className="text-xs font-black text-emerald-600 mt-0.5">₹2,000 DBT</div>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                   <div className="text-[10px] font-bold uppercase text-slate-400">Cycle 2</div>
                   <div className="text-xs font-bold text-slate-900 mt-1">Aug â€“ Nov</div>
-                  <div className="text-xs font-black text-emerald-600 mt-0.5">â‚¹2,000 DBT</div>
+                  <div className="text-xs font-black text-emerald-600 mt-0.5">₹2,000 DBT</div>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
                   <div className="text-[10px] font-bold uppercase text-slate-400">Cycle 3</div>
                   <div className="text-xs font-bold text-slate-900 mt-1">Dec â€“ March</div>
-                  <div className="text-xs font-black text-emerald-600 mt-0.5">â‚¹2,000 DBT</div>
+                  <div className="text-xs font-black text-emerald-600 mt-0.5">₹2,000 DBT</div>
                 </div>
               </div>
             </div>
@@ -300,7 +300,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Target Monthly Pension at Age 60</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">â‚¹{apyPension.toLocaleString('en-IN')} / month</span>
+                  <span className="font-black text-blue-600 font-mono text-sm">₹{apyPension.toLocaleString('en-IN')} / month</span>
                 </div>
                 <div className="grid grid-cols-5 gap-2">
                   {[1000, 2000, 3000, 4000, 5000].map(amt => (
@@ -313,7 +313,7 @@ function CalculatorPage() {
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
-                      â‚¹{amt / 1000}k
+                      ₹{amt / 1000}k
                     </button>
                   ))}
                 </div>
@@ -331,7 +331,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Annual Deposit Amount</span>
-                  <span className="font-black text-purple-600 font-mono text-sm">â‚¹{ssyAnnual.toLocaleString('en-IN')} / yr</span>
+                  <span className="font-black text-purple-600 font-mono text-sm">₹{ssyAnnual.toLocaleString('en-IN')} / yr</span>
                 </div>
                 <input
                   type="range"
@@ -343,9 +343,9 @@ function CalculatorPage() {
                   className="w-full accent-purple-600 cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
-                  <span>â‚¹1,000 (Min â‚¹250)</span>
-                  <span>â‚¹75,000</span>
-                  <span>â‚¹1,50,000 (Max 80C Cap)</span>
+                  <span>₹1,000 (Min ₹250)</span>
+                  <span>₹75,000</span>
+                  <span>₹1,50,000 (Max 80C Cap)</span>
                 </div>
               </div>
 
@@ -387,7 +387,7 @@ function CalculatorPage() {
               <div>
                 <span className="text-xs text-slate-400">Estimated Upfront PMAY Subsidy</span>
                 <div className="text-3xl font-black text-emerald-400 tracking-tight mt-0.5">
-                  â‚¹{estimatedUpfrontSubsidy.toLocaleString('en-IN')}
+                  ₹{estimatedUpfrontSubsidy.toLocaleString('en-IN')}
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">Directly credited to reduce your loan principal.</p>
               </div>
@@ -395,11 +395,11 @@ function CalculatorPage() {
               <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800">
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Reduced Loan Amount</div>
-                  <div className="text-sm font-bold text-white mt-0.5">â‚¹{effectiveLoan.toLocaleString('en-IN')}</div>
+                  <div className="text-sm font-bold text-white mt-0.5">₹{effectiveLoan.toLocaleString('en-IN')}</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Monthly EMI Savings</div>
-                  <div className="text-sm font-bold text-emerald-400 mt-0.5">~ â‚¹{monthlySavings.toLocaleString('en-IN')}/mo</div>
+                  <div className="text-sm font-bold text-emerald-400 mt-0.5">~ ₹{monthlySavings.toLocaleString('en-IN')}/mo</div>
                 </div>
               </div>
 
@@ -419,7 +419,7 @@ function CalculatorPage() {
               <div>
                 <span className="text-xs text-slate-400">Total Direct Cash Transferred</span>
                 <div className="text-3xl font-black text-emerald-400 tracking-tight mt-0.5">
-                  â‚¹{kisanTotalBenefit.toLocaleString('en-IN')}
+                  ₹{kisanTotalBenefit.toLocaleString('en-IN')}
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">Across {kisanInstallments} guaranteed 4-month tranches.</p>
               </div>
@@ -427,7 +427,7 @@ function CalculatorPage() {
               <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800">
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Annual Entitlement</div>
-                  <div className="text-sm font-bold text-white mt-0.5">â‚¹6,000 / year</div>
+                  <div className="text-sm font-bold text-white mt-0.5">₹6,000 / year</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Payment Method</div>
@@ -451,7 +451,7 @@ function CalculatorPage() {
               <div>
                 <span className="text-xs text-slate-400">Monthly Contribution Required</span>
                 <div className="text-3xl font-black text-blue-400 tracking-tight mt-0.5">
-                  â‚¹{apyMonthlyContrib.toLocaleString('en-IN')} <span className="text-sm font-normal text-slate-400">/ mo</span>
+                  ₹{apyMonthlyContrib.toLocaleString('en-IN')} <span className="text-sm font-normal text-slate-400">/ mo</span>
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">Auto-debited from your bank until age 60.</p>
               </div>
@@ -459,16 +459,16 @@ function CalculatorPage() {
               <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800">
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Guaranteed Pension</div>
-                  <div className="text-sm font-bold text-emerald-400 mt-0.5">â‚¹{apyPension.toLocaleString('en-IN')}/month</div>
+                  <div className="text-sm font-bold text-emerald-400 mt-0.5">₹{apyPension.toLocaleString('en-IN')}/month</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Nominee Corpus</div>
-                  <div className="text-sm font-bold text-white mt-0.5">â‚¹{apyNomineeCorpus.toLocaleString('en-IN')}</div>
+                  <div className="text-sm font-bold text-white mt-0.5">₹{apyNomineeCorpus.toLocaleString('en-IN')}</div>
                 </div>
               </div>
 
               <div className="text-xs text-slate-400">
-                Total investment across {apyYearsRemaining} years: <strong className="text-white">â‚¹{apyTotalInvestment.toLocaleString('en-IN')}</strong>
+                Total investment across {apyYearsRemaining} years: <strong className="text-white">₹{apyTotalInvestment.toLocaleString('en-IN')}</strong>
               </div>
 
               <Link
@@ -487,7 +487,7 @@ function CalculatorPage() {
               <div>
                 <span className="text-xs text-slate-400">Estimated Tax-Free Maturity Payout</span>
                 <div className="text-3xl font-black text-purple-400 tracking-tight mt-0.5">
-                  â‚¹{ssyMaturityEstimate.toLocaleString('en-IN')}
+                  ₹{ssyMaturityEstimate.toLocaleString('en-IN')}
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">Matures when girl reaches 21 years of age.</p>
               </div>
@@ -495,11 +495,11 @@ function CalculatorPage() {
               <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-800">
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Total Deposited</div>
-                  <div className="text-sm font-bold text-white mt-0.5">â‚¹{ssyTotalDeposited.toLocaleString('en-IN')}</div>
+                  <div className="text-sm font-bold text-white mt-0.5">₹{ssyTotalDeposited.toLocaleString('en-IN')}</div>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-800/50">
                   <div className="text-[10px] text-slate-400 uppercase font-semibold">Compound Interest</div>
-                  <div className="text-sm font-bold text-emerald-400 mt-0.5">+â‚¹{ssyInterestEarned.toLocaleString('en-IN')}</div>
+                  <div className="text-sm font-bold text-emerald-400 mt-0.5">+₹{ssyInterestEarned.toLocaleString('en-IN')}</div>
                 </div>
               </div>
 

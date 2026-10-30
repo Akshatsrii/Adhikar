@@ -75,45 +75,45 @@ function SchemesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-black font-sans">
 
       {/* Header & filters */}
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white py-14 px-4">
+      <div className="bg-white border-b border-[#EAE6DF] py-12 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">
-            <Zap className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-blue-400">Verified Catalog</span>
+          <div className="flex items-center gap-2 text-xs font-bold text-[#FF5500] mb-3 uppercase tracking-wider">
+            <Zap className="w-3.5 h-3.5 text-[#FF5500]" />
+            <span>Official Government Catalog</span>
             <span>·</span>
-            <span>Direct Government Portals Only</span>
+            <span className="text-neutral-500 font-normal">Direct Portals Only</span>
           </div>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-2 animate-fade-in-up">Government Schemes</h1>
-              <p className="text-slate-400 text-sm max-w-xl animate-fade-in-up-1">
-                {isLoading ? 'Loading verified schemes...' : `${filteredSchemes.length} of ${schemes.length} schemes`} · Updated from official portals weekly
+              <h1 className="text-3xl md:text-5xl font-black text-black tracking-tight mb-2">Government Schemes</h1>
+              <p className="text-[#52525B] text-sm max-w-xl">
+                {isLoading ? 'Loading verified schemes...' : `${filteredSchemes.length} of ${schemes.length} schemes`} · Updated from official gazette portals
               </p>
             </div>
             {/* Search */}
-            <div className="relative w-full md:w-80 animate-fade-in-up-2">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <div className="relative w-full md:w-80">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
               <input
                 type="text"
                 placeholder="Search schemes or keywords..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder:text-slate-400 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-white/40 focus:ring-4 focus:ring-white/10 transition font-medium"
+                className="w-full bg-[#FAF8F5] border border-[#EAE6DF] text-black placeholder:text-neutral-400 rounded-2xl pl-11 pr-4 py-3 text-sm focus:outline-none focus:border-[#FF5500] focus:ring-2 focus:ring-[#FF5500]/10 transition font-medium"
               />
             </div>
           </div>
 
           {/* Category pill filters */}
-          <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-white/10">
+          <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-[#EAE6DF]">
             <button
               onClick={() => handleCategoryChange(null)}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition border ${
                 activeCategory === null
-                  ? 'bg-white text-slate-900 border-white shadow-sm'
-                  : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
+                  ? 'bg-black text-white border-black shadow-xs'
+                  : 'bg-white text-neutral-700 border-[#EAE6DF] hover:bg-neutral-50'
               }`}
             >
               All ({schemes.length})
@@ -124,11 +124,11 @@ function SchemesPage() {
                 onClick={() => handleCategoryChange(cat)}
                 className={`px-4 py-1.5 rounded-full text-xs font-bold transition border flex items-center gap-1.5 ${
                   activeCategory === cat
-                    ? 'bg-white text-slate-900 border-white shadow-sm'
-                    : 'bg-white/10 text-white/70 border-white/20 hover:bg-white/20'
+                    ? 'bg-black text-white border-black shadow-xs'
+                    : 'bg-white text-neutral-700 border-[#EAE6DF] hover:bg-neutral-50'
                 }`}
               >
-                <span className={`w-1.5 h-1.5 rounded-full ${catDots[cat] || 'bg-slate-400'}`} />
+                <span className={`w-1.5 h-1.5 rounded-full ${catDots[cat] || 'bg-[#FF5500]'}`} />
                 {cat}
               </button>
             ))}
@@ -160,10 +160,10 @@ function SchemesPage() {
             <div className="space-y-1.5">
               <button 
                 onClick={() => handleCategoryChange(null)}
-                className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-between ${
+                className={`w-full text-left px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-between ${
                   activeCategory === null 
-                    ? 'bg-blue-600 text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-slate-50'
+                    ? 'bg-black text-white shadow-xs' 
+                    : 'text-slate-600 hover:bg-[#FAF8F5] text-black'
                 }`}
               >
                 <span>All Schemes</span>
@@ -177,10 +177,10 @@ function SchemesPage() {
                   <button 
                     key={cat}
                     onClick={() => handleCategoryChange(cat)}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-between ${
+                    className={`w-full text-left px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-between ${
                       isActive 
-                        ? 'bg-blue-600 text-white shadow-xs' 
-                        : 'text-slate-600 hover:bg-slate-50'
+                        ? 'bg-black text-white shadow-xs' 
+                        : 'text-slate-600 hover:bg-[#FAF8F5] text-black'
                     }`}
                   >
                     <span>{cat}</span>
@@ -194,7 +194,7 @@ function SchemesPage() {
               <div className="pt-4 mt-4 border-t border-slate-100">
                 <button 
                   onClick={() => handleCategoryChange(null)} 
-                  className="w-full flex items-center justify-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-50 py-2 rounded-xl hover:bg-slate-100 transition"
+                  className="w-full flex items-center justify-center gap-1.5 text-xs font-bold text-slate-600 bg-[#FAF8F5] text-black py-2 rounded-full hover:bg-slate-100 transition"
                 >
                   <FilterX className="w-3.5 h-3.5 text-slate-400" /> Clear Filters
                 </button>
@@ -221,7 +221,7 @@ function SchemesPage() {
               </p>
               <button 
                 onClick={() => { setSearchQuery(''); handleCategoryChange(null) }} 
-                className="px-5 py-2.5 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition shadow-xs"
+                className="px-5 py-2.5 bg-black text-white text-xs font-bold rounded-full hover:bg-blue-700 transition shadow-xs"
               >
                 Clear All Filters
               </button>
@@ -231,9 +231,9 @@ function SchemesPage() {
               {filteredSchemes.map((scheme) => (
                 <div 
                   key={scheme.slug} 
-                  className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-blue-200 transition-all duration-300 group flex flex-col md:flex-row gap-5 md:items-center"
+                  className="bg-white rounded-3xl border border-[#EAE6DF] p-6 shadow-xs hover:shadow-md hover:border-[#FF5500]/50 transition-all duration-300 group flex flex-col md:flex-row gap-5 md:items-center"
                 >
-                  <div className="w-full md:w-44 h-32 rounded-xl overflow-hidden shrink-0 bg-slate-100 border border-slate-100 relative">
+                  <div className="w-full md:w-44 h-32 rounded-full overflow-hidden shrink-0 bg-slate-100 border border-slate-100 relative">
                     <img 
                       src={getCategoryImg(scheme.category)} 
                       alt={scheme.category} 
@@ -287,7 +287,7 @@ function SchemesPage() {
                     <Link 
                       to="/scheme/$slug" 
                       params={{ slug: scheme.slug }} 
-                      className="w-full py-2 bg-slate-50 border border-slate-200 text-slate-700 text-center text-xs font-bold rounded-xl hover:bg-slate-100 transition"
+                      className="w-full py-2 bg-[#FAF8F5] text-black border border-slate-200 text-slate-700 text-center text-xs font-bold rounded-full hover:bg-slate-100 transition"
                     >
                       View Details
                     </Link>
@@ -297,7 +297,7 @@ function SchemesPage() {
                       href={scheme.application_url || scheme.source_url || '#'} 
                       target="_blank" 
                       rel="noopener noreferrer" 
-                      className="w-full py-2 rounded-xl text-xs font-bold transition shadow-xs bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 text-center flex items-center justify-center gap-1"
+                      className="w-full py-2 rounded-full text-xs font-bold transition shadow-xs bg-gradient-to-r bg-black text-white hover:bg-neutral-800 text-center flex items-center justify-center gap-1"
                     >
                       <span>Apply Now</span>
                       <ExternalLink className="w-3 h-3" />

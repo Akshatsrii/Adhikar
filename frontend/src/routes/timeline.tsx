@@ -1,4 +1,4 @@
-﻿import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { applicationsApi } from '@/lib/api'
 import { Clock, CheckCircle2, Circle, AlertCircle, Plus, Trash2, ChevronDown, ChevronUp, FileText, Calendar, ArrowRight, Sparkles } from 'lucide-react'
@@ -24,7 +24,7 @@ const statusConfig: Record<StatusType, { label: string; color: string; bg: strin
   pending: { label: 'Pending', color: 'text-slate-600', bg: 'bg-slate-100', border: 'border-slate-300', icon: Circle },
   'in-progress': { label: 'In Progress', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-300', icon: Clock },
   submitted: { label: 'Submitted', color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-300', icon: FileText },
-  approved: { label: 'Approved âœ“', color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-300', icon: CheckCircle2 },
+  approved: { label: 'Approved ✓', color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-300', icon: CheckCircle2 },
   rejected: { label: 'Rejected', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-300', icon: AlertCircle },
 }
 

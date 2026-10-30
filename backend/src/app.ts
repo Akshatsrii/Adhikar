@@ -27,8 +27,28 @@ import { authLimiter, aiLimiter, apiLimiter } from './middleware/rateLimiter.js'
 
 export const app = express()
 
-app.use(helmet())
-app.use(cors({ origin: env.clientOrigins, credentials: true }))
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  }),
+)
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true)
+      if (
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1') ||
+        origin.endsWith('.vercel.app') ||
+        env.clientOrigins.includes(origin)
+      ) {
+        return callback(null, origin)
+      }
+      return callback(null, origin)
+    },
+    credentials: true,
+  }),
+)
 app.use(express.json({ limit: '10mb' }))
 app.use(apiLimiter)
 
