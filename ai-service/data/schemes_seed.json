@@ -1,93 +1,1617 @@
 [
   {
+    "slug": "pradhan-mantri-kisan-samman-nidhi",
+    "name": "Pradhan Mantri Kisan Samman Nidhi (PM-KISAN)",
+    "department": "Department of Agriculture and Farmers Welfare, Ministry of Agriculture",
+    "category": "Agriculture",
+    "level": "Central",
+    "state": null,
+    "benefit": "₹6,000 per year in three equal 4-monthly installments of ₹2,000",
+    "description": "PM-KISAN is a central sector scheme with 100% funding from Government of India providing income support to all landholding farmer families across India for agricultural inputs and domestic needs.",
+    "source_url": "https://pmkisan.gov.in/",
+    "application_url": "https://pmkisan.gov.in/RegistrationFormNew.aspx",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "occupation",
+        "operator": "==",
+        "value": "farmer"
+      },
+      {
+        "field": "land_ownership",
+        "operator": "==",
+        "value": "true"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Landholding ownership records (Khata/Khasra/ROR)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar-seeded Active Bank Account details",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "ayushman-bharat-pmjay",
+    "name": "Ayushman Bharat Pradhan Mantri Jan Arogya Yojana (AB-PMJAY)",
+    "department": "National Health Authority, Ministry of Health and Family Welfare",
+    "category": "Healthcare",
+    "level": "Central",
+    "state": null,
+    "benefit": "Cashless health cover up to ₹5,00,000 per family per year",
+    "description": "The world's largest government-financed healthcare scheme, providing cashless secondary and tertiary hospitalization cover across 27,000+ empanelled public and private hospitals.",
+    "source_url": "https://pmjay.gov.in/",
+    "application_url": "https://beneficiary.nha.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "250000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card or Ration Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Active Mobile Number linked with Aadhaar",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pradhan-mantri-awas-yojana-urban",
+    "name": "Pradhan Mantri Awas Yojana - Urban (PMAY-U)",
+    "department": "Ministry of Housing and Urban Affairs",
+    "category": "Housing",
+    "level": "Central",
+    "state": null,
+    "benefit": "Interest subsidy up to ₹2.67 Lakhs on home loans / ₹1.5L direct central grant",
+    "description": "A mission providing pucca houses to eligible urban families belonging to EWS/LIG categories with basic civic amenities like water, sanitation, and electricity.",
+    "source_url": "https://pmay-urban.gov.in/",
+    "application_url": "https://pmaymis.gov.in/Open/Format_A_B_Data_entry_open.aspx",
+    "deadline": "2026-12-31",
+    "eligibility_rules": [
+      {
+        "field": "pucca_house",
+        "operator": "==",
+        "value": "false"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "600000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate / Salary Slip",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Account Statements (last 6 months)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Affidavit confirming no pucca house owned across India",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pradhan-mantri-awas-yojana-gramin",
+    "name": "Pradhan Mantri Awas Yojana - Gramin (PMAY-G)",
+    "department": "Ministry of Rural Development",
+    "category": "Housing",
+    "level": "Central",
+    "state": null,
+    "benefit": "₹1.20 Lakhs in plains and ₹1.30 Lakhs in hilly/difficult areas + 90 days MGNREGA wages",
+    "description": "Assistance for construction of disaster-resilient pucca house with clean cooking space for all houseless households and households living in kutcha/dilapidated houses.",
+    "source_url": "https://pmayg.nic.in/",
+    "application_url": "https://awaassoft.nic.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "pucca_house",
+        "operator": "==",
+        "value": "false"
+      },
+      {
+        "field": "rural_resident",
+        "operator": "==",
+        "value": "true"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Passbook linked to Aadhaar",
+        "is_mandatory": true
+      },
+      {
+        "name": "Job Card number under MGNREGA",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "atal-pension-yojana",
+    "name": "Atal Pension Yojana (APY)",
+    "department": "Pension Fund Regulatory and Development Authority (PFRDA)",
+    "category": "Social Welfare",
+    "level": "Central",
+    "state": null,
+    "benefit": "Guaranteed monthly pension between ₹1,000 to ₹5,000 after 60 years of age",
+    "description": "Periodic pension scheme for unorganized sector workers delivering guaranteed monthly return post-retirement based on age-tiered monthly contributions.",
+    "source_url": "https://www.npscra.nsdl.co.in/scheme-details.php",
+    "application_url": "https://enps.nsdl.com/eNPS/ApySubRegistration.html",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      },
+      {
+        "field": "age",
+        "operator": "<=",
+        "value": "40"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Savings Bank Account details with auto-debit consent",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pradhan-mantri-ujjwala-yojana-2",
+    "name": "Pradhan Mantri Ujjwala Yojana (Ujjwala 2.0)",
+    "department": "Ministry of Petroleum and Natural Gas",
+    "category": "Women",
+    "level": "Central",
+    "state": null,
+    "benefit": "Free LPG connection with first refill and stove at zero cost",
+    "description": "Provides clean cooking fuel (LPG) to women from low-income households across rural and deprived areas without upfront connection costs.",
+    "source_url": "https://www.pmuy.gov.in/",
+    "application_url": "https://www.pmuy.gov.in/ujjwalamigration.html",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card of applicant and adult family members",
+        "is_mandatory": true
+      },
+      {
+        "name": "Ration card or BPL status proof",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank account details (IFSC and Account No)",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "sukanya-samriddhi-yojana",
+    "name": "Sukanya Samriddhi Yojana (SSY)",
+    "department": "Department of Posts / Ministry of Finance",
+    "category": "Women",
+    "level": "Central",
+    "state": null,
+    "benefit": "8.2% tax-free compound interest with 100% Section 80C deduction",
+    "description": "Small deposit savings scheme targeted towards the parents of girl children, building a dedicated fund for future education and marriage expenses.",
+    "source_url": "https://www.indiapost.gov.in/",
+    "application_url": "https://www.indiapost.gov.in/Financial/Pages/Content/Sukanya-Samriddhi-Account.aspx",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "age",
+        "operator": "<=",
+        "value": "10"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Birth Certificate of girl child",
+        "is_mandatory": true
+      },
+      {
+        "name": "Identity and address proof of guardian (Aadhaar/PAN)",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pradhan-mantri-mudra-yojana",
+    "name": "Pradhan Mantri MUDRA Yojana (PMMY)",
+    "department": "Department of Financial Services, Ministry of Finance",
+    "category": "Employment",
+    "level": "Central",
+    "state": null,
+    "benefit": "Collateral-free business loans up to ₹20 Lakhs (Shishu, Kishor, Tarun)",
+    "description": "Refinance facility facilitating collateral-free credit to non-corporate, non-farm small and micro enterprises.",
+    "source_url": "https://www.mudra.org.in/",
+    "application_url": "https://www.udyamimitra.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card and PAN Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Business Registration / Proof of address of business enterprise",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Statement (last 6 months)",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pm-vishwakarma-yojana",
+    "name": "PM Vishwakarma Kaushal Samman Yojana",
+    "department": "Ministry of Micro, Small and Medium Enterprises (MSME)",
+    "category": "Employment",
+    "level": "Central",
+    "state": null,
+    "benefit": "Skill training with ₹500/day stipend + ₹15,000 tool kit incentive + 5% collateral-free credit up to ₹3L",
+    "description": "Comprehensive institutional support for traditional artisans and craftspeople across 18 designated trade categories.",
+    "source_url": "https://pmvishwakarma.gov.in/",
+    "application_url": "https://pmvishwakarma.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar-linked Mobile Number",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Passbook",
+        "is_mandatory": true
+      },
+      {
+        "name": "Artisan trade declaration / self-attestation",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pm-svanidhi-scheme",
+    "name": "PM Street Vendor's AtmaNirbhar Nidhi (PM SVANidhi)",
+    "department": "Ministry of Housing and Urban Affairs",
+    "category": "Employment",
+    "level": "Central",
+    "state": null,
+    "benefit": "Working capital micro-loans from ₹10,000 up to ₹50,000 with 7% interest subsidy",
+    "description": "Special micro-credit facility empowering street vendors with working capital credit to resume and expand their livelihoods.",
+    "source_url": "https://pmsvanidhi.mohua.gov.in/",
+    "application_url": "https://pmsvanidhi.mohua.gov.in/",
+    "deadline": "2026-12-31",
+    "eligibility_rules": [
+      {
+        "field": "occupation",
+        "operator": "==",
+        "value": "street vendor"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Certificate of Vending / Vending ID card issued by ULB",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Account details",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "national-scholarship-portal-post-matric",
+    "name": "Central Sector Post-Matric Scholarship for Higher Education",
+    "department": "Ministry of Social Justice and Empowerment / Ministry of Education",
+    "category": "Education",
+    "level": "Central",
+    "state": null,
+    "benefit": "100% course tuition reimbursement + maintenance allowance up to ₹13,500/year",
+    "description": "Empowering SC/ST/OBC students pursuing recognized post-secondary courses with full tuition fee reimbursement and direct maintenance stipends.",
+    "source_url": "https://scholarships.gov.in/",
+    "application_url": "https://scholarships.gov.in/",
+    "deadline": "31 October (annual)",
+    "eligibility_rules": [
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "250000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Caste Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Fee Receipt and Admission verification letter from Institution",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pm-vidyalakshmi-scheme",
+    "name": "PM Vidyalaksmi Education Loan Scheme",
+    "department": "Department of Higher Education, Ministry of Education",
+    "category": "Education",
+    "level": "Central",
+    "state": null,
+    "benefit": "Collateral-free higher education loans up to ₹10 Lakhs with 3% interest subvention",
+    "description": "Single-window portal providing transparent access to educational loans and government interest subvention for top 860 higher educational institutes in India.",
+    "source_url": "https://www.vidyalakshmi.co.in/",
+    "application_url": "https://www.vidyalakshmi.co.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "800000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Admission Confirmation Letter to eligible Institute",
+        "is_mandatory": true
+      },
+      {
+        "name": "Class 10 and 12 mark sheets",
+        "is_mandatory": true
+      },
+      {
+        "name": "Family Income Certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "mgnrega-employment-guarantee",
+    "name": "Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA)",
+    "department": "Ministry of Rural Development",
+    "category": "Employment",
+    "level": "Central",
+    "state": null,
+    "benefit": "Guaranteed 100 days of wage employment per financial year per rural household",
+    "description": "Legal guarantee providing at least 100 days of wage employment in rural areas to every household whose adult members volunteer to do unskilled manual work.",
+    "source_url": "https://nrega.nic.in/",
+    "application_url": "https://nregastate2.nic.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      },
+      {
+        "field": "rural_resident",
+        "operator": "==",
+        "value": "true"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Gram Panchayat residential verification",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank or Post Office Savings Account passbook",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "kisan-credit-card-scheme",
+    "name": "Kisan Credit Card (KCC) Scheme",
+    "department": "NABARD / Department of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "level": "Central",
+    "state": null,
+    "benefit": "Revolving credit limit up to ₹3,00,000 at effective 4% annual interest",
+    "description": "Adequate and timely credit support from the banking system under a single window with flexible and simplified procedures for cultivation and post-harvest requirements.",
+    "source_url": "https://www.myscheme.gov.in/schemes/kcc",
+    "application_url": "https://eseva.csccloud.in/kcc/Default.aspx",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "occupation",
+        "operator": "==",
+        "value": "farmer"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Land ownership papers / Cultivation rights certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar Card and PAN Card",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "pradhan-mantri-fasal-bima-yojana",
+    "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+    "department": "Ministry of Agriculture and Farmers Welfare",
+    "category": "Agriculture",
+    "level": "Central",
+    "state": null,
+    "benefit": "Comprehensive crop loss cover with nominal 1.5% - 2% farmer premium",
+    "description": "Financial support to farmers suffering crop loss/damage arising out of unforeseen natural calamities like drought, flood, hailstorm, and pests.",
+    "source_url": "https://pmfby.gov.in/",
+    "application_url": "https://pmfby.gov.in/farmerRegistrationForm",
+    "deadline": "Seasonal (Kharif / Rabi)",
+    "eligibility_rules": [
+      {
+        "field": "occupation",
+        "operator": "==",
+        "value": "farmer"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Land possession certificate / Khasra-Khatauni",
+        "is_mandatory": true
+      },
+      {
+        "name": "Sowing Certificate issued by Patwari/Village officer",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Passbook",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "janani-suraksha-yojana",
+    "name": "Janani Suraksha Yojana (JSY)",
+    "department": "Ministry of Health and Family Welfare",
+    "category": "Healthcare",
+    "level": "Central",
+    "state": null,
+    "benefit": "Cash assistance of ₹1,400 (rural) or ₹1,000 (urban) for institutional deliveries",
+    "description": "Safe motherhood intervention promoting institutional delivery among poor pregnant women, reducing maternal and neo-natal mortality.",
+    "source_url": "https://nhm.gov.in/index1.php?lang=1&level=3&sublinkid=841&lid=309",
+    "application_url": "https://nhm.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "19"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "MCP (Mother and Child Protection) Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Account Details",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "unique-disability-id-card",
+    "name": "Unique Disability ID (UDID) & Swavlamban Welfare",
+    "department": "Department of Empowerment of Persons with Disabilities",
+    "category": "Disability",
+    "level": "Central",
+    "state": null,
+    "benefit": "Nationwide digital disability card providing travel concessions, pensions, and device aids",
+    "description": "Unified national database for PwD citizens providing cross-state certification recognition and direct access to state and central empowerment schemes.",
+    "source_url": "https://www.swavlambancard.gov.in/",
+    "application_url": "https://www.swavlambancard.gov.in/pwd/application",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "disability_status",
+        "operator": "==",
+        "value": "true"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Medical Disability Certificate from authorized CMO/Hospital",
+        "is_mandatory": true
+      },
+      {
+        "name": "Passport photo and signature / thumb impression",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "mukhyamantri-chiranjivi-rajasthan",
+    "name": "Mukhyamantri Ayushman Arogya (Chiranjeevi) Yojana",
+    "department": "Department of Medical, Health and Family Welfare, Rajasthan",
+    "category": "Healthcare",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Cashless hospitalization treatment up to ₹25 Lakhs per family per year",
+    "description": "Flagship universal healthcare scheme of Rajasthan providing comprehensive in-patient coverage for all families registered under Jan Aadhaar.",
+    "source_url": "https://chiranjeevi.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card or Jan Aadhaar Acknowledgment Receipt",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-jan-aadhaar-yojana",
+    "name": "Rajasthan Jan Aadhaar Yojana",
+    "department": "Department of Planning, Government of Rajasthan",
+    "category": "Social Welfare",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "One Number, One Card, One Identity unified welfare entitlement passport",
+    "description": "Unified entitlement card recognizing the woman head of household for direct delivery of all cash and non-cash subsidies of Rajasthan.",
+    "source_url": "https://janaadhaar.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Aadhaar Card of all family members",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank account details of female head of family",
+        "is_mandatory": true
+      },
+      {
+        "name": "Rajasthan Bonafide / Residential proof",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-anuprati-coaching-yojana",
+    "name": "Mukhyamantri Anuprati Coaching Yojana",
+    "department": "Social Justice and Empowerment Department, Government of Rajasthan",
+    "category": "Education",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "100% free professional coaching (UPSC, RPSC, JEE, NEET) + ₹40,000 hostel stipend",
+    "description": "Free coaching in prestigious institutes for meritorious underprivileged students preparing for competitive entrance examinations.",
+    "source_url": "https://sje.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Annual Notification (July-August)",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "800000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Caste / EWS Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Class 10 and 12 mark sheets",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "delhi-ladli-scheme",
+    "name": "Delhi Ladli Scheme",
+    "department": "Department of Women and Child Development, Government of NCT of Delhi",
+    "category": "Women",
+    "level": "State",
+    "state": "Delhi",
+    "benefit": "Financial deposits up to ₹11,000 across key educational milestones of the girl child",
+    "description": "Scheme to enhance the social status of girl children, curb female foeticide, and promote education among girls in Delhi.",
+    "source_url": "https://wcd.delhi.gov.in/wcd/delhi-ladli-scheme",
+    "application_url": "https://edistrict.delhigovt.nic.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Delhi"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "100000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Proof of 3 years residence in Delhi (Ration Card/Voter ID)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Birth Certificate of girl child",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate from SDM",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "delhi-jai-bheem-mukhyamantri-pratibha-vikas",
+    "name": "Jai Bheem Mukhyamantri Pratibha Vikas Yojana",
+    "department": "SC/ST/OBC/Minority Welfare Department, GNCTD",
+    "category": "Education",
+    "level": "State",
+    "state": "Delhi",
+    "benefit": "Full competitive coaching fees reimbursed + ₹2,500 monthly stipend",
+    "description": "Free coaching to SC/ST/OBC/EWS students for civil services, judicial services, engineering, medical, and banking exams in Delhi.",
+    "source_url": "https://scstwelfare.delhi.gov.in/",
+    "application_url": "https://edistrict.delhigovt.nic.in/",
+    "deadline": "Annual Notification",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Delhi"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "800000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Caste Certificate issued by Delhi Government",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Class 10 and 12 mark sheets",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "maharashtra-mahadbt-scholarship",
+    "name": "MahaDBT Post-Matric Scholarship Scheme",
+    "department": "Social Justice and Special Assistance Department, Maharashtra",
+    "category": "Education",
+    "level": "State",
+    "state": "Maharashtra",
+    "benefit": "100% tuition and exam fee waiver + monthly maintenance allowance",
+    "description": "Integrated direct benefit transfer scholarship portal of Maharashtra covering pre-matric and post-matric higher education courses.",
+    "source_url": "https://mahadbt.maharashtra.gov.in/",
+    "application_url": "https://mahadbt.maharashtra.gov.in/",
+    "deadline": "31 December (annual)",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Maharashtra"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "250000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Maharashtra Domicile Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate issued by Tehsildar",
+        "is_mandatory": true
+      },
+      {
+        "name": "Caste Certificate and Caste Validity Certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "up-mukhyamantri-kanya-sumangala-yojana",
+    "name": "Mukhyamantri Kanya Sumangala Yojana",
+    "department": "Women and Child Development Department, Uttar Pradesh",
+    "category": "Women",
+    "level": "State",
+    "state": "Uttar Pradesh",
+    "benefit": "Conditional cash transfer of ₹25,000 paid across 6 life stages from birth to graduation",
+    "description": "Pioneering conditional financial grant for girl children in Uttar Pradesh to guarantee immunization, schooling, and higher education.",
+    "source_url": "https://mksy.up.gov.in/",
+    "application_url": "https://mksy.up.gov.in/app/index.php",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Uttar Pradesh"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "300000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Permanent Resident / Domicile Certificate of UP",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate (Family income <= 3 Lakh)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Birth Certificate of Girl Child",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "up-abhyudaya-free-coaching-scheme",
+    "name": "Mukhyamantri Abhyudaya Yojana",
+    "department": "Social Welfare Department, Government of Uttar Pradesh",
+    "category": "Education",
+    "level": "State",
+    "state": "Uttar Pradesh",
+    "benefit": "Free physical and virtual coaching by IAS/IPS officers + free tablet stipend",
+    "description": "Comprehensive statewide infrastructure providing free, high-quality guidance and study material for UPSC, UPPSC, JEE, and NEET.",
+    "source_url": "https://abhyuday.up.gov.in/",
+    "application_url": "https://abhyuday.up.gov.in/how-to-apply.php",
+    "deadline": "Annual Notification",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Uttar Pradesh"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "UP Domicile Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Educational qualification mark sheets",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-palanhar-yojana",
+    "name": "Palanhar Yojana Rajasthan",
+    "department": "Social Justice and Empowerment Department, Government of Rajasthan",
+    "category": "Social Welfare",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "₹1,500/month (age 0-6) and ₹2,500/month (age 6-18) + ₹2,000 annual clothing allowance",
+    "description": "Monthly financial aid to caregivers (Palanhar) of orphan children, children of destitute/disabled parents, and widows for nourishment and schooling.",
+    "source_url": "https://sje.rajasthan.gov.in/Default.aspx?PageID=41",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "age",
+        "operator": "<=",
+        "value": "18"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "120000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Child birth certificate and school enrollment certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Death certificate of parents / Eligibility category certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-indira-gandhi-matritva-poshan",
+    "name": "Indira Gandhi Matritva Poshan Yojana (IGMPY)",
+    "department": "Department of Women and Child Development, Rajasthan",
+    "category": "Women",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "₹6,000 in 5 installments directly deposited into bank account on birth of second child",
+    "description": "Special nutrition incentive program across Rajasthan covering pregnant women and lactating mothers for the birth of second child.",
+    "source_url": "https://wcd.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Mamta Card (Mother and Child Protection card)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bank Passbook seeded with Jan Aadhaar",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-mukhyamantri-rajshri-yojana",
+    "name": "Mukhyamantri Rajshri Yojana",
+    "department": "Department of Women and Child Development, Rajasthan",
+    "category": "Women",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "₹50,000 total assistance provided across 6 installments from birth till Class 12",
+    "description": "Scheme to develop positive environment towards girl child and encourage girls' higher education in Rajasthan.",
+    "source_url": "https://wcd.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Institutional Delivery Proof / Birth Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "School Admission Certificate at each stage",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-mukhyamantri-vridhjan-pension",
+    "name": "Mukhyamantri Vridhjan Samman Pension Yojana",
+    "department": "Social Justice and Empowerment Department, Government of Rajasthan",
+    "category": "Social Welfare",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Minimum guaranteed pension of ₹1,150 per month (auto-incremented 15% annually)",
+    "description": "Old age pension support to elderly citizens of Rajasthan who have no regular source of livelihood.",
+    "source_url": "https://ssp.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "55"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "48000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Age Proof (Aadhaar/School Certificate)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-ekal-nari-pension",
+    "name": "Mukhyamantri Ekal Nari Samman Pension Yojana",
+    "department": "Social Justice and Empowerment Department, Government of Rajasthan",
+    "category": "Women",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Monthly pension from ₹1,150 up to ₹1,725 based on age bracket",
+    "description": "Monthly pension provided to widowed, divorced, or abandoned destitute women residing in Rajasthan.",
+    "source_url": "https://ssp.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "48000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Death Certificate of Husband or Divorce / Abandonment decree",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-vishesh-yogyajan-pension",
+    "name": "Mukhyamantri Vishesh Yogyajan Samman Pension Yojana",
+    "department": "Social Justice and Empowerment Department, Government of Rajasthan",
+    "category": "Disability",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Monthly pension of ₹1,150 to ₹1,438 for persons with 40%+ disability",
+    "description": "Financial security scheme for differently-abled citizens of Rajasthan experiencing severe visual, hearing, mental or locomotor impairment.",
+    "source_url": "https://ssp.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "disability_status",
+        "operator": "==",
+        "value": "true"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "60000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Disability Certificate (40% or above)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-kanya-kanyadan-yojana",
+    "name": "Mukhyamantri Kanyadan (Hathleva) Yojana",
+    "department": "Social Justice and Empowerment Department, Government of Rajasthan",
+    "category": "Women",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Financial grant of ₹31,000 to ₹51,000 on marriage of daughters from BPL/SC/ST families",
+    "description": "Marriage grant for daughters of BPL, SC, ST, and minority families with bonus assistance if the bride is a matriculate or graduate.",
+    "source_url": "https://sje.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Within 6 months of marriage",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "18"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Marriage Registration Certificate / Vivah Patrika",
+        "is_mandatory": true
+      },
+      {
+        "name": "BPL Card or Antyodaya Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Educational qualification certificates (for additional incentive)",
+        "is_mandatory": false
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-devnarayan-scooty-yojana",
+    "name": "Devnarayan Chhatra Scooty Vitaran Yojana",
+    "department": "College Education Department, Government of Rajasthan",
+    "category": "Education",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Free motorized scooty + 2 liters of petrol on delivery + ₹10,000 to ₹20,000 annual scholarship",
+    "description": "Promotes higher education among girl students from Most Backward Classes (MBC: Gurjar, Raika, Rebari, Gadaria, etc.) scoring 50%+ in Class 12.",
+    "source_url": "https://hte.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "31 October (annual)",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "250000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Class 12 Marks Sheet (50% or more)",
+        "is_mandatory": true
+      },
+      {
+        "name": "MBC Caste Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "College regular admission fee receipt",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-kalibai-scooty-yojana",
+    "name": "Kalibai Bhil Medhavi Chhatra Scooty Yojana",
+    "department": "College Education Department, Government of Rajasthan",
+    "category": "Education",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Free motorized scooty with registration, helmet, and 5-year third party insurance",
+    "description": "Merit award of free scooties for top-ranking girls from SC, ST, OBC, EWS and minority groups scoring 65%+ in Rajasthan Board.",
+    "source_url": "https://hte.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "31 October (annual)",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "gender",
+        "operator": "==",
+        "value": "female"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "250000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Class 12 Marks Sheet (65%+ in RBSE or 75%+ in CBSE)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Caste Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "College Admission Verification",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-yuva-sambal-yojana",
+    "name": "Mukhyamantri Yuva Sambal Yojana",
+    "department": "Department of Skill, Employment and Entrepreneurship, Rajasthan",
+    "category": "Employment",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Monthly unemployment allowance of ₹4,000 (males) and ₹4,500 (females/transgender/PwD)",
+    "description": "Direct livelihood stipend to unemployed graduates of Rajasthan undergoing 4 hours/day skill internship in government offices.",
+    "source_url": "https://employment.livelihoods.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "age",
+        "operator": ">=",
+        "value": "21"
+      },
+      {
+        "field": "age",
+        "operator": "<=",
+        "value": "30"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "200000"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Graduation Degree Mark Sheet",
+        "is_mandatory": true
+      },
+      {
+        "name": "Rajasthan Employment Exchange Registration Number",
+        "is_mandatory": true
+      },
+      {
+        "name": "Family Income Certificate",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-nishulk-dawa-yojana",
+    "name": "Mukhyamantri Nishulk Dawa Yojana",
+    "department": "Rajasthan Medical Services Corporation Limited (RMSCL)",
+    "category": "Healthcare",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "1,900+ essential medicines and surgical items provided 100% free of cost",
+    "description": "Universal zero-cost medicine distribution across all government medical colleges, district hospitals, CHCs, and PHCs in Rajasthan.",
+    "source_url": "https://health.rajasthan.gov.in/rmscl",
+    "application_url": "https://health.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "OPD Slip issued by Government Hospital Doctor",
+        "is_mandatory": true
+      },
+      {
+        "name": "Jan Aadhaar Card / Aadhaar Card",
+        "is_mandatory": false
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-nishulk-janch-yojana",
+    "name": "Mukhyamantri Nishulk Janch Yojana",
+    "department": "Medical, Health and Family Welfare Department, Rajasthan",
+    "category": "Healthcare",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "133+ diagnostic tests (blood, urine, X-Ray, CT Scan, MRI) at 100% free of charge",
+    "description": "Free diagnostic testing facility for all outdoor and indoor patients in government healthcare institutions of Rajasthan.",
+    "source_url": "https://health.rajasthan.gov.in/",
+    "application_url": "https://health.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Government Hospital Doctor OPD Prescription",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-krishi-sathi-yojana",
+    "name": "Mukhyamantri Krishi Sathi Yojana",
+    "department": "Agriculture Department, Government of Rajasthan",
+    "category": "Agriculture",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "Financial grant up to ₹5,00,000 in case of death/permanent disability while operating farm machinery",
+    "description": "Social safety net and financial relief to farmers and farm laborers suffering accident/injury during agricultural work.",
+    "source_url": "https://agriculture.rajasthan.gov.in/",
+    "application_url": "https://kisan.rajasthan.gov.in/",
+    "deadline": "Within 6 months of accident",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "occupation",
+        "operator": "==",
+        "value": "farmer"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "FIR copy and Medical Post-Mortem / Disability report",
+        "is_mandatory": true
+      },
+      {
+        "name": "Certificate of Agricultural occupation from Tehsildar",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
+    "slug": "rajasthan-khet-tarbandi-yojana",
+    "name": "Rajasthan Khet Tarbandi (Fencing) Yojana",
+    "department": "Department of Agriculture, Rajasthan",
+    "category": "Agriculture",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "50% to 60% subsidy (up to ₹48,000) for 400 running meters of boundary wire fencing",
+    "description": "Subsidy assistance to protect crops from stray cattle and wild animals by barbed wire fencing around farm boundaries.",
+    "source_url": "https://agriculture.rajasthan.gov.in/",
+    "application_url": "https://rajkisan.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
+    "eligibility_rules": [
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "occupation",
+        "operator": "==",
+        "value": "farmer"
+      },
+      {
+        "field": "land_ownership",
+        "operator": "==",
+        "value": "true"
+      }
+    ],
+    "documents_required": [
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Jamabandi (land ownership copy not older than 6 months)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Khasra Map (Naksha Trace)",
+        "is_mandatory": true
+      }
+    ]
+  },
+  {
     "slug": "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
     "name": "Mukhyamantri Uchch Shiksha Scholarship Yojana",
     "department": "Department of College Education, Government of Rajasthan",
     "category": "Education",
-    "level": "state",
+    "level": "State",
     "state": "Rajasthan",
-    "benefit": "Up to ₹40,000 per year for professional degree courses (B.Tech, MBBS, etc.)",
-    "description": "Financial assistance for meritorious students from economically weaker sections of Rajasthan pursuing professional higher education.",
+    "benefit": "₹5,000 per year (for 5 years) for general higher education courses",
+    "description": "Financial assistance for meritorious students from low-income families of Rajasthan who secured 60%+ in Class 12 board examinations.",
     "source_url": "https://hte.rajasthan.gov.in",
     "application_url": "https://sso.rajasthan.gov.in",
     "deadline": "31 October (annual)",
     "eligibility_rules": [
-      { "field": "state", "operator": "==", "value": "Rajasthan" },
-      { "field": "income", "operator": "<=", "value": "800000" },
-      { "field": "education", "operator": "in", "value": "B.Tech,B.E,MBBS,B.Pharm" }
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "250000"
+      }
     ],
     "documents_required": [
-      { "name": "Income certificate", "is_mandatory": true },
-      { "name": "Bonafide Rajasthan domicile certificate", "is_mandatory": true },
-      { "name": "Previous year mark sheet", "is_mandatory": true },
-      { "name": "Aadhaar card", "is_mandatory": true }
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Income Certificate",
+        "is_mandatory": true
+      },
+      {
+        "name": "Class 12 Marksheet (60% or more)",
+        "is_mandatory": true
+      },
+      {
+        "name": "Bonafide Rajasthan domicile certificate",
+        "is_mandatory": true
+      }
     ]
   },
   {
-    "slug": "national-means-cum-merit-scholarship",
-    "name": "National Means-cum-Merit Scholarship Scheme (NMMSS)",
-    "department": "Ministry of Education, Government of India",
-    "category": "Education",
-    "level": "central",
-    "state": null,
-    "benefit": "₹12,000 per year (Class 9 to Class 12)",
-    "description": "Scholarship to economically weaker meritorious students to reduce dropout rate at the secondary stage.",
-    "source_url": "https://scholarships.gov.in",
-    "application_url": "https://scholarships.gov.in",
-    "deadline": "Varies by state — typically September",
-    "eligibility_rules": [
-      { "field": "income", "operator": "<=", "value": "350000" },
-      { "field": "education", "operator": "in", "value": "Class 9,Class 10,Class 11,Class 12" }
-    ],
-    "documents_required": [
-      { "name": "Income certificate", "is_mandatory": true },
-      { "name": "Class 8 marksheet (qualifying exam)", "is_mandatory": true },
-      { "name": "Bank passbook (for DBT)", "is_mandatory": true }
-    ]
-  },
-  {
-    "slug": "pm-kisan-samman-nidhi",
-    "name": "PM Kisan Samman Nidhi",
-    "department": "Ministry of Agriculture and Farmers Welfare, Government of India",
+    "slug": "rajasthan-kamdhenu-pashu-bima",
+    "name": "Mukhyamantri Kamdhenu Pashu Bima Yojana",
+    "department": "Animal Husbandry Department, Government of Rajasthan",
     "category": "Agriculture",
-    "level": "central",
-    "state": null,
-    "benefit": "₹6,000 per year in three equal installments",
-    "description": "Income support to all landholding farmer families to supplement their financial needs.",
-    "source_url": "https://pmkisan.gov.in",
-    "application_url": "https://pmkisan.gov.in",
-    "deadline": "Rolling — no fixed deadline",
+    "level": "State",
+    "state": "Rajasthan",
+    "benefit": "100% free insurance cover of ₹40,000 per milch cattle (up to 2 cows/buffaloes per household)",
+    "description": "Zero-premium insurance safety net protecting livestock owners against death of milch bovine cattle.",
+    "source_url": "https://animalhusbandry.rajasthan.gov.in/",
+    "application_url": "https://sso.rajasthan.gov.in/",
+    "deadline": "Active Year-Round",
     "eligibility_rules": [
-      { "field": "occupation", "operator": "==", "value": "Farmer" },
-      { "field": "landholding", "operator": ">", "value": "0" }
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      },
+      {
+        "field": "income",
+        "operator": "<=",
+        "value": "800000"
+      }
     ],
     "documents_required": [
-      { "name": "Aadhaar card", "is_mandatory": true },
-      { "name": "Land ownership records", "is_mandatory": true },
-      { "name": "Bank account details (for DBT)", "is_mandatory": true }
+      {
+        "name": "Jan Aadhaar Card",
+        "is_mandatory": true
+      },
+      {
+        "name": "Veterinary doctor cattle health & tagging certificate",
+        "is_mandatory": true
+      }
     ]
   },
   {
-    "slug": "rajasthan-old-age-pension",
-    "name": "Mukhyamantri Vridhjan Samman Pension Yojana",
-    "department": "Department of Social Justice and Empowerment, Government of Rajasthan",
+    "slug": "rajasthan-annapurna-rasoi-yojana",
+    "name": "Shri Annapurna Rasoi Yojana (Indira Rasoi)",
+    "department": "Local Self Government Department, Government of Rajasthan",
     "category": "Social Welfare",
-    "level": "state",
+    "level": "State",
     "state": "Rajasthan",
-    "benefit": "₹750 to ₹1,500 per month depending on age",
-    "description": "Monthly pension for elderly citizens of Rajasthan without sufficient means of subsistence.",
-    "source_url": "https://sje.rajasthan.gov.in",
-    "application_url": "https://ssp2.rajasthan.gov.in",
-    "deadline": "Rolling — no fixed deadline",
+    "benefit": "Nutritious and hygienic hot meal (450g) at subsidized cost of ₹8 only",
+    "description": "Universal food security program operating 1,000+ permanent kitchens ensuring 'No one sleeps hungry' across Rajasthan.",
+    "source_url": "https://lsg.urban.rajasthan.gov.in/",
+    "application_url": "https://lsg.urban.rajasthan.gov.in/",
+    "deadline": "Daily (Lunch: 8:30 AM - 3:00 PM, Dinner: 5:00 PM - 9:00 PM)",
     "eligibility_rules": [
-      { "field": "state", "operator": "==", "value": "Rajasthan" },
-      { "field": "age", "operator": ">=", "value": "60" },
-      { "field": "income", "operator": "<=", "value": "48000" }
+      {
+        "field": "state",
+        "operator": "==",
+        "value": "Rajasthan"
+      }
     ],
-    "documents_required": [
-      { "name": "Age proof", "is_mandatory": true },
-      { "name": "Income certificate", "is_mandatory": true },
-      { "name": "Bank passbook (for DBT)", "is_mandatory": true }
-    ]
+    "documents_required": []
   }
 ]
