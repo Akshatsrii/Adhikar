@@ -1,7 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose'
 
 export interface IGrievance extends Document {
-  user: mongoose.Types.ObjectId
+  user?: mongoose.Types.ObjectId
+  referenceNumber: string
   subject: string
   description: string
   status: 'Open' | 'In Progress' | 'Resolved' | 'Closed'
@@ -11,7 +12,8 @@ export interface IGrievance extends Document {
 
 const GrievanceSchema = new Schema<IGrievance>(
   {
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: false },
+    referenceNumber: { type: String, required: true, unique: true },
     subject: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, enum: ['Scheme Application', 'Portal Issue', 'Document Verification', 'Other'], default: 'Other' },

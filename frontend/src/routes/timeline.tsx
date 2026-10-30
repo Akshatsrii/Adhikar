@@ -1,5 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+﻿import { createFileRoute } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
+import { applicationsApi } from '@/lib/api'
 import { Clock, CheckCircle2, Circle, AlertCircle, Plus, Trash2, ChevronDown, ChevronUp, FileText, Calendar, ArrowRight, Sparkles } from 'lucide-react'
 
 export const Route = createFileRoute('/timeline')({
@@ -23,7 +24,7 @@ const statusConfig: Record<StatusType, { label: string; color: string; bg: strin
   pending: { label: 'Pending', color: 'text-slate-600', bg: 'bg-slate-100', border: 'border-slate-300', icon: Circle },
   'in-progress': { label: 'In Progress', color: 'text-amber-700', bg: 'bg-amber-50', border: 'border-amber-300', icon: Clock },
   submitted: { label: 'Submitted', color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-300', icon: FileText },
-  approved: { label: 'Approved ✓', color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-300', icon: CheckCircle2 },
+  approved: { label: 'Approved âœ“', color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-300', icon: CheckCircle2 },
   rejected: { label: 'Rejected', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-300', icon: AlertCircle },
 }
 
@@ -74,6 +75,30 @@ const statusOrder: StatusType[] = ['pending', 'in-progress', 'submitted', 'appro
 
 export default function ApplicationTimeline() {
   const [entries, setEntries] = useState<TimelineEntry[]>(defaultEntries)
+
+  useEffect(() => {
+    applicationsApi.list()
+      .then(apps => {
+        if (apps && apps.length > 0) {
+          const mapped: TimelineEntry[] = apps.map((app: any, idx: number) => {
+            const rawStatus = (app.status || "").toLowerCase()
+            const st: StatusType = (rawStatus === "approved" ? "approved" : rawStatus === "rejected" ? "rejected" : rawStatus === "submitted" ? "submitted" : "in-progress")
+            return {
+              id: 1000 + idx,
+              scheme: app.schemeName || app.schemeSlug,
+              category: app.category || "General",
+              appliedDate: new Date(app.createdAt || Date.now()).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }),
+              status: st,
+              nextStep: app.nextStep || "Application under department review",
+              notes: `Reference ID: ${app.referenceNumber || app._id || "N/A"}`,
+              deadline: app.deadline || ""
+            }
+          })
+          setEntries(mapped)
+        }
+      })
+      .catch(() => {})
+  }, [])
   const [expanded, setExpanded] = useState<Set<number>>(new Set([1, 2]))
   const [adding, setAdding] = useState(false)
   const [newEntry, setNewEntry] = useState({ scheme: '', category: 'Housing', appliedDate: '', notes: '', deadline: '' })
@@ -133,7 +158,7 @@ export default function ApplicationTimeline() {
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-3">Application Timeline</h1>
           <p className="text-slate-400 text-sm max-w-xl">
-            Track every scheme you've applied for — from pending to approved — in a single visual timeline. Never miss a deadline or next step.
+            Track every scheme you've applied for â€” from pending to approved â€” in a single visual timeline. Never miss a deadline or next step.
           </p>
           {/* Stats */}
           <div className="flex items-center gap-4 mt-6 flex-wrap">

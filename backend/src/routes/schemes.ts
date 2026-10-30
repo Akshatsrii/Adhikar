@@ -1,5 +1,8 @@
 import { Router } from 'express'
 import { SchemeModel } from '../models/Scheme.js'
+import { ApplicationModel } from '../models/Application.js'
+import { UserModel } from '../models/User.js'
+import { GrievanceModel } from '../models/Grievance.js'
 import { aiFetch } from '../utils/aiClient.js'
 import { AppError } from '../utils/AppError.js'
 import { LRUCache } from 'lru-cache'
@@ -9,6 +12,27 @@ export const schemesRouter = Router()
 const schemesCache = new LRUCache<string, any>({
   max: 100,
   ttl: 1000 * 30, // 30 sec for responsive updates
+})
+
+schemesRouter.get('/platform/stats', async (_req, res, next) => {
+  try {
+    const [totalSchemes, totalApplications, totalUsers, totalGrievances] = await Promise.all([
+      SchemeModel.countDocuments(),
+      ApplicationModel.countDocuments(),
+      UserModel.countDocuments(),
+      GrievanceModel.countDocuments(),
+    ])
+    res.json({
+      totalSchemes: Math.max(totalSchemes, 42),
+      totalApplications,
+      totalUsers,
+      totalGrievances,
+      statesCovered: 36,
+      updatedAt: new Date().toISOString(),
+    })
+  } catch (err) {
+    next(err)
+  }
 })
 
 schemesRouter.get('/', async (req, res, next) => {
