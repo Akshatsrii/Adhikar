@@ -285,76 +285,76 @@ function RootComponent() {
         <Outlet />
       </main>
     
-      {/* 3. Warm Modern Footer */}
-      <footer className="bg-[#FAF7F2] text-neutral-600 pt-16 pb-12 w-full border-t border-[#EAE6DF]">
+      {/* 3. Sleek Premium Black Footer */}
+      <footer className="bg-black text-neutral-400 pt-16 pb-12 w-full border-t border-neutral-900">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
             
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-[#0A0A0A] flex items-center justify-center text-white">
-                  <ShieldCheck className="w-5 h-5 text-[#FF5B00]" />
+                <div className="w-9 h-9 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
+                  <ShieldCheck className="w-5 h-5 text-[#FF5500]" />
                 </div>
-                <span className="text-xl font-black text-[#111827] tracking-tight">
-                  Adhikar<span className="text-[#FF5B00]">.</span>
+                <span className="text-xl font-black text-white tracking-tight">
+                  Adhikar<span className="text-[#FF5500]">.</span>
                 </span>
               </div>
-              <p className="text-xs text-neutral-500 leading-relaxed font-normal">
+              <p className="text-xs text-neutral-400 leading-relaxed font-normal">
                 {t('footer.tagline')}
               </p>
               <div className="flex items-center gap-2 pt-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-[#FFF4EC] text-[#D9480F] border border-[#FFE2D1]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF5B00] animate-pulse"></span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-neutral-900 text-neutral-300 border border-neutral-800">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF5500] animate-pulse"></span>
                   {currentLang === 'hi' ? 'सभी सरकारी सेवाएं सक्रिय हैं' : 'All Welfare Systems Operational'}
                 </span>
               </div>
             </div>
             
             <div>
-              <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-4">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
                 {t('footer.quick_links')}
               </h4>
               <ul className="space-y-2.5 text-xs font-medium">
-                <li><Link to="/schemes" className="hover:text-[#FF5B00] transition">{t('nav.schemes')}</Link></li>
-                <li><Link to="/eligibility" className="hover:text-[#FF5B00] transition">{t('nav.eligibility')}</Link></li>
-                <li><Link to="/assistant" className="hover:text-[#FF5B00] transition">{t('nav.assistant')}</Link></li>
-                <li><Link to="/documents" className="hover:text-[#FF5B00] transition">{t('nav.documents')}</Link></li>
-                <li><Link to="/state-schemes" className="hover:text-[#FF5B00] transition">{t('nav.state_schemes')}</Link></li>
+                <li><Link to="/schemes" className="hover:text-[#FF5500] transition">{t('nav.schemes')}</Link></li>
+                <li><Link to="/eligibility" className="hover:text-[#FF5500] transition">{t('nav.eligibility')}</Link></li>
+                <li><Link to="/assistant" className="hover:text-[#FF5500] transition">{t('nav.assistant')}</Link></li>
+                <li><Link to="/documents" className="hover:text-[#FF5500] transition">{t('nav.documents')}</Link></li>
+                <li><Link to="/state-schemes" className="hover:text-[#FF5500] transition">{t('nav.state_schemes')}</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-4">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
                 {t('footer.citizen_tools')}
               </h4>
               <ul className="space-y-2.5 text-xs font-medium">
-                <li><Link to="/calculator" className="hover:text-[#FF5B00] transition">{t('nav.calculator')}</Link></li>
-                <li><Link to="/family" className="hover:text-[#FF5B00] transition">{t('nav.family')}</Link></li>
-                <li><Link to="/grievance" className="hover:text-[#FF5B00] transition">{t('nav.grievances')}</Link></li>
-                <li><Link to="/timeline" className="hover:text-[#FF5B00] transition">{t('nav.timeline')}</Link></li>
-                <li><Link to="/impact" className="hover:text-[#FF5B00] transition">{t('nav.impact')}</Link></li>
+                <li><Link to="/calculator" className="hover:text-[#FF5500] transition">{t('nav.calculator')}</Link></li>
+                <li><Link to="/family" className="hover:text-[#FF5500] transition">{t('nav.family')}</Link></li>
+                <li><Link to="/grievance" className="hover:text-[#FF5500] transition">{t('nav.grievances')}</Link></li>
+                <li><Link to="/timeline" className="hover:text-[#FF5500] transition">{t('nav.timeline')}</Link></li>
+                <li><Link to="/impact" className="hover:text-[#FF5500] transition">{t('nav.impact')}</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-[#111827] uppercase tracking-wider mb-4">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
                 {t('footer.governance')}
               </h4>
               <ul className="space-y-2.5 text-xs">
-                <li className="text-neutral-700 font-semibold">{currentLang === 'hi' ? 'राष्ट्रीय टोल-फ्री हेल्पलाइन:' : 'National Toll-Free Helpline:'}</li>
-                <li className="text-[#111827] font-mono text-sm font-bold">1800-11-0000</li>
-                <li className="text-neutral-700 font-semibold pt-2">{currentLang === 'hi' ? 'नागरिक सहायता ईमेल:' : 'Official Citizen Email:'}</li>
-                <li className="text-neutral-500 font-mono text-xs">support@adhikar-platform.in</li>
+                <li className="text-neutral-300 font-semibold">{currentLang === 'hi' ? 'राष्ट्रीय टोल-फ्री हेल्पलाइन:' : 'National Toll-Free Helpline:'}</li>
+                <li className="text-white font-mono text-sm font-bold">1800-11-0000</li>
+                <li className="text-neutral-300 font-semibold pt-2">{currentLang === 'hi' ? 'नागरिक सहायता ईमेल:' : 'Official Citizen Email:'}</li>
+                <li className="text-neutral-400 font-mono text-xs">support@adhikar-platform.in</li>
               </ul>
             </div>
           </div>
           
-          <div className="border-t border-[#EAE6DF] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
+          <div className="border-t border-neutral-900 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
             <p>&copy; {new Date().getFullYear()} Adhikar. {t('footer.rights')}</p>
             <div className="flex gap-6 font-medium">
-              <Link to="/about" className="hover:text-[#111827] transition">Privacy</Link>
-              <Link to="/about" className="hover:text-[#111827] transition">Terms</Link>
-              <Link to="/about" className="hover:text-[#111827] transition">Security</Link>
+              <Link to="/about" className="hover:text-white transition">Privacy</Link>
+              <Link to="/about" className="hover:text-white transition">Terms</Link>
+              <Link to="/about" className="hover:text-white transition">Security</Link>
             </div>
           </div>
         </div>
