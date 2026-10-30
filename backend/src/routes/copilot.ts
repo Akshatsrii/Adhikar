@@ -53,14 +53,6 @@ copilotRouter.post('/ask', optionalAuth, async (req, res, next) => {
       throw new AppError(`Scheme not found: ${data.schemeSlug}`, 404)
     }
 
-    if (!env.geminiApiKey) {
-      throw new AppError('Gemini API key not configured for copilot fallback', 502)
-    }
-
-    const { GoogleGenerativeAI } = await import('@google/generative-ai')
-    const genAI = new GoogleGenerativeAI(env.geminiApiKey)
-    const model = genAI.getGenerativeModel({ model: 'gemini-3.8-flash' })
-
     const rulesStr = Array.isArray(scheme.eligibility_rules) && scheme.eligibility_rules.length > 0
       ? scheme.eligibility_rules.map((r: any) => `- ${r.field}: must be ${r.operator} ${r.value}`).join('\n')
       : 'Standard central guidelines apply'
@@ -108,8 +100,34 @@ Instructions:
 - If asked how to apply, give step-by-step instructions and reference the official application portal.
 - Respond in Hindi/Hinglish if asked in Hindi/Hinglish; otherwise in English. Use clear markdown.`
 
-    const result = await model.generateContent(prompt)
-    const answer = result.response.text()
+    let answer = ''
+
+    if (env.geminiApiKey) {
+      try {
+        const { GoogleGenerativeAI } = await import('@google/generative-ai')
+        const genAI = new GoogleGenerativeAI(env.geminiApiKey)
+        let result
+        try {
+          const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+          result = await model.generateContent(prompt)
+        } catch {
+          const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+          result = await model.generateContent(prompt)
+        }
+        if (result?.response) {
+          answer = result.response.text()
+        }
+      } catch (err: any) {
+        console.warn('Copilot Gemini error:', err?.message)
+      }
+    }
+
+    if (!answer) {
+      const isHindi = /[\u0900-\u097F]|kisan|yojana|kaise|milega|chahiye|paisa|patrata|documents|kya|hai|batao/i.test(data.question)
+      answer = isHindi
+        ? `### ${scheme.name}\n\n**मुख्य लाभ:** ${scheme.benefit}\n\n**विवरण:** ${scheme.description}\n\n**पात्रता शर्तें:**\n${rulesStr}\n\n**आवश्यक दस्तावेज़:**\n${docsStr}\n\n🔗 **आधिकारिक पोर्टल:** [${scheme.source_url || 'https://myscheme.gov.in'}](${scheme.source_url || 'https://myscheme.gov.in'})`
+        : `### ${scheme.name}\n\n**Key Benefit:** ${scheme.benefit}\n\n**Overview:** ${scheme.description}\n\n**Eligibility:**\n${rulesStr}\n\n**Documents Required:**\n${docsStr}\n\n🔗 **Official Portal:** [${scheme.source_url || 'https://myscheme.gov.in'}](${scheme.source_url || 'https://myscheme.gov.in'})`
+    }
 
     res.status(200).json({
       answer,

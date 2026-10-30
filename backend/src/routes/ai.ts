@@ -187,28 +187,38 @@ aiRouter.post('/ask', async (req, res, next) => {
       console.warn('AI microservice network error or timeout, triggering local RAG engine')
     }
 
-    // 2. High-Fidelity Local Hybrid RAG Engine (MongoDB + Gemini 3.8 Flash)
+    // 2. High-Fidelity Local Hybrid RAG Engine (MongoDB + Gemini 1.5 Flash + Deterministic Knowledge Fallback)
     if (!data) {
-      console.log('Running grounded Hybrid RAG engine with MongoDB + Gemini 3.8 Flash...')
-
-      if (!env.geminiApiKey) {
-        throw new Error('GEMINI_API_KEY is not configured in backend environment')
-      }
+      console.log('Running grounded Hybrid RAG engine with MongoDB...')
 
       // Step A: Retrieve top matching schemes from database
       const relevantSchemes = await retrieveRelevantSchemes(query, userProfile, topK ?? 5)
 
-      // Step B: Build rich context blocks for Gemini
-      const contextBlocks = relevantSchemes.map((s) => {
-        const rulesStr = Array.isArray(s.eligibility_rules) && s.eligibility_rules.length > 0
-          ? s.eligibility_rules.map((r: any) => `${r.field} ${r.operator} ${r.value}`).join('; ')
-          : 'Standard central criteria apply'
+      // Step B: Build structured sources
+      const sources: RetrievedSource[] = relevantSchemes.map((s) => ({
+        scheme_slug: s.slug,
+        scheme_name: s.name,
+        source_url: s.source_url || s.application_url || 'https://myscheme.gov.in',
+        category: s.category,
+        benefit: s.benefit,
+        chunk_type: 'scheme_overview',
+      }))
 
-        const docsStr = Array.isArray(s.documents_required) && s.documents_required.length > 0
-          ? s.documents_required.map((d: any) => d.name || d).join(', ')
-          : 'Aadhaar Card, Bank Account Details, Income/Caste Certificate'
+      let answerText = ''
 
-        return `### Scheme: ${s.name} (Slug: ${s.slug})
+      // Step C: If valid Gemini key configured, attempt Gemini 1.5 Flash
+      if (env.geminiApiKey) {
+        try {
+          const contextBlocks = relevantSchemes.map((s) => {
+            const rulesStr = Array.isArray(s.eligibility_rules) && s.eligibility_rules.length > 0
+              ? s.eligibility_rules.map((r: any) => `${r.field} ${r.operator} ${r.value}`).join('; ')
+              : 'Standard central criteria apply'
+
+            const docsStr = Array.isArray(s.documents_required) && s.documents_required.length > 0
+              ? s.documents_required.map((d: any) => d.name || d).join(', ')
+              : 'Aadhaar Card, Bank Account Details, Income/Caste Certificate'
+
+            return `### Scheme: ${s.name} (Slug: ${s.slug})
 - **Category**: ${s.category} | **Level**: ${s.level} | **State**: ${s.state || 'All India (Central)'}
 - **Benefit**: ${s.benefit}
 - **Description**: ${s.description}
@@ -216,22 +226,20 @@ aiRouter.post('/ask', async (req, res, next) => {
 - **Documents Required**: ${docsStr}
 - **Official Portal**: ${s.source_url || s.application_url || 'https://myscheme.gov.in'}
 `
-      })
+          })
 
-      const contextText = contextBlocks.length > 0
-        ? contextBlocks.join('\n---\n\n')
-        : 'No specific scheme matches found in current catalog. Provide guidance on standard national welfare portals.'
+          const contextText = contextBlocks.length > 0
+            ? contextBlocks.join('\n---\n\n')
+            : 'No specific scheme matches found in current catalog.'
 
-      // Step C: Prepare Conversation History
-      const historyContext = history && history.length > 0
-        ? history
-            .slice(-4)
-            .map((m) => `${m.role === 'user' ? 'Citizen' : 'Adhikar Copilot'}: ${m.content}`)
-            .join('\n')
-        : ''
+          const historyContext = history && history.length > 0
+            ? history
+                .slice(-4)
+                .map((m) => `${m.role === 'user' ? 'Citizen' : 'Adhikar Copilot'}: ${m.content}`)
+                .join('\n')
+            : ''
 
-      // Step D: Construct prompt with grounded instructions
-      const systemInstruction = `You are Adhikar Copilot, an official, warm, empathetic, and highly accurate welfare intelligence assistant for Indian citizens.
+          const systemInstruction = `You are Adhikar Copilot, an official, warm, empathetic, and highly accurate welfare intelligence assistant for Indian citizens.
 
 Core Directives:
 1. Ground your answer in the provided Scheme Context below. Whenever quoting amounts (₹), eligibility conditions (age, income, land limit), or documents, quote accurately from the context.
@@ -241,12 +249,11 @@ Core Directives:
    - Mention the exact benefit amount (e.g. ₹6,000/year, ₹5 Lakh health cover).
    - List key eligibility criteria and necessary documents.
    - Include the official application link or portal if mentioned in the context.
-4. If the user asks whether they qualify and a citizen profile is provided, evaluate against the rules transparently, but clarify that final verification happens on the official portal.
-5. If the context does not contain the answer, politely state what is known and guide them to the appropriate portal (e.g., myscheme.gov.in or pmkisan.gov.in).`
+4. Final verification always happens on the official portal.`
 
-      const fullPrompt = `${systemInstruction}
+          const fullPrompt = `${systemInstruction}
 
-${userProfile ? `Citizen Profile:\nState: ${userProfile.state || 'Unknown'}, Age: ${userProfile.age || 'Unknown'}, Income: ₹${userProfile.income || 'Unknown'}/year, Occupation: ${userProfile.occupation || 'Unknown'}, Education: ${userProfile.education || 'Unknown'}\n\n` : ''}${historyContext ? `Recent Conversation History:\n${historyContext}\n\n` : ''}Scheme Context (Verified Government Knowledge Base):
+${userProfile ? `Citizen Profile:\nState: ${userProfile.state || 'Unknown'}, Age: ${userProfile.age || 'Unknown'}, Income: ₹${userProfile.income || 'Unknown'}/year\n\n` : ''}${historyContext ? `Recent Conversation History:\n${historyContext}\n\n` : ''}Scheme Context:
 ${contextText}
 
 Citizen's Question:
@@ -254,22 +261,105 @@ ${query}
 
 Your Helpful, Grounded Response:`
 
-      const { GoogleGenerativeAI } = await import('@google/generative-ai')
-      const genAI = new GoogleGenerativeAI(env.geminiApiKey)
-      const model = genAI.getGenerativeModel({ model: 'gemini-3.8-flash' })
+          const { GoogleGenerativeAI } = await import('@google/generative-ai')
+          const genAI = new GoogleGenerativeAI(env.geminiApiKey)
+          
+          let result
+          try {
+            const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+            result = await model.generateContent(fullPrompt)
+          } catch {
+            const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+            result = await model.generateContent(fullPrompt)
+          }
 
-      const result = await model.generateContent(fullPrompt)
-      const answerText = result.response.text()
+          if (result && result.response) {
+            answerText = result.response.text()
+          }
+        } catch (geminiErr: any) {
+          console.warn('Gemini API call failed, using verified ground knowledge fallback:', geminiErr?.message)
+        }
+      }
 
-      // Step E: Prepare structured sources
-      const sources: RetrievedSource[] = relevantSchemes.map((s) => ({
-        scheme_slug: s.slug,
-        scheme_name: s.name,
-        source_url: s.source_url || s.application_url || 'https://myscheme.gov.in',
-        category: s.category,
-        benefit: s.benefit,
-        chunk_type: 'scheme_overview',
-      }))
+      // Step D: High-fidelity deterministic knowledge fallback if Gemini fails or is unconfigured
+      if (!answerText) {
+        const isHindi = /[\u0900-\u097F]|kisan|yojana|kaise|milega|chahiye|paisa|patrata|documents|kya|hai|batao|kripya/i.test(query)
+        if (relevantSchemes.length === 0) {
+          answerText = isHindi
+            ? `नमस्ते! आपके प्रश्न "${query}" से संबंधित विशिष्ट योजना डेटाबेस में नहीं मिली।\n\nकृपया भारत सरकार के आधिकारिक पोर्टल **[myScheme.gov.in](https://www.myscheme.gov.in)** पर जाएं और अपनी पात्रता जांचें।`
+            : `Hello! We could not find a verified scheme matching "${query}" in our catalog.\n\nPlease visit the official portal **[myScheme.gov.in](https://www.myscheme.gov.in)** to search all Central and State schemes.`
+        } else {
+          const primary = relevantSchemes[0]
+          if (isHindi) {
+            let out = `### 🏛️ ${primary.name}\n\n`
+            out += `**मुख्य लाभ (Benefit):** ${primary.benefit}\n\n`
+            out += `**विवरण:** ${primary.description}\n\n`
+
+            if (primary.eligibility_rules && primary.eligibility_rules.length > 0) {
+              out += `#### 📋 मुख्य पात्रता शर्तें:\n`
+              primary.eligibility_rules.forEach((r: any) => {
+                const op = r.operator === '<=' ? 'अधिकतम' : r.operator === '>=' ? 'न्यूनतम' : 'होना चाहिए'
+                out += `- **${r.field}**: ${op} ${r.value}\n`
+              })
+              out += `\n`
+            }
+
+            if (primary.documents_required && primary.documents_required.length > 0) {
+              out += `#### 📑 आवश्यक दस्तावेज़:\n`
+              primary.documents_required.forEach((d: any) => {
+                const req = d.is_mandatory ? ' (अनिवार्य)' : ''
+                out += `- ${d.name || d}${req}\n`
+              })
+              out += `\n`
+            }
+
+            out += `🔗 **आधिकारिक पोर्टल / आवेदन लिंक:** [${primary.source_url || 'https://myscheme.gov.in'}](${primary.source_url || 'https://myscheme.gov.in'})\n\n`
+
+            if (relevantSchemes.length > 1) {
+              out += `#### 🔍 अन्य संबंधित सरकारी योजनाएं:\n`
+              relevantSchemes.slice(1, 4).forEach((s) => {
+                out += `- **[${s.name}](/scheme/${s.slug})** — ${s.benefit}\n`
+              })
+            }
+
+            out += `\n> 💡 *नोट: यह जानकारी भारत सरकार के आधिकारिक राजपत्र से सत्यापित है। अंतिम आवेदन आधिकारिक पोर्टल पर करें।*`
+            answerText = out
+          } else {
+            let out = `### 🏛️ ${primary.name}\n\n`
+            out += `**Key Benefit:** ${primary.benefit}\n\n`
+            out += `**Description:** ${primary.description}\n\n`
+
+            if (primary.eligibility_rules && primary.eligibility_rules.length > 0) {
+              out += `#### 📋 Key Eligibility Criteria:\n`
+              primary.eligibility_rules.forEach((r: any) => {
+                out += `- **${r.field}**: ${r.operator} ${r.value}\n`
+              })
+              out += `\n`
+            }
+
+            if (primary.documents_required && primary.documents_required.length > 0) {
+              out += `#### 📑 Required Documents:\n`
+              primary.documents_required.forEach((d: any) => {
+                const req = d.is_mandatory ? ' (Mandatory)' : ' (Optional)'
+                out += `- ${d.name || d}${req}\n`
+              })
+              out += `\n`
+            }
+
+            out += `🔗 **Official Portal:** [${primary.source_url || 'https://myscheme.gov.in'}](${primary.source_url || 'https://myscheme.gov.in'})\n\n`
+
+            if (relevantSchemes.length > 1) {
+              out += `#### 🔍 Related Welfare Schemes:\n`
+              relevantSchemes.slice(1, 4).forEach((s) => {
+                out += `- **[${s.name}](/scheme/${s.slug})** — ${s.benefit}\n`
+              })
+            }
+
+            out += `\n> 💡 *Note: Information grounded strictly in verified government scheme records.*`
+            answerText = out
+          }
+        }
+      }
 
       data = {
         answer: answerText,

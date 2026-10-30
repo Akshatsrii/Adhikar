@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 _client: genai.Client | None = None
 
 EMBEDDING_MODEL = "gemini-embedding-001"
-GENERATION_MODEL = "gemini-3.8-flash"
+GENERATION_MODEL = "gemini-1.5-flash"
 
 
 def _get_client() -> genai.Client:
