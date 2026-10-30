@@ -4,8 +4,7 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    libpq-dev \
+    build-essential libpq-dev tesseract-ocr tesseract-ocr-eng tesseract-ocr-hin \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
