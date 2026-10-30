@@ -13,6 +13,7 @@ from app.models import Scheme, SchemeChunk, EvalRun
 from app.gemini import embed_text
 from app.eligibility import evaluate_scheme
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("eval")
@@ -68,7 +69,7 @@ def run_eligibility_eval(db, golden_set_path: Path):
     correct_outcomes = 0
     total_outcomes = 0
     
-    schemes = db.scalars(select(Scheme)).all()
+    schemes = db.scalars(select(Scheme).options(selectinload(Scheme.eligibility_rules))).all()
     scheme_dict = {s.slug: s for s in schemes}
 
     for item in data:

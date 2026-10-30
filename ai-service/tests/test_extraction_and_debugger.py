@@ -1,9 +1,14 @@
 import json
+import sys
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 import pytest
 
+# Add project root to path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from app.document_extraction import extract_fields
-from app.life_events import classify_life_event
+from app.life_events import classify_life_event, categories_for_event, LifeEventType
 
 
 def test_document_extraction_with_mocked_gemini():
@@ -31,9 +36,8 @@ def test_document_extraction_with_mocked_gemini():
 
 def test_life_events_classification_with_mocked_gemini():
     mock_payload = {
-        "event_type": "FARMING",
-        "confidence": 0.95,
-        "suggested_categories": ["Agriculture"]
+        "event_type": "MARRIAGE",
+        "confidence": 0.95
     }
 
     mock_response = MagicMock()
@@ -43,7 +47,8 @@ def test_life_events_classification_with_mocked_gemini():
     mock_client.models.generate_content.return_value = mock_response
 
     with patch("app.life_events._get_client", return_value=mock_client):
-        classification = classify_life_event("I am a small farmer facing crop damages from hailstorm")
-        assert classification.event_type == "FARMING"
-        assert classification.confidence == 0.95
-        assert "Agriculture" in classification.suggested_categories
+        event_type, confidence = classify_life_event("I recently got married")
+        assert event_type == LifeEventType.MARRIAGE
+        assert event_type.value == "MARRIAGE"
+        assert confidence == 0.95
+        assert "Social Welfare" in categories_for_event(event_type)

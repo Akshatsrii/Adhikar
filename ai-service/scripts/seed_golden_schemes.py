@@ -12,7 +12,12 @@ from app.config import settings
 
 def safe_embed_text(text: str, task_type: str = "RETRIEVAL_DOCUMENT") -> list[float]:
     if not settings.gemini_api_key:
-        return [0.0] * 768
+        import hashlib
+        import math
+        h = hashlib.sha256(text.encode("utf-8")).digest()
+        raw = [(b / 255.0) - 0.5 for b in h] * (768 // 32)
+        norm = math.sqrt(sum(x * x for x in raw)) or 1.0
+        return [x / norm for x in raw]
     return embed_text(text, task_type=task_type)
 
 def seed_schemes():
