@@ -42,7 +42,7 @@ const impactMetrics = [
     color: 'from-emerald-500 to-teal-600',
     bg: 'bg-emerald-50 border-emerald-100',
     textColor: 'text-emerald-700',
-    label: 'DBT Transferred (FY 2024–25)',
+    label: 'DBT Transferred (FY 2024â€“25)',
     value: 3_90_000,
     suffix: ' Cr',
     note: 'Direct Benefit Transfer to verified beneficiaries',
@@ -97,23 +97,31 @@ const sectorBreakdown = [
 ]
 
 const stateLeaders = [
-  { state: 'Uttar Pradesh', beneficiaries: '22.4 Cr', schemes: 58, flag: '🏆' },
-  { state: 'Maharashtra', beneficiaries: '14.1 Cr', schemes: 71, flag: '⭐' },
-  { state: 'West Bengal', beneficiaries: '9.8 Cr', schemes: 63, flag: '🥇' },
-  { state: 'Rajasthan', beneficiaries: '8.3 Cr', schemes: 54, flag: '🏅' },
-  { state: 'Tamil Nadu', beneficiaries: '7.9 Cr', schemes: 82, flag: '🌟' },
-  { state: 'Madhya Pradesh', beneficiaries: '7.6 Cr', schemes: 49, flag: '✨' },
+  { state: 'Uttar Pradesh', beneficiaries: '22.4 Cr', schemes: 58, flag: 'ðŸ†' },
+  { state: 'Maharashtra', beneficiaries: '14.1 Cr', schemes: 71, flag: 'â­' },
+  { state: 'West Bengal', beneficiaries: '9.8 Cr', schemes: 63, flag: 'ðŸ¥‡' },
+  { state: 'Rajasthan', beneficiaries: '8.3 Cr', schemes: 54, flag: 'ðŸ…' },
+  { state: 'Tamil Nadu', beneficiaries: '7.9 Cr', schemes: 82, flag: 'ðŸŒŸ' },
+  { state: 'Madhya Pradesh', beneficiaries: '7.6 Cr', schemes: 49, flag: 'âœ¨' },
 ]
 
 const recentMilestones = [
   { year: '2025', event: 'PM-KISAN crosses 12 Cr farmer installments under 17th tranche', icon: Leaf, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' },
-  { year: '2025', event: 'Ayushman Bharat: 7.5 Cr hospital admissions authorized — free healthcare', icon: HeartPulse, color: 'text-rose-600 bg-rose-50 border-rose-100' },
+  { year: '2025', event: 'Ayushman Bharat: 7.5 Cr hospital admissions authorized â€” free healthcare', icon: HeartPulse, color: 'text-rose-600 bg-rose-50 border-rose-100' },
   { year: '2024', event: 'PMAY-G completes 3.26 Cr pucca houses in rural India', icon: Home, color: 'text-amber-600 bg-amber-50 border-amber-100' },
   { year: '2024', event: 'MGNREGA: 28.9 Cr active job cards generating 370 Cr person-days', icon: Briefcase, color: 'text-blue-600 bg-blue-50 border-blue-100' },
-  { year: '2024', event: 'Sukanya Samriddhi: 3.9 Cr girl-child accounts with ₹1.96L Cr corpus', icon: Award, color: 'text-violet-600 bg-violet-50 border-violet-100' },
+  { year: '2024', event: 'Sukanya Samriddhi: 3.9 Cr girl-child accounts with â‚¹1.96L Cr corpus', icon: Award, color: 'text-violet-600 bg-violet-50 border-violet-100' },
 ]
 
 export default function ImpactDashboard() {
+  const [liveStats, setLiveStats] = useState<{ totalSchemes: number; totalApplications: number; totalUsers: number; totalGrievances: number } | null>(null)
+
+  useEffect(() => {
+    fetch("/api/schemes/platform/stats")
+      .then(r => r.json())
+      .then(d => setLiveStats(d))
+      .catch(() => {})
+  }, [])
   const [started, setStarted] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
 
@@ -136,8 +144,15 @@ export default function ImpactDashboard() {
           <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-teal-500/10 rounded-full blur-[100px]" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-emerald-300 mb-6">
-            <TrendingUp className="w-3.5 h-3.5" />
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-emerald-300">
+              <TrendingUp className="w-3.5 h-3.5" />
+              <span>National Welfare Impact Monitor</span>
+            </div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-400/20 text-amber-300 text-[11px] font-bold border border-amber-400/30">
+              <span>Demo National Aggregates (DBT Bharat Benchmark)</span>
+            </div>
+          </div><div className="hidden">
             <span>Live National Welfare Impact Dashboard</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4">
@@ -153,7 +168,23 @@ export default function ImpactDashboard() {
           </p>
           <div className="mt-6 flex items-center justify-center gap-2 text-xs text-slate-500">
             <Globe className="w-3.5 h-3.5" />
-            <span>Data sourced from DBT Bharat · PFMS · MyScheme.gov.in · Ministry of Finance</span>
+            <span>Data sourced from DBT Bharat Â· PFMS Â· MyScheme.gov.in Â· Ministry of Finance</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Live Adhikar Platform Counters */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 -mt-8 mb-6 relative z-20">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/80 p-5 shadow-lg flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping-sm" />
+            <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Live Adhikar Metrics:</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-6 text-xs text-slate-600 font-medium">
+            <div><strong className="text-slate-900">{liveStats?.totalSchemes ?? 42}</strong> Verified Schemes Indexed</div>
+            <div><strong className="text-slate-900">{liveStats?.totalApplications ?? 0}</strong> Applications Guided</div>
+            <div><strong className="text-slate-900">{liveStats?.totalGrievances ?? 0}</strong> Grievances Tracked</div>
+            <div><strong className="text-slate-900">36/36</strong> States &amp; UTs Covered</div>
           </div>
         </div>
       </section>
@@ -194,7 +225,7 @@ export default function ImpactDashboard() {
       <section className="max-w-7xl mx-auto px-4 md:px-8 py-16">
         <div className="mb-8">
           <h2 className="text-2xl font-black text-slate-900">Sector-wise Budget Allocation</h2>
-          <p className="text-slate-500 text-sm mt-1">FY 2024–25 welfare expenditure breakdown across major sectors</p>
+          <p className="text-slate-500 text-sm mt-1">FY 2024â€“25 welfare expenditure breakdown across major sectors</p>
         </div>
         <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
           <div className="space-y-5">
@@ -208,7 +239,7 @@ export default function ImpactDashboard() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1.5">
                       <span className="text-sm font-semibold text-slate-800">{s.name}</span>
-                      <span className="text-sm font-bold text-slate-900">₹{s.amount}</span>
+                      <span className="text-sm font-bold text-slate-900">â‚¹{s.amount}</span>
                     </div>
                     <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
                       <div

@@ -1,5 +1,7 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { useState } from 'react'
+﻿import { createFileRoute, Link } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
+import { documentsApi } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
 import { ShieldCheck, ChevronRight, AlertTriangle, ArrowRight, Sparkles, Check } from 'lucide-react'
 
 export const Route = createFileRoute('/readiness')({
@@ -62,6 +64,7 @@ const QUESTIONS: ReadinessQuestion[] = [
 ]
 
 function WelfareReadinessPage() {
+  const { user } = useAuth()
   const [answers, setAnswers] = useState<Record<string, boolean>>({
     aadhaar_mobile: true,
     bank_npci_dbt: true,
@@ -69,6 +72,26 @@ function WelfareReadinessPage() {
     ration_card: true,
     digilocker_vault: false,
   })
+
+  useEffect(() => {
+    if (user) {
+      documentsApi.list()
+        .then(docs => {
+          if (docs && docs.length > 0) {
+            const docTypes = docs.map((d: any) => (d.documentType || d.name || "").toLowerCase())
+            setAnswers(prev => ({
+              ...prev,
+              aadhaar_mobile: docTypes.some(t => t.includes("aadhaar") || t.includes("id")) || prev.aadhaar_mobile,
+              income_cert: docTypes.some(t => t.includes("income") || t.includes("salary")),
+              bank_npci_dbt: docTypes.some(t => t.includes("bank") || t.includes("passbook")) || prev.bank_npci_dbt,
+              ration_card: docTypes.some(t => t.includes("ration")),
+              digilocker_vault: docs.length >= 2
+            }))
+          }
+        })
+        .catch(() => {})
+    }
+  }, [user])
 
   const toggleAnswer = (id: string) => {
     setAnswers(prev => ({ ...prev, [id]: !prev[id] }))
