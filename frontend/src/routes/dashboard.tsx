@@ -55,7 +55,7 @@ function DashboardPage() {
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">
       
       {/* Header & Quick stats */}
-      <div className="mb-8 relative overflow-hidden rounded-3xl mesh-bg text-white p-8 shadow-2xl">
+      <div className="mb-8 relative overflow-hidden rounded-3xl bg-white border border-[#EAE6DF] text-black p-8 shadow-2xl">
         {/* Ambient glows */}
         <div className="absolute right-0 top-0 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute left-1/2 bottom-0 w-60 h-60 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -64,14 +64,14 @@ function DashboardPage() {
 
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="animate-fade-in-up space-y-2">
-            <div className="flex items-center gap-2.5 text-xs text-blue-300 font-semibold mb-1">
+            <div className="flex items-center gap-2.5 text-xs text-[#EA580C] font-bold mb-1">
               <GreetIcon className="w-4 h-4" />
               <span>{greeting}, {firstName}</span>
             </div>
-            <h1 className="text-2xl md:text-4xl font-black tracking-tight text-white leading-tight">
+            <h1 className="text-2xl md:text-4xl font-black tracking-tight text-black leading-tight">
               Your Welfare Dashboard
             </h1>
-            <p className="text-sm text-blue-200/70 font-normal max-w-md">
+            <p className="text-sm text-[#52525B] font-normal max-w-md">
               Personalized scheme discovery, eligibility tracking, and AI-powered assistance — all in one place.
             </p>
           </div>
