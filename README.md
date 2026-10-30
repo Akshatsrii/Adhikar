@@ -19,7 +19,8 @@
   <h3>🚀 <a href="https://adhikar-seven.vercel.app/" target="_blank">Live Demo: adhikar-seven.vercel.app</a> 🚀</h3>
 
   <a href="https://adhikar-seven.vercel.app/"><img src="https://img.shields.io/badge/🌐_LIVE_DEMO-FF9933?style=for-the-badge&logoColor=white" alt="Live demo"/></a>
-  <img src="https://img.shields.io/badge/ROADMAP-19%2F19_STAGES-138808?style=for-the-badge" alt="Roadmap"/>
+  <img src="https://img.shields.io/badge/ROADMAP-STAGES_1--19_IMPLEMENTED-138808?style=for-the-badge" alt="Roadmap"/>
+  <img src="https://img.shields.io/badge/CATALOG-42_VERIFIED_SCHEMES-FF9933?style=for-the-badge" alt="Catalog"/>
   <img src="https://img.shields.io/badge/ARCHITECTURE-DUAL_BACKEND-000080?style=for-the-badge" alt="Architecture"/>
   <img src="https://img.shields.io/badge/ELIGIBILITY-DETERMINISTIC-8E24AA?style=for-the-badge" alt="Deterministic"/>
 
