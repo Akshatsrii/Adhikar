@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.database import SessionLocal
+from app.models import SchemeChunk
 from scripts.run_eval import run_rag_eval, run_eligibility_eval
 
 DATA_DIR = Path(__file__).resolve().parent / "data"
@@ -20,6 +21,10 @@ def db():
 @pytest.mark.skipif(not os.getenv("GEMINI_API_KEY"), reason="GEMINI_API_KEY not set")
 def test_rag_accuracy_meets_threshold(db):
     """Ensure RAG retrieval accuracy does not drop below 80%."""
+    first_chunk = db.query(SchemeChunk).first()
+    if not first_chunk or all(v == 0.0 for v in first_chunk.embedding[:10]):
+        pytest.skip("Database seeded with zero embeddings (no GEMINI_API_KEY during seed)")
+
     accuracy, total = run_rag_eval(db, DATA_DIR / "rag_golden_set.json")
     if total > 0:
         assert accuracy >= 80.0, f"RAG accuracy {accuracy}% is below threshold 80%"

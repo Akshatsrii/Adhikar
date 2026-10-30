@@ -1254,6 +1254,11 @@
         "field": "income",
         "operator": "<=",
         "value": "250000"
+      },
+      {
+        "field": "age",
+        "operator": "<=",
+        "value": "25"
       }
     ],
     "documents_required": [
@@ -1302,6 +1307,11 @@
         "field": "income",
         "operator": "<=",
         "value": "250000"
+      },
+      {
+        "field": "age",
+        "operator": "<=",
+        "value": "25"
       }
     ],
     "documents_required": [
