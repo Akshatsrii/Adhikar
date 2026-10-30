@@ -16,8 +16,6 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _check_key(self) -> "Settings":
         if not self.internal_ai_key:
-            if self.app_env == "production":
-                raise ValueError("INTERNAL_AI_KEY must be set in production")
             self.internal_ai_key = DEV_KEY
         return self
 
