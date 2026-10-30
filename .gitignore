@@ -31,3 +31,6 @@ Thumbs.db
 scratch/
 tmp/
 *.log
+frontend/.tanstack/
+ai-service/tests/logs/
+fix*.js
