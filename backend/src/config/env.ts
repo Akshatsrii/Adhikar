@@ -12,7 +12,7 @@ const isProd = nodeEnv === 'production'
 export const env = {
   port: Number(process.env.PORT ?? 5000),
   mongoUri: required('MONGO_URI', isProd ? undefined : 'mongodb://localhost:27017/adhikar'),
-  jwtSecret: required('JWT_SECRET'),
+  jwtSecret: required('JWT_SECRET', isProd ? undefined : 'dev-jwt-secret-key-12345'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '7d',
   clientOrigins: (process.env.CLIENT_ORIGINS ?? process.env.CLIENT_ORIGIN ?? 'http://localhost:5173')
     .split(',')
