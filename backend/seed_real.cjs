@@ -23,7 +23,8 @@ mongoose.connect('mongodb+srv://chikusrivastava535_db_user:pzRhXsDFJYAN5NUh@clus
     await Scheme.deleteMany({});
     console.log('Cleared old dummy schemes.');
 
-    const rawData = fs.readFileSync(path.join(__dirname, 'real_schemes.json'));
+    const seedPath = path.join(__dirname, '../ai-service/data/schemes_seed.json');
+    const rawData = fs.readFileSync(seedPath, 'utf-8');
     const data = JSON.parse(rawData);
 
     for (let s of data) {

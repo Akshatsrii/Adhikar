@@ -3,31 +3,29 @@
     "profile": {
       "age": 35,
       "state": "Uttar Pradesh",
-      "occupation": "Farmer",
-      "landholding": 2,
+      "occupation": "farmer",
+      "land_ownership": "true",
       "income": 150000,
       "education": "10th Pass"
     },
-    "expected_eligible_slugs": ["pm-kisan-samman-nidhi"],
+    "expected_eligible_slugs": ["pradhan-mantri-kisan-samman-nidhi", "kisan-credit-card-scheme", "pradhan-mantri-fasal-bima-yojana"],
     "expected_ineligible_slugs": [
       "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
-      "rajasthan-old-age-pension",
-      "national-means-cum-merit-scholarship"
+      "rajasthan-palanhar-yojana"
     ]
   },
   {
     "profile": {
       "age": 21,
       "state": "Rajasthan",
-      "income": 500000,
+      "income": 200000,
       "education": "B.Tech",
-      "landholding": 0
+      "gender": "male"
     },
-    "expected_eligible_slugs": ["rajasthan-mukhyamantri-uchch-shiksha-scholarship"],
+    "expected_eligible_slugs": ["rajasthan-mukhyamantri-uchch-shiksha-scholarship", "rajasthan-anuprati-coaching-yojana", "mukhyamantri-chiranjivi-rajasthan"],
     "expected_ineligible_slugs": [
-      "pm-kisan-samman-nidhi",
-      "rajasthan-old-age-pension",
-      "national-means-cum-merit-scholarship"
+      "pradhan-mantri-kisan-samman-nidhi",
+      "rajasthan-mukhyamantri-vridhjan-pension"
     ]
   },
   {
@@ -35,28 +33,51 @@
       "age": 65,
       "state": "Rajasthan",
       "income": 30000,
-      "occupation": "Retired",
-      "landholding": 0
+      "gender": "female"
     },
-    "expected_eligible_slugs": ["rajasthan-old-age-pension"],
+    "expected_eligible_slugs": ["rajasthan-mukhyamantri-vridhjan-pension", "mukhyamantri-chiranjivi-rajasthan"],
     "expected_ineligible_slugs": [
-      "pm-kisan-samman-nidhi",
-      "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
-      "national-means-cum-merit-scholarship"
+      "pradhan-mantri-kisan-samman-nidhi",
+      "rajasthan-devnarayan-scooty-yojana",
+      "atal-pension-yojana"
     ]
   },
   {
     "profile": {
-      "age": 15,
-      "state": "Delhi",
-      "income": 200000,
-      "education": "Class 10"
+      "age": 28,
+      "gender": "female",
+      "state": "Rajasthan",
+      "income": 80000
     },
-    "expected_eligible_slugs": ["national-means-cum-merit-scholarship"],
+    "expected_eligible_slugs": ["pradhan-mantri-ujjwala-yojana-2", "mukhyamantri-chiranjivi-rajasthan", "rajasthan-jan-aadhaar-yojana"],
     "expected_ineligible_slugs": [
-      "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
-      "pm-kisan-samman-nidhi",
-      "rajasthan-old-age-pension"
+      "rajasthan-mukhyamantri-vridhjan-pension",
+      "sukanya-samriddhi-yojana"
+    ]
+  },
+  {
+    "profile": {
+      "age": 30,
+      "state": "Delhi",
+      "occupation": "street vendor",
+      "income": 120000
+    },
+    "expected_eligible_slugs": ["pm-svanidhi-scheme", "pradhan-mantri-mudra-yojana"],
+    "expected_ineligible_slugs": [
+      "rajasthan-palanhar-yojana",
+      "mukhyamantri-chiranjivi-rajasthan"
+    ]
+  },
+  {
+    "profile": {
+      "age": 12,
+      "state": "Rajasthan",
+      "income": 60000
+    },
+    "expected_eligible_slugs": ["rajasthan-palanhar-yojana", "mukhyamantri-chiranjivi-rajasthan"],
+    "expected_ineligible_slugs": [
+      "atal-pension-yojana",
+      "pm-svanidhi-scheme"
     ]
   },
   {
@@ -67,12 +88,11 @@
       "income": 1200000,
       "education": "B.Tech"
     },
-    "expected_eligible_slugs": [],
+    "expected_eligible_slugs": ["atal-pension-yojana"],
     "expected_ineligible_slugs": [
-      "pm-kisan-samman-nidhi",
+      "pradhan-mantri-kisan-samman-nidhi",
       "rajasthan-mukhyamantri-uchch-shiksha-scholarship",
-      "rajasthan-old-age-pension",
-      "national-means-cum-merit-scholarship"
+      "rajasthan-palanhar-yojana"
     ]
   }
 ]
