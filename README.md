@@ -968,6 +968,21 @@ gantt
 
 </details>
 
+<details>
+<summary><b>🔮 Phase 3: Planned (Stage 20+)</b></summary>
+
+<br/>
+
+| Stage | Module | Status | Highlights |
+|:---:|---|:---:|---|
+| ⏳ **20** | **Hybrid Vector + BM25 Reranker** | Planned | Reciprocal rank fusion and Cross-Encoder re-ranking for ultra-low semantic drift |
+| ⏳ **21** | **WhatsApp Phone-to-Profile Sync** | Planned | Automatic profile lookup by verified phone number for zero-friction chat onboarding |
+| ⏳ **22** | **Full Hindi/Vernacular UI Coverage** | Planned | 100% end-to-end localization covering all routes and form field labels |
+| ⏳ **23** | **Exportable PDF Application Dossier** | Planned | 1-click printable PDF checklist with filled beneficiary data for CSC/Gram Panchayat submission |
+| ⏳ **24** | **Low-Bandwidth Mode (2G/3G)** | Planned | Zero-JS offline fallback bundle with minimal SVG footprints for rural connectivity |
+
+</details>
+
 ## 🧰 Tech Stack
 
 <div align="center">
