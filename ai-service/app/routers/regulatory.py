@@ -1,4 +1,4 @@
-"""Stage 18 + 19 — the admin review queue and its side effects.
+﻿"""Stage 18 + 19 â€” the admin review queue and its side effects.
 
 Approving a change is the only place in the system where regulatory data
 mutates the live knowledge base. That write is bundled with a new immutable
@@ -7,7 +7,7 @@ traceable: what changed, who approved it, when, and who it touched.
 """
 
 from datetime import datetime, timezone
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
@@ -220,3 +220,17 @@ def list_versions(slug: str, db: Session = Depends(get_db)) -> VersionListRespon
             for v in versions
         ],
     )
+
+
+def _execute_monitor_pipeline():
+    try:
+        from scripts.run_monitor import main as monitor_main
+        monitor_main()
+    except Exception as exc:
+        print(f"[Regulatory Monitor Error]: {exc}")
+
+
+@router.post("/run")
+def run_monitor_endpoint(background_tasks: BackgroundTasks):
+    background_tasks.add_task(_execute_monitor_pipeline)
+    return {"status": "accepted", "message": "Regulatory monitoring pipeline running in background"}
