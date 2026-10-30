@@ -1,0 +1,16 @@
+name: Regulatory monitor
+
+on:
+  schedule:
+    - cron: '30 1 * * *'   # 7:00 AM IST daily
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Daily Regulatory Monitor
+        run: |
+          curl -fsS --retry 5 --retry-delay 20 --max-time 120 -X POST \
+            -H "x-internal-key: ${{ secrets.INTERNAL_AI_KEY }}" \
+            "${{ secrets.AI_SERVICE_URL }}/regulatory/run"
