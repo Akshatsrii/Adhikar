@@ -162,46 +162,50 @@ function LandingPage() {
             </form>
           </div>
 
-          {/* Right Column — Government Welfare Seal Card on Top + Two Stat Cards (100% Peach and Blue) at the Bottom */}
+          {/* Right Column — Red Fort with Indian Flag Card on Top + Two Stat Cards at the Bottom */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-6">
             
-            {/* Top: National Welfare & Citizen Intelligence Showcase Card */}
-            <div className="rounded-[36px] bg-gradient-to-br from-[#FAF8F5] via-[#FFF8F2] to-[#FFF1E6] border border-[#EAE6DF] p-8 flex flex-col items-center justify-center relative shadow-xs flex-1 min-h-[320px] overflow-hidden">
+            {/* Top: Red Fort with Indian National Flag */}
+            <div className="rounded-[36px] overflow-hidden border border-[#EAE6DF] relative shadow-xs flex-1 min-h-[340px] group bg-neutral-900">
+              <img
+                src="/red-fort-flag.jpg"
+                alt="Red Fort New Delhi with Indian National Flag"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-95"
+              />
               
-              {/* Background Glow */}
-              <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#10B981]/10 rounded-full blur-2xl pointer-events-none" />
+              {/* Subtle Gradient Overlay for High Readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-              {/* Central Glowing Seal */}
-              <div className="relative z-10 w-44 h-44 rounded-full bg-white border-2 border-[#FFE2D1] p-3 shadow-lg flex flex-col items-center justify-center text-center">
-                <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center text-white mb-2 shadow-md">
-                  <ShieldCheck className="w-9 h-9 text-[#FF5500] stroke-[2.2]" />
+              {/* Floating Verified Badge on Top Left */}
+              <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md border border-white/40 rounded-full px-3 py-1 shadow-md flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                <span className="text-[10px] font-bold text-neutral-900 uppercase tracking-wide">
+                  {isHindi ? 'सत्यमेव जयते' : 'Satyameva Jayate'}
+                </span>
+              </div>
+
+              {/* Top Right Portals Badge */}
+              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-white/20 rounded-full px-3 py-1 shadow-md text-white text-[10px] font-semibold">
+                🇮🇳 {isHindi ? 'भारत सरकार' : 'Govt of India'}
+              </div>
+
+              {/* Bottom Caption Pill over Image */}
+              <div className="absolute bottom-4 inset-x-4">
+                <div className="bg-black/60 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-white">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold leading-tight">
+                        {isHindi ? 'लाल किला, नई दिल्ली' : 'Red Fort, New Delhi'}
+                      </p>
+                      <p className="text-[10px] text-neutral-300">
+                        {isHindi ? 'मेरी सरकार, मेरा अधिकार · प्रत्यक्ष लाभ अंतरण' : 'Citizen Welfare & Constitutional Rights Gateway'}
+                      </p>
+                    </div>
+                    <span className="text-[10px] font-bold text-[#FF8533] bg-white/10 px-2.5 py-1 rounded-full border border-white/10 shrink-0">
+                      DBT Verified
+                    </span>
+                  </div>
                 </div>
-                <span className="text-xs font-black text-black leading-tight">
-                  {isHindi ? 'सत्यापित कल्याण' : 'Verified Welfare'}
-                </span>
-                <span className="text-[10px] text-neutral-500 font-semibold mt-0.5">
-                  Gov of India &amp; States
-                </span>
-                <span className="mt-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-[#FFF2E8] text-[#EA580C] border border-[#FFD6BA]">
-                  ✓ 100% Direct DBT
-                </span>
-              </div>
-
-              {/* Floating Live Badges around the Seal */}
-              <div className="absolute top-5 left-5 bg-white/95 backdrop-blur-md border border-[#EAE6DF] rounded-2xl px-3 py-1.5 shadow-sm">
-                <span className="text-[9px] font-bold text-emerald-700 uppercase">PM-KISAN</span>
-                <p className="text-[11px] font-black text-black">₹6,000 / yr</p>
-              </div>
-
-              <div className="absolute bottom-5 right-5 bg-white/95 backdrop-blur-md border border-[#EAE6DF] rounded-2xl px-3 py-1.5 shadow-sm">
-                <span className="text-[9px] font-bold text-rose-700 uppercase">Ayushman Bharat</span>
-                <p className="text-[11px] font-black text-black">₹5 Lakh Cashless</p>
-              </div>
-
-              <div className="absolute bottom-5 left-5 bg-white/95 backdrop-blur-md border border-[#EAE6DF] rounded-2xl px-3 py-1.5 shadow-sm hidden sm:block">
-                <span className="text-[9px] font-bold text-amber-700 uppercase">PMAY Housing</span>
-                <p className="text-[11px] font-black text-black">₹1.3 Lakh Pucca</p>
               </div>
             </div>
 
@@ -230,13 +234,13 @@ function LandingPage() {
                     {isHindi ? '₹5 लाख+' : '₹5 Lakh+'}
                   </span>
                   <h4 className="text-sm font-bold text-black mt-2">
-                    {isHindi ? 'सीधा सरकारी लाभ' : 'Direct Assistance'}
+                    {isHindi ? 'मुफ्त स्वास्थ्य सुरक्षा' : 'Cashless Healthcare'}
                   </h4>
                 </div>
                 <p className="text-[11px] text-[#71717A] mt-1 leading-relaxed">
                   {isHindi
-                    ? 'सीधे आपके बैंक खाते में डीबीटी वित्तीय सहायता'
-                    : 'Cashless cover & direct DBT assistance'}
+                    ? 'आयुष्मान भारत के तहत 100% कैशलेस अस्पताल इलाज'
+                    : 'Secondary & tertiary hospital cover under Ayushman Bharat'}
                 </p>
               </div>
 
