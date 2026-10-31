@@ -1,3 +1,4 @@
+import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
 import {
   Search, ArrowRight, Building2, Briefcase, Leaf, Users, HeartPulse,
@@ -47,8 +48,12 @@ function LandingPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { t, i18n } = useTranslation()
-  const [schemes, setSchemes] = useState<PublicScheme[]>([])
-  const [counts, setCounts] = useState<Record<string, number>>({})
+  const [schemes, setSchemes] = useState<PublicScheme[]>(() => FALLBACK_SCHEMES.slice(0, 6))
+  const [counts, setCounts] = useState<Record<string, number>>(() => {
+    const c: Record<string, number> = {}
+    FALLBACK_SCHEMES.forEach(s => { c[s.category] = (c[s.category] || 0) + 1 })
+    return c
+  })
   const [query, setQuery] = useState('')
   const [focused, setFocused] = useState(false)
 
@@ -75,10 +80,10 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black overflow-x-hidden font-sans">
 
-      {/* Main Hero Container — Replicating the exact Khilao reference layout & colors */}
+      {/* Main Hero Container — High-Trust Citizen Welfare Gateway with Warm Ivory & Orange Theme */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-14">
         
-        {/* Top Hero Grid: Left Card + Right Column (Dish Card + Bottom Two Stat Cards) */}
+        {/* Top Hero Grid: Left Card + Right Column (Emblem Card + Bottom Two Stat Cards) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Left Block — Clean Enclosed Rounded Card with Warm Glow, Badge, Massive Heading & Dual Pills */}
@@ -88,46 +93,47 @@ function LandingPage() {
             <div className="pointer-events-none absolute -top-10 -right-10 w-72 h-72 rounded-full bg-gradient-to-br from-[#FFE8D6]/80 via-[#FFF4EB]/30 to-transparent blur-2xl -z-0" />
 
             <div className="relative z-10 space-y-6">
-              {/* Khilao Style Badge with Orange Dot */}
+              {/* Official DBT Badge with Orange Dot */}
               <div>
                 <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF2E8] border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs">
                   <span className="h-2 w-2 rounded-full bg-[#FF5500] shrink-0" />
-                  <span>{isHindi ? 'अधिकार प्रीमियम अनुभव' : 'Khilao Premium Experience'}</span>
+                  <span>{isHindi ? 'प्रत्यक्ष लाभ अंतरण (DBT) एवं आधिकारिक सरकारी पोर्टल' : 'Direct Benefit Transfer (DBT) & Official Portals'}</span>
                 </span>
               </div>
 
               {/* Massive Bold Heading with Vibrant Orange Line */}
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-black tracking-tight leading-[1.04]">
-                {isHindi ? 'कल्पना कीजिए' : 'Imagine'}<br />
+                {isHindi ? 'आपका नागरिक अधिकार।' : 'Your Citizen Rights.'}<br />
                 <span className="text-[#FF5500] block mt-1">
-                  {isHindi ? 'हर सरकारी लाभ।' : 'great tasting.'}
+                  {isHindi ? 'हर सरकारी योजना।' : 'Every Welfare Scheme.'}
                 </span>
               </h1>
 
               {/* Crisp, Relaxed Subtitle */}
               <p className="text-base sm:text-lg text-[#52525B] leading-relaxed max-w-xl font-normal">
                 {isHindi
-                  ? 'सरकारी योजनाओं को खोजने, एआई से सटीक पात्रता जांचने और सीधे आधिकारिक सरकारी पोर्टलों पर आवेदन करने का सबसे आधुनिक एवं विश्वसनीय मंच।'
-                  : 'A beautifully crafted, high-trust environment to explore, generate with AI, and curate your ultimate recipe collection.'}
+                  ? 'भारतीय नागरिकों के लिए सरकारी योजनाओं को खोजने, 100% सटीक पात्रता जांचने और बिना किसी बिचौलिये के सीधे .gov.in पोर्टलों पर आवेदन करने का सबसे आधुनिक एवं विश्वसनीय मंच।'
+                  : 'A high-trust national intelligence platform to discover government schemes, verify deterministic eligibility with zero AI hallucinations, and apply directly on verified .gov.in endpoints.'}
               </p>
 
-              {/* Dual Pill Action Buttons (Exact duplicate of screenshot's Black & White+Blue pills) */}
+              {/* Dual Pill Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 pt-1">
-                {/* Black Pill: Share Recipe / Explore Schemes */}
+                {/* Black Pill: Explore Schemes */}
                 <Link
                   to="/schemes"
                   className="bg-black hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-sm flex items-center gap-2"
                 >
-                  <span>{isHindi ? 'योजनाएं देखें' : 'Share Recipe'}</span>
+                  <span>{isHindi ? 'योजनाएं देखें' : 'Explore Schemes'}</span>
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                {/* White Pill with Blue Text & Sparkle Icon: Generate with AI */}
+                {/* White Pill with Sparkle Icon: Ask AI Copilot */}
                 <Link
                   to="/assistant"
-                  className="bg-white hover:bg-neutral-50 text-[#1A56DB] border border-[#E5E7EB] font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-sm flex items-center gap-2"
+                  className="bg-white hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-sm flex items-center gap-2"
                 >
-                  <span>{isHindi ? 'एआई से पूछें' : 'Generate with AI'}</span>
-                  <Sparkles className="w-4 h-4 text-[#1A56DB]" />
+                  <Sparkles className="w-4 h-4 text-[#FF5500]" />
+                  <span>{isHindi ? 'एआई सहायक से पूछें' : 'Ask AI Copilot'}</span>
                 </Link>
               </div>
             </div>
@@ -142,7 +148,7 @@ function LandingPage() {
                     onChange={e => setQuery(e.target.value)}
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}
-                    placeholder={t('hero.search_placeholder')}
+                    placeholder={isHindi ? 'योजना खोजें — पीएम किसान, आयुष्मान, आवास, छात्रवृत्ति...' : 'Search schemes — PM-KISAN, Ayushman, Housing, Scholarships...'}
                     className="w-full bg-transparent py-2.5 text-sm text-black placeholder:text-neutral-400 focus:outline-none"
                   />
                 </div>
@@ -150,56 +156,87 @@ function LandingPage() {
                   type="submit"
                   className="bg-black hover:bg-neutral-800 text-white font-bold px-6 py-2.5 text-xs rounded-full shrink-0 transition"
                 >
-                  {t('hero.search_btn')}
+                  {isHindi ? 'खोजें' : 'Search'}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Right Column — Dish Card on Top + Two Stat Cards (100% Peach and Foodie Blue) at the Bottom */}
+          {/* Right Column — Government Welfare Seal Card on Top + Two Stat Cards (100% Peach and Blue) at the Bottom */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-6">
             
-            {/* Top: Dish Card (Exact Visual from screenshot) */}
-            <div className="rounded-[36px] bg-[#F7F9FC] border border-[#E5E9F0] overflow-hidden flex items-center justify-center relative shadow-xs flex-1 min-h-[320px]">
-              <img
-                src="/hero-dish-card.png"
-                alt="Khilao Culinary & Welfare Experience"
-                className="w-full h-full object-cover rounded-[36px]"
-              />
+            {/* Top: National Welfare & Citizen Intelligence Showcase Card */}
+            <div className="rounded-[36px] bg-gradient-to-br from-[#FAF8F5] via-[#FFF8F2] to-[#FFF1E6] border border-[#EAE6DF] p-8 flex flex-col items-center justify-center relative shadow-xs flex-1 min-h-[320px] overflow-hidden">
+              
+              {/* Background Glow */}
+              <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-[#10B981]/10 rounded-full blur-2xl pointer-events-none" />
+
+              {/* Central Glowing Seal */}
+              <div className="relative z-10 w-44 h-44 rounded-full bg-white border-2 border-[#FFE2D1] p-3 shadow-lg flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center text-white mb-2 shadow-md">
+                  <ShieldCheck className="w-9 h-9 text-[#FF5500] stroke-[2.2]" />
+                </div>
+                <span className="text-xs font-black text-black leading-tight">
+                  {isHindi ? 'सत्यापित कल्याण' : 'Verified Welfare'}
+                </span>
+                <span className="text-[10px] text-neutral-500 font-semibold mt-0.5">
+                  Gov of India &amp; States
+                </span>
+                <span className="mt-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-[#FFF2E8] text-[#EA580C] border border-[#FFD6BA]">
+                  ✓ 100% Direct DBT
+                </span>
+              </div>
+
+              {/* Floating Live Badges around the Seal */}
+              <div className="absolute top-5 left-5 bg-white/95 backdrop-blur-md border border-[#EAE6DF] rounded-2xl px-3 py-1.5 shadow-sm">
+                <span className="text-[9px] font-bold text-emerald-700 uppercase">PM-KISAN</span>
+                <p className="text-[11px] font-black text-black">₹6,000 / yr</p>
+              </div>
+
+              <div className="absolute bottom-5 right-5 bg-white/95 backdrop-blur-md border border-[#EAE6DF] rounded-2xl px-3 py-1.5 shadow-sm">
+                <span className="text-[9px] font-bold text-rose-700 uppercase">Ayushman Bharat</span>
+                <p className="text-[11px] font-black text-black">₹5 Lakh Cashless</p>
+              </div>
+
+              <div className="absolute bottom-5 left-5 bg-white/95 backdrop-blur-md border border-[#EAE6DF] rounded-2xl px-3 py-1.5 shadow-sm hidden sm:block">
+                <span className="text-[9px] font-bold text-amber-700 uppercase">PMAY Housing</span>
+                <p className="text-[11px] font-black text-black">₹1.3 Lakh Pucca</p>
+              </div>
             </div>
 
-            {/* Bottom: 2 Small Stat Cards (100% Peach + Foodie Blue) */}
+            {/* Bottom: 2 Small Stat Cards (100% Peach + Sky Blue) */}
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               
-              {/* Left Card: 100% Peach Card (Exact replica) */}
+              {/* Left Card: 100% Peach Card */}
               <div className="rounded-[32px] bg-[#FFF7ED] border border-[#FFEDD5] p-6 text-left transition hover:shadow-sm flex flex-col justify-between">
                 <div>
                   <span className="text-3xl sm:text-4xl font-black text-[#FF5500] tracking-tight">100%</span>
                   <h4 className="text-sm font-bold text-black mt-2">
-                    {isHindi ? 'सटीक नियम' : 'Deterministic'}
+                    {isHindi ? 'सटीक नियम इंजन' : 'Deterministic Engine'}
                   </h4>
                 </div>
                 <p className="text-[11px] text-[#71717A] mt-1 leading-relaxed">
                   {isHindi
-                    ? '500+ सत्यापित सरकारी नियम व जीरो गलतियां'
-                    : 'Deterministic engine with zero AI hallucinations'}
+                    ? '500+ सत्यापित सरकारी नियम व जीरो एआई भ्रम'
+                    : 'Zero hallucinations with 500+ verified gazette rules'}
                 </p>
               </div>
 
-              {/* Right Card: Foodie Blue Card (Exact replica) */}
+              {/* Right Card: Sky Blue Card */}
               <div className="rounded-[32px] bg-[#EFF6FF] border border-[#DBEAFE] p-6 text-left transition hover:shadow-sm flex flex-col justify-between">
                 <div>
                   <span className="text-3xl sm:text-4xl font-black text-[#1A56DB] tracking-tight">
-                    {isHindi ? 'नागरिक प्रथम' : 'Foodie'}
+                    {isHindi ? '₹5 लाख+' : '₹5 Lakh+'}
                   </span>
                   <h4 className="text-sm font-bold text-black mt-2">
-                    {isHindi ? 'सीधा आवेदन' : 'Curated Welfare'}
+                    {isHindi ? 'सीधा सरकारी लाभ' : 'Direct Assistance'}
                   </h4>
                 </div>
                 <p className="text-[11px] text-[#71717A] mt-1 leading-relaxed">
                   {isHindi
-                    ? 'सीधे आधिकारिक .gov.in पोर्टलों पर आवेदन'
-                    : 'Direct official application to verified portals'}
+                    ? 'सीधे आपके बैंक खाते में डीबीटी वित्तीय सहायता'
+                    : 'Cashless cover & direct DBT assistance'}
                 </p>
               </div>
 

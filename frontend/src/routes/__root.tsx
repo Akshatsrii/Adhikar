@@ -13,6 +13,7 @@ export const Route = createRootRoute({
 function RootComponent() {
   const { user, logout } = useAuth()
   const { t, i18n } = useTranslation()
+  const [lang, setLang] = useState(i18n.language?.startsWith('hi') ? 'hi' : 'en')
   const { pathname } = useLocation()
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -43,13 +44,14 @@ function RootComponent() {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
+    setLang(lng)
     try {
       localStorage.setItem('adhikar_lang', lng)
       document.documentElement.lang = lng
     } catch {}
   }
 
-  const currentLang = i18n.language?.startsWith('hi') ? 'hi' : 'en'
+  const currentLang = lang
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black font-sans flex flex-col selection:bg-[#FF5500] selection:text-white">
@@ -221,6 +223,24 @@ function RootComponent() {
               <span className="hidden sm:inline text-neutral-600 font-medium">{currentLang === 'hi' ? 'खोजें' : 'Search'}</span>
               <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-neutral-400 bg-white px-1.5 py-0.5 rounded-md border border-[#EAE6DF]">⌘K</kbd>
             </button>
+
+            {/* Quick Language Toggle in Navbar */}
+            <div className="flex items-center bg-[#F5F2EC] rounded-full p-0.5 border border-[#EAE6DF]">
+              <button 
+                onClick={() => changeLanguage('hi')} 
+                className={`px-2 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
+                title="Switch to Hindi"
+              >
+                हिन्दी
+              </button>
+              <button 
+                onClick={() => changeLanguage('en')} 
+                className={`px-2 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
+                title="Switch to English"
+              >
+                EN
+              </button>
+            </div>
 
             {!user ? (
               <Link
