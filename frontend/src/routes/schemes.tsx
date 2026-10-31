@@ -1,3 +1,4 @@
+import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Search, SlidersHorizontal, ExternalLink, Zap, FilterX, Loader2, Users } from 'lucide-react'
 import { useState, useEffect } from 'react'
@@ -31,8 +32,8 @@ function SchemesPage() {
   const navigate = useNavigate({ from: Route.fullPath })
   const search = Route.useSearch()
   
-  const [schemes, setSchemes] = useState<PublicScheme[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [schemes, setSchemes] = useState<PublicScheme[]>(FALLBACK_SCHEMES)
+  const [isLoading, setIsLoading] = useState(false)
   
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')

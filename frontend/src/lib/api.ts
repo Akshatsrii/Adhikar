@@ -1,3 +1,4 @@
+import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.PROD ? 'https://adhikar-2sc7.onrender.com/api' : '/api')
 
 export interface UserProfileSummary {
@@ -600,10 +601,25 @@ export interface PublicScheme {
 
 export const schemesApi = {
   list: async (skip = 0, limit = 50): Promise<{ total: number, items: PublicScheme[] }> => {
-    return await request<{ total: number, items: PublicScheme[] }>(`/schemes?skip=${skip}&limit=${limit}`)
+    try {
+      const res = await request<{ total: number, items: PublicScheme[] }>(`/schemes?skip=${skip}&limit=${limit}`)
+      if (res && Array.isArray(res.items) && res.items.length > 0) {
+        return res
+      }
+    } catch (err) {
+      console.warn('[API] Schemes fetch from server failed or delayed, using verified catalog:', err)
+    }
+    const items = FALLBACK_SCHEMES.slice(skip, skip + limit)
+    return { total: FALLBACK_SCHEMES.length, items }
   },
   get: async (slug: string): Promise<PublicScheme> => {
-    return await request<PublicScheme>(`/schemes/${encodeURIComponent(slug)}`)
+    try {
+      const res = await request<PublicScheme>(`/schemes/${encodeURIComponent(slug)}`)
+      if (res && res.slug) return res
+    } catch {}
+    const found = FALLBACK_SCHEMES.find(s => s.slug === slug)
+    if (found) return found
+    throw new ApiError('Scheme not found', 404)
   }
 }
 
