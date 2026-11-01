@@ -97,10 +97,10 @@ function RootComponent() {
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/85 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
           
-          {/* Brand Logo with warm orange accent */}
+          {/* Brand Logo with Official Adhikar Emblem */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-2xl bg-black flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform duration-200">
-              <ShieldCheck className="w-5 h-5 text-[#FF5500] stroke-[2.4]" />
+            <div className="w-11 h-11 rounded-2xl bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
+              <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
@@ -112,7 +112,7 @@ function RootComponent() {
                 </span>
               </div>
               <span className="text-[11px] text-neutral-500 font-medium tracking-tight">
-                {currentLang === 'hi' ? 'मेरी सरकार, मेरा अधिकार' : 'Citizen Welfare Platform'}
+                {currentLang === 'hi' ? 'मेरी सरकार, मेरा अधिकार' : 'Citizen Welfare Platform · Est. 2026'}
               </span>
             </div>
           </Link>
@@ -312,8 +312,8 @@ function RootComponent() {
             
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
-                  <ShieldCheck className="w-5 h-5 text-[#FF5500]" />
+                <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-800 p-1.5 flex items-center justify-center text-white">
+                  <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain brightness-110" />
                 </div>
                 <span className="text-xl font-black text-white tracking-tight">
                   Adhikar<span className="text-[#FF5500]">.</span>
