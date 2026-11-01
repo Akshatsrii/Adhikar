@@ -99,8 +99,8 @@ function RootComponent() {
           
           {/* Brand Logo with Official Adhikar Emblem */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-2xl bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
-              <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain" />
+            <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-xs border border-neutral-900 group-hover:scale-105 transition-transform duration-200">
+              <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
@@ -312,8 +312,8 @@ function RootComponent() {
             
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-2xl bg-neutral-900 border border-neutral-800 p-1.5 flex items-center justify-center text-white">
-                  <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain brightness-110" />
+                <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-xs border border-neutral-800">
+                  <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
                 </div>
                 <span className="text-xl font-black text-white tracking-tight">
                   Adhikar<span className="text-[#FF5500]">.</span>

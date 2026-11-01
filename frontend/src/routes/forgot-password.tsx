@@ -60,11 +60,11 @@ function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-[#FAF8F5] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-[32px] shadow-sm border border-[#EAE6DF]">
         
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center mx-auto shadow-sm">
+          <div className="w-16 h-16 rounded-[32px] bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center mx-auto shadow-sm">
             <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-2xl font-bold text-black tracking-tight">Reset Password</h2>
@@ -72,13 +72,13 @@ function ForgotPasswordPage() {
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium text-center border border-red-100">
+          <div className="bg-red-50 text-red-600 p-3 rounded-full text-sm font-medium text-center border border-red-100">
             {error}
           </div>
         )}
         
         {success && (
-          <div className="bg-green-50 text-green-700 p-3 rounded-lg text-sm font-medium text-center border border-green-100 flex items-center justify-center gap-2">
+          <div className="bg-green-50 text-green-700 p-3 rounded-full text-sm font-medium text-center border border-green-100 flex items-center justify-center gap-2">
             <CheckCircle2 className="w-4 h-4" /> {success}
           </div>
         )}
@@ -92,7 +92,7 @@ function ForgotPasswordPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg placeholder-gray-400 focus:outline-none focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm"
+                className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                 placeholder="citizen@india.gov.in"
               />
             </div>
@@ -100,7 +100,7 @@ function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={isSubmitting || !email}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-[#00428a] hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00428a] transition mt-6 disabled:opacity-50"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-black hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition mt-6 disabled:opacity-50"
             >
               {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Send Reset OTP'}
             </button>
@@ -115,7 +115,7 @@ function ForgotPasswordPage() {
                 maxLength={6}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg text-center tracking-widest text-lg focus:outline-none focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm"
+                className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-full text-center tracking-widest text-lg focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                 placeholder="------"
               />
             </div>
@@ -127,7 +127,7 @@ function ForgotPasswordPage() {
                 required
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-[#00428a] focus:border-[#00428a] sm:text-sm"
+                className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                 placeholder="••••••••"
               />
             </div>
@@ -135,7 +135,7 @@ function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={isSubmitting || !otp || !newPassword}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white bg-[#00428a] hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00428a] transition mt-6 disabled:opacity-50"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-black hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition mt-6 disabled:opacity-50"
             >
               {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Reset Password'}
             </button>

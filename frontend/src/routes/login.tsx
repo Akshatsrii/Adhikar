@@ -37,14 +37,14 @@ function LoginPage() {
   }
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/80">
+    <div className="min-h-[85vh] flex items-center justify-center bg-[#FAF8F5] py-12 px-4 sm:px-6 lg:px-8 font-sans">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-[32px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#EAE6DF]">
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-2xl bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center mx-auto shadow-sm">
-            <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain" />
+          <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto shadow-md border border-neutral-800">
+            <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
           </div>
-          <h2 className="text-2xl font-black text-slate-900 tracking-tight">Citizen Sign In</h2>
-          <p className="text-xs text-slate-500 font-normal">Access your verified welfare dashboard and tracked applications</p>
+          <h2 className="text-2xl font-black text-black tracking-tight">Citizen Sign In</h2>
+          <p className="text-xs text-[#52525B] font-normal">Access your verified welfare dashboard and tracked applications</p>
         </div>
 
         {error && (
@@ -57,34 +57,34 @@ function LoginPage() {
         <form className="mt-6 space-y-5" onSubmit={handleEmailLogin}>
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Email address</label>
+              <label className="block text-xs font-bold text-neutral-800 mb-1.5">Email address</label>
               <div className="relative flex items-center">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+                <Mail className="w-4 h-4 text-neutral-400 absolute left-3.5 pointer-events-none" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-xs text-slate-800 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-medium transition placeholder:text-slate-400"
+                  className="w-full pl-10 pr-4 py-3 border border-[#EAE6DF] rounded-2xl text-xs text-black bg-[#FAF8F5] focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-medium transition placeholder:text-neutral-400"
                   placeholder="citizen@example.com"
                 />
               </div>
             </div>
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="block text-xs font-bold text-slate-700">Password</label>
-                <Link to="/forgot-password" className="text-[11px] font-bold text-blue-600 hover:underline">
+                <label className="block text-xs font-bold text-neutral-800">Password</label>
+                <Link to="/forgot-password" className="text-[11px] font-bold text-[#FF5500] hover:underline font-bold">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative flex items-center">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+                <Lock className="w-4 h-4 text-neutral-400 absolute left-3.5 pointer-events-none" />
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl text-xs text-slate-800 bg-slate-50/50 focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-medium transition placeholder:text-slate-400"
+                  className="w-full pl-10 pr-4 py-3 border border-[#EAE6DF] rounded-2xl text-xs text-black bg-[#FAF8F5] focus:bg-white focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 font-medium transition placeholder:text-neutral-400"
                   placeholder="••••••••••••"
                 />
               </div>
@@ -94,7 +94,7 @@ function LoginPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl shadow-md shadow-blue-500/20 text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl shadow-md shadow-blue-500/20 text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition disabled:opacity-50"
           >
             {isSubmitting ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -106,9 +106,9 @@ function LoginPage() {
             )}
           </button>
 
-          <div className="text-center text-xs text-slate-500 pt-2 border-t border-slate-100">
+          <div className="text-center text-xs text-[#52525B] pt-2 border-t border-[#EAE6DF]">
             <span>Don't have an account?</span>{' '}
-            <Link to="/register" className="font-bold text-blue-600 hover:underline">
+            <Link to="/register" className="font-bold text-[#FF5500] hover:underline font-bold">
               Create free account
             </Link>
           </div>
