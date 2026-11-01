@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
-import { Sparkles, Globe, ArrowRight, ShieldCheck, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown } from 'lucide-react'
+import { Sparkles, Globe, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'

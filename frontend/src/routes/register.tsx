@@ -3,7 +3,7 @@ import type { FormEvent } from 'react'
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ApiError, authApi } from '@/lib/api'
 import { useAuth } from '@/context/AuthContext'
-import { Loader2, ShieldCheck, ArrowRight, User, Mail, Lock } from 'lucide-react'
+import { Loader2, ArrowRight, User, Mail, Lock } from 'lucide-react'
 
 export const Route = createFileRoute('/register')({
   component: RegisterPage,
@@ -46,8 +46,8 @@ function RegisterPage() {
     <div className="min-h-[85vh] flex items-center justify-center bg-slate-50/50 py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-md w-full space-y-8 bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/80">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white mx-auto shadow-md shadow-blue-500/20">
-            <ShieldCheck className="w-6 h-6 stroke-[2.2]" />
+          <div className="w-16 h-16 rounded-2xl bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center mx-auto shadow-sm">
+            <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain" />
           </div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight">Citizen Registration</h2>
           <p className="text-xs text-slate-500 font-normal">Create an account to track entitlements and auto-fill applications</p>

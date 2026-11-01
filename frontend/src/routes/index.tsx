@@ -96,7 +96,7 @@ function LandingPage() {
               {/* Official DBT Badge with Orange Dot */}
               <div>
                 <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF2E8] border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs">
-                  <span className="h-2 w-2 rounded-full bg-[#FF5500] shrink-0" />
+                  <img src="/adhikar-emblem.png" alt="Adhikar" className="w-4 h-4 object-contain shrink-0" />
                   <span>{isHindi ? 'प्रत्यक्ष लाभ अंतरण (DBT) एवं आधिकारिक सरकारी पोर्टल' : 'Direct Benefit Transfer (DBT) & Official Portals'}</span>
                 </span>
               </div>

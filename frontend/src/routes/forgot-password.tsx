@@ -63,8 +63,11 @@ function ForgotPasswordPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50/50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
         
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-[#00428a]">Reset Password</h2>
+        <div className="text-center space-y-2">
+          <div className="w-16 h-16 rounded-2xl bg-[#FFF9F2] border border-[#FFE2D1] p-1.5 flex items-center justify-center mx-auto shadow-sm">
+            <img src="/adhikar-emblem.png" alt="Adhikar Official Logo" className="w-full h-full object-contain" />
+          </div>
+          <h2 className="text-2xl font-bold text-black tracking-tight">Reset Password</h2>
           <p className="mt-2 text-sm text-gray-600">Recover access to your Adhikar account</p>
         </div>
 
