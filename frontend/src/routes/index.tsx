@@ -80,31 +80,35 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black overflow-x-hidden font-sans">
 
-      {/* Main Hero Container — High-Trust Citizen Welfare Gateway with Warm Ivory & Orange Theme */}
+      {/* Main Hero Container — Ultra-Premium High-Trust Citizen Welfare Gateway */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-14">
         
-        {/* Top Hero Grid: Left Card + Right Column (Emblem Card + Bottom Two Stat Cards) */}
+        {/* Top Hero Grid: Left Card + Right Column (Red Fort Flag + Two Elevated Stat Cards) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* Left Block — Clean Enclosed Rounded Card with Warm Glow, Badge, Massive Heading & Dual Pills */}
-          <div className="lg:col-span-7 rounded-[36px] bg-white border border-[#EAE6DF] p-8 sm:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.03)] relative overflow-hidden flex flex-col justify-between space-y-8">
+          {/* Left Block — Clean Enclosed Rounded Card with Breathing Warm Glow & Dual Action Pills */}
+          <div className="lg:col-span-7 rounded-[36px] bg-white border border-[#EAE6DF] p-8 sm:p-12 shadow-[0_4px_28px_rgba(0,0,0,0.03)] relative overflow-hidden flex flex-col justify-between space-y-8 card-lift">
             
-            {/* Top-Right Soft Amber/Orange Ambient Glow */}
-            <div className="pointer-events-none absolute -top-10 -right-10 w-72 h-72 rounded-full bg-gradient-to-br from-[#FFE8D6]/80 via-[#FFF4EB]/30 to-transparent blur-2xl -z-0" />
+            {/* Ambient Breathing Warm Glow */}
+            <div className="pointer-events-none absolute -top-12 -right-12 w-80 h-80 rounded-full bg-gradient-to-br from-[#FFE8D6]/70 via-[#FFF4EB]/25 to-transparent blur-3xl animate-pulse-glow -z-0" />
 
             <div className="relative z-10 space-y-6">
-              {/* Official DBT Badge with Orange Dot */}
+              {/* Official DBT Badge with Live Status */}
               <div>
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF2E8] border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs">
-                  <img src="/adhikar-badge-dark.png" alt="Adhikar" className="w-4 h-4 rounded-full object-cover shrink-0" />
+                <span className="glass-pill inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform">
+                  <img src="/adhikar-badge-dark.png" alt="Adhikar" className="w-4 h-4 rounded-full object-cover shrink-0 shadow-xs" />
+                  <span className="flex h-2 w-2 relative shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5500] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5500]"></span>
+                  </span>
                   <span>{isHindi ? 'प्रत्यक्ष लाभ अंतरण (DBT) एवं आधिकारिक सरकारी पोर्टल' : 'Direct Benefit Transfer (DBT) & Official Portals'}</span>
                 </span>
               </div>
 
               {/* Massive Bold Heading with Vibrant Orange Line */}
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-black tracking-tight leading-[1.04]">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-black tracking-tight leading-[1.03]">
                 {isHindi ? 'आपका नागरिक अधिकार।' : 'Your Citizen Rights.'}<br />
-                <span className="text-[#FF5500] block mt-1">
+                <span className="text-[#FF5500] block mt-1 drop-shadow-[0_1px_1px_rgba(255,85,0,0.15)]">
                   {isHindi ? 'हर सरकारी योजना।' : 'Every Welfare Scheme.'}
                 </span>
               </h1>
@@ -121,7 +125,7 @@ function LandingPage() {
                 {/* Black Pill: Explore Schemes */}
                 <Link
                   to="/schemes"
-                  className="bg-black hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-sm flex items-center gap-2"
+                  className="btn-pill-dark px-8 py-3.5 rounded-full text-sm font-extrabold flex items-center gap-2.5 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all"
                 >
                   <span>{isHindi ? 'योजनाएं देखें' : 'Explore Schemes'}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -130,7 +134,7 @@ function LandingPage() {
                 {/* White Pill with Sparkle Icon: Ask AI Copilot */}
                 <Link
                   to="/assistant"
-                  className="bg-white hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-sm flex items-center gap-2"
+                  className="glass-pill hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] hover:border-[#FF5500]/30 shadow-xs flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4 text-[#FF5500]" />
                   <span>{isHindi ? 'एआई सहायक से पूछें' : 'Ask AI Copilot'}</span>
@@ -138,9 +142,9 @@ function LandingPage() {
               </div>
             </div>
 
-            {/* Integrated Search Bar inside Card */}
+            {/* Integrated Command Search Bar */}
             <form onSubmit={onSearch} className="relative z-10 pt-4 w-full">
-              <div className={`flex items-center gap-2 p-1.5 rounded-2xl bg-white border transition-all duration-200 ${focused ? 'border-[#FF5500] shadow-[0_4px_24px_rgba(255,85,0,0.12)] ring-2 ring-[#FF5500]/10' : 'border-[#EAE6DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)]'}`}>
+              <div className={`flex items-center gap-2 p-1.5 rounded-2xl bg-white border transition-all duration-300 ${focused ? 'border-[#FF5500] shadow-[0_8px_30px_rgba(255,85,0,0.14)] ring-2 ring-[#FF5500]/10' : 'border-[#EAE6DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:border-neutral-300'}`}>
                 <div className="flex flex-1 items-center gap-3 pl-3">
                   <Search className="w-4 h-4 text-neutral-400 shrink-0" />
                   <input
@@ -149,12 +153,13 @@ function LandingPage() {
                     onFocus={() => setFocused(true)}
                     onBlur={() => setFocused(false)}
                     placeholder={isHindi ? 'योजना खोजें — पीएम किसान, आयुष्मान, आवास, छात्रवृत्ति...' : 'Search schemes — PM-KISAN, Ayushman, Housing, Scholarships...'}
-                    className="w-full bg-transparent py-2.5 text-sm text-black placeholder:text-neutral-400 focus:outline-none"
+                    className="w-full bg-transparent py-2.5 text-sm text-black placeholder:text-neutral-400 focus:outline-none font-medium"
                   />
+                  <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-neutral-400 bg-[#FAF8F5] px-2 py-0.5 rounded-md border border-[#EAE6DF] mr-2">⌘K</kbd>
                 </div>
                 <button
                   type="submit"
-                  className="bg-black hover:bg-neutral-800 text-white font-bold px-6 py-2.5 text-xs rounded-full shrink-0 transition"
+                  className="bg-black hover:bg-neutral-800 text-white font-bold px-6 py-2.5 text-xs rounded-full shrink-0 transition-transform active:scale-95"
                 >
                   {isHindi ? 'खोजें' : 'Search'}
                 </button>
@@ -162,11 +167,11 @@ function LandingPage() {
             </form>
           </div>
 
-          {/* Right Column — Red Fort with Indian Flag Card on Top + Two Stat Cards at the Bottom */}
+          {/* Right Column — Red Fort Flag Card on Top + Two Elevated Stat Cards at the Bottom */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-6">
             
             {/* Top: Red Fort with Indian National Flag */}
-            <div className="rounded-[36px] overflow-hidden border border-[#EAE6DF] relative shadow-xs flex-1 min-h-[340px] group bg-neutral-900">
+            <div className="rounded-[36px] overflow-hidden border border-[#EAE6DF] relative shadow-xs flex-1 min-h-[340px] group bg-neutral-900 card-lift">
               <img
                 src="/red-fort-flag.jpg"
                 alt="Red Fort New Delhi with Indian National Flag"
@@ -174,35 +179,37 @@ function LandingPage() {
               />
               
               {/* Subtle Gradient Overlay for High Readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
 
               {/* Floating Verified Badge on Top Left */}
-              <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md border border-white/40 rounded-full px-3 py-1 shadow-md flex items-center gap-1.5">
+              <div className="absolute top-4 left-4 glass-pill px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-2 animate-float">
                 <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-                <span className="text-[10px] font-bold text-neutral-900 uppercase tracking-wide">
+                <span className="text-[10px] font-extrabold text-neutral-900 uppercase tracking-wide">
                   {isHindi ? 'सत्यमेव जयते' : 'Satyameva Jayate'}
                 </span>
               </div>
 
               {/* Top Right Portals Badge */}
-              <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md border border-white/20 rounded-full px-3 py-1 shadow-md text-white text-[10px] font-semibold">
-                🇮🇳 {isHindi ? 'भारत सरकार' : 'Govt of India'}
+              <div className="absolute top-4 right-4 glass-dark px-3.5 py-1.5 rounded-full shadow-md text-white text-[10px] font-bold flex items-center gap-1.5 animate-float-slow">
+                <span>🇮🇳</span>
+                <span>{isHindi ? 'भारत सरकार' : 'Govt of India'}</span>
               </div>
 
               {/* Bottom Caption Pill over Image */}
               <div className="absolute bottom-4 inset-x-4">
-                <div className="bg-black/60 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-white">
+                <div className="glass-dark rounded-2xl p-3.5 text-white border border-white/20 shadow-lg">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs font-bold leading-tight">
-                        {isHindi ? 'लाल किला, नई दिल्ली' : 'Red Fort, New Delhi'}
+                      <p className="text-xs font-bold leading-tight flex items-center gap-1.5">
+                        <span>{isHindi ? 'लाल किला, नई दिल्ली' : 'Red Fort, New Delhi'}</span>
+                        <span className="text-[10px] opacity-75">· 100% DBT</span>
                       </p>
-                      <p className="text-[10px] text-neutral-300">
-                        {isHindi ? 'मेरी सरकार, मेरा अधिकार · प्रत्यक्ष लाभ अंतरण' : 'Citizen Welfare & Constitutional Rights Gateway'}
+                      <p className="text-[10px] text-neutral-300 mt-0.5">
+                        {isHindi ? 'मेरी सरकार, मेरा अधिकार · आधिकारिक जन कल्याण पोर्टल' : 'Citizen Welfare & Constitutional Rights Gateway'}
                       </p>
                     </div>
                     <span className="text-[10px] font-bold text-[#FF8533] bg-white/10 px-2.5 py-1 rounded-full border border-white/10 shrink-0">
-                      DBT Verified
+                      Verified
                     </span>
                   </div>
                 </div>
@@ -213,9 +220,9 @@ function LandingPage() {
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               
               {/* Left Card: 100% Peach Card */}
-              <div className="rounded-[32px] bg-[#FFF7ED] border border-[#FFEDD5] p-6 text-left transition hover:shadow-sm flex flex-col justify-between">
+              <div className="rounded-[32px] bg-gradient-to-br from-[#FFF7ED] via-[#FFF9F5] to-[#FFF2E8] border border-[#FFD6BA] p-6 text-left transition hover:shadow-md card-lift flex flex-col justify-between relative overflow-hidden group">
                 <div>
-                  <span className="text-3xl sm:text-4xl font-black text-[#FF5500] tracking-tight">100%</span>
+                  <span className="text-3xl sm:text-4xl font-black text-[#FF5500] tracking-tight group-hover:scale-105 transition-transform inline-block">100%</span>
                   <h4 className="text-sm font-bold text-black mt-2">
                     {isHindi ? 'सटीक नियम इंजन' : 'Deterministic Engine'}
                   </h4>
@@ -228,9 +235,9 @@ function LandingPage() {
               </div>
 
               {/* Right Card: Sky Blue Card */}
-              <div className="rounded-[32px] bg-[#EFF6FF] border border-[#DBEAFE] p-6 text-left transition hover:shadow-sm flex flex-col justify-between">
+              <div className="rounded-[32px] bg-gradient-to-br from-[#EFF6FF] via-[#F5F9FF] to-[#EBF3FF] border border-[#DBEAFE] p-6 text-left transition hover:shadow-md card-lift flex flex-col justify-between relative overflow-hidden group">
                 <div>
-                  <span className="text-3xl sm:text-4xl font-black text-[#1A56DB] tracking-tight">
+                  <span className="text-3xl sm:text-4xl font-black text-[#1A56DB] tracking-tight group-hover:scale-105 transition-transform inline-block">
                     {isHindi ? '₹5 लाख+' : '₹5 Lakh+'}
                   </span>
                   <h4 className="text-sm font-bold text-black mt-2">

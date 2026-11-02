@@ -72,12 +72,45 @@
   100% { transform: translateX(-50%); }
 }
 
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes pulseGlow {
+  0%   { opacity: 0.45; transform: scale(0.98); }
+  100% { opacity: 0.85; transform: scale(1.05); }
+}
+
 @layer utilities {
   .animate-fade-in     { animation: fadeIn 0.5s ease both; }
   .animate-fade-in-up  { animation: fadeInUp 0.55s cubic-bezier(.22,1,.36,1) both; }
   .animate-breathe     { animation: breathe 3.5s ease-in-out infinite; }
   .animate-float       { animation: float 4s ease-in-out infinite; }
+  .animate-float-slow  { animation: floatSlow 5s ease-in-out infinite; }
+  .animate-pulse-glow  { animation: pulseGlow 5s ease-in-out infinite alternate; }
   .animate-ticker      { animation: ticker 32s linear infinite; }
+
+  .card-lift {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+  }
+
+  .glass-pill {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-dark {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background-color: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
 
   .text-orange-accent {
     color: #FF5500;
