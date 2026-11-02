@@ -281,18 +281,18 @@ function LandingPage() {
             <div className="mb-6 flex items-end justify-between">
               <div>
                 <span className="mb-1.5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#FF5500]">
-                  <Zap className="w-3 h-3" /> {isHindi ? 'योजना श्रेणियां' : 'Welfare Sectors'}
+                  <Zap className="w-3.5 h-3.5" /> {isHindi ? 'योजना श्रेणियां' : 'Welfare Sectors'}
                 </span>
-                <h2 className="text-2xl font-black text-black tracking-tight">{t('categories.heading')}</h2>
+                <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">{t('categories.heading')}</h2>
                 <p className="mt-1 text-sm text-[#52525B]">{t('categories.subheading')}</p>
               </div>
-              <Link to="/schemes" className="group flex items-center gap-1 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00]">
+              <Link to="/schemes" className="group flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition-colors">
                 <span>{isHindi ? 'सभी देखें' : 'View All'}</span>
-                <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
               {CATEGORIES.map(cat => {
                 const title = t(`categories.${cat.key}`) || cat.defaultTitle
                 return (
@@ -300,14 +300,16 @@ function LandingPage() {
                     key={cat.key}
                     to="/schemes"
                     search={{ category: cat.defaultTitle } as any}
-                    className="group relative flex flex-col items-center gap-3 overflow-hidden rounded-[24px] border border-[#EAE6DF] bg-white p-5 text-center transition-all duration-200 hover:-translate-y-1 hover:shadow-md hover:border-[#FF5500]/40"
+                    className="group relative flex flex-col items-center gap-3.5 overflow-hidden rounded-[26px] border border-[#EAE6DF] bg-white p-6 text-center card-lift hover:border-[#FF5500]/50 hover:shadow-[0_12px_28px_rgba(255,85,0,0.08)]"
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-[#FFF2E8] text-[#FF5500] flex items-center justify-center transition-transform group-hover:scale-110">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] text-[#FF5500] flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FF5500] group-hover:text-white shadow-xs">
                       {cat.icon}
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-black">{title}</p>
-                      <p className="mt-0.5 text-[11px] font-semibold text-neutral-400">{counts[cat.defaultTitle] || 0} {isHindi ? 'योजनाएं' : 'Schemes'}</p>
+                      <p className="text-sm font-extrabold text-black group-hover:text-[#FF5500] transition-colors">{title}</p>
+                      <span className="mt-1.5 inline-block text-[11px] font-bold text-neutral-500 bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#EAE6DF]">
+                        {counts[cat.defaultTitle] || 0} {isHindi ? 'योजनाएं' : 'Schemes'}
+                      </span>
                     </div>
                   </Link>
                 )
@@ -320,25 +322,25 @@ function LandingPage() {
             <div className="mb-6 flex items-end justify-between">
               <div>
                 <span className="mb-1.5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600">
-                  <Star className="w-3 h-3" /> {isHindi ? 'विशेष योजनाएं' : 'Flagship Programs'}
+                  <Star className="w-3.5 h-3.5" /> {isHindi ? 'विशेष योजनाएं' : 'Flagship Programs'}
                 </span>
-                <h2 className="text-2xl font-black text-black tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
                   {isHindi ? 'उच्च-प्रभाव सरकारी योजनाएं' : 'High-Impact Welfare Schemes'}
                 </h2>
                 <p className="mt-1 text-sm text-[#52525B]">
-                  {isHindi ? 'सत्यापित राष्ट्रीय एवं राज्य पोर्टलों से सीधे लाभ' : 'Direct benefit transfer from verified official portals'}
+                  {isHindi ? 'सत्यापित राष्ट्रीय एवं राज्य पोर्टलों से सीधे लाभ' : 'Direct benefit transfer from verified official gazette portals'}
                 </p>
               </div>
-              <Link to="/schemes" className="group flex items-center gap-1 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00]">
+              <Link to="/schemes" className="group flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition-colors">
                 <span>{isHindi ? 'सभी देखें' : 'View All'}</span>
-                <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
             {schemes.length === 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="overflow-hidden rounded-[24px] border border-[#EAE6DF] bg-white p-6 space-y-3">
+                  <div key={i} className="overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white p-6 space-y-3">
                     <div className="skeleton h-4 w-1/3" />
                     <div className="skeleton h-5 w-full" />
                     <div className="skeleton h-4 w-4/5" />
@@ -351,32 +353,32 @@ function LandingPage() {
                 {schemes.map((s, i) => {
                   const grad = CAT_COLORS[s.category] || 'from-neutral-800 to-black'
                   return (
-                    <div key={i} className="group flex flex-col overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white transition-all duration-200 hover:shadow-lg hover:border-[#FF5500]/40">
-                      <div className="flex flex-1 flex-col p-6">
-                        <div className="mb-3 flex items-start justify-between gap-2">
-                          <span className={`rounded-full bg-gradient-to-r ${grad} px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white`}>
+                    <div key={i} className="group flex flex-col overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white card-lift hover:border-[#FF5500]/50 hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] transition-all">
+                      <div className="flex flex-1 flex-col p-6 sm:p-7">
+                        <div className="mb-3.5 flex items-start justify-between gap-2">
+                          <span className={`rounded-full bg-gradient-to-r ${grad} px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-xs`}>
                             {s.category}
                           </span>
-                          <span className="rounded-full border border-[#EAE6DF] bg-[#FAF8F5] px-2.5 py-1 text-[10px] font-semibold text-neutral-500">
+                          <span className="rounded-full border border-[#EAE6DF] bg-[#FAF8F5] px-2.5 py-1 text-[10px] font-bold text-neutral-600">
                             {s.level || 'Central'}
                           </span>
                         </div>
-                        <h3 className="mb-2 line-clamp-2 text-sm font-bold text-black group-hover:text-[#FF5500] transition-colors">
+                        <h3 className="mb-2 line-clamp-2 text-base font-black text-black group-hover:text-[#FF5500] transition-colors leading-snug">
                           {s.name}
                         </h3>
                         <p className="mb-5 line-clamp-2 flex-1 text-xs leading-relaxed text-[#52525B]">
                           {s.description}
                         </p>
-                        <div className="mb-5 flex items-center gap-2 border-b border-[#EAE6DF] pb-4">
-                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFF2E8] text-xs font-bold text-[#FF5500]">₹</span>
-                          <span className="truncate text-xs font-bold text-neutral-800">{s.benefit || 'Direct Benefit Transfer'}</span>
+                        <div className="mb-5 flex items-center gap-2.5 border-b border-[#EAE6DF] pb-4">
+                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFF2E8] text-xs font-black text-[#FF5500] shrink-0">₹</span>
+                          <span className="truncate text-xs font-bold text-neutral-900">{s.benefit || 'Direct Benefit Transfer (DBT)'}</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-2.5">
-                          <Link to="/scheme/$slug" params={{ slug: s.slug }} className="rounded-full border border-[#EAE6DF] py-2.5 text-center text-xs font-bold text-neutral-700 transition hover:bg-[#FAF8F5]">
-                            {isHindi ? 'विवरण' : 'Details'}
+                        <div className="grid grid-cols-2 gap-3">
+                          <Link to="/scheme/$slug" params={{ slug: s.slug }} className="rounded-full border border-[#EAE6DF] py-2.5 text-center text-xs font-bold text-neutral-800 transition hover:bg-[#FAF8F5] hover:border-neutral-300">
+                            {isHindi ? 'पूर्ण विवरण' : 'View Details'}
                           </Link>
-                          <a href={s.application_url || s.source_url || '#'} target="_blank" rel="noopener noreferrer" className="bg-black hover:bg-neutral-800 text-white font-bold py-2.5 rounded-full text-center text-xs flex items-center justify-center gap-1.5 transition">
-                            <span>{isHindi ? 'आवेदन करें' : 'Apply'}</span>
+                          <a href={s.application_url || s.source_url || '#'} target="_blank" rel="noopener noreferrer" className="bg-black hover:bg-neutral-800 text-white font-bold py-2.5 rounded-full text-center text-xs flex items-center justify-center gap-1.5 transition shadow-xs hover:scale-[1.02]">
+                            <span>{isHindi ? 'सीधा आवेदन' : 'Apply Now'}</span>
                             <ExternalLink className="w-3 h-3" />
                           </a>
                         </div>
@@ -389,40 +391,40 @@ function LandingPage() {
           </div>
 
           {/* Process Section */}
-          <div className="rounded-[32px] border border-[#EAE6DF] bg-white p-8 shadow-xs">
+          <div className="rounded-[36px] border border-[#EAE6DF] bg-white p-8 sm:p-10 shadow-xs relative overflow-hidden">
             <span className="mb-2 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#FF5500]">
               <Award className="w-3.5 h-3.5" /> {isHindi ? 'कार्यप्रणाली' : 'Architecture'}
             </span>
-            <h2 className="mb-1 text-2xl font-black text-black tracking-tight">
+            <h2 className="mb-1 text-2xl sm:text-3xl font-black text-black tracking-tight">
               {isHindi ? 'अधिकार कैसे कार्य करता है?' : 'How Adhikar Works'}
             </h2>
             <p className="mb-8 text-sm text-[#52525B]">
               {isHindi ? 'पात्रता जांच से लेकर आधिकारिक सरकारी आवेदन तक केवल 4 चरणों में' : 'From eligibility verification to official disbursement in 4 simple steps'}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6">
               {[
                 { num: '01', title: isHindi ? 'प्रोफ़ाइल दर्ज करें' : 'Profile Setup', desc: isHindi ? 'आयु, राज्य, वार्षिक आय एवं श्रेणी चुनें।' : 'Input age, state, income and category.' },
                 { num: '02', title: isHindi ? 'सटीक नियम मिलान' : 'Rule Matching', desc: isHindi ? '500+ सरकारी पात्रता नियमों से 100% सटीक जांच।' : 'Engine matches verified official eligibility rules.' },
                 { num: '03', title: isHindi ? 'एआई मार्गदर्शन' : 'AI Guidance', desc: isHindi ? 'दस्तावेज़ एवं आवेदन प्रक्रिया की तत्काल जानकारी।' : 'Instant guidance on required gazettes & forms.' },
                 { num: '04', title: isHindi ? 'सीधा सरकारी आवेदन' : 'Direct Apply', desc: isHindi ? 'बिना बिचौलियों के आधिकारिक .gov.in पोर्टल पर जाएं।' : 'Opens official .gov.in portal for direct submission.' },
               ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center sm:items-start text-center sm:text-left gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center font-black text-sm">
+                <div key={i} className="flex flex-col items-center sm:items-start text-center sm:text-left gap-3.5 p-5 rounded-2xl bg-[#FAF8F5]/80 border border-[#EAE6DF]/70 card-lift">
+                  <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center font-black text-sm shadow-xs">
                     {step.num}
                   </div>
-                  <p className="text-sm font-bold text-black">{step.title}</p>
+                  <p className="text-sm font-extrabold text-black">{step.title}</p>
                   <p className="text-xs text-[#52525B] leading-relaxed">{step.desc}</p>
                 </div>
               ))}
             </div>
 
             <div className="mt-8 pt-6 border-t border-[#EAE6DF] flex flex-wrap gap-3">
-              <Link to="/eligibility" className="bg-black hover:bg-neutral-800 text-white font-bold px-7 py-3 rounded-full text-xs shadow-sm transition">
+              <Link to="/eligibility" className="bg-black hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-full text-xs shadow-sm transition hover:scale-[1.02]">
                 {t('hero.cta_primary')}
               </Link>
-              <Link to="/assistant" className="bg-white hover:bg-neutral-50 text-[#1A56DB] border border-[#E5E7EB] font-bold px-6 py-3 rounded-full text-xs flex items-center gap-2 transition">
-                <Sparkles className="w-3.5 h-3.5 text-[#1A56DB]" />
+              <Link to="/assistant" className="glass-pill hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-xs flex items-center gap-2 transition hover:scale-[1.02]">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
                 <span>{t('hero.cta_secondary')}</span>
               </Link>
             </div>
