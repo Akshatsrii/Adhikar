@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
-import { Sparkles, Globe, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown } from 'lucide-react'
+import { Sparkles, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown } from 'lucide-react'
 import { Show, UserButton } from '@clerk/react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
@@ -57,43 +57,6 @@ function RootComponent() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black font-sans flex flex-col selection:bg-[#FF5500] selection:text-white">
       
-      {/* 1. Warm Clean Top Announcement Banner */}
-      <div className="bg-[#FFF5EC] text-[#9A3412] text-xs font-semibold py-2 px-4 border-b border-[#FFE2D1]">
-        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
-          <div className="flex items-center gap-2 truncate">
-            <span className="flex h-2 w-2 relative shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5500] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5500]"></span>
-            </span>
-            <span className="tracking-wide font-medium flex items-center gap-1.5 truncate">
-              <Sparkles className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
-              <span className="truncate">{t('announcement')}</span>
-            </span>
-          </div>
-
-          {/* Hindi / English Language Switcher */}
-          <div className="flex items-center gap-3 shrink-0 text-xs font-semibold">
-            <div className="flex items-center gap-1 bg-white rounded-full p-1 border border-[#FFE2D1] shadow-xs">
-              <Globe className="w-3 h-3 text-[#9A3412] ml-1.5" />
-              <button 
-                onClick={() => changeLanguage('hi')} 
-                className={`px-2.5 py-0.5 rounded-full text-xs font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
-                title="Switch to Hindi"
-              >
-                हिन्दी
-              </button>
-              <button 
-                onClick={() => changeLanguage('en')} 
-                className={`px-2.5 py-0.5 rounded-full text-xs font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
-                title="Switch to English"
-              >
-                English
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* 2. Pure Clean White Navbar */}
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/85 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
