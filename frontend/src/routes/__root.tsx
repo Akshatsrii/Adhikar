@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
 import { Sparkles, Globe, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown } from 'lucide-react'
+import { Show, UserButton } from '@clerk/react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
@@ -242,25 +243,45 @@ function RootComponent() {
               </button>
             </div>
 
-            {!user ? (
-              <Link
-                to="/login"
-                className="bg-black hover:bg-neutral-800 text-white font-bold px-5 py-2 text-xs rounded-full flex items-center gap-1.5 shadow-sm transition hover:scale-[1.02]"
-              >
-                <span>{t('nav.login')}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            ) : (
-              <div className="flex items-center gap-2.5 bg-[#F5F2EC] p-1 pr-3.5 rounded-full border border-[#EAE6DF]">
-                <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-black text-xs shadow-xs">
-                  {user.name ? user.name[0].toUpperCase() : <User className="w-4 h-4" />}
+            <Show when="signed-out">
+              {!user ? (
+                <Link
+                  to="/login"
+                  className="bg-black hover:bg-neutral-800 text-white font-bold px-5 py-2 text-xs rounded-full flex items-center gap-1.5 shadow-sm transition hover:scale-[1.02]"
+                >
+                  <span>{t('nav.login')}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              ) : (
+                <div className="flex items-center gap-2.5 bg-[#F5F2EC] p-1 pr-3.5 rounded-full border border-[#EAE6DF]">
+                  <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-black text-xs shadow-xs">
+                    {user.name ? user.name[0].toUpperCase() : <User className="w-4 h-4" />}
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <span className="text-xs font-bold text-neutral-900 leading-tight max-w-[110px] truncate">{user.name}</span>
+                    <button onClick={logout} className="text-[10px] font-semibold text-[#FF5500] hover:text-[#EA4C00] text-left transition">{t('nav.logout')}</button>
+                  </div>
                 </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-xs font-bold text-neutral-900 leading-tight max-w-[110px] truncate">{user.name}</span>
-                  <button onClick={logout} className="text-[10px] font-semibold text-[#FF5500] hover:text-[#EA4C00] text-left transition">{t('nav.logout')}</button>
-                </div>
+              )}
+            </Show>
+
+            <Show when="signed-in">
+              <div className="flex items-center gap-2.5">
+                <Link
+                  to="/dashboard"
+                  className="hidden sm:inline-flex items-center text-xs font-bold text-neutral-800 hover:text-black px-3 py-1.5 rounded-full bg-[#F5F2EC] border border-[#EAE6DF] transition"
+                >
+                  Dashboard
+                </Link>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: 'w-8 h-8 rounded-full border border-[#EAE6DF]',
+                    }
+                  }}
+                />
               </div>
-            )}
+            </Show>
 
             {/* Mobile menu toggle */}
             <button

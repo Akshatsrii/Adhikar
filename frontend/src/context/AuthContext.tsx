@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
+import { useUser, useClerk, useAuth as useClerkAuth } from '@clerk/react'
 import { authApi, clearToken, getToken, setToken, type AuthUser } from '@/lib/api'
 
 interface AuthContextValue {
@@ -12,22 +13,53 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { user: clerkUser, isLoaded: clerkLoaded, isSignedIn: clerkSignedIn } = useUser()
+  const { signOut } = useClerk()
+  const { getToken: getClerkToken } = useClerkAuth()
+
+  const [localUser, setLocalUser] = useState<AuthUser | null>(null)
+  const [localLoading, setLocalLoading] = useState(true)
+
+  // Sync Clerk token with local API client if signed in with Clerk
+  useEffect(() => {
+    if (clerkSignedIn) {
+      getClerkToken()
+        .then((token) => {
+          if (token) setToken(token)
+        })
+        .catch(console.error)
+    }
+  }, [clerkSignedIn, getClerkToken])
 
   useEffect(() => {
     const token = getToken()
     if (!token) {
-      setIsLoading(false)
+      setLocalLoading(false)
       return
     }
 
     authApi
       .me()
-      .then((res) => setUser(res.user))
+      .then((res) => setLocalUser(res.user))
       .catch(() => clearToken())
-      .finally(() => setIsLoading(false))
+      .finally(() => setLocalLoading(false))
   }, [])
+
+  // Derived user: if Clerk is signed in, construct AuthUser from Clerk user; otherwise fallback to localUser
+  const user: AuthUser | null = useMemo(() => {
+    if (clerkSignedIn && clerkUser) {
+      return {
+        id: clerkUser.id,
+        name: clerkUser.fullName || clerkUser.firstName || clerkUser.primaryEmailAddress?.emailAddress || 'Citizen',
+        email: clerkUser.primaryEmailAddress?.emailAddress,
+        role: (clerkUser.publicMetadata?.role as 'citizen' | 'admin') || localUser?.role || 'citizen',
+        profile: localUser?.profile,
+      }
+    }
+    return localUser
+  }, [clerkSignedIn, clerkUser, localUser])
+
+  const isLoading = !clerkLoaded || (localLoading && !clerkSignedIn)
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -35,14 +67,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       login: (nextUser, token) => {
         setToken(token)
-        setUser(nextUser)
+        setLocalUser(nextUser)
       },
       logout: () => {
         clearToken()
-        setUser(null)
+        setLocalUser(null)
+        if (clerkSignedIn) {
+          signOut()
+        }
       },
     }),
-    [user, isLoading],
+    [user, isLoading, clerkSignedIn, signOut],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
