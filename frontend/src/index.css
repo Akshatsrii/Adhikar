@@ -15,8 +15,8 @@
     --primary: #FF5500;
     --primary-deep: #EA4C00;
     --accent-warm: #FFF2E8;
-    --accent-blue: #1A56DB;
-    --accent-blue-bg: #F0F6FF;
+    --accent-obsidian: #18181B;
+    --accent-orange-bg: #FFF2E8;
     --success: #10b981;
     --line: #EAE6DF;
     --surface: #ffffff;
@@ -124,14 +124,14 @@
   .border-peach {
     border-color: #FFD6BA;
   }
-  .bg-blue-card {
-    background-color: #F0F6FF;
+  .bg-obsidian-card {
+    background-color: #18181B;
   }
-  .border-blue-card {
-    border-color: #DCE8FC;
+  .border-obsidian-card {
+    border-color: #27272A;
   }
-  .text-blue-accent {
-    color: #1A56DB;
+  .text-black-accent {
+    color: #000000;
   }
 
   .btn-pill-dark {
@@ -160,7 +160,7 @@
     justify-content: center;
     border-radius: 9999px;
     background-color: #FFFFFF;
-    color: #1A56DB;
+    color: #000000;
     font-weight: 700;
     border: 1px solid #E5E7EB;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -168,9 +168,9 @@
   }
   .btn-pill-light:hover {
     background-color: #FAF8F5;
-    border-color: #1A56DB;
+    border-color: #000000;
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(26, 86, 219, 0.1);
+    box-shadow: 0 4px 14px rgba(255, 85, 0, 0.1);
   }
   .btn-pill-light:active {
     transform: translateY(0);

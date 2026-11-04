@@ -105,7 +105,7 @@ function RootComponent() {
               to="/assistant" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs flex items-center gap-1.5"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#1A56DB]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
               {t('nav.assistant')}
             </Link>
             <Link 
@@ -264,7 +264,7 @@ function RootComponent() {
                 { to: '/', label: t('nav.home'), icon: <LayoutDashboard className="w-4 h-4" /> },
                 { to: '/schemes', label: t('nav.schemes'), icon: <BookOpen className="w-4 h-4" /> },
                 { to: '/eligibility', label: t('nav.eligibility'), icon: <TrendingUp className="w-4 h-4" /> },
-                { to: '/assistant', label: t('nav.assistant'), icon: <Sparkles className="w-4 h-4 text-[#1A56DB]" /> },
+                { to: '/assistant', label: t('nav.assistant'), icon: <Sparkles className="w-4 h-4 text-[#FF5500]" /> },
                 { to: '/documents', label: t('nav.documents'), icon: <FileText className="w-4 h-4" /> },
                 { to: '/calculator', label: t('nav.calculator'), icon: <Calculator className="w-4 h-4" /> },
                 { to: '/grievance', label: t('nav.grievances'), icon: <MessageSquareWarning className="w-4 h-4" /> },

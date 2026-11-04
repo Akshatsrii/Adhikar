@@ -61,9 +61,9 @@ function SchemesPage() {
   })
 
   const catDots: Record<string, string> = {
-    Agriculture: 'bg-emerald-500', Employment: 'bg-blue-500', Housing: 'bg-amber-500',
-    Healthcare: 'bg-rose-500', Education: 'bg-indigo-500', 'Social Welfare': 'bg-violet-500',
-    Women: 'bg-pink-500', Disability: 'bg-purple-500',
+    Agriculture: 'bg-[#FF5500]', Employment: 'bg-[#FF7729]', Housing: 'bg-[#F59E0B]',
+    Healthcare: 'bg-[#FF5500]', Education: 'bg-[#EA580C]', 'Social Welfare': 'bg-black',
+    Women: 'bg-[#C2410C]', Disability: 'bg-neutral-800',
   }
 
   return (
@@ -135,8 +135,8 @@ function SchemesPage() {
         {/* Left Sidebar - Filters */}
         <div className="w-full md:w-56 shrink-0">
           <div className="bg-white rounded-2xl border border-[#EAE6DF] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.03)] sticky top-24">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+            <div className="flex items-center justify-between pb-3 border-b border-[#EAE6DF] mb-4">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-black flex items-center gap-2">
                 <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF5500]" /> Filter by Category
               </h3>
               {activeCategory && (
@@ -155,7 +155,7 @@ function SchemesPage() {
                 className={`w-full text-left px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-between ${
                   activeCategory === null 
                     ? 'bg-black text-white shadow-xs' 
-                    : 'text-slate-600 hover:bg-[#FAF8F5] text-black'
+                    : 'text-[#52525B] hover:bg-[#FAF8F5] text-black'
                 }`}
               >
                 <span>All Schemes</span>
@@ -172,7 +172,7 @@ function SchemesPage() {
                     className={`w-full text-left px-3 py-2 rounded-full text-xs font-bold transition flex items-center justify-between ${
                       isActive 
                         ? 'bg-black text-white shadow-xs' 
-                        : 'text-slate-600 hover:bg-[#FAF8F5] text-black'
+                        : 'text-[#52525B] hover:bg-[#FAF8F5] text-black'
                     }`}
                   >
                     <span>{cat}</span>
@@ -183,12 +183,12 @@ function SchemesPage() {
             </div>
 
             {activeCategory && (
-              <div className="pt-4 mt-4 border-t border-slate-100">
+              <div className="pt-4 mt-4 border-t border-[#EAE6DF]">
                 <button 
                   onClick={() => handleCategoryChange(null)} 
-                  className="w-full flex items-center justify-center gap-1.5 text-xs font-bold text-slate-600 bg-[#FAF8F5] text-black py-2 rounded-full hover:bg-slate-100 transition"
+                  className="w-full flex items-center justify-center gap-1.5 text-xs font-bold text-[#52525B] bg-[#FAF8F5] text-black py-2 rounded-full hover:bg-[#FAF8F5] transition"
                 >
-                  <FilterX className="w-3.5 h-3.5 text-slate-400" /> Clear Filters
+                  <FilterX className="w-3.5 h-3.5 text-neutral-400" /> Clear Filters
                 </button>
               </div>
             )}
@@ -200,15 +200,15 @@ function SchemesPage() {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-24 space-y-3">
               <Loader2 className="w-8 h-8 animate-spin text-[#FF5500]" />
-              <p className="text-xs text-slate-400 font-medium">Fetching verified government schemes...</p>
+              <p className="text-xs text-neutral-400 font-medium">Fetching verified government schemes...</p>
             </div>
           ) : filteredSchemes.length === 0 ? (
             <div className="bg-white rounded-3xl border border-[#EAE6DF] p-12 text-center shadow-xs">
-              <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-400">
+              <div className="w-14 h-14 bg-[#FAF8F5] rounded-2xl flex items-center justify-center mx-auto mb-4 text-neutral-400">
                 <Search className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-slate-900 mb-1">No matching schemes found</h3>
-              <p className="text-slate-500 text-xs max-w-sm mx-auto mb-6">
+              <h3 className="text-base font-bold text-black mb-1">No matching schemes found</h3>
+              <p className="text-[#52525B] text-xs max-w-sm mx-auto mb-6">
                 Try adjusting your search criteria or clearing your active category filter.
               </p>
               <button 
