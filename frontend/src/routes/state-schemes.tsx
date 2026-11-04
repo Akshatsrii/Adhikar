@@ -1,3 +1,4 @@
+import { getCategoryImg } from '@/lib/categoryImages'
 import { createFileRoute } from '@tanstack/react-router'
 import { ChevronRight, Search, MapPin, Users, Loader2 } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
@@ -9,17 +10,7 @@ export const Route = createFileRoute('/state-schemes')({
   component: StateSchemesPage,
 })
 
-const getCategoryImg = (cat: string) => {
-  switch (cat?.toLowerCase()) {
-    case 'education': return 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop'
-    case 'agriculture': return 'https://images.unsplash.com/photo-1592982537447-6f23342d2bf5?q=80&w=400&auto=format&fit=crop'
-    case 'housing': return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=400&auto=format&fit=crop'
-    case 'healthcare': return 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=400&auto=format&fit=crop'
-    case 'employment': return 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=400&auto=format&fit=crop'
-    case 'women': return 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=400&auto=format&fit=crop'
-    default: return 'https://images.unsplash.com/photo-1571260899304-4250708f069f?q=80&w=400&auto=format&fit=crop'
-  }
-}
+
 
 const statesList = [
   'All States', 'Rajasthan', 'Uttar Pradesh', 'Maharashtra', 'Madhya Pradesh', 
@@ -114,7 +105,7 @@ function StateSchemesPage() {
               {filteredSchemes.map((s, i) => (
                 <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
                   <div className="h-40 w-full overflow-hidden relative">
-                    <img src={getCategoryImg(s.category)} alt={s.name} onError={(e) => e.currentTarget.src='/images/emblem.svg'} className="w-full h-full object-cover" />
+                    <img src={getCategoryImg(s.category)} alt={s.name} onError={(e) => e.currentTarget.src='/categories/default.svg'} className="w-full h-full object-cover" />
                     <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[#00428a] uppercase tracking-wider shadow-sm">
                       {s.category}
                     </div>

@@ -1,3 +1,4 @@
+import { getCategoryImg } from '@/lib/categoryImages'
 import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Search, SlidersHorizontal, ExternalLink, Zap, FilterX, Loader2, Users } from 'lucide-react'
@@ -14,17 +15,7 @@ export const Route = createFileRoute('/schemes')({
   component: SchemesPage,
 })
 
-const getCategoryImg = (cat: string) => {
-  switch (cat?.toLowerCase()) {
-    case 'education': return 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop'
-    case 'agriculture': return 'https://images.unsplash.com/photo-1592982537447-6f23342d2bf5?q=80&w=400&auto=format&fit=crop'
-    case 'housing': return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=400&auto=format&fit=crop'
-    case 'healthcare': return 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=400&auto=format&fit=crop'
-    case 'employment': return 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=400&auto=format&fit=crop'
-    case 'women': return 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=400&auto=format&fit=crop'
-    default: return 'https://images.unsplash.com/photo-1571260899304-4250708f069f?q=80&w=400&auto=format&fit=crop'
-  }
-}
+
 
 const CATEGORIES = ['Agriculture', 'Education', 'Healthcare', 'Housing', 'Employment', 'Women', 'Disability', 'Social Welfare']
 
@@ -238,7 +229,7 @@ function SchemesPage() {
                     <img 
                       src={getCategoryImg(scheme.category)} 
                       alt={scheme.category} 
-                      onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1571260899304-4250708f069f?q=80&w=400&auto=format&fit=crop' }} 
+                      onError={(e) => { e.currentTarget.src = '/categories/default.svg' }} 
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
                     />
                     <div className="absolute top-2.5 left-2.5">

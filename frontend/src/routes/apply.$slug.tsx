@@ -1,3 +1,4 @@
+import { getCategoryImg } from '@/lib/categoryImages'
 import { createFileRoute, Navigate, useNavigate } from '@tanstack/react-router'
 import { ChevronRight, ArrowRight, ArrowLeft, Loader2, Info } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
@@ -10,17 +11,7 @@ export const Route = createFileRoute('/apply/$slug')({
   component: ApplyPage,
 })
 
-const getCategoryImg = (cat: string) => {
-  switch (cat?.toLowerCase()) {
-    case 'education': return 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=400&auto=format&fit=crop'
-    case 'agriculture': return 'https://images.unsplash.com/photo-1592982537447-6f23342d2bf5?q=80&w=400&auto=format&fit=crop'
-    case 'housing': return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=400&auto=format&fit=crop'
-    case 'healthcare': return 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=400&auto=format&fit=crop'
-    case 'employment': return 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=400&auto=format&fit=crop'
-    case 'women': return 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=400&auto=format&fit=crop'
-    default: return 'https://images.unsplash.com/photo-1571260899304-4250708f069f?q=80&w=400&auto=format&fit=crop'
-  }
-}
+
 
 function ApplyPage() {
   const { slug } = Route.useParams()
@@ -137,7 +128,7 @@ function ApplyPage() {
         {/* Selected Scheme Card */}
         <div className="mb-10 bg-gray-50/50 border border-gray-200 rounded-xl overflow-hidden flex flex-col md:flex-row gap-0 md:gap-4 shadow-sm hover:shadow-md transition">
           <div className="h-40 md:h-auto md:w-56 bg-gray-200 shrink-0 relative">
-            <img src={getCategoryImg(scheme.category)} onError={(e) => e.currentTarget.src='/images/emblem.svg'} alt={scheme.name} className="w-full h-full object-cover" />
+            <img src={getCategoryImg(scheme.category)} onError={(e) => e.currentTarget.src='/categories/default.svg'} alt={scheme.name} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
           </div>
           <div className="p-5 flex flex-col justify-center flex-1">
