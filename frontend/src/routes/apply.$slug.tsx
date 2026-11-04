@@ -67,7 +67,7 @@ function ApplyPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-10 h-10 animate-spin text-[#00428a]" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#FF5500]" />
       </div>
     )
   }
@@ -82,15 +82,15 @@ function ApplyPage() {
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full bg-[#f5f6fa] min-h-screen">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
-        <Link to="/" className="text-[#00428a] hover:underline">Home</Link>
+        <Link to="/" className="text-[#FF5500] hover:underline">Home</Link>
         <ChevronRight className="w-3 h-3" />
-        <Link to="/schemes" className="text-[#00428a] hover:underline">Schemes</Link>
+        <Link to="/schemes" className="text-[#FF5500] hover:underline">Schemes</Link>
         <ChevronRight className="w-3 h-3" />
         <span className="text-gray-800">Apply</span>
       </div>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-[#00428a] mb-2 tracking-tight">Apply for Government Scheme</h1>
+        <h1 className="text-3xl font-black text-[#FF5500] mb-2 tracking-tight">Apply for Government Scheme</h1>
         <p className="text-sm text-gray-600 font-medium">Complete your application with step-by-step guidance</p>
       </div>
 
@@ -98,14 +98,14 @@ function ApplyPage() {
       <div className="bg-white rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-8 border border-gray-100">
         <div className="flex items-center justify-between mb-10 overflow-x-auto pb-4 scrollbar-hide">
           
-          <div className="flex flex-col items-center gap-2 text-sm font-bold text-[#00428a] shrink-0">
+          <div className="flex flex-col items-center gap-2 text-sm font-bold text-[#FF5500] shrink-0">
             <span className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-xs shadow-md">✓</span>
             <span className="text-green-600">Select Scheme</span>
           </div>
           
           <div className="h-[2px] bg-green-500 flex-1 mx-4 min-w-[30px] rounded-full"></div>
           
-          <div className="flex flex-col items-center gap-2 text-sm font-bold text-[#00428a] shrink-0 relative">
+          <div className="flex flex-col items-center gap-2 text-sm font-bold text-[#FF5500] shrink-0 relative">
             <span className="w-8 h-8 rounded-full bg-[#00428a] text-white flex items-center justify-center text-xs shadow-lg ring-4 ring-blue-50 relative z-10">2</span>
             <span>Fill Application</span>
           </div>
@@ -134,7 +134,7 @@ function ApplyPage() {
           <div className="p-5 flex flex-col justify-center flex-1">
             <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">{scheme.name}</h3>
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="text-[10px] font-bold text-[#00428a] bg-blue-50 px-2.5 py-1 rounded-md uppercase tracking-wider border border-blue-100">{scheme.category}</span>
+              <span className="text-[10px] font-bold text-[#FF5500] bg-[#FFF2E8] px-2.5 py-1 rounded-md uppercase tracking-wider border border-blue-100">{scheme.category}</span>
               <span className="text-[10px] font-bold text-gray-600 bg-white px-2.5 py-1 rounded-md border border-gray-200 uppercase tracking-wider">{scheme.level}</span>
             </div>
             <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">{scheme.description}</p>
@@ -146,7 +146,7 @@ function ApplyPage() {
           </div>
         </div>
 
-        <h3 className="text-lg font-bold text-[#00428a] mb-6 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-[#FF5500] mb-6 flex items-center gap-2">
           <span className="w-1.5 h-5 bg-[#00428a] rounded-full inline-block"></span>
           Personal Information
         </h3>
@@ -179,13 +179,13 @@ function ApplyPage() {
             </div>
           </div>
           
-          <div className="mb-6 bg-blue-50/50 p-5 rounded-xl border border-blue-100/50">
+          <div className="mb-6 bg-[#FFF2E8] p-5 rounded-xl border border-[#FFD6BA]">
             <label className="block text-xs font-bold text-gray-700 mb-3 uppercase tracking-wide">Gender <span className="text-red-500">*</span></label>
             <div className="flex gap-8">
               {['Male', 'Female', 'Other'].map(g => (
                 <label key={g} className="flex items-center gap-2.5 cursor-pointer group">
-                  <input type="radio" name="gender" checked={formData.gender === g} onChange={() => setFormData({...formData, gender: g})} className="w-4 h-4 text-[#00428a] focus:ring-[#00428a] border-gray-300" />
-                  <span className="text-sm text-gray-800 font-bold group-hover:text-[#00428a] transition">{g}</span>
+                  <input type="radio" name="gender" checked={formData.gender === g} onChange={() => setFormData({...formData, gender: g})} className="w-4 h-4 text-[#FF5500] focus:ring-[#00428a] border-gray-300" />
+                  <span className="text-sm text-gray-800 font-bold group-hover:text-[#FF5500] transition">{g}</span>
                 </label>
               ))}
             </div>

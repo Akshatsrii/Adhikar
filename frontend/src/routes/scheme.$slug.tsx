@@ -79,7 +79,7 @@ function SchemeDetailPage() {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-32 w-full flex flex-col items-center justify-center space-y-3">
-        <Loader2 className="w-10 h-10 animate-spin text-blue-600" />
+        <Loader2 className="w-10 h-10 animate-spin text-[#FF5500]" />
         <p className="text-xs text-slate-400 font-medium">Fetching verified scheme particulars...</p>
       </div>
     )
@@ -93,7 +93,7 @@ function SchemeDetailPage() {
         </div>
         <h2 className="text-lg font-bold text-slate-900 mb-1">Scheme particulars not found</h2>
         <p className="text-xs text-slate-500 mb-6">The requested scheme might have expired or been relocated.</p>
-        <Link to="/schemes" className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition">
+        <Link to="/schemes" className="px-5 py-2.5 bg-[#FF5500] text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition">
           Return to Schemes Directory
         </Link>
       </div>
@@ -104,11 +104,11 @@ function SchemeDetailPage() {
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6">
-        <Link to="/" className="text-blue-600 hover:underline">
+        <Link to="/" className="text-[#FF5500] hover:underline">
           Home
         </Link>
         <ChevronRight className="w-3 h-3" />
-        <Link to="/schemes" className="text-blue-600 hover:underline">
+        <Link to="/schemes" className="text-[#FF5500] hover:underline">
           Schemes
         </Link>
         <ChevronRight className="w-3 h-3" />
@@ -121,7 +121,7 @@ function SchemeDetailPage() {
           <div className="flex-1 space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200/60">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FF5500]" />
                 Verified Entitlement
               </span>
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
@@ -189,7 +189,7 @@ function SchemeDetailPage() {
                 to="/assistant"
                 className="flex-1 bg-blue-50 border border-blue-200/60 text-blue-700 py-2 rounded-xl text-xs font-bold hover:bg-blue-100 flex items-center justify-center gap-1.5 transition"
               >
-                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
                 <span>Ask AI</span>
               </Link>
             </div>
@@ -221,7 +221,7 @@ function SchemeDetailPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap ${
-                    activeTab === tab.id ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'
+                    activeTab === tab.id ? 'bg-[#FF5500] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   {tab.label}
@@ -246,7 +246,7 @@ function SchemeDetailPage() {
 
                   <div>
                     <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-blue-600" /> Nodal Department & Objective
+                      <Building2 className="w-4 h-4 text-[#FF5500]" /> Nodal Department & Objective
                     </h3>
                     <p className="text-xs text-slate-600 leading-relaxed font-normal">
                       Administered by {scheme.department || 'the concerned Ministry'}. The mission aims to eliminate socioeconomic
@@ -293,26 +293,26 @@ function SchemeDetailPage() {
               {activeTab === 'process' && (
                 <div className="space-y-4">
                   <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
-                    <Monitor className="w-4 h-4 text-blue-600" /> 4-Step Application Procedure
+                    <Monitor className="w-4 h-4 text-[#FF5500]" /> 4-Step Application Procedure
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                     <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
-                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 01</span>
+                      <span className="text-[10px] font-bold text-[#FF5500] uppercase">Step 01</span>
                       <h4 className="font-bold text-xs text-slate-900">Visit Official Portal</h4>
                       <p className="text-[11px] text-slate-500">Access the authentic portal link verified above.</p>
                     </div>
                     <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
-                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 02</span>
+                      <span className="text-[10px] font-bold text-[#FF5500] uppercase">Step 02</span>
                       <h4 className="font-bold text-xs text-slate-900">Authenticate via Aadhaar</h4>
                       <p className="text-[11px] text-slate-500">Complete OTP e-KYC using registered mobile number.</p>
                     </div>
                     <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
-                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 03</span>
+                      <span className="text-[10px] font-bold text-[#FF5500] uppercase">Step 03</span>
                       <h4 className="font-bold text-xs text-slate-900">Submit Application Form</h4>
                       <p className="text-[11px] text-slate-500">Input demographic and income particulars accurately.</p>
                     </div>
                     <div className="p-4 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-1">
-                      <span className="text-[10px] font-bold text-blue-600 uppercase">Step 04</span>
+                      <span className="text-[10px] font-bold text-[#FF5500] uppercase">Step 04</span>
                       <h4 className="font-bold text-xs text-slate-900">Track Direct Benefit</h4>
                       <p className="text-[11px] text-slate-500">Receive application reference number for PFMS tracking.</p>
                     </div>
@@ -335,7 +335,7 @@ function SchemeDetailPage() {
                       'Passport Size Photograph & Mobile Number',
                     ].map((doc, idx) => (
                       <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-100 bg-slate-50/50 text-xs font-semibold text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
                         <span>{doc}</span>
                       </div>
                     ))}
@@ -378,7 +378,7 @@ function SchemeDetailPage() {
                   href={scheme.source_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-bold text-blue-600 hover:underline break-all block mt-0.5"
+                  className="font-bold text-[#FF5500] hover:underline break-all block mt-0.5"
                 >
                   {scheme.source_url}
                 </a>

@@ -47,7 +47,7 @@ function StateSchemesPage() {
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-[#00428a] mb-2">State-Specific Schemes</h1>
+          <h1 className="text-2xl font-bold text-[#FF5500] mb-2">State-Specific Schemes</h1>
           <p className="text-sm text-gray-600">Find government initiatives tailored to your state</p>
         </div>
         
@@ -77,7 +77,7 @@ function StateSchemesPage() {
                   onClick={() => setActiveState(state)}
                   className={`w-full text-left px-3 py-2 rounded text-sm font-medium transition ${
                     activeState === state 
-                      ? 'bg-blue-50 text-[#00428a]' 
+                      ? 'bg-[#FFF2E8] text-[#FF5500]' 
                       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                   }`}
                 >
@@ -92,7 +92,7 @@ function StateSchemesPage() {
         <div className="flex-1">
           {isLoading ? (
             <div className="py-20 flex justify-center">
-              <Loader2 className="w-8 h-8 animate-spin text-[#00428a]" />
+              <Loader2 className="w-8 h-8 animate-spin text-[#FF5500]" />
             </div>
           ) : filteredSchemes.length === 0 ? (
             <div className="bg-white rounded-lg border border-gray-200 p-12 text-center shadow-sm">
@@ -106,7 +106,7 @@ function StateSchemesPage() {
                 <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
                   <div className="h-40 w-full overflow-hidden relative">
                     <img src={getCategoryImg(s.category)} alt={s.name} onError={(e) => e.currentTarget.src='/categories/default.svg'} className="w-full h-full object-cover" />
-                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[#00428a] uppercase tracking-wider shadow-sm">
+                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[#FF5500] uppercase tracking-wider shadow-sm">
                       {s.category}
                     </div>
                   </div>
@@ -116,16 +116,16 @@ function StateSchemesPage() {
                     
                     <div className="mt-auto space-y-2 mb-5">
                       <div className="flex items-center text-xs text-gray-600 gap-2 font-medium">
-                        <span className="text-[#00428a] font-bold">₹</span> {s.benefit || 'Variable Support'}
+                        <span className="text-[#FF5500] font-bold">₹</span> {s.benefit || 'Variable Support'}
                       </div>
                       <div className="flex items-center text-xs text-gray-600 gap-2 font-medium">
-                        <Users className="w-3.5 h-3.5 text-[#00428a]"/> {s.department || s.state}
+                        <Users className="w-3.5 h-3.5 text-[#FF5500]"/> {s.department || s.state}
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t border-gray-100">
                       <Link to="/scheme/$slug" params={{ slug: s.slug }} className="border border-gray-300 text-center text-gray-700 text-xs font-bold py-2 rounded hover:bg-gray-50 transition">Details</Link>
-                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-[#00428a] text-center text-white text-xs font-bold py-2 rounded hover:bg-blue-800 transition">Apply Now</Link>
+                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-black hover:bg-neutral-800 text-center text-white text-xs font-bold py-2 rounded hover:bg-blue-800 transition">Apply Now</Link>
                     </div>
                   </div>
                 </div>

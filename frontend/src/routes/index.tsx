@@ -234,17 +234,17 @@ function LandingPage() {
                 </p>
               </div>
 
-              {/* Right Card: Sky Blue Card */}
-              <div className="rounded-[32px] bg-gradient-to-br from-[#EFF6FF] via-[#F5F9FF] to-[#EBF3FF] border border-[#DBEAFE] p-6 text-left transition hover:shadow-md card-lift flex flex-col justify-between relative overflow-hidden group">
+              {/* Right Card: Obsidian Black & Orange Card */}
+              <div className="rounded-[32px] bg-gradient-to-br from-[#18181B] via-[#121214] to-[#09090B] border border-neutral-800 p-6 text-left transition hover:shadow-md card-lift flex flex-col justify-between relative overflow-hidden group">
                 <div>
-                  <span className="text-3xl sm:text-4xl font-black text-[#1A56DB] tracking-tight group-hover:scale-105 transition-transform inline-block">
+                  <span className="text-3xl sm:text-4xl font-black text-[#FF5500] tracking-tight group-hover:scale-105 transition-transform inline-block">
                     {isHindi ? '₹5 लाख+' : '₹5 Lakh+'}
                   </span>
-                  <h4 className="text-sm font-bold text-black mt-2">
+                  <h4 className="text-sm font-bold text-white mt-2">
                     {isHindi ? 'मुफ्त स्वास्थ्य सुरक्षा' : 'Cashless Healthcare'}
                   </h4>
                 </div>
-                <p className="text-[11px] text-[#71717A] mt-1 leading-relaxed">
+                <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">
                   {isHindi
                     ? 'आयुष्मान भारत के तहत 100% कैशलेस अस्पताल इलाज'
                     : 'Secondary & tertiary hospital cover under Ayushman Bharat'}

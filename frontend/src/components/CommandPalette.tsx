@@ -99,11 +99,11 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
       />
 
       {/* Spotlight Modal */}
-      <div className="relative w-full max-w-2xl bg-white/95 backdrop-blur-2xl rounded-3xl border border-slate-200/90 shadow-2xl overflow-hidden z-10 transition-all duration-200 animate-in zoom-in-95">
+      <div className="relative w-full max-w-2xl bg-white/95 backdrop-blur-2xl rounded-3xl border border-[#EAE6DF] shadow-2xl overflow-hidden z-10 transition-all duration-200 animate-in zoom-in-95">
         
         {/* Search Input Box */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100">
-          <Search className="w-5 h-5 text-blue-600 shrink-0" />
+          <Search className="w-5 h-5 text-[#FF5500] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -148,12 +148,12 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                       }}
                       onMouseEnter={() => setSelectedIndex(idx)}
                       className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition ${
-                        isSelected ? 'bg-blue-600 text-white shadow-xs' : 'hover:bg-slate-50 text-slate-700'
+                        isSelected ? 'bg-black text-white shadow-xs' : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-blue-600'
+                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-[#FF5500]'
                         }`}>
                           <Icon className="w-4 h-4" />
                         </div>
@@ -161,7 +161,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                           <div className={`text-xs font-bold ${isSelected ? 'text-white' : 'text-slate-900'}`}>
                             {page.title}
                           </div>
-                          <div className={`text-[11px] truncate max-w-sm ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
+                          <div className={`text-[11px] truncate max-w-sm ${isSelected ? 'text-neutral-300' : 'text-slate-400'}`}>
                             {page.desc}
                           </div>
                         </div>
@@ -201,7 +201,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                       }}
                       onMouseEnter={() => setSelectedIndex(overallIdx)}
                       className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer transition ${
-                        isSelected ? 'bg-blue-600 text-white shadow-xs' : 'hover:bg-slate-50 text-slate-700'
+                        isSelected ? 'bg-black text-white shadow-xs' : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
@@ -214,7 +214,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                           <div className={`text-xs font-bold truncate ${isSelected ? 'text-white' : 'text-slate-900'}`}>
                             {scheme.name}
                           </div>
-                          <div className={`text-[11px] truncate max-w-md ${isSelected ? 'text-blue-100' : 'text-slate-400'}`}>
+                          <div className={`text-[11px] truncate max-w-md ${isSelected ? 'text-neutral-300' : 'text-slate-400'}`}>
                             {scheme.benefit || scheme.description}
                           </div>
                         </div>
@@ -255,7 +255,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
               <span>to select</span>
             </span>
           </div>
-          <span className="text-[10px] font-bold text-blue-600">Adhikar Spotlight</span>
+          <span className="text-[10px] font-bold text-[#FF5500]">Adhikar Spotlight</span>
         </div>
       </div>
     </div>

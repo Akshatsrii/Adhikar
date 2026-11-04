@@ -96,12 +96,12 @@ export function AudioNarrator({ schemeName, benefitText, descriptionText }: Audi
   }
 
   return (
-    <div className="bg-gradient-to-r from-blue-50 via-indigo-50/50 to-white border border-blue-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+    <div className="bg-gradient-to-r from-[#FFF2E8] via-[#FFF9F5] to-white border border-[#FFD6BA] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
       
       {/* Left indicator & audio wave */}
       <div className="flex items-center gap-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-          isPlaying ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30' : 'bg-blue-100 text-blue-700'
+          isPlaying ? 'bg-black text-white shadow-md' : 'bg-[#FFF2E8] text-[#FF5500]'
         }`}>
           {isPlaying ? <Volume2 className="w-5 h-5 animate-pulse" /> : <Volume2 className="w-5 h-5" />}
         </div>
@@ -112,9 +112,9 @@ export function AudioNarrator({ schemeName, benefitText, descriptionText }: Audi
             </span>
             {isPlaying && (
               <span className="flex items-center gap-0.5 h-3">
-                <span className="w-1 bg-blue-600 h-2 animate-bounce rounded-full"></span>
-                <span className="w-1 bg-blue-600 h-3 animate-bounce [animation-delay:0.2s] rounded-full"></span>
-                <span className="w-1 bg-blue-600 h-1.5 animate-bounce [animation-delay:0.4s] rounded-full"></span>
+                <span className="w-1 bg-[#FF5500] h-2 animate-bounce rounded-full"></span>
+                <span className="w-1 bg-[#FF5500] h-3 animate-bounce [animation-delay:0.2s] rounded-full"></span>
+                <span className="w-1 bg-[#FF5500] h-1.5 animate-bounce [animation-delay:0.4s] rounded-full"></span>
               </span>
             )}
           </div>
@@ -130,13 +130,13 @@ export function AudioNarrator({ schemeName, benefitText, descriptionText }: Audi
         <div className="flex items-center bg-white rounded-lg p-0.5 border border-slate-200 text-[11px] font-bold">
           <button
             onClick={() => handleLangToggle('hi-IN')}
-            className={`px-2 py-1 rounded transition ${lang === 'hi-IN' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+            className={`px-2 py-1 rounded transition ${lang === 'hi-IN' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
           >
             हिन्दी
           </button>
           <button
             onClick={() => handleLangToggle('en-IN')}
-            className={`px-2 py-1 rounded transition ${lang === 'en-IN' ? 'bg-blue-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+            className={`px-2 py-1 rounded transition ${lang === 'en-IN' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
           >
             English
           </button>
@@ -147,7 +147,7 @@ export function AudioNarrator({ schemeName, benefitText, descriptionText }: Audi
           {!isPlaying ? (
             <button
               onClick={handlePlay}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#FF5500] hover:bg-blue-700 text-white text-xs font-bold transition shadow-xs"
             >
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>{isPaused ? 'Resume' : 'Play'}</span>
