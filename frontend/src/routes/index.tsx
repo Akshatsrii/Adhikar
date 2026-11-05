@@ -1,9 +1,10 @@
 import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
 import {
-  Search, ArrowRight, Building2, Briefcase, Leaf, Users, HeartPulse,
-  Accessibility, MoreHorizontal, Sparkles, ExternalLink, CheckCircle2,
-  Zap, ShieldCheck, ChevronRight, Star, Award
+  Search, ArrowRight, Building2, Leaf, Users, HeartPulse,
+  Sparkles, ExternalLink, CheckCircle2, Zap, ShieldCheck, ChevronRight,
+  Star, Layers, Building, GraduationCap, Rocket, HardHat,
+  MessageSquare, FileText
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
@@ -15,56 +16,135 @@ export const Route = createFileRoute('/')({
   component: LandingPage,
 })
 
-const CATEGORIES = [
-  { icon: <Leaf className="w-5 h-5" />,          key: 'agriculture', defaultTitle: 'Agriculture',    color: 'from-emerald-500 to-green-600' },
-  { icon: <Briefcase className="w-5 h-5" />,      key: 'employment',  defaultTitle: 'Employment',     color: 'from-blue-500 to-blue-600' },
-  { icon: <Building2 className="w-5 h-5" />,      key: 'education',   defaultTitle: 'Education',      color: 'from-amber-500 to-orange-600' },
-  { icon: <HeartPulse className="w-5 h-5" />,     key: 'healthcare',  defaultTitle: 'Healthcare',     color: 'from-rose-500 to-red-600' },
-  { icon: <Accessibility className="w-5 h-5" />,  key: 'disability',  defaultTitle: 'Disability',     color: 'from-purple-500 to-violet-600' },
-  { icon: <Users className="w-5 h-5" />,          key: 'women',       defaultTitle: 'Women',          color: 'from-pink-500 to-rose-500' },
-  { icon: <CheckCircle2 className="w-5 h-5" />,   key: 'housing',     defaultTitle: 'Housing',        color: 'from-orange-500 to-amber-600' },
-  { icon: <MoreHorizontal className="w-5 h-5" />, key: 'social',      defaultTitle: 'Social Welfare', color: 'from-neutral-500 to-neutral-700' },
+const CITIZEN_ARCHETYPES = [
+  {
+    title: 'Farmers',
+    subtitle: 'Agriculture, Irrigation, Subsidy & More',
+    category: 'Agriculture',
+    img: '/citizens/farmer.jpg',
+    icon: <Leaf className="w-3.5 h-3.5 text-emerald-600" />,
+    iconBg: 'bg-emerald-50 border-emerald-200/60',
+  },
+  {
+    title: 'Students',
+    subtitle: 'Scholarship, Education Loan & Skill Development',
+    category: 'Education',
+    img: '/citizens/student.jpg',
+    icon: <GraduationCap className="w-3.5 h-3.5 text-[#FF5500]" />,
+    iconBg: 'bg-[#FFF2E8] border-[#FFD6BA]',
+  },
+  {
+    title: 'Women',
+    subtitle: 'Financial Support, Safety & Empowerment',
+    category: 'Women',
+    img: '/citizens/woman.jpg',
+    icon: <Users className="w-3.5 h-3.5 text-rose-600" />,
+    iconBg: 'bg-rose-50 border-rose-200/60',
+  },
+  {
+    title: 'Senior Citizens',
+    subtitle: 'Pension, Healthcare & Social Security',
+    category: 'Social Welfare',
+    img: '/citizens/senior.jpg',
+    icon: <HeartPulse className="w-3.5 h-3.5 text-amber-600" />,
+    iconBg: 'bg-amber-50 border-amber-200/60',
+  },
+  {
+    title: 'Entrepreneurs',
+    subtitle: 'Startup, MSME, Loan & Business Support',
+    category: 'Employment',
+    img: '/citizens/entrepreneur.jpg',
+    icon: <Rocket className="w-3.5 h-3.5 text-[#FF5500]" />,
+    iconBg: 'bg-[#FFF2E8] border-[#FFD6BA]',
+  },
+  {
+    title: 'Labourers',
+    subtitle: 'Welfare, Insurance & Skill Programs',
+    category: 'Employment',
+    img: '/citizens/labourer.jpg',
+    icon: <HardHat className="w-3.5 h-3.5 text-amber-700" />,
+    iconBg: 'bg-amber-50 border-amber-200/60',
+  },
+]
+
+const STAT_METRICS = [
+  {
+    num: '500+',
+    label: 'Government Schemes',
+    icon: <Layers className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: '36+',
+    label: 'Central Ministries',
+    icon: <Users className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: 'All States & UTs',
+    label: 'Central & State Schemes',
+    icon: <Building2 className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: '100% Verified',
+    label: 'Official .gov.in Links',
+    icon: <ShieldCheck className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: 'AI-Powered',
+    label: 'Personalized Recommendations',
+    icon: <Zap className="w-4 h-4 text-[#FF5500]" />,
+  },
+]
+
+const HOW_IT_WORKS_STEPS = [
+  {
+    num: '01',
+    title: 'Discover',
+    desc: 'Find relevant schemes',
+    icon: <Search className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: '02',
+    title: 'Check Eligibility',
+    desc: 'Verify with transparent rules',
+    icon: <ShieldCheck className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: '03',
+    title: 'Verify Documents',
+    desc: 'Get required document list',
+    icon: <FileText className="w-4 h-4 text-[#FF5500]" />,
+  },
+  {
+    num: '04',
+    title: 'Apply Officially',
+    desc: 'Go to the verified .gov.in portal',
+    icon: <ExternalLink className="w-4 h-4 text-[#FF5500]" />,
+  },
 ]
 
 const CAT_COLORS: Record<string, string> = {
-  Agriculture:    'from-emerald-500 to-green-600',
-  Employment:     'from-blue-500 to-blue-700',
-  Housing:        'from-amber-500 to-orange-500',
-  Healthcare:     'from-rose-500 to-red-600',
-  Education:      'from-amber-500 to-orange-600',
-  'Social Welfare':'from-neutral-600 to-neutral-800',
-  Women:          'from-pink-500 to-rose-500',
-  Disability:     'from-purple-500 to-violet-600',
+  Agriculture: 'from-[#FF5500] to-[#EA4C00]',
+  Employment: 'from-neutral-800 to-black',
+  Housing: 'from-[#FF7729] to-[#FF5500]',
+  Healthcare: 'from-[#FF5500] to-[#CC3E00]',
+  Education: 'from-[#F59E0B] to-[#D97706]',
+  'Social Welfare': 'from-neutral-700 to-black',
+  Women: 'from-[#EA580C] to-[#C2410C]',
+  Disability: 'from-neutral-800 to-black',
 }
-
-const TRUST_BADGES = [
-  'PM-KISAN', 'Ayushman Bharat', 'PMAY Housing', 'NSP Scholarships', 'e-Shram',
-  'Rajasthan Chiranjeevi/MAA', 'Palanhar Yojana', 'PM Vishwakarma', 'MGNREGA', 'Jan Dhan',
-  'PM-KISAN', 'Ayushman Bharat', 'PMAY Housing', 'NSP Scholarships', 'e-Shram',
-  'Rajasthan Chiranjeevi/MAA', 'Palanhar Yojana', 'PM Vishwakarma', 'MGNREGA', 'Jan Dhan',
-]
 
 function LandingPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const [schemes, setSchemes] = useState<PublicScheme[]>(() => FALLBACK_SCHEMES.slice(0, 6))
-  const [counts, setCounts] = useState<Record<string, number>>(() => {
-    const c: Record<string, number> = {}
-    FALLBACK_SCHEMES.forEach(s => { c[s.category] = (c[s.category] || 0) + 1 })
-    return c
-  })
-  const [query, setQuery] = useState('')
-  const [focused, setFocused] = useState(false)
+  const [copilotPrompt, setCopilotPrompt] = useState('')
 
   const isHindi = i18n.language?.startsWith('hi')
 
   useEffect(() => {
     schemesApi.list(0, 100)
       .then(res => {
-        const c: Record<string, number> = {}
-        res.items.forEach(s => { c[s.category] = (c[s.category] || 0) + 1 })
-        setCounts(c)
         setSchemes(res.items.slice(0, 6))
       })
       .catch(console.error)
@@ -72,57 +152,68 @@ function LandingPage() {
 
   if (user) return <Navigate to="/dashboard" replace />
 
-  const onSearch = (e: React.FormEvent) => {
+  const handleCopilotSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    navigate({ to: '/schemes', search: { category: query.trim() || undefined } as any })
+    const q = copilotPrompt.trim() || 'I am a college student, what benefits can I get?'
+    navigate({ to: '/assistant', search: { q } as any })
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-black overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-black overflow-x-hidden font-sans pb-16">
 
-      {/* Main Hero Container — Ultra-Premium High-Trust Citizen Welfare Gateway */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-14">
-        
-        {/* Top Hero Grid: Left Card + Right Column (Red Fort Flag + Two Elevated Stat Cards) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      {/* 1. HERO SECTION — Panoramic New Parliament & Tricolor Wave */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-6">
+        <div className="rounded-[36px] bg-gradient-to-br from-[#FFF9F3] via-[#FAF8F5] to-[#FFFFFF] border border-[#EAE6DF] p-6 sm:p-10 shadow-[0_4px_30px_rgba(0,0,0,0.03)] relative overflow-hidden">
           
-          {/* Left Block — Clean Enclosed Rounded Card with Breathing Warm Glow & Dual Action Pills */}
-          <div className="lg:col-span-7 rounded-[36px] bg-white border border-[#EAE6DF] p-8 sm:p-12 shadow-[0_4px_28px_rgba(0,0,0,0.03)] relative overflow-hidden flex flex-col justify-between space-y-8 card-lift">
-            
-            {/* Ambient Breathing Warm Glow */}
-            <div className="pointer-events-none absolute -top-12 -right-12 w-80 h-80 rounded-full bg-gradient-to-br from-[#FFE8D6]/70 via-[#FFF4EB]/25 to-transparent blur-3xl animate-pulse-glow -z-0" />
+          {/* Subtle Tricolor Ribbon Ambient Flow */}
+          <div className="pointer-events-none absolute -top-16 -right-16 w-[700px] h-[350px] opacity-25 -z-0">
+            <svg viewBox="0 0 700 350" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              <path d="M0 80 C 200 20, 450 180, 700 40 L 700 0 L 0 0 Z" fill="url(#saffronGrad)" opacity="0.6" />
+              <path d="M0 120 C 200 60, 450 220, 700 80 L 700 40 C 450 180, 200 20, 0 80 Z" fill="#FFFFFF" opacity="0.8" />
+              <path d="M0 160 C 200 100, 450 260, 700 120 L 700 80 C 450 220, 200 60, 0 120 Z" fill="url(#greenGrad)" opacity="0.5" />
+              <defs>
+                <linearGradient id="saffronGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#FF9933" />
+                  <stop offset="100%" stopColor="#FF5500" />
+                </linearGradient>
+                <linearGradient id="greenGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#138808" />
+                  <stop offset="100%" stopColor="#0B5E05" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
 
-            <div className="relative z-10 space-y-6">
-              {/* Official DBT Badge with Live Status */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            
+            {/* Left Content Column */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* DBT Badge */}
               <div>
-                <span className="glass-pill inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs hover:scale-[1.02] transition-transform">
-                  <img src="/adhikar-badge-dark.png" alt="Adhikar" className="w-4 h-4 rounded-full object-cover shrink-0 shadow-xs" />
-                  <span className="flex h-2 w-2 relative shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5500] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5500]"></span>
-                  </span>
+                <span className="glass-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs">
+                  <Building className="w-3.5 h-3.5 text-[#FF5500]" />
                   <span>{isHindi ? 'प्रत्यक्ष लाभ अंतरण (DBT) एवं आधिकारिक सरकारी पोर्टल' : 'Direct Benefit Transfer (DBT) & Official Portals'}</span>
                 </span>
               </div>
 
-              {/* Massive Bold Heading with Vibrant Orange Line */}
-              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-black tracking-tight leading-[1.03]">
-                {isHindi ? 'आपका नागरिक अधिकार।' : 'Your Citizen Rights.'}<br />
-                <span className="text-[#FF5500] block mt-1 drop-shadow-[0_1px_1px_rgba(255,85,0,0.15)]">
-                  {isHindi ? 'हर सरकारी योजना।' : 'Every Welfare Scheme.'}
+              {/* Bold Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-black tracking-tight leading-[1.08]">
+                {isHindi ? 'आपका अधिकार। आपका लाभ।' : 'Your Rights. Your Benefits.'}
+                <span className="text-[#FF5500] block mt-1.5">
+                  {isHindi ? 'हर सरकारी योजना, एक विश्वसनीय मंच।' : 'Every Welfare Scheme, One Trusted Platform.'}
                 </span>
               </h1>
 
-              {/* Crisp, Relaxed Subtitle */}
-              <p className="text-base sm:text-lg text-[#52525B] leading-relaxed max-w-xl font-normal">
+              {/* Description */}
+              <p className="text-sm sm:text-base text-[#52525B] leading-relaxed max-w-xl font-normal">
                 {isHindi
-                  ? 'भारतीय नागरिकों के लिए सरकारी योजनाओं को खोजने, 100% सटीक पात्रता जांचने और बिना किसी बिचौलिये के सीधे .gov.in पोर्टलों पर आवेदन करने का सबसे आधुनिक एवं विश्वसनीय मंच।'
-                  : 'A high-trust national intelligence platform to discover government schemes, verify deterministic eligibility with zero AI hallucinations, and apply directly on verified .gov.in endpoints.'}
+                  ? 'पारदर्शी नियम-आधारित जांच के साथ सरकारी कल्याणकारी योजनाओं को खोजें, अपनी पात्रता सत्यापित करें, और सीधे सत्यापित .gov.in पोर्टलों पर आवेदन करें — एआई द्वारा संचालित।'
+                  : 'Discover government welfare schemes, verify your eligibility with transparent rule-based checks, and apply directly on verified .gov.in portals — powered by AI.'}
               </p>
 
-              {/* Dual Pill Action Buttons */}
+              {/* Dual Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 pt-1">
-                {/* Black Pill: Explore Schemes */}
                 <Link
                   to="/schemes"
                   className="btn-pill-dark px-8 py-3.5 rounded-full text-sm font-extrabold flex items-center gap-2.5 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all"
@@ -131,7 +222,6 @@ function LandingPage() {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
-                {/* White Pill with Sparkle Icon: Ask AI Copilot */}
                 <Link
                   to="/assistant"
                   className="glass-pill hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] hover:border-[#FF5500]/30 shadow-xs flex items-center gap-2"
@@ -140,117 +230,64 @@ function LandingPage() {
                   <span>{isHindi ? 'एआई सहायक से पूछें' : 'Ask AI Copilot'}</span>
                 </Link>
               </div>
+
+              {/* Micro Trust Indicators */}
+              <div className="flex flex-wrap items-center gap-5 pt-2 text-xs font-bold text-neutral-800">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
+                  <span>{isHindi ? 'सरकारी सत्यापित' : 'Govt. Verified'}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
+                  <span>{isHindi ? 'रीयल-टाइम पात्रता' : 'Real-time Eligibility'}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
+                  <span>{isHindi ? 'जीरो एआई भ्रम' : 'Zero AI Hallucination'}</span>
+                </div>
+              </div>
+
             </div>
 
-            {/* Integrated Command Search Bar */}
-            <form onSubmit={onSearch} className="relative z-10 pt-4 w-full">
-              <div className={`flex items-center gap-2 p-1.5 rounded-2xl bg-white border transition-all duration-300 ${focused ? 'border-[#FF5500] shadow-[0_8px_30px_rgba(255,85,0,0.14)] ring-2 ring-[#FF5500]/10' : 'border-[#EAE6DF] shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:border-neutral-300'}`}>
-                <div className="flex flex-1 items-center gap-3 pl-3">
-                  <Search className="w-4 h-4 text-neutral-400 shrink-0" />
-                  <input
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    placeholder={isHindi ? 'योजना खोजें — पीएम किसान, आयुष्मान, आवास, छात्रवृत्ति...' : 'Search schemes — PM-KISAN, Ayushman, Housing, Scholarships...'}
-                    className="w-full bg-transparent py-2.5 text-sm text-black placeholder:text-neutral-400 focus:outline-none font-medium"
-                  />
-                  <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-neutral-400 bg-[#FAF8F5] px-2 py-0.5 rounded-md border border-[#EAE6DF] mr-2">⌘K</kbd>
+            {/* Right Visual: New Parliament Building with Indian National Flag */}
+            <div className="lg:col-span-5 relative">
+              <div className="rounded-[30px] overflow-hidden border border-[#EAE6DF] shadow-md relative group bg-neutral-900 card-lift min-h-[300px] sm:min-h-[360px]">
+                <img
+                  src="/parliament-flag.jpg"
+                  alt="New Parliament Building, New Delhi with Indian National Flag"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+
+                {/* Top Right Govt of India Badge */}
+                <div className="absolute top-4 right-4 glass-dark px-3.5 py-1.5 rounded-full text-white text-xs font-bold flex items-center gap-2 shadow-md">
+                  <span>🇮🇳</span>
+                  <span>{isHindi ? 'भारत सरकार' : 'Govt of India'}</span>
                 </div>
-                <button
-                  type="submit"
-                  className="bg-black hover:bg-neutral-800 text-white font-bold px-6 py-2.5 text-xs rounded-full shrink-0 transition-transform active:scale-95"
-                >
-                  {isHindi ? 'खोजें' : 'Search'}
-                </button>
-              </div>
-            </form>
-          </div>
 
-          {/* Right Column — Red Fort Flag Card on Top + Two Elevated Stat Cards at the Bottom */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-6">
-            
-            {/* Top: Red Fort with Indian National Flag */}
-            <div className="rounded-[36px] overflow-hidden border border-[#EAE6DF] relative shadow-xs flex-1 min-h-[340px] group bg-neutral-900 card-lift">
-              <img
-                src="/red-fort-flag.jpg"
-                alt="Red Fort New Delhi with Indian National Flag"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-95"
-              />
-              
-              {/* Subtle Gradient Overlay for High Readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
-
-              {/* Floating Verified Badge on Top Left */}
-              <div className="absolute top-4 left-4 glass-pill px-3.5 py-1.5 rounded-full shadow-md flex items-center gap-2 animate-float">
-                <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-                <span className="text-[10px] font-extrabold text-neutral-900 uppercase tracking-wide">
-                  {isHindi ? 'सत्यमेव जयते' : 'Satyameva Jayate'}
-                </span>
-              </div>
-
-              {/* Top Right Portals Badge */}
-              <div className="absolute top-4 right-4 glass-dark px-3.5 py-1.5 rounded-full shadow-md text-white text-[10px] font-bold flex items-center gap-1.5 animate-float-slow">
-                <span>🇮🇳</span>
-                <span>{isHindi ? 'भारत सरकार' : 'Govt of India'}</span>
-              </div>
-
-              {/* Bottom Caption Pill over Image */}
-              <div className="absolute bottom-4 inset-x-4">
-                <div className="glass-dark rounded-2xl p-3.5 text-white border border-white/20 shadow-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-bold leading-tight flex items-center gap-1.5">
-                        <span>{isHindi ? 'लाल किला, नई दिल्ली' : 'Red Fort, New Delhi'}</span>
-                        <span className="text-[10px] opacity-75">· 100% DBT</span>
-                      </p>
-                      <p className="text-[10px] text-neutral-300 mt-0.5">
-                        {isHindi ? 'मेरी सरकार, मेरा अधिकार · आधिकारिक जन कल्याण पोर्टल' : 'Citizen Welfare & Constitutional Rights Gateway'}
-                      </p>
+                {/* Bottom Glass Caption Pill */}
+                <div className="absolute bottom-4 inset-x-4">
+                  <div className="glass-dark rounded-2xl p-3 sm:p-3.5 text-white border border-white/20 shadow-lg flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                        <Building className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold leading-tight">
+                          {isHindi ? 'नया संसद भवन, नई दिल्ली' : 'New Parliament Building, New Delhi'}
+                        </p>
+                        <p className="text-[10px] text-neutral-300 mt-0.5">
+                          {isHindi ? 'प्रत्येक नागरिक के लिए डिजिटल एवं समावेशी भारत' : 'A digital and inclusive India for every citizen.'}
+                        </p>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-bold text-[#FF8533] bg-white/10 px-2.5 py-1 rounded-full border border-white/10 shrink-0">
-                      Verified
+                    <span className="text-[10px] font-bold text-[#FF9E59] bg-[#FF5500]/20 border border-[#FF5500]/40 px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3 text-[#FF5500]" />
+                      <span>DBT Verified</span>
                     </span>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Bottom: 2 Small Stat Cards (100% Peach + Sky Blue) */}
-            <div className="grid grid-cols-2 gap-4 sm:gap-6">
-              
-              {/* Left Card: 100% Peach Card */}
-              <div className="rounded-[32px] bg-gradient-to-br from-[#FFF7ED] via-[#FFF9F5] to-[#FFF2E8] border border-[#FFD6BA] p-6 text-left transition hover:shadow-md card-lift flex flex-col justify-between relative overflow-hidden group">
-                <div>
-                  <span className="text-3xl sm:text-4xl font-black text-[#FF5500] tracking-tight group-hover:scale-105 transition-transform inline-block">100%</span>
-                  <h4 className="text-sm font-bold text-black mt-2">
-                    {isHindi ? 'सटीक नियम इंजन' : 'Deterministic Engine'}
-                  </h4>
-                </div>
-                <p className="text-[11px] text-[#71717A] mt-1 leading-relaxed">
-                  {isHindi
-                    ? '500+ सत्यापित सरकारी नियम व जीरो एआई भ्रम'
-                    : 'Zero hallucinations with 500+ verified gazette rules'}
-                </p>
               </div>
-
-              {/* Right Card: Obsidian Black & Orange Card */}
-              <div className="rounded-[32px] bg-gradient-to-br from-[#18181B] via-[#121214] to-[#09090B] border border-neutral-800 p-6 text-left transition hover:shadow-md card-lift flex flex-col justify-between relative overflow-hidden group">
-                <div>
-                  <span className="text-3xl sm:text-4xl font-black text-[#FF5500] tracking-tight group-hover:scale-105 transition-transform inline-block">
-                    {isHindi ? '₹5 लाख+' : '₹5 Lakh+'}
-                  </span>
-                  <h4 className="text-sm font-bold text-white mt-2">
-                    {isHindi ? 'मुफ्त स्वास्थ्य सुरक्षा' : 'Cashless Healthcare'}
-                  </h4>
-                </div>
-                <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">
-                  {isHindi
-                    ? 'आयुष्मान भारत के तहत 100% कैशलेस अस्पताल इलाज'
-                    : 'Secondary & tertiary hospital cover under Ayushman Bharat'}
-                </p>
-              </div>
-
             </div>
 
           </div>
@@ -258,247 +295,233 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* Scrolling trust marquee */}
-      <div className="relative overflow-hidden border-y border-[#EAE6DF] bg-white py-3">
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10" />
-        <div className="animate-ticker flex w-max gap-8 whitespace-nowrap">
-          {TRUST_BADGES.map((name, i) => (
-            <span key={i} className="inline-flex items-center gap-2 px-4 text-xs font-semibold text-neutral-600">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5500]" />
-              {name}
-            </span>
+      {/* 2. FLOATING STAT STRIP (5-Metric Wide Pill) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-12">
+        <div className="rounded-[28px] bg-white border border-[#EAE6DF] shadow-[0_4px_24px_rgba(0,0,0,0.03)] py-4 px-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 divide-y md:divide-y-0 md:divide-x divide-[#EAE6DF]">
+            {STAT_METRICS.map((stat, i) => (
+              <div key={i} className={`flex items-center gap-3.5 ${i > 0 ? 'pt-3 md:pt-0 md:pl-4' : ''}`}>
+                <div className="w-10 h-10 rounded-2xl bg-[#FFF2E8] border border-[#FFD6BA] flex items-center justify-center shrink-0">
+                  {stat.icon}
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-black tracking-tight">{stat.num}</h4>
+                  <p className="text-[11px] font-medium text-neutral-500 leading-tight">{stat.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. SCHEMES FOR EVERY CITIZEN (Beneficiary Archetypes Grid) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-12">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
+              {isHindi ? 'हर नागरिक के लिए ' : 'Schemes for '}
+              <span className="text-[#FF5500]">{isHindi ? 'कल्याणकारी योजनाएं' : 'Every Citizen'}</span>
+            </h2>
+          </div>
+          <Link
+            to="/schemes"
+            className="group flex items-center gap-1 text-xs sm:text-sm font-bold text-[#FF5500] hover:text-[#EA4C00] transition"
+          >
+            <span>{isHindi ? 'सभी श्रेणियां देखें' : 'Explore All Categories'}</span>
+            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+
+        {/* 6 Citizen Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5">
+          {CITIZEN_ARCHETYPES.map((cat) => (
+            <Link
+              key={cat.title}
+              to="/schemes"
+              search={{ category: cat.category } as any}
+              className="group rounded-[24px] bg-white border border-[#EAE6DF] p-3 flex items-center gap-3 card-lift hover:border-[#FF5500]/60 hover:shadow-lg transition-all duration-300"
+            >
+              <img
+                src={cat.img}
+                alt={cat.title}
+                className="w-14 h-20 rounded-2xl object-cover shrink-0 shadow-xs group-hover:scale-105 transition-transform"
+              />
+              <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
+                <div>
+                  <div className={`w-6 h-6 rounded-full ${cat.iconBg} border flex items-center justify-center mb-1`}>
+                    {cat.icon}
+                  </div>
+                  <h4 className="text-xs font-black text-black group-hover:text-[#FF5500] transition-colors truncate">
+                    {cat.title}
+                  </h4>
+                  <p className="text-[10px] text-neutral-500 line-clamp-2 leading-tight mt-0.5">
+                    {cat.subtitle}
+                  </p>
+                </div>
+                <div className="w-5 h-5 rounded-full bg-[#FAF8F5] border border-[#EAE6DF] flex items-center justify-center text-neutral-400 group-hover:bg-[#FF5500] group-hover:text-white transition shrink-0 self-end mt-1">
+                  <ArrowRight className="w-2.5 h-2.5" />
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
-      </div>
+      </section>
 
-      {/* Categories & Main Explorer */}
-      <div className="mx-auto max-w-7xl px-4 md:px-8 py-16 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-10">
-        <div className="space-y-12">
+      {/* 4. BOTTOM DUAL SECTION: AI Welfare Copilot Card + How Adhikar Works */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          {/* Left Card: AI Welfare Copilot Interactive Card (col-span-7) */}
+          <div className="lg:col-span-7 rounded-[32px] bg-gradient-to-r from-[#18110D] via-[#24150D] to-[#120B07] border border-[#3E2416] p-6 sm:p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-lg card-lift">
+            
+            {/* Ambient Background Glow Texture */}
+            <div className="pointer-events-none absolute -bottom-10 -right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#FF5500]/30 to-transparent blur-3xl -z-0" />
 
-          {/* Categories Grid */}
-          <div>
-            <div className="mb-6 flex items-end justify-between">
-              <div>
-                <span className="mb-1.5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#FF5500]">
-                  <Zap className="w-3.5 h-3.5" /> {isHindi ? 'योजना श्रेणियां' : 'Welfare Sectors'}
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">{t('categories.heading')}</h2>
-                <p className="mt-1 text-sm text-[#52525B]">{t('categories.subheading')}</p>
+            <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-5">
+              {/* 3D Robot Avatar */}
+              <div className="w-24 sm:w-28 shrink-0">
+                <img
+                  src="/ai-copilot-bot.png"
+                  alt="Adhikar AI Welfare Copilot Robot"
+                  className="w-full h-auto object-contain animate-float"
+                />
               </div>
-              <Link to="/schemes" className="group flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition-colors">
-                <span>{isHindi ? 'सभी देखें' : 'View All'}</span>
-                <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </Link>
+
+              {/* Text & Prompt Container */}
+              <div className="flex-1 space-y-3 text-center sm:text-left">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF5500]/20 border border-[#FF5500]/40 text-[#FF9E59] text-[10px] font-bold">
+                  <Sparkles className="w-3 h-3 text-[#FF5500]" />
+                  <span>AI Welfare Copilot</span>
+                </span>
+                
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  {isHindi ? 'अपने लिए सही सरकारी योजना खोजें' : 'Find the Right Scheme for You'}
+                </h3>
+                
+                <p className="text-xs text-neutral-300 font-normal leading-relaxed">
+                  {isHindi
+                    ? 'अपनी भाषा में पूछें और व्यक्तिगत, 100% सत्यापित योजना सिफारिशें प्राप्त करें।'
+                    : 'Ask in natural language and get personalized, verified scheme recommendations.'}
+                </p>
+
+                {/* Interactive Search / Prompt Input */}
+                <form onSubmit={handleCopilotSubmit} className="pt-2">
+                  <div className="flex items-center gap-2 bg-white rounded-full p-1 pl-4 border border-white/20 shadow-md">
+                    <MessageSquare className="w-4 h-4 text-[#FF5500] shrink-0" />
+                    <input
+                      type="text"
+                      value={copilotPrompt}
+                      onChange={(e) => setCopilotPrompt(e.target.value)}
+                      placeholder={isHindi ? 'उदा. मैं एक कॉलेज छात्र हूँ, मुझे क्या लाभ मिल सकते हैं?' : 'e.g. I am a college student, what benefits can I get?'}
+                      className="w-full bg-transparent text-xs text-black placeholder:text-neutral-400 focus:outline-none font-medium py-2"
+                    />
+                    <button
+                      type="submit"
+                      className="w-8 h-8 rounded-full bg-[#FF5500] hover:bg-[#EA4C00] text-white flex items-center justify-center font-bold shrink-0 transition hover:scale-105 shadow-xs"
+                      title="Ask AI Copilot"
+                    >
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5">
-              {CATEGORIES.map(cat => {
-                const title = t(`categories.${cat.key}`) || cat.defaultTitle
-                return (
-                  <Link
-                    key={cat.key}
-                    to="/schemes"
-                    search={{ category: cat.defaultTitle } as any}
-                    className="group relative flex flex-col items-center gap-3.5 overflow-hidden rounded-[26px] border border-[#EAE6DF] bg-white p-6 text-center card-lift hover:border-[#FF5500]/50 hover:shadow-[0_12px_28px_rgba(255,85,0,0.08)]"
-                  >
-                    <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] text-[#FF5500] flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FF5500] group-hover:text-white shadow-xs">
-                      {cat.icon}
-                    </div>
-                    <div>
-                      <p className="text-sm font-extrabold text-black group-hover:text-[#FF5500] transition-colors">{title}</p>
-                      <span className="mt-1.5 inline-block text-[11px] font-bold text-neutral-500 bg-[#FAF8F5] px-2.5 py-0.5 rounded-full border border-[#EAE6DF]">
-                        {counts[cat.defaultTitle] || 0} {isHindi ? 'योजनाएं' : 'Schemes'}
-                      </span>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
           </div>
 
-          {/* Featured Schemes */}
-          <div>
-            <div className="mb-6 flex items-end justify-between">
-              <div>
-                <span className="mb-1.5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600">
-                  <Star className="w-3.5 h-3.5" /> {isHindi ? 'विशेष योजनाएं' : 'Flagship Programs'}
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
-                  {isHindi ? 'उच्च-प्रभाव सरकारी योजनाएं' : 'High-Impact Welfare Schemes'}
-                </h2>
-                <p className="mt-1 text-sm text-[#52525B]">
-                  {isHindi ? 'सत्यापित राष्ट्रीय एवं राज्य पोर्टलों से सीधे लाभ' : 'Direct benefit transfer from verified official gazette portals'}
-                </p>
-              </div>
-              <Link to="/schemes" className="group flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition-colors">
-                <span>{isHindi ? 'सभी देखें' : 'View All'}</span>
-                <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
+          {/* Right Card: How Adhikar Works? (col-span-5) */}
+          <div className="lg:col-span-5 rounded-[32px] bg-white border border-[#EAE6DF] p-6 sm:p-8 shadow-xs flex flex-col justify-between card-lift">
+            <div>
+              <h3 className="text-lg font-black text-black tracking-tight mb-6">
+                How <span className="text-[#FF5500]">Adhikar</span> Works?
+              </h3>
 
-            {schemes.length === 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className="overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white p-6 space-y-3">
-                    <div className="skeleton h-4 w-1/3" />
-                    <div className="skeleton h-5 w-full" />
-                    <div className="skeleton h-4 w-4/5" />
-                    <div className="skeleton mt-4 h-10 w-full" />
+              {/* 4 Steps Horizontal Flow */}
+              <div className="grid grid-cols-4 gap-2 items-center text-center">
+                {HOW_IT_WORKS_STEPS.map((step, idx) => (
+                  <div key={idx} className="flex flex-col items-center">
+                    <div className="w-11 h-11 rounded-2xl bg-[#FFF2E8] border border-[#FFD6BA] flex items-center justify-center mb-2 shadow-xs">
+                      {step.icon}
+                    </div>
+                    <h5 className="text-[11px] font-black text-black leading-tight">{step.title}</h5>
+                    <p className="text-[9px] text-neutral-500 mt-0.5 leading-tight">{step.desc}</p>
                   </div>
                 ))}
               </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {schemes.map((s, i) => {
-                  const grad = CAT_COLORS[s.category] || 'from-neutral-800 to-black'
-                  return (
-                    <div key={i} className="group flex flex-col overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white card-lift hover:border-[#FF5500]/50 hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] transition-all">
-                      <div className="flex flex-1 flex-col p-6 sm:p-7">
-                        <div className="mb-3.5 flex items-start justify-between gap-2">
-                          <span className={`rounded-full bg-gradient-to-r ${grad} px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-xs`}>
-                            {s.category}
-                          </span>
-                          <span className="rounded-full border border-[#EAE6DF] bg-[#FAF8F5] px-2.5 py-1 text-[10px] font-bold text-neutral-600">
-                            {s.level || 'Central'}
-                          </span>
-                        </div>
-                        <h3 className="mb-2 line-clamp-2 text-base font-black text-black group-hover:text-[#FF5500] transition-colors leading-snug">
-                          {s.name}
-                        </h3>
-                        <p className="mb-5 line-clamp-2 flex-1 text-xs leading-relaxed text-[#52525B]">
-                          {s.description}
-                        </p>
-                        <div className="mb-5 flex items-center gap-2.5 border-b border-[#EAE6DF] pb-4">
-                          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFF2E8] text-xs font-black text-[#FF5500] shrink-0">₹</span>
-                          <span className="truncate text-xs font-bold text-neutral-900">{s.benefit || 'Direct Benefit Transfer (DBT)'}</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <Link to="/scheme/$slug" params={{ slug: s.slug }} className="rounded-full border border-[#EAE6DF] py-2.5 text-center text-xs font-bold text-neutral-800 transition hover:bg-[#FAF8F5] hover:border-neutral-300">
-                            {isHindi ? 'पूर्ण विवरण' : 'View Details'}
-                          </Link>
-                          <a href={s.application_url || s.source_url || '#'} target="_blank" rel="noopener noreferrer" className="bg-black hover:bg-neutral-800 text-white font-bold py-2.5 rounded-full text-center text-xs flex items-center justify-center gap-1.5 transition shadow-xs hover:scale-[1.02]">
-                            <span>{isHindi ? 'सीधा आवेदन' : 'Apply Now'}</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            )}
+            </div>
+
+            <div className="pt-6 border-t border-[#EAE6DF] flex items-center justify-between text-xs mt-4">
+              <span className="text-neutral-500 font-medium">100% Deterministic Engine</span>
+              <Link to="/eligibility" className="text-xs font-bold text-[#FF5500] hover:underline flex items-center gap-1">
+                <span>Start Check</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
-          {/* Process Section */}
-          <div className="rounded-[36px] border border-[#EAE6DF] bg-white p-8 sm:p-10 shadow-xs relative overflow-hidden">
-            <span className="mb-2 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#FF5500]">
-              <Award className="w-3.5 h-3.5" /> {isHindi ? 'कार्यप्रणाली' : 'Architecture'}
+        </div>
+      </section>
+
+      {/* 5. VERIFIED HIGH-IMPACT WELFARE SCHEMES CATALOG */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="mb-6 flex items-end justify-between">
+          <div>
+            <span className="mb-1.5 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-600">
+              <Star className="w-3.5 h-3.5" /> {isHindi ? 'विशेष योजनाएं' : 'Flagship Programs'}
             </span>
-            <h2 className="mb-1 text-2xl sm:text-3xl font-black text-black tracking-tight">
-              {isHindi ? 'अधिकार कैसे कार्य करता है?' : 'How Adhikar Works'}
+            <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
+              {isHindi ? 'उच्च-प्रभाव सरकारी योजनाएं' : 'High-Impact Welfare Schemes'}
             </h2>
-            <p className="mb-8 text-sm text-[#52525B]">
-              {isHindi ? 'पात्रता जांच से लेकर आधिकारिक सरकारी आवेदन तक केवल 4 चरणों में' : 'From eligibility verification to official disbursement in 4 simple steps'}
+            <p className="mt-1 text-sm text-[#52525B]">
+              {isHindi ? 'सत्यापित राष्ट्रीय एवं राज्य पोर्टलों से सीधे लाभ' : 'Direct benefit transfer from verified official gazette portals'}
             </p>
+          </div>
+          <Link to="/schemes" className="group flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition-colors">
+            <span>{isHindi ? 'सभी देखें' : 'View All'}</span>
+            <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 sm:gap-6">
-              {[
-                { num: '01', title: isHindi ? 'प्रोफ़ाइल दर्ज करें' : 'Profile Setup', desc: isHindi ? 'आयु, राज्य, वार्षिक आय एवं श्रेणी चुनें।' : 'Input age, state, income and category.' },
-                { num: '02', title: isHindi ? 'सटीक नियम मिलान' : 'Rule Matching', desc: isHindi ? '500+ सरकारी पात्रता नियमों से 100% सटीक जांच।' : 'Engine matches verified official eligibility rules.' },
-                { num: '03', title: isHindi ? 'एआई मार्गदर्शन' : 'AI Guidance', desc: isHindi ? 'दस्तावेज़ एवं आवेदन प्रक्रिया की तत्काल जानकारी।' : 'Instant guidance on required gazettes & forms.' },
-                { num: '04', title: isHindi ? 'सीधा सरकारी आवेदन' : 'Direct Apply', desc: isHindi ? 'बिना बिचौलियों के आधिकारिक .gov.in पोर्टल पर जाएं।' : 'Opens official .gov.in portal for direct submission.' },
-              ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center sm:items-start text-center sm:text-left gap-3.5 p-5 rounded-2xl bg-[#FAF8F5]/80 border border-[#EAE6DF]/70 card-lift">
-                  <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center font-black text-sm shadow-xs">
-                    {step.num}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {schemes.map((s, i) => {
+            const grad = CAT_COLORS[s.category] || 'from-neutral-800 to-black'
+            return (
+              <div key={i} className="group flex flex-col overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white card-lift hover:border-[#FF5500]/50 hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] transition-all">
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <div className="mb-3.5 flex items-start justify-between gap-2">
+                    <span className={`rounded-full bg-gradient-to-r ${grad} px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-xs`}>
+                      {s.category}
+                    </span>
+                    <span className="rounded-full border border-[#EAE6DF] bg-[#FAF8F5] px-2.5 py-1 text-[10px] font-bold text-neutral-600">
+                      {s.level || 'Central'}
+                    </span>
                   </div>
-                  <p className="text-sm font-extrabold text-black">{step.title}</p>
-                  <p className="text-xs text-[#52525B] leading-relaxed">{step.desc}</p>
+                  <h3 className="mb-2 line-clamp-2 text-base font-black text-black group-hover:text-[#FF5500] transition-colors leading-snug">
+                    {s.name}
+                  </h3>
+                  <p className="mb-5 line-clamp-2 flex-1 text-xs leading-relaxed text-[#52525B]">
+                    {s.description}
+                  </p>
+                  <div className="mb-5 flex items-center gap-2.5 border-b border-[#EAE6DF] pb-4">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFF2E8] text-xs font-black text-[#FF5500] shrink-0">₹</span>
+                    <span className="truncate text-xs font-bold text-neutral-900">{s.benefit || 'Direct Benefit Transfer (DBT)'}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Link to="/scheme/$slug" params={{ slug: s.slug }} className="rounded-full border border-[#EAE6DF] py-2.5 text-center text-xs font-bold text-neutral-800 transition hover:bg-[#FAF8F5] hover:border-neutral-300">
+                      {isHindi ? 'पूर्ण विवरण' : 'View Details'}
+                    </Link>
+                    <a href={s.application_url || s.source_url || '#'} target="_blank" rel="noopener noreferrer" className="bg-black hover:bg-neutral-800 text-white font-bold py-2.5 rounded-full text-center text-xs flex items-center justify-center gap-1.5 transition shadow-xs hover:scale-[1.02]">
+                      <span>{isHindi ? 'सीधा आवेदन' : 'Apply Now'}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-[#EAE6DF] flex flex-wrap gap-3">
-              <Link to="/eligibility" className="bg-black hover:bg-neutral-800 text-white font-bold px-8 py-3.5 rounded-full text-xs shadow-sm transition hover:scale-[1.02]">
-                {t('hero.cta_primary')}
-              </Link>
-              <Link to="/assistant" className="glass-pill hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-xs flex items-center gap-2 transition hover:scale-[1.02]">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
-                <span>{t('hero.cta_secondary')}</span>
-              </Link>
-            </div>
-          </div>
-
+              </div>
+            )
+          })}
         </div>
+      </section>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-
-          {/* Quick Eligibility Card */}
-          <div className="rounded-[32px] border border-[#EAE6DF] bg-white p-6 shadow-xs">
-            <div className="mb-4 flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center text-white">
-                <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-black">{isHindi ? 'त्वरित पात्रता जांच' : 'Instant Eligibility'}</h3>
-                <p className="text-[11px] text-[#52525B]">{isHindi ? 'कुछ सेकंड में अपनी योजनाएं जानें' : 'Find matching schemes in seconds'}</p>
-              </div>
-            </div>
-
-            <div className="space-y-3.5">
-              <div>
-                <label className="mb-1.5 block text-xs font-bold text-neutral-700">{isHindi ? 'राज्य' : 'State'}</label>
-                <select className="w-full rounded-2xl border border-[#EAE6DF] bg-[#FAF8F5] px-3.5 py-2.5 text-xs font-medium text-neutral-700 focus:outline-none focus:border-[#FF5500]">
-                  {['All States', 'Rajasthan', 'Uttar Pradesh', 'Maharashtra', 'Bihar', 'Delhi', 'Madhya Pradesh'].map(o => (
-                    <option key={o}>{o}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="mb-1.5 block text-xs font-bold text-neutral-700">{isHindi ? 'आयु' : 'Age'}</label>
-                <input type="number" placeholder="e.g. 28" className="field text-xs py-2" />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => navigate({ to: '/eligibility-results' })}
-                className="bg-black hover:bg-neutral-800 text-white font-bold w-full py-3 rounded-full text-xs mt-2 transition"
-              >
-                {isHindi ? 'मेरी योजनाएं देखें' : 'Check My Matches'}
-              </button>
-            </div>
-          </div>
-
-          {/* Trust Official Portals Card */}
-          <div className="rounded-[32px] bg-black p-6 text-white shadow-md">
-            <span className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#FFA45B]">
-              <ShieldCheck className="w-3 h-3 text-[#FF5500]" /> {isHindi ? '100% आधिकारिक स्रोत' : '100% Verified Sources'}
-            </span>
-            <h4 className="text-base font-bold text-white mb-2">
-              {isHindi ? 'सीधे सरकारी आवेदन' : 'Direct Government Portals'}
-            </h4>
-            <p className="text-xs text-neutral-300 leading-relaxed mb-4">
-              {isHindi ? 'प्रत्येक आवेदन आधिकारिक .gov.in या .nic.in डोमेन से सीधे जुड़ा है। कोई शुल्क नहीं, कोई बिचौलिया नहीं।' : 'Every application links directly to verified .gov.in domains with zero intermediaries.'}
-            </p>
-            <div className="space-y-2 mb-4">
-              {['pmkisan.gov.in', 'pmjay.gov.in', 'sso.rajasthan.gov.in', 'scholarships.gov.in'].map(d => (
-                <div key={d} className="flex items-center gap-2 text-xs text-neutral-300 font-mono">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
-                  <span>{d}</span>
-                </div>
-              ))}
-            </div>
-            <Link to="/schemes" className="text-xs font-bold text-[#FFA45B] hover:underline flex items-center gap-1">
-              <span>{isHindi ? 'सभी योजनाएं देखें' : 'Browse All Schemes'}</span>
-              <ArrowRight className="w-3 h-3" />
-            </Link>
-          </div>
-
-        </div>
-      </div>
     </div>
   )
 }

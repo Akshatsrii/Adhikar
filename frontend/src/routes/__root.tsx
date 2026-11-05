@@ -1,5 +1,9 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
-import { Sparkles, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText, Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown } from 'lucide-react'
+import {
+  Sparkles, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText,
+  Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown,
+  ShieldCheck, Sun, Bell
+} from 'lucide-react'
 import { Show, UserButton } from '@clerk/react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
@@ -57,12 +61,57 @@ function RootComponent() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black font-sans flex flex-col selection:bg-[#FF5500] selection:text-white">
       
-      {/* 2. Pure Clean White Navbar */}
-      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/85 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
+      {/* 1. Ultra-Sleek Top Bar (Obsidian & Warm Gold) */}
+      <div className="bg-[#14100E] text-neutral-300 text-xs py-2 px-4 border-b border-[#2A1D16]">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
+          <div className="flex items-center gap-2 truncate">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
+            <span className="font-medium text-neutral-200 text-xs truncate">
+              {currentLang === 'hi' 
+                ? 'नेक्स्ट-जेन जन कल्याण एआई: रीयल-टाइम योजना खोज, पात्रता जांच एवं 1-क्लिक आधिकारिक आवेदन'
+                : 'Next-Gen Welfare AI: Real-time discovery, eligibility check & 1-click official applications'}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 text-xs font-semibold">
+            {/* Trusted Shield Pill */}
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#24160E] border border-[#5E2A12] text-[#FF9E59] text-[11px] font-bold">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FF5500]" />
+              <span>{currentLang === 'hi' ? 'सत्यापित · सुरक्षित · आधिकारिक' : 'Trusted • Secure • Official'}</span>
+            </div>
+
+            {/* Language Switcher */}
+            <div className="flex items-center bg-[#241B16] rounded-full p-0.5 border border-[#3E2B22]">
+              <button 
+                onClick={() => changeLanguage('hi')} 
+                className={`px-3 py-0.5 rounded-full text-xs font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-400 hover:text-white'}`}
+                title="Switch to Hindi"
+              >
+                हिन्दी
+              </button>
+              <button 
+                onClick={() => changeLanguage('en')} 
+                className={`px-3 py-0.5 rounded-full text-xs font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-400 hover:text-white'}`}
+                title="Switch to English"
+              >
+                English
+              </button>
+            </div>
+
+            {/* Sun Icon Theme Toggle */}
+            <button className="text-neutral-400 hover:text-white p-1 transition" title="Toggle Theme">
+              <Sun className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Main Navbar */}
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/90 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center gap-4">
           
           {/* Brand Logo with Official Adhikar Emblem */}
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 shrink-0 group">
             <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-xs border border-neutral-900 group-hover:scale-105 transition-transform duration-200">
               <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
             </div>
@@ -75,53 +124,53 @@ function RootComponent() {
                   Gov AI
                 </span>
               </div>
-              <span className="text-[11px] text-neutral-500 font-medium tracking-tight">
-                {currentLang === 'hi' ? 'मेरी सरकार, मेरा अधिकार' : 'Citizen Welfare Platform · Est. 2026'}
+              <span className="text-[10px] text-neutral-500 font-medium tracking-tight">
+                {currentLang === 'hi' ? 'नागरिक कल्याण मंच · स्था. 2026' : 'Citizen Welfare Platform · Est. 2026'}
               </span>
             </div>
           </Link>
 
-          {/* Centered Navigation */}
+          {/* Centered Navigation Pill Container */}
           <nav className="hidden lg:flex items-center gap-1 bg-[#F5F2EC] p-1 rounded-full border border-[#EAE6DF]">
             <Link 
               to="/" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
             >
-              {t('nav.home')}
+              Home
             </Link>
             <Link 
               to="/schemes" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
             >
-              {t('nav.schemes')}
+              Schemes
             </Link>
             <Link 
               to="/eligibility" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
             >
-              {t('nav.eligibility')}
+              Eligibility
             </Link>
             <Link 
               to="/assistant" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
-              {t('nav.assistant')}
+              AI Copilot
             </Link>
             <Link 
               to="/documents" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
             >
-              {t('nav.documents')}
+              Documents
             </Link>
 
-            {/* More Tools Dropdown */}
+            {/* Resources Dropdown */}
             <div className="relative">
               <button 
                 onClick={() => setToolsOpen(o => !o)}
                 className="px-3 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all flex items-center gap-1"
               >
-                <span>{currentLang === 'hi' ? 'अन्य सेवाएं' : 'More'}</span>
+                <span>Resources</span>
                 <ChevronDown className="w-3 h-3" />
               </button>
 
@@ -130,106 +179,78 @@ function RootComponent() {
                   className="absolute left-0 mt-2 w-52 bg-white rounded-3xl shadow-xl border border-[#EAE6DF] py-2 z-50 animate-fade-in"
                   onMouseLeave={() => setToolsOpen(false)}
                 >
-                  <Link 
-                    to="/calculator" 
-                    onClick={() => setToolsOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition"
-                  >
+                  <Link to="/calculator" onClick={() => setToolsOpen(false)} className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition">
                     <Calculator className="w-3.5 h-3.5 text-neutral-400" />
-                    {t('nav.calculator')}
+                    Calculator
                   </Link>
-                  <Link 
-                    to="/state-schemes" 
-                    onClick={() => setToolsOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition"
-                  >
+                  <Link to="/state-schemes" onClick={() => setToolsOpen(false)} className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition">
                     <BookOpen className="w-3.5 h-3.5 text-neutral-400" />
-                    {t('nav.state_schemes')}
+                    State Schemes
                   </Link>
-                  <Link 
-                    to="/grievance" 
-                    onClick={() => setToolsOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition"
-                  >
+                  <Link to="/grievance" onClick={() => setToolsOpen(false)} className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition">
                     <MessageSquareWarning className="w-3.5 h-3.5 text-neutral-400" />
-                    {t('nav.grievances')}
+                    Grievances
                   </Link>
-                  <Link 
-                    to="/family" 
-                    onClick={() => setToolsOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition"
-                  >
+                  <Link to="/family" onClick={() => setToolsOpen(false)} className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition">
                     <TrendingUp className="w-3.5 h-3.5 text-neutral-400" />
-                    {t('nav.family')}
+                    Family Welfare
                   </Link>
-                  <Link 
-                    to="/timeline" 
-                    onClick={() => setToolsOpen(false)}
-                    className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition"
-                  >
+                  <Link to="/timeline" onClick={() => setToolsOpen(false)} className="flex items-center gap-2.5 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#FFF2E8] hover:text-[#FF5500] transition">
                     <LayoutDashboard className="w-3.5 h-3.5 text-neutral-400" />
-                    {t('nav.timeline')}
+                    Timeline
                   </Link>
                 </div>
               )}
             </div>
           </nav>
 
-          {/* Right Action / Auth */}
-          <div className="flex items-center gap-2.5">
-            {/* Search Spotlight */}
+          {/* Right Action Items */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            {/* Search Pill Input/Button */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-[#F5F2EC] hover:bg-[#EAE5DE] text-neutral-700 border border-[#EAE6DF] transition group"
-              title="Search (Ctrl+K)"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#F5F2EC] hover:bg-[#EAE5DE] text-neutral-600 border border-[#EAE6DF] transition group"
+              title="Search (⌘K)"
             >
-              <Search className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#FF5500] transition" />
-              <span className="hidden sm:inline text-neutral-600 font-medium">{currentLang === 'hi' ? 'खोजें' : 'Search'}</span>
+              <Search className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#FF5500] transition" />
+              <span className="hidden sm:inline">Search schemes, benefits...</span>
               <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-neutral-400 bg-white px-1.5 py-0.5 rounded-md border border-[#EAE6DF]">⌘K</kbd>
             </button>
 
-            {/* Quick Language Toggle in Navbar */}
-            <div className="flex items-center bg-[#F5F2EC] rounded-full p-0.5 border border-[#EAE6DF]">
-              <button 
-                onClick={() => changeLanguage('hi')} 
-                className={`px-2 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
-                title="Switch to Hindi"
-              >
-                हिन्दी
-              </button>
-              <button 
-                onClick={() => changeLanguage('en')} 
-                className={`px-2 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
-                title="Switch to English"
-              >
-                EN
-              </button>
-            </div>
+            {/* Notification Bell */}
+            <Link
+              to="/notifications"
+              className="relative p-2 rounded-full bg-[#F5F2EC] hover:bg-[#EAE5DE] border border-[#EAE6DF] text-neutral-700 transition"
+              title="Notifications"
+            >
+              <Bell className="w-4 h-4 text-neutral-600" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#FF5500]" />
+            </Link>
 
+            {/* Sign In Button / User Profile */}
             <Show when="signed-out">
               {!user ? (
                 <Link
                   to="/login"
                   className="bg-black hover:bg-neutral-800 text-white font-bold px-5 py-2 text-xs rounded-full flex items-center gap-1.5 shadow-sm transition hover:scale-[1.02]"
                 >
-                  <span>{t('nav.login')}</span>
+                  <span>Sign In</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               ) : (
-                <div className="flex items-center gap-2.5 bg-[#F5F2EC] p-1 pr-3.5 rounded-full border border-[#EAE6DF]">
-                  <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center font-black text-xs shadow-xs">
+                <div className="flex items-center gap-2 bg-[#F5F2EC] p-1 pr-3 rounded-full border border-[#EAE6DF]">
+                  <div className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center font-black text-xs shadow-xs">
                     {user.name ? user.name[0].toUpperCase() : <User className="w-4 h-4" />}
                   </div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-xs font-bold text-neutral-900 leading-tight max-w-[110px] truncate">{user.name}</span>
-                    <button onClick={logout} className="text-[10px] font-semibold text-[#FF5500] hover:text-[#EA4C00] text-left transition">{t('nav.logout')}</button>
-                  </div>
+                  <button onClick={logout} className="text-[11px] font-semibold text-[#FF5500] hover:text-[#EA4C00] transition">
+                    Logout
+                  </button>
                 </div>
               )}
             </Show>
 
             <Show when="signed-in">
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2">
                 <Link
                   to="/dashboard"
                   className="hidden sm:inline-flex items-center text-xs font-bold text-neutral-800 hover:text-black px-3 py-1.5 rounded-full bg-[#F5F2EC] border border-[#EAE6DF] transition"
@@ -246,7 +267,7 @@ function RootComponent() {
               </div>
             </Show>
 
-            {/* Mobile menu toggle */}
+            {/* Mobile Drawer Trigger */}
             <button
               onClick={() => setMobileOpen(o => !o)}
               className="lg:hidden w-9 h-9 rounded-2xl bg-[#F5F2EC] hover:bg-[#EAE5DE] border border-[#EAE6DF] flex items-center justify-center text-neutral-700 transition"
@@ -261,14 +282,14 @@ function RootComponent() {
           <div className="lg:hidden border-t border-[#EAE6DF] bg-white/98 backdrop-blur-xl animate-fade-in">
             <nav className="px-4 py-4 grid grid-cols-2 gap-2">
               {[
-                { to: '/', label: t('nav.home'), icon: <LayoutDashboard className="w-4 h-4" /> },
-                { to: '/schemes', label: t('nav.schemes'), icon: <BookOpen className="w-4 h-4" /> },
-                { to: '/eligibility', label: t('nav.eligibility'), icon: <TrendingUp className="w-4 h-4" /> },
-                { to: '/assistant', label: t('nav.assistant'), icon: <Sparkles className="w-4 h-4 text-[#FF5500]" /> },
-                { to: '/documents', label: t('nav.documents'), icon: <FileText className="w-4 h-4" /> },
-                { to: '/calculator', label: t('nav.calculator'), icon: <Calculator className="w-4 h-4" /> },
-                { to: '/grievance', label: t('nav.grievances'), icon: <MessageSquareWarning className="w-4 h-4" /> },
-                { to: '/contact', label: t('nav.contact'), icon: <Phone className="w-4 h-4" /> },
+                { to: '/', label: 'Home', icon: <LayoutDashboard className="w-4 h-4" /> },
+                { to: '/schemes', label: 'Schemes', icon: <BookOpen className="w-4 h-4" /> },
+                { to: '/eligibility', label: 'Eligibility', icon: <TrendingUp className="w-4 h-4" /> },
+                { to: '/assistant', label: 'AI Copilot', icon: <Sparkles className="w-4 h-4 text-[#FF5500]" /> },
+                { to: '/documents', label: 'Documents', icon: <FileText className="w-4 h-4" /> },
+                { to: '/calculator', label: 'Calculator', icon: <Calculator className="w-4 h-4" /> },
+                { to: '/grievance', label: 'Grievances', icon: <MessageSquareWarning className="w-4 h-4" /> },
+                { to: '/contact', label: 'Contact', icon: <Phone className="w-4 h-4" /> },
               ].map(item => (
                 <Link
                   key={item.to}
@@ -333,45 +354,53 @@ function RootComponent() {
               </h4>
               <ul className="space-y-2.5 text-xs font-medium">
                 <li><Link to="/calculator" className="hover:text-[#FF5500] transition">{t('nav.calculator')}</Link></li>
-                <li><Link to="/family" className="hover:text-[#FF5500] transition">{t('nav.family')}</Link></li>
+                <li><Link to="/state-schemes" className="hover:text-[#FF5500] transition">{t('nav.state_schemes')}</Link></li>
                 <li><Link to="/grievance" className="hover:text-[#FF5500] transition">{t('nav.grievances')}</Link></li>
+                <li><Link to="/family" className="hover:text-[#FF5500] transition">{t('nav.family')}</Link></li>
                 <li><Link to="/timeline" className="hover:text-[#FF5500] transition">{t('nav.timeline')}</Link></li>
-                <li><Link to="/impact" className="hover:text-[#FF5500] transition">{t('nav.impact')}</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
-                {t('footer.governance')}
+                {t('footer.verified_portals')}
               </h4>
-              <ul className="space-y-2.5 text-xs">
-                <li className="text-neutral-300 font-semibold">{currentLang === 'hi' ? 'राष्ट्रीय टोल-फ्री हेल्पलाइन:' : 'National Toll-Free Helpline:'}</li>
-                <li className="text-white font-mono text-sm font-bold">1800-11-0000</li>
-                <li className="text-neutral-300 font-semibold pt-2">{currentLang === 'hi' ? 'नागरिक सहायता ईमेल:' : 'Official Citizen Email:'}</li>
-                <li className="text-neutral-400 font-mono text-xs">support@adhikar-platform.in</li>
-              </ul>
+              <div className="space-y-2 text-xs">
+                <p className="text-[11px] text-neutral-500">Official Direct Integration</p>
+                <div className="flex items-center gap-2 text-neutral-300">
+                  <span className="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                  <span>National Portal of India (.gov.in)</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-300">
+                  <span className="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                  <span>Direct Benefit Transfer (DBT Bharat)</span>
+                </div>
+                <div className="flex items-center gap-2 text-neutral-300">
+                  <span className="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                  <span>MyGov Citizen Services</span>
+                </div>
+              </div>
             </div>
+
           </div>
-          
-          <div className="border-t border-neutral-900 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
-            <p>&copy; {new Date().getFullYear()} Adhikar. {t('footer.rights')}</p>
-            <div className="flex gap-6 font-medium">
-              <Link to="/about" className="hover:text-white transition">Privacy</Link>
-              <Link to="/about" className="hover:text-white transition">Terms</Link>
-              <Link to="/about" className="hover:text-white transition">Security</Link>
+
+          <div className="border-t border-neutral-900 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+            <p className="text-neutral-500">
+              © 2026 Adhikar. Built for Indian Citizens. 100% Deterministic Rule Engine.
+            </p>
+            <div className="flex items-center gap-6 text-neutral-400">
+              <Link to="/about" className="hover:text-white transition">About</Link>
+              <Link to="/contact" className="hover:text-white transition">Contact</Link>
+              <a href="#" className="hover:text-white transition">Privacy</a>
+              <a href="#" className="hover:text-white transition">Terms</a>
             </div>
           </div>
         </div>
       </footer>
 
-      {/* Global Spotlight / Command Palette */}
-      <CommandPalette 
-        isOpen={isCommandPaletteOpen} 
-        onClose={() => setIsCommandPaletteOpen(false)} 
-      />
-
-      {/* Floating AI Chat Bubble */}
+      {/* Global AI Chat Bubble & Command Palette */}
       <AIChatBubble />
+      <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
     </div>
   )
 }
