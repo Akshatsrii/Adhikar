@@ -1,9 +1,9 @@
 import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
 import {
-  Search, ArrowRight, Building2, Leaf, Users, HeartPulse,
+  Search, ArrowRight, Building2, Users,
   Sparkles, ExternalLink, CheckCircle2, Zap, ShieldCheck, ChevronRight,
-  Star, Layers, Building, GraduationCap, Rocket, HardHat,
+  Star, Layers, Building,
   MessageSquare, FileText
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
@@ -19,51 +19,33 @@ export const Route = createFileRoute('/')({
 const CITIZEN_ARCHETYPES = [
   {
     title: 'Farmers',
-    subtitle: 'Agriculture, Irrigation, Subsidy & More',
     category: 'Agriculture',
-    img: '/citizens/farmer.jpg',
-    icon: <Leaf className="w-3.5 h-3.5 text-emerald-600" />,
-    iconBg: 'bg-emerald-50 border-emerald-200/60',
+    cardImg: '/archetypes/card-farmer.png',
   },
   {
     title: 'Students',
-    subtitle: 'Scholarship, Education Loan & Skill Development',
     category: 'Education',
-    img: '/citizens/student.jpg',
-    icon: <GraduationCap className="w-3.5 h-3.5 text-[#FF5500]" />,
-    iconBg: 'bg-[#FFF2E8] border-[#FFD6BA]',
+    cardImg: '/archetypes/card-student.png',
   },
   {
     title: 'Women',
-    subtitle: 'Financial Support, Safety & Empowerment',
     category: 'Women',
-    img: '/citizens/woman.jpg',
-    icon: <Users className="w-3.5 h-3.5 text-rose-600" />,
-    iconBg: 'bg-rose-50 border-rose-200/60',
+    cardImg: '/archetypes/card-woman.png',
   },
   {
     title: 'Senior Citizens',
-    subtitle: 'Pension, Healthcare & Social Security',
     category: 'Social Welfare',
-    img: '/citizens/senior.jpg',
-    icon: <HeartPulse className="w-3.5 h-3.5 text-amber-600" />,
-    iconBg: 'bg-amber-50 border-amber-200/60',
+    cardImg: '/archetypes/card-senior.png',
   },
   {
     title: 'Entrepreneurs',
-    subtitle: 'Startup, MSME, Loan & Business Support',
     category: 'Employment',
-    img: '/citizens/entrepreneur.jpg',
-    icon: <Rocket className="w-3.5 h-3.5 text-[#FF5500]" />,
-    iconBg: 'bg-[#FFF2E8] border-[#FFD6BA]',
+    cardImg: '/archetypes/card-entrepreneur.png',
   },
   {
     title: 'Labourers',
-    subtitle: 'Welfare, Insurance & Skill Programs',
     category: 'Employment',
-    img: '/citizens/labourer.jpg',
-    icon: <HardHat className="w-3.5 h-3.5 text-amber-700" />,
-    iconBg: 'bg-amber-50 border-amber-200/60',
+    cardImg: '/archetypes/card-labourer.png',
   },
 ]
 
@@ -251,42 +233,12 @@ function LandingPage() {
 
             {/* Right Visual: New Parliament Building with Indian National Flag */}
             <div className="lg:col-span-5 relative">
-              <div className="rounded-[30px] overflow-hidden border border-[#EAE6DF] shadow-md relative group bg-neutral-900 card-lift min-h-[300px] sm:min-h-[360px]">
+              <div className="rounded-[28px] overflow-hidden border border-[#EAE6DF] shadow-md relative group bg-neutral-900 card-lift">
                 <img
-                  src="/parliament-flag.jpg"
+                  src="/parliament-panoramic.jpg"
                   alt="New Parliament Building, New Delhi with Indian National Flag"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500 block"
                 />
-
-                {/* Top Right Govt of India Badge */}
-                <div className="absolute top-4 right-4 glass-dark px-3.5 py-1.5 rounded-full text-white text-xs font-bold flex items-center gap-2 shadow-md">
-                  <span>🇮🇳</span>
-                  <span>{isHindi ? 'भारत सरकार' : 'Govt of India'}</span>
-                </div>
-
-                {/* Bottom Glass Caption Pill */}
-                <div className="absolute bottom-4 inset-x-4">
-                  <div className="glass-dark rounded-2xl p-3 sm:p-3.5 text-white border border-white/20 shadow-lg flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                        <Building className="w-4 h-4 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold leading-tight">
-                          {isHindi ? 'नया संसद भवन, नई दिल्ली' : 'New Parliament Building, New Delhi'}
-                        </p>
-                        <p className="text-[10px] text-neutral-300 mt-0.5">
-                          {isHindi ? 'प्रत्येक नागरिक के लिए डिजिटल एवं समावेशी भारत' : 'A digital and inclusive India for every citizen.'}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-[10px] font-bold text-[#FF9E59] bg-[#FF5500]/20 border border-[#FF5500]/40 px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3 text-[#FF5500]" />
-                      <span>DBT Verified</span>
-                    </span>
-                  </div>
-                </div>
-
               </div>
             </div>
 
@@ -333,35 +285,19 @@ function LandingPage() {
         </div>
 
         {/* 6 Citizen Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
           {CITIZEN_ARCHETYPES.map((cat) => (
             <Link
               key={cat.title}
               to="/schemes"
               search={{ category: cat.category } as any}
-              className="group rounded-[24px] bg-white border border-[#EAE6DF] p-3 flex items-center gap-3 card-lift hover:border-[#FF5500]/60 hover:shadow-lg transition-all duration-300"
+              className="rounded-[22px] overflow-hidden card-lift hover:scale-[1.03] transition-all duration-300 shadow-xs hover:shadow-lg border border-[#EAE6DF] hover:border-[#FF5500]/50 block bg-white"
             >
               <img
-                src={cat.img}
+                src={cat.cardImg}
                 alt={cat.title}
-                className="w-14 h-20 rounded-2xl object-cover shrink-0 shadow-xs group-hover:scale-105 transition-transform"
+                className="w-full h-auto object-contain block"
               />
-              <div className="flex-1 min-w-0 flex flex-col justify-between h-full py-0.5">
-                <div>
-                  <div className={`w-6 h-6 rounded-full ${cat.iconBg} border flex items-center justify-center mb-1`}>
-                    {cat.icon}
-                  </div>
-                  <h4 className="text-xs font-black text-black group-hover:text-[#FF5500] transition-colors truncate">
-                    {cat.title}
-                  </h4>
-                  <p className="text-[10px] text-neutral-500 line-clamp-2 leading-tight mt-0.5">
-                    {cat.subtitle}
-                  </p>
-                </div>
-                <div className="w-5 h-5 rounded-full bg-[#FAF8F5] border border-[#EAE6DF] flex items-center justify-center text-neutral-400 group-hover:bg-[#FF5500] group-hover:text-white transition shrink-0 self-end mt-1">
-                  <ArrowRight className="w-2.5 h-2.5" />
-                </div>
-              </div>
             </Link>
           ))}
         </div>
@@ -430,32 +366,29 @@ function LandingPage() {
           </div>
 
           {/* Right Card: How Adhikar Works? (col-span-5) */}
-          <div className="lg:col-span-5 rounded-[32px] bg-white border border-[#EAE6DF] p-6 sm:p-8 shadow-xs flex flex-col justify-between card-lift">
-            <div>
-              <h3 className="text-lg font-black text-black tracking-tight mb-6">
-                How <span className="text-[#FF5500]">Adhikar</span> Works?
-              </h3>
+          <div className="lg:col-span-5 rounded-[32px] bg-white border border-[#EAE6DF] p-6 sm:p-8 shadow-xs flex flex-col justify-center card-lift">
+            <h3 className="text-lg font-black text-black tracking-tight mb-6">
+              How <span className="text-[#FF5500]">Adhikar</span> Works?
+            </h3>
 
-              {/* 4 Steps Horizontal Flow */}
-              <div className="grid grid-cols-4 gap-2 items-center text-center">
-                {HOW_IT_WORKS_STEPS.map((step, idx) => (
-                  <div key={idx} className="flex flex-col items-center">
-                    <div className="w-11 h-11 rounded-2xl bg-[#FFF2E8] border border-[#FFD6BA] flex items-center justify-center mb-2 shadow-xs">
+            {/* 4 Steps Horizontal Flow with Connecting Arrows */}
+            <div className="flex items-center justify-between gap-1 sm:gap-2">
+              {HOW_IT_WORKS_STEPS.map((step, idx) => (
+                <div key={idx} className="contents">
+                  <div className="flex-1 flex flex-col items-center text-center">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-[#FFF2E8] border border-[#FFD6BA] flex items-center justify-center mb-2 shadow-xs">
                       {step.icon}
                     </div>
-                    <h5 className="text-[11px] font-black text-black leading-tight">{step.title}</h5>
+                    <h5 className="text-[11px] sm:text-xs font-black text-black leading-tight">{step.title}</h5>
                     <p className="text-[9px] text-neutral-500 mt-0.5 leading-tight">{step.desc}</p>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-[#EAE6DF] flex items-center justify-between text-xs mt-4">
-              <span className="text-neutral-500 font-medium">100% Deterministic Engine</span>
-              <Link to="/eligibility" className="text-xs font-bold text-[#FF5500] hover:underline flex items-center gap-1">
-                <span>Start Check</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
+                  {idx < HOW_IT_WORKS_STEPS.length - 1 && (
+                    <div className="text-neutral-400 text-xs px-1 shrink-0 pb-6">
+                      →
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
