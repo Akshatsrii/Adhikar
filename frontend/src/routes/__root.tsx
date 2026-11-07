@@ -2,7 +2,7 @@ import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-rout
 import {
   Sparkles, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText,
   Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown,
-  ShieldCheck, Sun, Bell
+  Bell
 } from 'lucide-react'
 import { Show, UserButton } from '@clerk/react'
 import { useAuth } from '@/context/AuthContext'
@@ -61,50 +61,7 @@ function RootComponent() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black font-sans flex flex-col selection:bg-[#FF5500] selection:text-white">
       
-      {/* 1. Ultra-Sleek Top Bar (Obsidian & Warm Gold) */}
-      <div className="bg-[#14100E] text-neutral-300 text-xs py-2 px-4 border-b border-[#2A1D16]">
-        <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
-          <div className="flex items-center gap-2 truncate">
-            <Sparkles className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
-            <span className="font-medium text-neutral-200 text-xs truncate">
-              {currentLang === 'hi' 
-                ? 'नेक्स्ट-जेन जन कल्याण एआई: रीयल-टाइम योजना खोज, पात्रता जांच एवं 1-क्लिक आधिकारिक आवेदन'
-                : 'Next-Gen Welfare AI: Real-time discovery, eligibility check & 1-click official applications'}
-            </span>
-          </div>
 
-          <div className="flex items-center gap-3 shrink-0 text-xs font-semibold">
-            {/* Trusted Shield Pill */}
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#24160E] border border-[#5E2A12] text-[#FF9E59] text-[11px] font-bold">
-              <ShieldCheck className="w-3.5 h-3.5 text-[#FF5500]" />
-              <span>{currentLang === 'hi' ? 'सत्यापित · सुरक्षित · आधिकारिक' : 'Trusted • Secure • Official'}</span>
-            </div>
-
-            {/* Language Switcher */}
-            <div className="flex items-center bg-[#241B16] rounded-full p-0.5 border border-[#3E2B22]">
-              <button 
-                onClick={() => changeLanguage('hi')} 
-                className={`px-3 py-0.5 rounded-full text-xs font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-400 hover:text-white'}`}
-                title="Switch to Hindi"
-              >
-                हिन्दी
-              </button>
-              <button 
-                onClick={() => changeLanguage('en')} 
-                className={`px-3 py-0.5 rounded-full text-xs font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-400 hover:text-white'}`}
-                title="Switch to English"
-              >
-                English
-              </button>
-            </div>
-
-            {/* Sun Icon Theme Toggle */}
-            <button className="text-neutral-400 hover:text-white p-1 transition" title="Toggle Theme">
-              <Sun className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* 2. Main Navbar */}
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/90 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
@@ -198,6 +155,24 @@ function RootComponent() {
 
           {/* Right Action Items */}
           <div className="flex items-center gap-2.5 shrink-0">
+            {/* Bilingual Switcher */}
+            <div className="hidden sm:flex items-center bg-[#F5F2EC] rounded-full p-0.5 border border-[#EAE6DF]">
+              <button 
+                onClick={() => changeLanguage('hi')} 
+                className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
+                title="Switch to Hindi"
+              >
+                हिन्दी
+              </button>
+              <button 
+                onClick={() => changeLanguage('en')} 
+                className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
+                title="Switch to English"
+              >
+                EN
+              </button>
+            </div>
+
             {/* Search Pill Input/Button */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
