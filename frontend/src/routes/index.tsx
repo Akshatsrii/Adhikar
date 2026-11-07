@@ -143,28 +143,14 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black overflow-x-hidden font-sans pb-16">
 
-      {/* 1. HERO SECTION — Panoramic New Parliament & Tricolor Wave */}
+      {/* 1. HERO SECTION — Panoramic Governance Background & New Parliament */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-6">
-        <div className="rounded-[36px] bg-gradient-to-br from-[#FFF9F3] via-[#FAF8F5] to-[#FFFFFF] border border-[#EAE6DF] p-6 sm:p-10 shadow-[0_4px_30px_rgba(0,0,0,0.03)] relative overflow-hidden">
-          
-          {/* Subtle Tricolor Ribbon Ambient Flow */}
-          <div className="pointer-events-none absolute -top-16 -right-16 w-[700px] h-[350px] opacity-25 -z-0">
-            <svg viewBox="0 0 700 350" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-              <path d="M0 80 C 200 20, 450 180, 700 40 L 700 0 L 0 0 Z" fill="url(#saffronGrad)" opacity="0.6" />
-              <path d="M0 120 C 200 60, 450 220, 700 80 L 700 40 C 450 180, 200 20, 0 80 Z" fill="#FFFFFF" opacity="0.8" />
-              <path d="M0 160 C 200 100, 450 260, 700 120 L 700 80 C 450 220, 200 60, 0 120 Z" fill="url(#greenGrad)" opacity="0.5" />
-              <defs>
-                <linearGradient id="saffronGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#FF9933" />
-                  <stop offset="100%" stopColor="#FF5500" />
-                </linearGradient>
-                <linearGradient id="greenGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#138808" />
-                  <stop offset="100%" stopColor="#0B5E05" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
+        <div 
+          className="rounded-[36px] border border-[#243B2C] p-6 sm:p-10 shadow-[0_16px_50px_rgba(0,0,0,0.18)] relative overflow-hidden bg-cover bg-center min-h-[460px] flex flex-col justify-center"
+          style={{ backgroundImage: "url('/hero-governance-bg.jpg')" }}
+        >
+          {/* Subtle Dark Gradient Overlay across the left side to ensure high contrast against the green map */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent lg:from-black/65 lg:via-black/30 lg:to-transparent -z-0" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             
@@ -173,22 +159,22 @@ function LandingPage() {
               
               {/* DBT Badge */}
               <div>
-                <span className="glass-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#FFD6BA] text-[#EA580C] text-xs font-bold shadow-xs">
+                <span className="glass-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-[#FFB074] text-xs font-bold shadow-xs">
                   <Building className="w-3.5 h-3.5 text-[#FF5500]" />
                   <span>{isHindi ? 'प्रत्यक्ष लाभ अंतरण (DBT) एवं आधिकारिक सरकारी पोर्टल' : 'Direct Benefit Transfer (DBT) & Official Portals'}</span>
                 </span>
               </div>
 
               {/* Bold Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-black tracking-tight leading-[1.08]">
+              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-white tracking-tight leading-[1.08] drop-shadow-md">
                 {isHindi ? 'आपका अधिकार। आपका लाभ।' : 'Your Rights. Your Benefits.'}
-                <span className="text-[#FF5500] block mt-1.5">
+                <span className="text-[#FF7729] block mt-1.5 drop-shadow-md">
                   {isHindi ? 'हर सरकारी योजना, एक विश्वसनीय मंच।' : 'Every Welfare Scheme, One Trusted Platform.'}
                 </span>
               </h1>
 
               {/* Description */}
-              <p className="text-sm sm:text-base text-[#52525B] leading-relaxed max-w-xl font-normal">
+              <p className="text-sm sm:text-base text-neutral-200 leading-relaxed max-w-xl font-normal drop-shadow-xs">
                 {isHindi
                   ? 'पारदर्शी नियम-आधारित जांच के साथ सरकारी कल्याणकारी योजनाओं को खोजें, अपनी पात्रता सत्यापित करें, और सीधे सत्यापित .gov.in पोर्टलों पर आवेदन करें — एआई द्वारा संचालित।'
                   : 'Discover government welfare schemes, verify your eligibility with transparent rule-based checks, and apply directly on verified .gov.in portals — powered by AI.'}
@@ -198,7 +184,7 @@ function LandingPage() {
               <div className="flex flex-wrap items-center gap-4 pt-1">
                 <Link
                   to="/schemes"
-                  className="btn-pill-dark px-8 py-3.5 rounded-full text-sm font-extrabold flex items-center gap-2.5 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all"
+                  className="bg-black hover:bg-neutral-900 text-white border border-white/20 px-8 py-3.5 rounded-full text-sm font-extrabold flex items-center gap-2.5 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
                 >
                   <span>{isHindi ? 'योजनाएं देखें' : 'Explore Schemes'}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -206,7 +192,7 @@ function LandingPage() {
 
                 <Link
                   to="/assistant"
-                  className="glass-pill hover:bg-neutral-50 text-black border border-[#EAE6DF] font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] hover:border-[#FF5500]/30 shadow-xs flex items-center gap-2"
+                  className="bg-white hover:bg-neutral-100 text-black border border-white/40 font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-md flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4 text-[#FF5500]" />
                   <span>{isHindi ? 'एआई सहायक से पूछें' : 'Ask AI Copilot'}</span>
@@ -214,17 +200,17 @@ function LandingPage() {
               </div>
 
               {/* Micro Trust Indicators */}
-              <div className="flex flex-wrap items-center gap-5 pt-2 text-xs font-bold text-neutral-800">
+              <div className="flex flex-wrap items-center gap-5 pt-2 text-xs font-bold text-white/90 drop-shadow-xs">
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#FF7729]" />
                   <span>{isHindi ? 'सरकारी सत्यापित' : 'Govt. Verified'}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#FF7729]" />
                   <span>{isHindi ? 'रीयल-टाइम पात्रता' : 'Real-time Eligibility'}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-[#FF5500]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#FF7729]" />
                   <span>{isHindi ? 'जीरो एआई भ्रम' : 'Zero AI Hallucination'}</span>
                 </div>
               </div>
@@ -233,7 +219,7 @@ function LandingPage() {
 
             {/* Right Visual: New Parliament Building with Indian National Flag */}
             <div className="lg:col-span-5 relative">
-              <div className="rounded-[28px] overflow-hidden border border-[#EAE6DF] shadow-md relative group bg-neutral-900 card-lift">
+              <div className="rounded-[28px] overflow-hidden border border-white/20 shadow-2xl relative group bg-neutral-900/50 backdrop-blur-xs card-lift">
                 <img
                   src="/parliament-panoramic.jpg"
                   alt="New Parliament Building, New Delhi with Indian National Flag"
