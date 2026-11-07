@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { SignIn } from '@clerk/react'
 
 export const Route = createFileRoute('/login')({
@@ -8,11 +8,11 @@ export const Route = createFileRoute('/login')({
 function LoginPage() {
   return (
     <div className="min-h-[85vh] flex flex-col items-center justify-center bg-[#FAF8F5] py-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="mb-6 text-center space-y-2">
-        <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto shadow-md border border-neutral-800">
-          <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
-        </div>
-        <h1 className="text-2xl font-black text-black tracking-tight">Citizen Sign In</h1>
+      <div className="mb-6 text-center space-y-2 flex flex-col items-center">
+        <Link to="/" className="inline-block hover:scale-[1.02] transition-transform">
+          <img src="/adhikar-logo.png" alt="Adhikar — Your Right, Delivered" className="h-14 sm:h-16 w-auto object-contain mx-auto" />
+        </Link>
+        <h1 className="text-2xl font-black text-black tracking-tight mt-2">Citizen Sign In</h1>
         <p className="text-xs text-[#52525B]">Access your verified welfare dashboard and tracked applications</p>
       </div>
 

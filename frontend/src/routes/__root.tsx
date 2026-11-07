@@ -110,24 +110,16 @@ function RootComponent() {
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/90 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center gap-4">
           
-          {/* Brand Logo with Official Adhikar Emblem */}
-          <Link to="/" className="flex items-center gap-3 shrink-0 group">
-            <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-xs border border-neutral-900 group-hover:scale-105 transition-transform duration-200">
-              <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
-            </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="text-2xl font-black text-black tracking-tight">
-                  Adhikar<span className="text-[#FF5500]">.</span>
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider bg-[#FFF2E8] text-[#EA580C] px-2 py-0.5 rounded-full border border-[#FFD6BA]">
-                  Gov AI
-                </span>
-              </div>
-              <span className="text-[10px] text-neutral-500 font-medium tracking-tight">
-                {currentLang === 'hi' ? 'नागरिक कल्याण मंच · स्था. 2026' : 'Citizen Welfare Platform · Est. 2026'}
-              </span>
-            </div>
+          {/* Brand Logo with Official Adhikar Logo */}
+          <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+            <img 
+              src="/adhikar-logo.png" 
+              alt="Adhikar — Your Right, Delivered" 
+              className="h-9 sm:h-10 w-auto object-contain group-hover:scale-[1.02] transition-transform duration-200" 
+            />
+            <span className="hidden sm:inline-flex text-[10px] font-bold uppercase tracking-wider bg-[#FFF2E8] text-[#EA580C] px-2 py-0.5 rounded-full border border-[#FFD6BA] self-center">
+              Gov AI
+            </span>
           </Link>
 
           {/* Centered Navigation Pill Container */}
@@ -317,12 +309,11 @@ function RootComponent() {
             
             <div className="space-y-4">
               <div className="flex items-center gap-2.5">
-                <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-xs border border-neutral-800">
-                  <img src="/adhikar-badge-dark.png" alt="Adhikar Official Logo" className="w-full h-full object-cover" />
-                </div>
-                <span className="text-xl font-black text-white tracking-tight">
-                  Adhikar<span className="text-[#FF5500]">.</span>
-                </span>
+                <img 
+                  src="/adhikar-logo-dark.png" 
+                  alt="Adhikar — Your Right, Delivered" 
+                  className="h-10 sm:h-11 w-auto object-contain" 
+                />
               </div>
               <p className="text-xs text-neutral-400 leading-relaxed font-normal">
                 {t('footer.tagline')}
