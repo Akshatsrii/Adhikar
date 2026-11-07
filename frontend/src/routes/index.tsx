@@ -4,7 +4,7 @@ import {
   Search, ArrowRight, Building2, Users,
   Sparkles, ExternalLink, CheckCircle2, Zap, ShieldCheck, ChevronRight,
   Star, Layers, Building,
-  MessageSquare, FileText
+  FileText
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
@@ -317,42 +317,49 @@ function LandingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Left Card: AI Welfare Copilot Interactive Card (col-span-7) */}
-          <div className="lg:col-span-7 rounded-[32px] bg-gradient-to-r from-[#18110D] via-[#24150D] to-[#120B07] border border-[#3E2416] p-6 sm:p-8 text-white relative overflow-hidden flex flex-col justify-between shadow-lg card-lift">
-            
-            {/* Ambient Background Glow Texture */}
-            <div className="pointer-events-none absolute -bottom-10 -right-10 w-96 h-96 rounded-full bg-gradient-to-br from-[#FF5500]/30 to-transparent blur-3xl -z-0" />
+          <div 
+            className="lg:col-span-7 rounded-[32px] border border-[#164E33]/50 p-6 sm:p-7 text-white relative overflow-hidden flex flex-col justify-between shadow-xl card-lift bg-cover bg-center"
+            style={{ backgroundImage: "url('/copilot-banner-clean-bg.jpg')" }}
+          >
+            {/* Subtle Gradient Vignette */}
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/20 -z-0" />
 
-            <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-5">
-              {/* 3D Robot Avatar */}
-              <div className="w-24 sm:w-28 shrink-0">
-                <img
-                  src="/ai-copilot-bot.png"
-                  alt="Adhikar AI Welfare Copilot Robot"
-                  className="w-full h-auto object-contain animate-float"
-                />
+            <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
+              
+              {/* Adhikar Shield Emblem & Divider on the left */}
+              <div className="shrink-0 flex items-center gap-3.5 sm:gap-4 pt-1">
+                <div className="w-16 h-20 sm:w-20 sm:h-24 flex items-center justify-center">
+                  <img
+                    src="/adhikar-emblem.png"
+                    alt="Adhikar Official Shield"
+                    className="w-full h-full object-contain filter drop-shadow-md"
+                  />
+                </div>
+                <div className="w-[1.5px] h-14 bg-white/20 hidden sm:block shrink-0" />
               </div>
 
-              {/* Text & Prompt Container */}
-              <div className="flex-1 space-y-3 text-center sm:text-left">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF5500]/20 border border-[#FF5500]/40 text-[#FF9E59] text-[10px] font-bold">
-                  <Sparkles className="w-3 h-3 text-[#FF5500]" />
+              {/* Text & Search Container */}
+              <div className="flex-1 space-y-2.5 text-center sm:text-left min-w-0 w-full">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#164E33]/90 border border-[#22C55E]/40 text-[#86EFAC] text-[10px] font-bold backdrop-blur-xs">
+                  <Sparkles className="w-3 h-3 text-[#4ADE80]" />
                   <span>AI Welfare Copilot</span>
                 </span>
                 
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                  {isHindi ? 'अपने लिए सही सरकारी योजना खोजें' : 'Find the Right Scheme for You'}
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
+                  {isHindi ? 'अपने लिए सही सरकारी योजना ' : 'Find the Right Scheme '}
+                  <span className="text-[#FF7729]">{isHindi ? 'खोजें' : 'for You'}</span>
                 </h3>
                 
-                <p className="text-xs text-neutral-300 font-normal leading-relaxed">
+                <p className="text-xs text-neutral-200/90 font-normal leading-relaxed">
                   {isHindi
                     ? 'अपनी भाषा में पूछें और व्यक्तिगत, 100% सत्यापित योजना सिफारिशें प्राप्त करें।'
                     : 'Ask in natural language and get personalized, verified scheme recommendations.'}
                 </p>
 
                 {/* Interactive Search / Prompt Input */}
-                <form onSubmit={handleCopilotSubmit} className="pt-2">
-                  <div className="flex items-center gap-2 bg-white rounded-full p-1 pl-4 border border-white/20 shadow-md">
-                    <MessageSquare className="w-4 h-4 text-[#FF5500] shrink-0" />
+                <form onSubmit={handleCopilotSubmit} className="pt-1.5">
+                  <div className="flex items-center gap-2 bg-white rounded-full p-1 pl-4 shadow-lg border border-white/20">
+                    <Search className="w-4 h-4 text-neutral-400 shrink-0" />
                     <input
                       type="text"
                       value={copilotPrompt}
@@ -370,6 +377,7 @@ function LandingPage() {
                   </div>
                 </form>
               </div>
+
             </div>
 
           </div>
