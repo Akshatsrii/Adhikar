@@ -217,15 +217,38 @@ function LandingPage() {
 
             </div>
 
-            {/* Right Visual: New Parliament Building with Indian National Flag */}
-            <div className="lg:col-span-5 relative">
-              <div className="rounded-[28px] overflow-hidden border border-white/20 shadow-2xl relative group bg-neutral-900/50 backdrop-blur-xs card-lift">
-                <img
-                  src="/parliament-panoramic.jpg"
-                  alt="New Parliament Building, New Delhi with Indian National Flag"
-                  className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500 block"
-                />
+            {/* Right Side: Official Badges floating over the panoramic Parliament background */}
+            <div className="lg:col-span-5 flex flex-col justify-between items-end min-h-[220px] sm:min-h-[300px] lg:min-h-[360px] pointer-events-none">
+              
+              {/* Top Right Govt of India Badge */}
+              <div className="glass-dark px-4 py-1.5 rounded-full text-white text-xs font-bold flex items-center gap-2 shadow-lg border border-white/20 pointer-events-auto bg-black/40 backdrop-blur-md">
+                <span>🇮🇳</span>
+                <span>{isHindi ? 'भारत सरकार' : 'Govt of India'}</span>
               </div>
+
+              {/* Bottom Right Caption Pill */}
+              <div className="w-full max-w-sm pointer-events-auto">
+                <div className="glass-dark rounded-2xl p-3 sm:p-3.5 text-white border border-white/20 shadow-xl flex items-center justify-between gap-3 backdrop-blur-md bg-black/50">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                      <Building className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold leading-tight">
+                        {isHindi ? 'संसद भवन, नई दिल्ली' : 'Parliament House, New Delhi'}
+                      </p>
+                      <p className="text-[10px] text-neutral-300 mt-0.5">
+                        {isHindi ? 'प्रत्येक नागरिक के लिए डिजिटल भारत' : 'A digital and inclusive India for every citizen.'}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-[#FF9E59] bg-[#FF5500]/20 border border-[#FF5500]/40 px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3 text-[#FF5500]" />
+                    <span>DBT Verified</span>
+                  </span>
+                </div>
+              </div>
+
             </div>
 
           </div>
