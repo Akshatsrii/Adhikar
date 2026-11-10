@@ -137,8 +137,8 @@ function RootComponent() {
               to="/assistant" 
               className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-[#0B3B24] [&.active]:text-white [&.active]:shadow-xs flex items-center gap-1.5"
             >
+              <span>AI Copilot</span>
               <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
-              AI Copilot ✨
             </Link>
             <Link 
               to="/documents" 
@@ -198,7 +198,7 @@ function RootComponent() {
               <Search className="w-4 h-4 text-neutral-600" />
             </button>
 
-            {/* Language Toggle Pill: 🌐 EN */}
+            {/* Language Toggle Pill: 🌐 EN ▾ */}
             <button 
               onClick={() => changeLanguage(currentLang === 'hi' ? 'en' : 'hi')} 
               className="flex items-center gap-1.5 bg-[#FFF2E8] border border-[#FFD6BA] text-[#EA580C] px-3 py-1.5 rounded-full text-xs font-bold hover:scale-[1.02] transition"
@@ -206,6 +206,7 @@ function RootComponent() {
             >
               <Globe className="w-3.5 h-3.5 text-[#FF5500]" />
               <span>{currentLang === 'hi' ? 'HI' : 'EN'}</span>
+              <ChevronDown className="w-3 h-3 text-[#EA580C]" />
             </button>
 
             {/* Notification Bell with Red Badge 1 */}

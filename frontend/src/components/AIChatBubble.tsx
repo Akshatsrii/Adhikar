@@ -134,8 +134,8 @@ export function AIChatBubble() {
         >
           <div className="relative">
             <span className="absolute inset-0 rounded-full animate-ping bg-[#FF5B00] opacity-25 scale-110" />
-            <div className="relative w-14 h-14 rounded-full bg-[#0A0A0A] flex items-center justify-center shadow-xl hover:scale-105 transition-transform duration-200 border border-neutral-700">
-              <Sparkles className="w-6 h-6 text-[#FF5B00]" />
+            <div className="relative w-14 h-14 rounded-full bg-[#0B3B24] flex items-center justify-center shadow-xl hover:scale-105 transition-transform duration-200 border border-emerald-500/30">
+              <Sparkles className="w-6 h-6 text-[#FF7729]" />
             </div>
             {/* Tooltip */}
             <div className="absolute bottom-16 right-0 bg-[#0A0A0A] text-white text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg border border-neutral-800">

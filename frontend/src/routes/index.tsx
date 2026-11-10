@@ -303,7 +303,10 @@ function LandingPage() {
 
       {/* 3.1 BOTTOM FEATURE BANNER — Find the Right Scheme for You */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 mb-14">
-        <div className="rounded-[28px] bg-gradient-to-r from-[#FFF8F2] via-[#FFFBF8] to-[#FFF5ED] border border-[#FFD8BE] p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden card-lift">
+        <div 
+          className="rounded-[28px] border border-[#FFD8BE] p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden card-lift bg-cover bg-center"
+          style={{ backgroundImage: "url('/scheme-recs-banner-bg.png')" }}
+        >
           <div className="flex items-center gap-4 relative z-10">
             <div className="w-12 h-12 rounded-2xl bg-[#FFE4D3] border border-[#FFC8A8] flex items-center justify-center shrink-0 text-[#FF5500] shadow-xs">
               <Target className="w-6 h-6" />
@@ -439,7 +442,11 @@ function LandingPage() {
               <Star className="w-3.5 h-3.5" /> {isHindi ? 'विशेष योजनाएं' : 'Flagship Programs'}
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
-              {isHindi ? 'उच्च-प्रभाव सरकारी योजनाएं' : 'High-Impact Welfare Schemes'}
+              {isHindi ? (
+                <>उच्च-प्रभाव <span className="text-[#FF5500]">सरकारी योजनाएं</span></>
+              ) : (
+                <>High-Impact <span className="text-[#FF5500]">Welfare Schemes</span></>
+              )}
             </h2>
             <p className="mt-1 text-sm text-[#52525B]">
               {isHindi ? 'सत्यापित राष्ट्रीय एवं राज्य पोर्टलों से सीधे लाभ' : 'Direct benefit transfer from verified official gazette portals'}
