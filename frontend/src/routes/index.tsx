@@ -217,22 +217,14 @@ function LandingPage() {
             </div>
 
             {/* Right Side: Floating Ask Adhikar AI Glass Card */}
-            <div className="lg:col-span-5 flex flex-col justify-end items-end min-h-[220px] sm:min-h-[280px] lg:min-h-[340px]">
+            <div className="lg:col-span-5 flex flex-col justify-end items-end min-h-[180px] sm:min-h-[240px] lg:min-h-[280px]">
               <Link
                 to="/assistant"
-                className="rounded-[28px] p-4 sm:p-5 pr-6 text-white border border-white/25 shadow-2xl backdrop-blur-md bg-black/40 hover:bg-black/50 transition-all flex items-center gap-4 group max-w-md w-full ml-auto card-lift"
+                className="rounded-[28px] p-5 sm:p-6 text-white border border-white/25 shadow-2xl backdrop-blur-md bg-black/45 hover:bg-black/55 transition-all flex items-center justify-between gap-5 group max-w-md w-full ml-auto card-lift"
               >
-                {/* Robot Avatar */}
-                <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 relative flex items-center justify-center">
-                  <img
-                    src="/adhikar-bot-avatar.png"
-                    alt="Adhikar AI Bot"
-                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                {/* Text Content */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
                     <h4 className="text-base sm:text-lg font-black text-white tracking-tight">Ask Adhikar AI</h4>
                     <span className="text-[10px] font-bold uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-400/30 px-2 py-0.5 rounded-full">
                       Beta
@@ -243,7 +235,7 @@ function LandingPage() {
                   </p>
                 </div>
                 {/* Circular Action Arrow */}
-                <div className="w-9 h-9 rounded-full bg-white text-[#FF5500] flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 group-hover:bg-[#FF5500] group-hover:text-white transition-all">
+                <div className="w-10 h-10 rounded-full bg-white text-[#FF5500] flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 group-hover:bg-[#FF5500] group-hover:text-white transition-all">
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </Link>
