@@ -186,14 +186,14 @@ const mockNews: NewsItem[] = [
 
 const sentimentConfig: Record<Sentiment, { label: string; className: string; dot: string }> = {
   positive: { label: 'Positive', className: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' },
-  neutral: { label: 'Update', className: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500' },
+  neutral: { label: 'Update', className: 'bg-[#FFF2E8] text-[#EA580C] border-[#FFD6BA]', dot: 'bg-[#FF5500]' },
   urgent: { label: 'Urgent', className: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
 }
 
 const categoryColors: Record<string, string> = {
   Agriculture: 'bg-emerald-100 text-emerald-800',
   Healthcare: 'bg-rose-100 text-rose-800',
-  Employment: 'bg-blue-100 text-blue-800',
+  Employment: 'bg-emerald-100 text-emerald-800',
   Housing: 'bg-amber-100 text-amber-800',
   Education: 'bg-indigo-100 text-indigo-800',
   'Women & Child': 'bg-pink-100 text-pink-800',
@@ -265,7 +265,7 @@ export default function WelfareNewsFeed() {
             <span className="flex items-center gap-1.5"><Newspaper className="w-3.5 h-3.5" /> {mockNews.length} articles this month</span>
             <span className="flex items-center gap-1.5 text-emerald-400"><TrendingUp className="w-3.5 h-3.5" /> {mockNews.filter(n => n.sentiment === 'positive').length} positive scheme updates</span>
             <span className="flex items-center gap-1.5 text-amber-400"><AlertCircle className="w-3.5 h-3.5" /> {urgentCount} urgent deadlines</span>
-            <span className="flex items-center gap-1.5 text-blue-400"><Bell className="w-3.5 h-3.5" /> {bookmarked.size} bookmarked</span>
+            <span className="flex items-center gap-1.5 text-[#FF9E59]"><Bell className="w-3.5 h-3.5" /> {bookmarked.size} bookmarked</span>
           </div>
         </div>
       </section>
@@ -296,8 +296,8 @@ export default function WelfareNewsFeed() {
                 onClick={() => setActiveFilter(cat)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition border ${
                   activeFilter === cat
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300'
+                    ? 'bg-[#0B3B24] text-white border-[#0B3B24] shadow-sm'
+                    : 'bg-white text-slate-600 border-slate-200 hover:border-[#FF5500]'
                 }`}
               >
                 {cat}
@@ -335,7 +335,7 @@ export default function WelfareNewsFeed() {
             </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <BookmarkCheck className="w-3.5 h-3.5 text-blue-500" />
+            <BookmarkCheck className="w-3.5 h-3.5 text-[#FF5500]" />
             <span>{bookmarked.size} bookmarked</span>
           </div>
         </div>
@@ -344,8 +344,8 @@ export default function WelfareNewsFeed() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {/* Feature Article — first card spans 2 columns on large screen */}
           {filtered.length > 0 && (
-            <article className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-blue-200 transition-all duration-300 group flex flex-col overflow-hidden">
-              <div className="bg-gradient-to-br from-blue-900 to-indigo-900 h-40 flex items-end p-5 relative">
+            <article className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg hover:border-[#FFD6BA] transition-all duration-300 group flex flex-col overflow-hidden">
+              <div className="bg-gradient-to-br from-[#0B3B24] to-[#072416] h-40 flex items-end p-5 relative">
                 <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_40%,white,transparent)]" />
                 <div className="relative z-10 flex items-center gap-2 flex-wrap">
                   <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${categoryColors[filtered[0].category] || 'bg-slate-100 text-slate-700'}`}>
@@ -361,7 +361,7 @@ export default function WelfareNewsFeed() {
                 </div>
               </div>
               <div className="p-6 flex-1 flex flex-col">
-                <h2 className="text-base font-black text-slate-900 leading-snug mb-3 group-hover:text-blue-700 transition-colors">
+                <h2 className="text-base font-black text-slate-900 leading-snug mb-3 group-hover:text-[#FF5500] transition-colors">
                   {filtered[0].title}
                 </h2>
                 <p className="text-xs text-slate-500 leading-relaxed flex-1 line-clamp-3">{filtered[0].summary}</p>
@@ -374,11 +374,11 @@ export default function WelfareNewsFeed() {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => toggleBookmark(filtered[0].id)}
-                      className={`p-1.5 rounded-lg transition ${bookmarked.has(filtered[0].id) ? 'text-blue-600 bg-blue-50' : 'text-slate-400 hover:text-blue-600 hover:bg-slate-100'}`}
+                      className={`p-1.5 rounded-lg transition ${bookmarked.has(filtered[0].id) ? 'text-[#FF5500] bg-[#FFF2E8]' : 'text-slate-400 hover:text-[#FF5500] hover:bg-[#FFF2E8]'}`}
                     >
                       {bookmarked.has(filtered[0].id) ? <BookmarkCheck className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
                     </button>
-                    <a href={filtered[0].url} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-800 transition">
+                    <a href={filtered[0].url} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition">
                       Official Source <ChevronRight className="w-3.5 h-3.5" />
                     </a>
                   </div>
@@ -395,7 +395,7 @@ export default function WelfareNewsFeed() {
             return (
               <article
                 key={article.id}
-                className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 group flex flex-col"
+                className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md hover:border-[#FFD6BA] transition-all duration-300 group flex flex-col"
               >
                 <div className="p-5 flex-1">
                   <div className="flex items-center justify-between mb-3">
@@ -411,14 +411,14 @@ export default function WelfareNewsFeed() {
                     </div>
                     <button
                       onClick={() => toggleBookmark(article.id)}
-                      className={`p-1.5 rounded-lg transition ${isBookmarked ? 'text-blue-600 bg-blue-50' : 'text-slate-400 hover:text-blue-600 hover:bg-slate-100'}`}
+                      className={`p-1.5 rounded-lg transition ${isBookmarked ? 'text-[#FF5500] bg-[#FFF2E8]' : 'text-slate-400 hover:text-[#FF5500] hover:bg-[#FFF2E8]'}`}
                       title={isBookmarked ? 'Remove bookmark' : 'Bookmark article'}
                     >
                       {isBookmarked ? <BookmarkCheck className="w-4 h-4" /> : <BookmarkPlus className="w-4 h-4" />}
                     </button>
                   </div>
 
-                  <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-blue-700 transition-colors line-clamp-2">
+                  <h3 className="text-sm font-bold text-slate-900 leading-snug mb-2 group-hover:text-[#FF5500] transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed line-clamp-3">{article.summary}</p>
@@ -439,7 +439,7 @@ export default function WelfareNewsFeed() {
                     href={article.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-800 transition"
+                    className="flex items-center gap-1 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] transition"
                   >
                     Official <ChevronRight className="w-3.5 h-3.5" />
                   </a>
@@ -458,19 +458,19 @@ export default function WelfareNewsFeed() {
         )}
 
         {/* Newsletter CTA */}
-        <div className="mt-12 bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 rounded-3xl p-8 text-white text-center shadow-xl">
+        <div className="mt-12 bg-gradient-to-r from-[#0B3B24] via-[#072416] to-[#0A0A0A] rounded-3xl p-8 text-white text-center shadow-xl">
           <Bell className="w-8 h-8 mx-auto mb-3 opacity-80" />
           <h2 className="text-xl font-black mb-2">Never Miss a Welfare Update</h2>
-          <p className="text-blue-200 text-sm mb-6 max-w-md mx-auto">
+          <p className="text-neutral-300 text-sm mb-6 max-w-md mx-auto">
             Get instant alerts when new schemes launch or existing benefits are revised — directly to your phone.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 max-w-sm mx-auto">
             <input
               type="tel"
               placeholder="Your mobile number"
-              className="flex-1 bg-white/15 border border-white/25 text-white placeholder:text-blue-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-white/50 font-medium"
+              className="flex-1 bg-white/15 border border-white/25 text-white placeholder:text-neutral-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-white/50 font-medium"
             />
-            <button className="bg-white text-blue-700 font-bold text-sm px-6 py-2.5 rounded-xl hover:bg-blue-50 transition shadow-sm whitespace-nowrap">
+            <button className="bg-white text-[#0B3B24] font-bold text-sm px-6 py-2.5 rounded-xl hover:bg-[#FAF8F5] transition shadow-sm whitespace-nowrap">
               Get Alerts
             </button>
           </div>

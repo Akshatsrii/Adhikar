@@ -65,11 +65,11 @@ export function SchemeComparisonPage() {
       
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6">
-        <Link to="/" className="text-blue-600 hover:underline">
+        <Link to="/" className="text-[#FF5500] hover:underline">
           Home
         </Link>
         <ChevronRight className="w-3 h-3" />
-        <Link to="/schemes" className="text-blue-600 hover:underline">
+        <Link to="/schemes" className="text-[#FF5500] hover:underline">
           Schemes
         </Link>
         <ChevronRight className="w-3 h-3" />
@@ -77,7 +77,7 @@ export function SchemeComparisonPage() {
       </div>
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 text-white p-8 md:p-10 rounded-3xl shadow-xl relative overflow-hidden mb-8">
+      <div className="bg-gradient-to-r from-[#0B3B24] via-[#072416] to-[#0A0A0A] text-white p-8 md:p-10 rounded-3xl shadow-xl relative overflow-hidden mb-8 border border-emerald-900/40">
         <div className="absolute right-0 top-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="relative z-10 max-w-2xl space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/10 text-indigo-200 border border-white/20">
@@ -103,7 +103,7 @@ export function SchemeComparisonPage() {
               const valid = preset.slugs.filter(s => allSchemes.some(scheme => scheme.slug === s))
               if (valid.length > 0) setSelectedSlugs(valid)
             }}
-            className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200/80 text-slate-700 hover:border-blue-500 hover:text-blue-600 shadow-xs transition"
+            className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-white border border-slate-200/80 text-slate-700 hover:border-[#FF5500] hover:text-[#FF5500] shadow-xs transition"
           >
             {preset.title}
           </button>
@@ -113,7 +113,7 @@ export function SchemeComparisonPage() {
       {/* Scheme Selector Bar */}
       <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-[#FFF2E8] text-[#FF5500] flex items-center justify-center">
             <Plus className="w-4 h-4" />
           </div>
           <div>
@@ -131,7 +131,7 @@ export function SchemeComparisonPage() {
               }
             }}
             disabled={selectedSlugs.length >= 3}
-            className="w-full text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:outline-none focus:border-blue-500 disabled:opacity-50 cursor-pointer"
+            className="w-full text-xs font-semibold px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 focus:outline-none focus:border-[#FF5500] disabled:opacity-50 cursor-pointer"
           >
             <option value="">+ Choose scheme to add...</option>
             {allSchemes
@@ -155,7 +155,7 @@ export function SchemeComparisonPage() {
           {selectedSchemes.map((scheme) => (
             <div
               key={scheme.slug}
-              className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.03)] flex flex-col justify-between relative group hover:border-blue-300 transition-all duration-200"
+              className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.03)] flex flex-col justify-between relative group hover:border-[#FFD6BA] transition-all duration-200"
             >
               {/* Remove Button */}
               {selectedSchemes.length > 1 && (
@@ -171,7 +171,7 @@ export function SchemeComparisonPage() {
               <div className="space-y-5">
                 {/* Header Tag */}
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200/50">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#EA580C] bg-[#FFF2E8] px-2.5 py-0.5 rounded-full border border-[#FFD6BA]">
                     {scheme.category}
                   </span>
                   <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
@@ -181,7 +181,7 @@ export function SchemeComparisonPage() {
 
                 {/* Scheme Title */}
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition leading-snug">
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-[#FF5500] transition leading-snug">
                     {scheme.name}
                   </h3>
                   <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-1">
@@ -211,17 +211,17 @@ export function SchemeComparisonPage() {
                   <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Key Criteria Checklist</div>
                   <div className="space-y-1.5">
                     <div className="flex items-start gap-2 text-xs text-slate-700">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5500] shrink-0 mt-0.5" />
                       <span>Indian National with Aadhaar authentication</span>
                     </div>
                     {scheme.state && (
                       <div className="flex items-start gap-2 text-xs text-slate-700">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5500] shrink-0 mt-0.5" />
                         <span>State Resident of {scheme.state}</span>
                       </div>
                     )}
                     <div className="flex items-start gap-2 text-xs text-slate-700">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#FF5500] shrink-0 mt-0.5" />
                       <span>Aadhaar-seeded active bank account (DBT enabled)</span>
                     </div>
                   </div>
@@ -255,7 +255,7 @@ export function SchemeComparisonPage() {
                   href={scheme.application_url || scheme.source_url || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 text-center flex items-center justify-center gap-1.5 transition shadow-xs"
+                  className="w-full py-2.5 rounded-xl text-xs font-bold bg-[#FF5500] text-white hover:bg-[#EA4C00] text-center flex items-center justify-center gap-1.5 transition shadow-xs"
                 >
                   <span>Apply on Official Portal</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -267,9 +267,9 @@ export function SchemeComparisonPage() {
       )}
 
       {/* Assistant Help Banner */}
-      <div className="mt-12 bg-blue-50 border border-blue-200/80 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="mt-12 bg-[#FFF8F2] border border-[#FFD8BE] rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">
+          <div className="w-12 h-12 rounded-2xl bg-[#0B3B24] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-950/20">
             <Sparkles className="w-6 h-6" />
           </div>
           <div>
@@ -281,7 +281,7 @@ export function SchemeComparisonPage() {
         </div>
         <Link
           to="/assistant"
-          className="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition shadow-sm shrink-0 flex items-center gap-1.5"
+          className="px-5 py-2.5 rounded-xl bg-[#FF5500] text-white text-xs font-bold hover:bg-[#EA4C00] transition shadow-md shadow-orange-500/20 shrink-0 flex items-center gap-1.5"
         >
           <span>Ask AI Copilot</span>
           <ArrowRight className="w-3.5 h-3.5" />

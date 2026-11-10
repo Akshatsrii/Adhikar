@@ -70,7 +70,7 @@ function CalculatorPage() {
       
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6">
-        <Link to="/" className="text-blue-600 hover:underline">
+        <Link to="/" className="text-[#FF5500] hover:underline">
           Home
         </Link>
         <ChevronRight className="w-3 h-3" />
@@ -78,23 +78,23 @@ function CalculatorPage() {
       </div>
 
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white p-8 md:p-10 rounded-3xl shadow-xl relative overflow-hidden mb-8">
-        <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="bg-gradient-to-r from-[#0B3B24] via-[#072416] to-[#0A0A0A] text-white p-8 md:p-10 rounded-3xl shadow-xl relative overflow-hidden mb-8 border border-emerald-900/40">
+        <div className="absolute right-0 top-0 w-96 h-96 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="relative z-10 max-w-2xl space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/10 text-blue-200 border border-white/20">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/10 text-emerald-200 border border-white/20">
+              <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
               Financial Entitlement Estimator
             </div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#FF5500]/20 text-[#FF9E59] border border-[#FF5500]/30">
               <ShieldCheck className="w-3.5 h-3.5" />
               Estimate Only · Official Formulas
             </div>
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
-            Direct Benefit & Subsidy Calculator Hub
+            Direct Benefit & <span className="text-[#FF5500]">Subsidy Calculator</span> Hub
           </h1>
-          <p className="text-xs md:text-sm text-blue-200/80 leading-relaxed">
+          <p className="text-xs md:text-sm text-neutral-300 leading-relaxed">
             Accurately simulate your monthly savings, upfront interest subsidies, guaranteed pension returns, and direct benefit cashflows under flagship Indian welfare missions.
           </p>
         </div>
@@ -116,15 +116,15 @@ function CalculatorPage() {
               onClick={() => setActiveTab(tab.id as CalculatorTab)}
               className={`p-4 rounded-2xl border text-left transition-all duration-200 ${
                 isActive 
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-500/20 scale-[1.02]' 
-                  : 'bg-white text-slate-700 border-slate-200/80 hover:bg-slate-50'
+                  ? 'bg-[#0B3B24] text-white border-[#0B3B24] shadow-md shadow-emerald-950/20 scale-[1.02]' 
+                  : 'bg-white text-neutral-700 border-[#EAE6DF] hover:bg-[#FAF8F5]'
               }`}
             >
               <div className="flex items-center gap-2 mb-2">
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-blue-600'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-[#FF5500]' : 'text-neutral-500'}`} />
                 <span className="text-xs font-bold leading-tight">{tab.title}</span>
               </div>
-              <p className={`text-[11px] ${isActive ? 'text-blue-100' : 'text-slate-400'}`}>
+              <p className={`text-[11px] ${isActive ? 'text-emerald-200' : 'text-neutral-400'}`}>
                 {tab.desc}
               </p>
             </button>
@@ -149,7 +149,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Annual Household Income</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">₹{pmayIncome.toLocaleString('en-IN')}</span>
+                  <span className="font-black text-[#FF5500] font-mono text-sm">₹{pmayIncome.toLocaleString('en-IN')}</span>
                 </div>
                 <input
                   type="range"
@@ -158,7 +158,7 @@ function CalculatorPage() {
                   step="50000"
                   value={pmayIncome}
                   onChange={e => setPmayIncome(Number(e.target.value))}
-                  className="w-full accent-blue-600 cursor-pointer"
+                  className="w-full accent-[#FF5500] cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
                   <span>EWS (&le; ₹3L)</span>
@@ -172,7 +172,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Home Loan Amount Required</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">₹{pmayLoan.toLocaleString('en-IN')}</span>
+                  <span className="font-black text-[#FF5500] font-mono text-sm">₹{pmayLoan.toLocaleString('en-IN')}</span>
                 </div>
                 <input
                   type="range"
@@ -181,7 +181,7 @@ function CalculatorPage() {
                   step="100000"
                   value={pmayLoan}
                   onChange={e => setPmayLoan(Number(e.target.value))}
-                  className="w-full accent-blue-600 cursor-pointer"
+                  className="w-full accent-[#FF5500] cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
                   <span>₹3 Lakh</span>
@@ -194,7 +194,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Loan Tenure</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">{pmayTenure} Years</span>
+                  <span className="font-black text-[#FF5500] font-mono text-sm">{pmayTenure} Years</span>
                 </div>
                 <input
                   type="range"
@@ -203,7 +203,7 @@ function CalculatorPage() {
                   step="1"
                   value={pmayTenure}
                   onChange={e => setPmayTenure(Number(e.target.value))}
-                  className="w-full accent-blue-600 cursor-pointer"
+                  className="w-full accent-[#FF5500] cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
                   <span>5 Years</span>
@@ -212,9 +212,9 @@ function CalculatorPage() {
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 flex items-start gap-3">
-                <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <p className="text-xs text-blue-900 leading-relaxed">
+              <div className="p-4 rounded-2xl bg-[#FFF8F2] border border-[#FFD8BE] flex items-start gap-3">
+                <ShieldCheck className="w-5 h-5 text-[#FF5500] shrink-0 mt-0.5" />
+                <p className="text-xs text-neutral-800 leading-relaxed">
                   <strong>MoHUA Rule:</strong> Female head of household ownership is mandatory for EWS/LIG categories to qualify for direct upfront subsidy release.
                 </p>
               </div>
@@ -279,7 +279,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Citizen Current Age</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">{apyAge} Years</span>
+                  <span className="font-black text-[#FF5500] font-mono text-sm">{apyAge} Years</span>
                 </div>
                 <input
                   type="range"
@@ -288,7 +288,7 @@ function CalculatorPage() {
                   step="1"
                   value={apyAge}
                   onChange={e => setApyAge(Number(e.target.value))}
-                  className="w-full accent-blue-600 cursor-pointer"
+                  className="w-full accent-[#FF5500] cursor-pointer"
                 />
                 <div className="flex justify-between text-[10px] text-slate-400">
                   <span>18 Years (Min Age)</span>
@@ -300,7 +300,7 @@ function CalculatorPage() {
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-xs">
                   <span className="font-semibold text-slate-700">Target Monthly Pension at Age 60</span>
-                  <span className="font-black text-blue-600 font-mono text-sm">₹{apyPension.toLocaleString('en-IN')} / month</span>
+                  <span className="font-black text-[#FF5500] font-mono text-sm">₹{apyPension.toLocaleString('en-IN')} / month</span>
                 </div>
                 <div className="grid grid-cols-5 gap-2">
                   {[1000, 2000, 3000, 4000, 5000].map(amt => (
@@ -309,7 +309,7 @@ function CalculatorPage() {
                       onClick={() => setApyPension(amt)}
                       className={`py-2 text-xs font-bold rounded-xl border transition ${
                         apyPension === amt 
-                          ? 'bg-blue-600 text-white border-blue-600 shadow-xs' 
+                          ? 'bg-[#FF5500] text-white border-[#FF5500] shadow-xs' 
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
@@ -374,7 +374,7 @@ function CalculatorPage() {
         </div>
 
         {/* Right Financial Summary Card (5 Cols) */}
-        <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-7 md:p-8 shadow-xl border border-slate-800 space-y-6">
+        <div className="lg:col-span-5 bg-gradient-to-br from-[#0D1410] via-[#08100C] to-[#050B08] text-white rounded-3xl p-7 md:p-8 shadow-xl border border-emerald-900/40 space-y-6">
           <div className="flex items-center justify-between pb-4 border-b border-slate-800">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Calculated Entitlement</span>
             <span className="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">
@@ -406,7 +406,7 @@ function CalculatorPage() {
               <Link
                 to="/scheme/$slug"
                 params={{ slug: 'pm-awas-yojana-urban' }}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-md shadow-blue-500/20"
+                className="w-full py-3 bg-[#FF5500] hover:bg-[#EA4C00] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-md shadow-orange-500/20"
               >
                 <span>View PMAY Scheme & Apply</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -450,7 +450,7 @@ function CalculatorPage() {
             <div className="space-y-4">
               <div>
                 <span className="text-xs text-slate-400">Monthly Contribution Required</span>
-                <div className="text-3xl font-black text-blue-400 tracking-tight mt-0.5">
+                <div className="text-3xl font-black text-[#FF7729] tracking-tight mt-0.5">
                   ₹{apyMonthlyContrib.toLocaleString('en-IN')} <span className="text-sm font-normal text-slate-400">/ mo</span>
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1">Auto-debited from your bank until age 60.</p>
@@ -474,7 +474,7 @@ function CalculatorPage() {
               <Link
                 to="/scheme/$slug"
                 params={{ slug: 'atal-pension-yojana' }}
-                className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-md shadow-blue-500/20"
+                className="w-full py-3 bg-[#FF5500] hover:bg-[#EA4C00] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition shadow-md shadow-orange-500/20"
               >
                 <span>View Atal Pension Yojana</span>
                 <ArrowRight className="w-3.5 h-3.5" />

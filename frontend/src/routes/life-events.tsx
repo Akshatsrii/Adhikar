@@ -79,7 +79,7 @@ function LifeEventsPage() {
         <div className="max-w-7xl mx-auto">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6">
-            <Link to="/" className="text-blue-400 hover:underline">Home</Link>
+            <Link to="/" className="text-[#FF5500] hover:underline">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-white">Life Events</span>
           </div>
@@ -109,7 +109,7 @@ function LifeEventsPage() {
                 <button
                   type="submit"
                   disabled={isLoading || !inputText.trim()}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 shrink-0 shadow-md"
+                  className="px-6 py-3 bg-[#FF5500] hover:bg-[#EA4C00] disabled:opacity-50 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 shrink-0 shadow-md"
                 >
                   {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                   <span>Find Benefits</span>
@@ -157,7 +157,7 @@ function LifeEventsPage() {
               <h2 className="text-lg font-black text-slate-900">Browse by Milestone</h2>
               <p className="text-xs text-slate-500">Select a life circumstance to view relevant government entitlements</p>
             </div>
-            <Link to="/schemes" className="text-xs font-bold text-blue-600 hover:underline">
+            <Link to="/schemes" className="text-xs font-bold text-[#FF5500] hover:underline">
               View All Schemes →
             </Link>
           </div>

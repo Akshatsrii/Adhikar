@@ -43,8 +43,8 @@ interface Grievance {
 const statusConfig: Record<GrievanceStatus, { label: string; color: string; dot: string; icon: React.ReactNode }> = {
   submitted: {
     label: 'Submitted',
-    color: 'bg-blue-50 text-blue-700 border-blue-200',
-    dot: 'bg-blue-500',
+    color: 'bg-[#FFF2E8] text-[#EA580C] border-[#FFD6BA]',
+    dot: 'bg-[#FF5500]',
     icon: <FileText className="w-4 h-4" />,
   },
   under_review: {
@@ -191,8 +191,8 @@ function GrievanceCard({ g, isOpen, onToggle }: { g: Grievance; isOpen: boolean;
             <ol className="relative border-l-2 border-slate-200 space-y-4 pl-5">
               {g.timeline.map((step, i) => (
                 <li key={i} className="relative">
-                  <div className="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-blue-500 flex items-center justify-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                  <div className="absolute -left-[23px] top-0.5 w-3.5 h-3.5 rounded-full bg-white border-2 border-[#FF5500] flex items-center justify-center">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500]" />
                   </div>
                   <div className="flex items-start gap-2">
                     <div className="flex-1">
@@ -209,7 +209,7 @@ function GrievanceCard({ g, isOpen, onToggle }: { g: Grievance; isOpen: boolean;
               href={`https://pgportal.gov.in`}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 px-3 py-1.5 rounded-lg border border-blue-200 bg-blue-50 hover:bg-blue-100 transition"
+              className="flex items-center gap-1.5 text-xs font-bold text-[#FF5500] hover:text-[#EA4C00] px-3 py-1.5 rounded-lg border border-[#FFD6BA] bg-[#FFF2E8] hover:bg-[#FFE5D4] transition"
             >
               View on CPGRAMS <ExternalLink className="w-3 h-3" />
             </a>
@@ -269,20 +269,18 @@ export default function GrievancePage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* Hero Header */}
-      <section className="relative bg-slate-950 overflow-hidden pt-14 pb-16 text-white">
+      <section className="relative bg-gradient-to-r from-[#0B3B24] via-[#072416] to-[#0A0A0A] overflow-hidden pt-14 pb-16 text-white border-b border-emerald-900/40">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-br from-rose-600/20 via-orange-600/15 to-amber-600/10 rounded-full blur-[120px]" />
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-gradient-to-br from-[#FF5500]/15 via-emerald-600/10 to-transparent rounded-full blur-[120px]" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-rose-300 mb-5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FF5500]/20 border border-[#FF5500]/30 text-xs font-semibold text-[#FF9E59] mb-5">
             <MessageSquareWarning className="w-3.5 h-3.5" />
             <span>Citizen Grievance Redressal System</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-3">
-            <span className="bg-gradient-to-r from-white via-orange-100 to-rose-200 bg-clip-text text-transparent">
-              Report. Track.
-            </span>{' '}
-            <span className="text-white">Resolve.</span>
+            <span>Report. Track. </span>
+            <span className="text-[#FF5500]">Resolve.</span>
           </h1>
           <p className="text-slate-400 text-base max-w-2xl leading-relaxed">
             File grievances against welfare scheme delays, non-receipt of benefits, or portal errors. Integrated with
@@ -294,7 +292,7 @@ export default function GrievancePage() {
               <span>Integrated with CPGRAMS Â· pgportal.gov.in</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5 text-blue-400" />
+              <Phone className="w-3.5 h-3.5 text-[#FF7729]" />
               <span>Toll-Free: 1800-11-0001</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -311,7 +309,7 @@ export default function GrievancePage() {
           <button
             onClick={() => { setActiveTab('file'); setSubmitted(false) }}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition ${
-              activeTab === 'file' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50'
+              activeTab === 'file' ? 'bg-[#0B3B24] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
             <MessageSquareWarning className="w-3.5 h-3.5" />
@@ -320,7 +318,7 @@ export default function GrievancePage() {
           <button
             onClick={() => setActiveTab('track')}
             className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition ${
-              activeTab === 'track' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50'
+              activeTab === 'track' ? 'bg-[#0B3B24] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50'
             }`}
           >
             <ClipboardList className="w-3.5 h-3.5" />
@@ -344,7 +342,7 @@ export default function GrievancePage() {
                   <div className="mt-6 bg-slate-50 border border-slate-200 rounded-2xl p-5 inline-block">
                     <p className="text-xs text-slate-500 font-medium mb-1">Your Reference Number</p>
                     <div className="flex items-center gap-2 justify-center">
-                      <span className="font-mono font-bold text-blue-700 text-base">{generatedRef}</span>
+                      <span className="font-mono font-bold text-[#EA580C] text-base">{generatedRef}</span>
                       <CopyButton text={generatedRef} />
                     </div>
                     <p className="text-[11px] text-slate-400 mt-2">Save this for tracking. Expect resolution within 30 days.</p>
@@ -352,7 +350,7 @@ export default function GrievancePage() {
                   <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-center">
                     <button
                       onClick={() => { setSubmitted(false); setActiveTab('track') }}
-                      className="px-5 py-2.5 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition"
+                      className="px-5 py-2.5 bg-[#FF5500] text-white text-xs font-bold rounded-xl hover:bg-[#EA4C00] transition"
                     >
                       Track This Grievance
                     </button>
@@ -380,7 +378,7 @@ export default function GrievancePage() {
                           value={formData.name}
                           onChange={e => setFormData(p => ({ ...p, name: e.target.value }))}
                           placeholder="e.g. Ramesh Kumar Sharma"
-                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition placeholder:text-slate-400"
+                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition placeholder:text-slate-400"
                         />
                       </div>
                       <div>
@@ -392,7 +390,7 @@ export default function GrievancePage() {
                           value={formData.aadhaarLast4}
                           onChange={e => setFormData(p => ({ ...p, aadhaarLast4: e.target.value.replace(/\D/g, '') }))}
                           placeholder="XXXX"
-                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition placeholder:text-slate-400 font-mono"
+                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition placeholder:text-slate-400 font-mono"
                         />
                       </div>
                     </div>
@@ -407,7 +405,7 @@ export default function GrievancePage() {
                           value={formData.mobile}
                           onChange={e => setFormData(p => ({ ...p, mobile: e.target.value.replace(/\D/g, '') }))}
                           placeholder="10-digit mobile"
-                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition placeholder:text-slate-400"
+                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition placeholder:text-slate-400"
                         />
                       </div>
                       <div>
@@ -416,7 +414,7 @@ export default function GrievancePage() {
                           required
                           value={formData.state}
                           onChange={e => setFormData(p => ({ ...p, state: e.target.value }))}
-                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition bg-white"
+                          className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition bg-white"
                         >
                           <option value="">Select State</option>
                           {['Andhra Pradesh','Bihar','Delhi','Gujarat','Haryana','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Odisha','Punjab','Rajasthan','Tamil Nadu','Telangana','Uttar Pradesh','Uttarakhand','West Bengal'].map(s => (
@@ -432,7 +430,7 @@ export default function GrievancePage() {
                         required
                         value={formData.scheme}
                         onChange={e => setFormData(p => ({ ...p, scheme: e.target.value }))}
-                        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition bg-white"
+                        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition bg-white"
                       >
                         <option value="">Select Scheme</option>
                         {SCHEME_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
@@ -445,7 +443,7 @@ export default function GrievancePage() {
                         required
                         value={formData.category}
                         onChange={e => setFormData(p => ({ ...p, category: e.target.value }))}
-                        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition bg-white"
+                        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition bg-white"
                       >
                         <option value="">Select Category</option>
                         {CATEGORY_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
@@ -460,14 +458,14 @@ export default function GrievancePage() {
                         value={formData.description}
                         onChange={e => setFormData(p => ({ ...p, description: e.target.value }))}
                         placeholder="Describe your grievance in detail â€” include dates, amounts expected, transaction IDs, bank account numbers (last 4 digits only), etc."
-                        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/10 transition placeholder:text-slate-400 resize-none leading-relaxed"
+                        className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-700 focus:outline-none focus:border-[#FF5500] focus:ring-3 focus:ring-[#FF5500]/10 transition placeholder:text-slate-400 resize-none leading-relaxed"
                       />
                       <p className="text-[10px] text-slate-400 mt-1 font-medium">{formData.description.length}/1000 characters. Be specific for faster resolution.</p>
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3.5 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-blue-500/20 transition"
+                      className="w-full bg-[#FF5500] hover:bg-[#EA4C00] text-white py-3.5 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-orange-500/20 transition"
                     >
                       <Send className="w-4 h-4" />
                       Submit Grievance to CPGRAMS
@@ -517,11 +515,11 @@ export default function GrievancePage() {
                         href={ch.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50 transition font-semibold text-slate-700 hover:text-blue-700 group"
+                        className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-100 hover:border-[#FFD6BA] hover:bg-[#FFF2E8] transition font-semibold text-slate-700 hover:text-[#EA580C] group"
                       >
-                        <Icon className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition" />
+                        <Icon className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#FF5500] transition" />
                         {ch.label}
-                        <ExternalLink className="w-3 h-3 ml-auto text-slate-300 group-hover:text-blue-500 transition" />
+                        <ExternalLink className="w-3 h-3 ml-auto text-slate-300 group-hover:text-[#FF5500] transition" />
                       </a>
                     )
                   })}
@@ -557,7 +555,7 @@ export default function GrievancePage() {
                 placeholder="Search by CPGRAMS reference number (e.g. CPGRAM-2025-AG-887231)..."
                 className="flex-1 text-xs font-medium bg-transparent border-none focus:outline-none text-slate-700 placeholder:text-slate-400"
               />
-              <button className="px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition shadow-sm">
+              <button className="px-4 py-2 bg-[#FF5500] text-white text-xs font-bold rounded-xl hover:bg-[#EA4C00] transition shadow-sm">
                 Track
               </button>
             </div>
@@ -568,7 +566,7 @@ export default function GrievancePage() {
                 { label: 'Total Filed', value: realGrievances.length > 0 ? realGrievances.length : SAMPLE_GRIEVANCES.length, color: 'text-slate-900' },
                 { label: 'Under Review', value: SAMPLE_GRIEVANCES.filter(g => g.status === 'under_review').length, color: 'text-amber-600' },
                 { label: 'Resolved', value: SAMPLE_GRIEVANCES.filter(g => g.status === 'resolved').length, color: 'text-emerald-600' },
-                { label: 'Avg Resolution', value: '18 days', color: 'text-blue-600' },
+                { label: 'Avg Resolution', value: '18 days', color: 'text-[#FF5500]' },
               ].map((s, i) => (
                 <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm text-center">
                   <div className={`text-2xl font-black ${s.color}`}>{s.value}</div>

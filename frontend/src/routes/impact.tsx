@@ -51,9 +51,9 @@ const impactMetrics = [
   },
   {
     icon: Users,
-    color: 'from-blue-500 to-indigo-600',
-    bg: 'bg-blue-50 border-blue-100',
-    textColor: 'text-blue-700',
+    color: 'from-emerald-600 to-[#0B3B24]',
+    bg: 'bg-[#FFF2E8] border-[#FFD6BA]',
+    textColor: 'text-[#EA580C]',
     label: 'Active Beneficiaries',
     value: 112_00_00_000,
     suffix: '+',
@@ -92,7 +92,7 @@ const sectorBreakdown = [
   { name: 'Housing (PMAY)', icon: Home, amount: '70,000 Cr', pct: 18, color: 'bg-amber-500' },
   { name: 'Healthcare (Ayushman)', icon: HeartPulse, amount: '65,000 Cr', pct: 17, color: 'bg-rose-500' },
   { name: 'Education & Scholarships', icon: GraduationCap, amount: '55,000 Cr', pct: 14, color: 'bg-indigo-500' },
-  { name: 'Employment & MGNREGA', icon: Briefcase, amount: '86,000 Cr', pct: 22, color: 'bg-blue-500' },
+  { name: 'Employment & MGNREGA', icon: Briefcase, amount: '86,000 Cr', pct: 22, color: 'bg-[#FF5500]' },
   { name: 'Social Protection', icon: ShieldCheck, amount: '32,000 Cr', pct: 8, color: 'bg-violet-500' },
 ]
 
@@ -109,7 +109,7 @@ const recentMilestones = [
   { year: '2025', event: 'PM-KISAN crosses 12 Cr farmer installments under 17th tranche', icon: Leaf, color: 'text-emerald-600 bg-emerald-50 border-emerald-100' },
   { year: '2025', event: 'Ayushman Bharat: 7.5 Cr hospital admissions authorized â€” free healthcare', icon: HeartPulse, color: 'text-rose-600 bg-rose-50 border-rose-100' },
   { year: '2024', event: 'PMAY-G completes 3.26 Cr pucca houses in rural India', icon: Home, color: 'text-amber-600 bg-amber-50 border-amber-100' },
-  { year: '2024', event: 'MGNREGA: 28.9 Cr active job cards generating 370 Cr person-days', icon: Briefcase, color: 'text-blue-600 bg-blue-50 border-blue-100' },
+  { year: '2024', event: 'MGNREGA: 28.9 Cr active job cards generating 370 Cr person-days', icon: Briefcase, color: 'text-[#FF5500] bg-[#FFF2E8] border-[#FFD6BA]' },
   { year: '2024', event: 'Sukanya Samriddhi: 3.9 Cr girl-child accounts with â‚¹1.96L Cr corpus', icon: Award, color: 'text-violet-600 bg-violet-50 border-violet-100' },
 ]
 
@@ -140,7 +140,7 @@ export default function ImpactDashboard() {
       {/* Hero Banner */}
       <section className="relative bg-slate-950 overflow-hidden pt-16 pb-20 text-white">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-br from-emerald-600/20 via-blue-600/20 to-violet-600/15 rounded-full blur-[120px]" />
+          <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-br from-emerald-600/20 via-[#FF5500]/20 to-violet-600/15 rounded-full blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-[400px] h-[300px] bg-teal-500/10 rounded-full blur-[100px]" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 text-center">
@@ -156,7 +156,7 @@ export default function ImpactDashboard() {
             <span>Live National Welfare Impact Dashboard</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4">
-            <span className="bg-gradient-to-r from-white via-blue-100 to-emerald-200 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white via-orange-100 to-emerald-200 bg-clip-text text-transparent">
               India's Welfare
             </span>
             <br />
@@ -265,14 +265,14 @@ export default function ImpactDashboard() {
           <p className="text-slate-500 text-sm mb-6">States with highest beneficiary coverage</p>
           <div className="space-y-3">
             {stateLeaders.map((s, i) => (
-              <div key={i} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-4 hover:border-blue-300 transition-all shadow-sm hover:shadow-md">
+              <div key={i} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-4 hover:border-[#FFD6BA] transition-all shadow-sm hover:shadow-md">
                 <span className="text-2xl">{s.flag}</span>
                 <div className="flex-1">
                   <div className="text-sm font-bold text-slate-900">{s.state}</div>
                   <div className="text-xs text-slate-500">{s.schemes} active schemes</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-base font-black text-blue-700">{s.beneficiaries}</div>
+                  <div className="text-base font-black text-[#FF5500]">{s.beneficiaries}</div>
                   <div className="text-[10px] text-slate-400 font-medium">beneficiaries</div>
                 </div>
               </div>
@@ -305,12 +305,12 @@ export default function ImpactDashboard() {
       </section>
 
       {/* Footer CTA */}
-      <section className="bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 py-14 text-white text-center">
+      <section className="bg-gradient-to-r from-[#0B3B24] via-[#072416] to-[#0A0A0A] py-14 text-white text-center">
         <h2 className="text-2xl font-black mb-2">Become Part of the Story</h2>
-        <p className="text-blue-200 text-sm mb-6 max-w-md mx-auto">
+        <p className="text-neutral-300 text-sm mb-6 max-w-md mx-auto">
           Find the welfare schemes you're entitled to and add yourself to India's welfare impact numbers.
         </p>
-        <a href="/eligibility" className="inline-flex items-center gap-2 bg-white text-blue-700 font-bold text-sm px-6 py-3 rounded-full hover:bg-blue-50 transition shadow-lg">
+        <a href="/eligibility" className="inline-flex items-center gap-2 bg-white text-[#FF5500] font-bold text-sm px-6 py-3 rounded-full hover:bg-blue-50 transition shadow-lg">
           Check My Eligibility <ArrowUpRight className="w-4 h-4" />
         </a>
       </section>

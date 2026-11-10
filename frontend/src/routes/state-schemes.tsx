@@ -40,7 +40,7 @@ function StateSchemesPage() {
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-xs font-medium text-gray-500 mb-6">
-        <Link to="/" className="text-blue-600 hover:underline">Home</Link>
+        <Link to="/" className="text-[#FF5500] hover:underline">Home</Link>
         <ChevronRight className="w-3 h-3" />
         <span className="text-gray-800">State Schemes</span>
       </div>
@@ -58,7 +58,7 @@ function StateSchemesPage() {
             placeholder="Search state schemes..." 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#00428a] text-sm" 
+            className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-[#FF5500] text-sm" 
           />
         </div>
       </div>
@@ -68,7 +68,7 @@ function StateSchemesPage() {
         <div className="w-full md:w-64 shrink-0">
           <div className="bg-white rounded border border-gray-200 shadow-sm p-4 sticky top-24">
             <h3 className="font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-red-500" /> Select State
+              <MapPin className="w-4 h-4 text-[#FF5500]" /> Select State
             </h3>
             <div className="space-y-1 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
               {statesList.map(state => (
@@ -125,7 +125,7 @@ function StateSchemesPage() {
                     
                     <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t border-gray-100">
                       <Link to="/scheme/$slug" params={{ slug: s.slug }} className="border border-gray-300 text-center text-gray-700 text-xs font-bold py-2 rounded hover:bg-gray-50 transition">Details</Link>
-                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-black hover:bg-neutral-800 text-center text-white text-xs font-bold py-2 rounded hover:bg-blue-800 transition">Apply Now</Link>
+                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-black hover:bg-neutral-800 text-center text-white text-xs font-bold py-2 rounded hover:bg-[#072718] transition">Apply Now</Link>
                     </div>
                   </div>
                 </div>
