@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet, Link, useLocation } from '@tanstack/react-router'
 import {
-  Sparkles, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText,
+  Sparkles, ArrowRight, User, Search, Menu, X, LayoutDashboard, FileText, Globe,
   Calculator, MessageSquareWarning, Phone, BookOpen, TrendingUp, ChevronDown,
   Bell
 } from 'lucide-react'
@@ -63,9 +63,43 @@ function RootComponent() {
       
 
 
+      {/* 1. Official Government of India Header Bar */}
+      <div className="bg-white border-b border-[#EAE6DF] py-1 px-4 md:px-8 text-xs text-neutral-700">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          {/* Left: Ashoka Emblem & Official Portal Text */}
+          <div className="flex items-center gap-2">
+            <img src="/emblem-india.png" alt="Emblem of India" className="h-5 w-auto object-contain" />
+            <span className="font-semibold text-neutral-800 text-[11px] sm:text-xs tracking-tight">
+              भारत सरकार | Government of India
+            </span>
+          </div>
+
+          {/* Right: Accessibility & Language Controls */}
+          <div className="flex items-center gap-3 text-[11px] font-medium text-neutral-600">
+            <a href="#main" className="hover:text-black hover:underline hidden md:inline">
+              Skip to Main Content
+            </a>
+            <span className="hidden md:inline text-neutral-300">|</span>
+            <div className="hidden sm:flex items-center gap-1.5 font-bold text-neutral-700">
+              <button className="hover:text-black transition px-0.5">A-</button>
+              <button className="hover:text-black transition px-0.5">A</button>
+              <button className="hover:text-black transition px-0.5">A+</button>
+            </div>
+            <span className="hidden sm:inline text-neutral-300">|</span>
+            <div 
+              onClick={() => changeLanguage(currentLang === 'hi' ? 'en' : 'hi')} 
+              className="flex items-center gap-1 cursor-pointer hover:text-black transition"
+            >
+              <span>{currentLang === 'hi' ? 'हिन्दी' : 'English'}</span>
+              <ChevronDown className="w-3 h-3 text-neutral-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 2. Main Navbar */}
       <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-2xl border-b border-[#EAE6DF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]' : 'bg-white/90 backdrop-blur-xl border-b border-[#EAE6DF]/60 shadow-none'}`}>
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex justify-between items-center gap-4">
           
           {/* Brand Logo with Official Adhikar Logo */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
@@ -83,32 +117,32 @@ function RootComponent() {
           <nav className="hidden lg:flex items-center gap-1 bg-[#F5F2EC] p-1 rounded-full border border-[#EAE6DF]">
             <Link 
               to="/" 
-              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-[#0B3B24] [&.active]:text-white [&.active]:shadow-xs"
             >
               Home
             </Link>
             <Link 
               to="/schemes" 
-              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-[#0B3B24] [&.active]:text-white [&.active]:shadow-xs"
             >
-              Schemes
+              Schemes ▾
             </Link>
             <Link 
               to="/eligibility" 
-              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-[#0B3B24] [&.active]:text-white [&.active]:shadow-xs"
             >
               Eligibility
             </Link>
             <Link 
               to="/assistant" 
-              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs flex items-center gap-1.5"
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-[#0B3B24] [&.active]:text-white [&.active]:shadow-xs flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#FF5500]" />
-              AI Copilot
+              AI Copilot ✨
             </Link>
             <Link 
               to="/documents" 
-              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-white [&.active]:text-black [&.active]:shadow-xs"
+              className="px-4 py-1.5 rounded-full text-xs font-bold text-neutral-700 hover:text-black hover:bg-white transition-all [&.active]:bg-[#0B3B24] [&.active]:text-white [&.active]:shadow-xs"
             >
               Documents
             </Link>
@@ -154,44 +188,34 @@ function RootComponent() {
           </nav>
 
           {/* Right Action Items */}
-          <div className="flex items-center gap-2.5 shrink-0">
-            {/* Bilingual Switcher */}
-            <div className="hidden sm:flex items-center bg-[#F5F2EC] rounded-full p-0.5 border border-[#EAE6DF]">
-              <button 
-                onClick={() => changeLanguage('hi')} 
-                className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'hi' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
-                title="Switch to Hindi"
-              >
-                हिन्दी
-              </button>
-              <button 
-                onClick={() => changeLanguage('en')} 
-                className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-all ${currentLang === 'en' ? 'bg-[#FF5500] text-white shadow-xs' : 'text-neutral-600 hover:text-black'}`}
-                title="Switch to English"
-              >
-                EN
-              </button>
-            </div>
-
-            {/* Search Pill Input/Button */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Search Circular Icon Button */}
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#F5F2EC] hover:bg-[#EAE5DE] text-neutral-600 border border-[#EAE6DF] transition group"
-              title="Search (⌘K)"
+              className="w-9 h-9 rounded-full bg-[#FAF8F5] hover:bg-[#EAE5DE] border border-[#EAE6DF] flex items-center justify-center text-neutral-700 transition"
+              title="Search schemes (⌘K)"
             >
-              <Search className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#FF5500] transition" />
-              <span className="hidden sm:inline">Search schemes, benefits...</span>
-              <kbd className="hidden sm:inline-flex items-center text-[10px] font-mono text-neutral-400 bg-white px-1.5 py-0.5 rounded-md border border-[#EAE6DF]">⌘K</kbd>
+              <Search className="w-4 h-4 text-neutral-600" />
             </button>
 
-            {/* Notification Bell */}
+            {/* Language Toggle Pill: 🌐 EN */}
+            <button 
+              onClick={() => changeLanguage(currentLang === 'hi' ? 'en' : 'hi')} 
+              className="flex items-center gap-1.5 bg-[#FFF2E8] border border-[#FFD6BA] text-[#EA580C] px-3 py-1.5 rounded-full text-xs font-bold hover:scale-[1.02] transition"
+              title="Switch Language"
+            >
+              <Globe className="w-3.5 h-3.5 text-[#FF5500]" />
+              <span>{currentLang === 'hi' ? 'HI' : 'EN'}</span>
+            </button>
+
+            {/* Notification Bell with Red Badge 1 */}
             <Link
               to="/notifications"
-              className="relative p-2 rounded-full bg-[#F5F2EC] hover:bg-[#EAE5DE] border border-[#EAE6DF] text-neutral-700 transition"
+              className="relative w-9 h-9 rounded-full bg-[#FAF8F5] hover:bg-[#EAE5DE] border border-[#EAE6DF] flex items-center justify-center text-neutral-700 transition"
               title="Notifications"
             >
               <Bell className="w-4 h-4 text-neutral-600" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#FF5500]" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
             </Link>
 
             {/* Sign In Button / User Profile */}
@@ -199,14 +223,14 @@ function RootComponent() {
               {!user ? (
                 <Link
                   to="/login"
-                  className="bg-black hover:bg-neutral-800 text-white font-bold px-5 py-2 text-xs rounded-full flex items-center gap-1.5 shadow-sm transition hover:scale-[1.02]"
+                  className="bg-[#0B3B24] hover:bg-[#072718] text-white font-bold px-5 py-2 text-xs rounded-full flex items-center gap-1.5 shadow-sm transition hover:scale-[1.02]"
                 >
                   <span>Sign In</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               ) : (
                 <div className="flex items-center gap-2 bg-[#F5F2EC] p-1 pr-3 rounded-full border border-[#EAE6DF]">
-                  <div className="w-7 h-7 rounded-full bg-black text-white flex items-center justify-center font-black text-xs shadow-xs">
+                  <div className="w-7 h-7 rounded-full bg-[#0B3B24] text-white flex items-center justify-center font-black text-xs shadow-xs">
                     {user.name ? user.name[0].toUpperCase() : <User className="w-4 h-4" />}
                   </div>
                   <button onClick={logout} className="text-[11px] font-semibold text-[#FF5500] hover:text-[#EA4C00] transition">

@@ -1,10 +1,10 @@
 import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
 import {
-  Search, ArrowRight, Building2, Users,
-  Sparkles, ExternalLink, CheckCircle2, Zap, ShieldCheck, ChevronRight,
+  Search, ArrowRight, Users,
+  Sparkles, ExternalLink, CheckCircle2, ShieldCheck, ChevronRight,
   Star, Layers, Building,
-  FileText
+  FileText, Target, MapPin
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
@@ -62,8 +62,8 @@ const STAT_METRICS = [
   },
   {
     num: 'All States & UTs',
-    label: 'Central & State Schemes',
-    icon: <Building2 className="w-4 h-4 text-[#FF5500]" />,
+    label: 'Coverage',
+    icon: <MapPin className="w-4 h-4 text-[#FF5500]" />,
   },
   {
     num: '100% Verified',
@@ -73,7 +73,7 @@ const STAT_METRICS = [
   {
     num: 'AI-Powered',
     label: 'Personalized Recommendations',
-    icon: <Zap className="w-4 h-4 text-[#FF5500]" />,
+    icon: <Sparkles className="w-4 h-4 text-[#FF5500]" />,
   },
 ]
 
@@ -143,30 +143,29 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-black overflow-x-hidden font-sans pb-16">
 
-      {/* 1. HERO SECTION — Panoramic Governance Background & New Parliament */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 pt-6 pb-6">
-        <div 
-          className="rounded-[36px] border border-[#243B2C] p-6 sm:p-10 shadow-[0_16px_50px_rgba(0,0,0,0.18)] relative overflow-hidden bg-cover bg-center min-h-[460px] flex flex-col justify-center"
-          style={{ backgroundImage: "url('/hero-governance-bg.jpg')" }}
-        >
-          {/* Subtle Dark Gradient Overlay across the left side to ensure high contrast against the green map */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent lg:from-black/65 lg:via-black/30 lg:to-transparent -z-0" />
+      {/* 1. HERO SECTION — Full-Screen Edge-to-Edge Panoramic Cover */}
+      <section className="w-full relative bg-cover bg-center min-h-[560px] lg:min-h-[640px] flex items-center pt-8 pb-20 overflow-hidden"
+        style={{ backgroundImage: "url('/hero-parliament-flag-bg.jpg')" }}
+      >
+        {/* Subtle Dark Gradient Overlay across the left side to ensure high contrast against the green map */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent lg:from-black/75 lg:via-black/35 lg:to-transparent -z-0" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-6">
               
               {/* DBT Badge */}
               <div>
-                <span className="glass-pill inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-[#FFB074] text-xs font-bold shadow-xs">
-                  <Building className="w-3.5 h-3.5 text-[#FF5500]" />
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-[#0B3B24] border border-white/60 text-xs font-bold shadow-sm">
+                  <Building className="w-3.5 h-3.5 text-[#0B3B24]" />
                   <span>{isHindi ? 'प्रत्यक्ष लाभ अंतरण (DBT) एवं आधिकारिक सरकारी पोर्टल' : 'Direct Benefit Transfer (DBT) & Official Portals'}</span>
                 </span>
               </div>
 
               {/* Bold Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-black text-white tracking-tight leading-[1.08] drop-shadow-md">
+              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-black text-white tracking-tight leading-[1.06] drop-shadow-md">
                 {isHindi ? 'आपका अधिकार। आपका लाभ।' : 'Your Rights. Your Benefits.'}
                 <span className="text-[#FF7729] block mt-1.5 drop-shadow-md">
                   {isHindi ? 'हर सरकारी योजना, एक विश्वसनीय मंच।' : 'Every Welfare Scheme, One Trusted Platform.'}
@@ -176,15 +175,15 @@ function LandingPage() {
               {/* Description */}
               <p className="text-sm sm:text-base text-neutral-200 leading-relaxed max-w-xl font-normal drop-shadow-xs">
                 {isHindi
-                  ? 'पारदर्शी नियम-आधारित जांच के साथ सरकारी कल्याणकारी योजनाओं को खोजें, अपनी पात्रता सत्यापित करें, और सीधे सत्यापित .gov.in पोर्टलों पर आवेदन करें — एआई द्वारा संचालित।'
-                  : 'Discover government welfare schemes, verify your eligibility with transparent rule-based checks, and apply directly on verified .gov.in portals — powered by AI.'}
+                  ? 'पारदर्शी नियम-आधारित जांच के साथ सरकारी कल्याणकारी योजनाओं को खोजें, अपनी पात्रता सत्यापित करें, और सीधे सत्यापित .gov.in पोर्टलों पर आवेदन करें — अब एआई द्वारा संचालित।'
+                  : 'Discover government welfare schemes, verify your eligibility with transparent rule-based checks, and apply directly on verified .gov.in portals — now powered by AI.'}
               </p>
 
               {/* Dual Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 pt-1">
                 <Link
                   to="/schemes"
-                  className="bg-black hover:bg-neutral-900 text-white border border-white/20 px-8 py-3.5 rounded-full text-sm font-extrabold flex items-center gap-2.5 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+                  className="bg-[#FF5500] hover:bg-[#EA4C00] text-white font-extrabold px-8 py-3.5 rounded-full text-sm flex items-center gap-2.5 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all"
                 >
                   <span>{isHindi ? 'योजनाएं देखें' : 'Explore Schemes'}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -192,15 +191,15 @@ function LandingPage() {
 
                 <Link
                   to="/assistant"
-                  className="bg-white hover:bg-neutral-100 text-black border border-white/40 font-bold px-7 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-md flex items-center gap-2"
+                  className="bg-white hover:bg-neutral-100 text-black border border-white/80 font-extrabold px-8 py-3.5 rounded-full text-sm transition-all hover:scale-[1.02] shadow-lg flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4 text-[#FF5500]" />
                   <span>{isHindi ? 'एआई सहायक से पूछें' : 'Ask AI Copilot'}</span>
                 </Link>
               </div>
 
-              {/* Micro Trust Indicators */}
-              <div className="flex flex-wrap items-center gap-5 pt-2 text-xs font-bold text-white/90 drop-shadow-xs">
+              {/* Micro Trust Indicators (3 Checkmarks) */}
+              <div className="flex flex-wrap items-center gap-5 pt-2 text-xs font-bold text-white/95 drop-shadow-sm">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#FF7729]" />
                   <span>{isHindi ? 'सरकारी सत्यापित' : 'Govt. Verified'}</span>
@@ -211,54 +210,52 @@ function LandingPage() {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-[#FF7729]" />
-                  <span>{isHindi ? 'जीरो एआई भ्रम' : 'Zero AI Hallucination'}</span>
+                  <span>{isHindi ? 'सुरक्षित एवं पारदर्शी' : 'Secure & Transparent'}</span>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Side: Official Badges floating over the panoramic Parliament background */}
-            <div className="lg:col-span-5 flex flex-col justify-between items-end min-h-[220px] sm:min-h-[300px] lg:min-h-[360px] pointer-events-none">
-              
-              {/* Top Right Govt of India Badge */}
-              <div className="glass-dark px-4 py-1.5 rounded-full text-white text-xs font-bold flex items-center gap-2 shadow-lg border border-white/20 pointer-events-auto bg-black/40 backdrop-blur-md">
-                <span>🇮🇳</span>
-                <span>{isHindi ? 'भारत सरकार' : 'Govt of India'}</span>
-              </div>
-
-              {/* Bottom Right Caption Pill */}
-              <div className="w-full max-w-sm pointer-events-auto">
-                <div className="glass-dark rounded-2xl p-3 sm:p-3.5 text-white border border-white/20 shadow-xl flex items-center justify-between gap-3 backdrop-blur-md bg-black/50">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-                      <Building className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold leading-tight">
-                        {isHindi ? 'संसद भवन, नई दिल्ली' : 'Parliament House, New Delhi'}
-                      </p>
-                      <p className="text-[10px] text-neutral-300 mt-0.5">
-                        {isHindi ? 'प्रत्येक नागरिक के लिए डिजिटल भारत' : 'A digital and inclusive India for every citizen.'}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-bold text-[#FF9E59] bg-[#FF5500]/20 border border-[#FF5500]/40 px-2.5 py-1 rounded-full shrink-0 flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3 text-[#FF5500]" />
-                    <span>DBT Verified</span>
-                  </span>
+            {/* Right Side: Floating Ask Adhikar AI Glass Card */}
+            <div className="lg:col-span-5 flex flex-col justify-end items-end min-h-[220px] sm:min-h-[280px] lg:min-h-[340px]">
+              <Link
+                to="/assistant"
+                className="rounded-[28px] p-4 sm:p-5 pr-6 text-white border border-white/25 shadow-2xl backdrop-blur-md bg-black/40 hover:bg-black/50 transition-all flex items-center gap-4 group max-w-md w-full ml-auto card-lift"
+              >
+                {/* Robot Avatar */}
+                <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 relative flex items-center justify-center">
+                  <img
+                    src="/adhikar-bot-avatar.png"
+                    alt="Adhikar AI Bot"
+                    className="w-full h-full object-contain filter drop-shadow-lg group-hover:scale-105 transition-transform"
+                  />
                 </div>
-              </div>
-
+                {/* Text Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="text-base sm:text-lg font-black text-white tracking-tight">Ask Adhikar AI</h4>
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-teal-500/20 text-teal-300 border border-teal-400/30 px-2 py-0.5 rounded-full">
+                      Beta
+                    </span>
+                  </div>
+                  <p className="text-xs text-neutral-200/90 leading-snug font-normal">
+                    Get personalized scheme recommendations, check eligibility, and complete your application step-by-step.
+                  </p>
+                </div>
+                {/* Circular Action Arrow */}
+                <div className="w-9 h-9 rounded-full bg-white text-[#FF5500] flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 group-hover:bg-[#FF5500] group-hover:text-white transition-all">
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </Link>
             </div>
 
           </div>
-
         </div>
       </section>
 
-      {/* 2. FLOATING STAT STRIP (5-Metric Wide Pill) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-12">
-        <div className="rounded-[28px] bg-white border border-[#EAE6DF] shadow-[0_4px_24px_rgba(0,0,0,0.03)] py-4 px-6">
+      {/* 2. FLOATING STAT STRIP (5-Metric Wide Pill with Negative Margin) */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 -mt-10 sm:-mt-12 relative z-20 mb-14">
+        <div className="rounded-[28px] bg-white border border-[#EAE6DF] shadow-[0_12px_36px_rgba(0,0,0,0.08)] py-4 px-6 sm:px-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4 divide-y md:divide-y-0 md:divide-x divide-[#EAE6DF]">
             {STAT_METRICS.map((stat, i) => (
               <div key={i} className={`flex items-center gap-3.5 ${i > 0 ? 'pt-3 md:pt-0 md:pl-4' : ''}`}>
@@ -276,7 +273,7 @@ function LandingPage() {
       </section>
 
       {/* 3. SCHEMES FOR EVERY CITIZEN (Beneficiary Archetypes Grid) */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-12">
+      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-8">
         <div className="mb-6 flex items-end justify-between">
           <div>
             <h2 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
@@ -309,6 +306,36 @@ function LandingPage() {
               />
             </Link>
           ))}
+        </div>
+      </section>
+
+      {/* 3.1 BOTTOM FEATURE BANNER — Find the Right Scheme for You */}
+      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-14">
+        <div className="rounded-[28px] bg-gradient-to-r from-[#FFF8F2] via-[#FFFBF8] to-[#FFF5ED] border border-[#FFD8BE] p-6 sm:p-7 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden card-lift">
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-[#FFE4D3] border border-[#FFC8A8] flex items-center justify-center shrink-0 text-[#FF5500] shadow-xs">
+              <Target className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-black text-black tracking-tight">
+                {isHindi ? 'अपने लिए सही योजना खोजें' : 'Find the Right Scheme for You'}
+              </h3>
+              <p className="text-xs text-neutral-600 font-normal mt-0.5">
+                {isHindi
+                  ? 'कुछ सरल प्रश्नों के उत्तर दें और तुरंत व्यक्तिगत योजना सिफारिशें प्राप्त करें।'
+                  : 'Answer a few simple questions and get personalized scheme recommendations instantly.'}
+              </p>
+            </div>
+          </div>
+
+          <Link
+            to="/eligibility"
+            className="bg-[#0B3B24] hover:bg-[#072718] text-white font-bold px-7 py-3 rounded-full text-xs sm:text-sm flex items-center gap-2 shadow-md hover:scale-[1.02] transition shrink-0 relative z-10"
+          >
+            <Sparkles className="w-4 h-4 text-[#4ADE80]" />
+            <span>{isHindi ? 'व्यक्तिगत सिफारिशें प्राप्त करें' : 'Get Personalized Recommendations'}</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 
