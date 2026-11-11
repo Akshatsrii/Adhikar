@@ -227,9 +227,9 @@ function SchemesPage() {
                 >
                   <div className="w-full md:w-48 h-36 rounded-2xl overflow-hidden shrink-0 bg-neutral-100 border border-[#EAE6DF] relative">
                     <img 
-                      src={getCategoryImg(scheme.category)} 
-                      alt={scheme.category} 
-                      onError={(e) => { e.currentTarget.src = '/categories/default.svg' }} 
+                      src={getCategoryImg(scheme.category, scheme.name, scheme.slug)} 
+                      alt={scheme.name} 
+                      onError={(e) => { e.currentTarget.src = '/categories/default.jpg' }} 
                       className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
                     />
                     <div className="absolute top-2.5 left-2.5">

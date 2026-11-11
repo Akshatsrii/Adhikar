@@ -101,31 +101,49 @@ function StateSchemesPage() {
               <p className="text-gray-500 text-sm">We couldn't find any state-specific schemes matching your criteria in {activeState}.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredSchemes.map((s, i) => (
-                <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
-                  <div className="h-40 w-full overflow-hidden relative">
-                    <img src={getCategoryImg(s.category)} alt={s.name} onError={(e) => e.currentTarget.src='/categories/default.svg'} className="w-full h-full object-cover" />
-                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-[#FF5500] uppercase tracking-wider shadow-sm">
-                      {s.category}
+                <div key={i} className="bg-white rounded-[26px] border border-[#EAE6DF] overflow-hidden shadow-xs hover:shadow-[0_16px_36px_rgba(255,85,0,0.08)] hover:border-[#FF5500]/50 transition-all duration-300 flex flex-col group card-lift">
+                  <div className="h-44 w-full overflow-hidden relative bg-neutral-100">
+                    <img 
+                      src={getCategoryImg(s.category, s.name, s.slug)} 
+                      alt={s.name} 
+                      onError={(e) => { e.currentTarget.src = '/categories/default.jpg' }} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <div className="absolute top-3 left-3 flex items-center gap-2">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-[#FF5500] bg-white/95 backdrop-blur-md px-3 py-1 rounded-full border border-[#FFD6BA] shadow-xs">
+                        {s.category}
+                      </span>
+                    </div>
+                    <div className="absolute top-3 right-3">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-white bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 shadow-xs">
+                        {s.state || 'State'}
+                      </span>
                     </div>
                   </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <h3 className="font-bold text-gray-900 leading-tight mb-2 line-clamp-2">{s.name}</h3>
-                    <p className="text-xs text-gray-500 mb-4 line-clamp-3">{s.description}</p>
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="font-black text-black leading-snug mb-2 line-clamp-2 text-base group-hover:text-[#FF5500] transition-colors">{s.name}</h3>
+                    <p className="text-xs text-neutral-600 mb-4 line-clamp-2 leading-relaxed">{s.description}</p>
                     
-                    <div className="mt-auto space-y-2 mb-5">
-                      <div className="flex items-center text-xs text-gray-600 gap-2 font-medium">
-                        <span className="text-[#FF5500] font-bold">₹</span> {s.benefit || 'Variable Support'}
+                    <div className="mt-auto space-y-2 mb-5 pb-4 border-b border-[#EAE6DF]">
+                      <div className="flex items-center text-xs text-neutral-800 gap-2 font-bold truncate">
+                        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#FFF2E8] text-[11px] font-black text-[#FF5500] shrink-0">₹</span>
+                        <span className="truncate">{s.benefit || 'Direct State Welfare Transfer'}</span>
                       </div>
-                      <div className="flex items-center text-xs text-gray-600 gap-2 font-medium">
-                        <Users className="w-3.5 h-3.5 text-[#FF5500]"/> {s.department || s.state}
+                      <div className="flex items-center text-xs text-neutral-500 gap-2 font-medium truncate">
+                        <Users className="w-3.5 h-3.5 text-[#FF5500] shrink-0"/>
+                        <span className="truncate">{s.department || s.state}</span>
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-2 mt-auto pt-4 border-t border-gray-100">
-                      <Link to="/scheme/$slug" params={{ slug: s.slug }} className="border border-gray-300 text-center text-gray-700 text-xs font-bold py-2 rounded hover:bg-gray-50 transition">Details</Link>
-                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-black hover:bg-neutral-800 text-center text-white text-xs font-bold py-2 rounded hover:bg-[#072718] transition">Apply Now</Link>
+                    <div className="grid grid-cols-2 gap-2.5 mt-auto">
+                      <Link to="/scheme/$slug" params={{ slug: s.slug }} className="border border-[#EAE6DF] text-center text-neutral-700 text-xs font-bold py-2.5 rounded-full hover:bg-[#FAF8F5] hover:border-neutral-300 transition">
+                        Details
+                      </Link>
+                      <Link to="/apply/$slug" params={{ slug: s.slug }} className="bg-[#0B3B24] hover:bg-[#072718] text-center text-white text-xs font-bold py-2.5 rounded-full transition shadow-xs hover:scale-[1.02]">
+                        Apply Now
+                      </Link>
                     </div>
                   </div>
                 </div>

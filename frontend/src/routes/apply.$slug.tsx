@@ -128,13 +128,13 @@ function ApplyPage() {
         {/* Selected Scheme Card */}
         <div className="mb-10 bg-gray-50/50 border border-gray-200 rounded-xl overflow-hidden flex flex-col md:flex-row gap-0 md:gap-4 shadow-sm hover:shadow-md transition">
           <div className="h-40 md:h-auto md:w-56 bg-gray-200 shrink-0 relative">
-            <img src={getCategoryImg(scheme.category)} onError={(e) => e.currentTarget.src='/categories/default.svg'} alt={scheme.name} className="w-full h-full object-cover" />
+            <img src={getCategoryImg(scheme.category, scheme.name, scheme.slug)} onError={(e) => { e.currentTarget.src = '/categories/default.jpg' }} alt={scheme.name} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden"></div>
           </div>
           <div className="p-5 flex flex-col justify-center flex-1">
             <h3 className="font-bold text-gray-900 text-lg md:text-xl mb-2">{scheme.name}</h3>
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span className="text-[10px] font-bold text-[#FF5500] bg-[#FFF2E8] px-2.5 py-1 rounded-md uppercase tracking-wider border border-blue-100">{scheme.category}</span>
+              <span className="text-[10px] font-bold text-[#FF5500] bg-[#FFF2E8] px-2.5 py-1 rounded-md uppercase tracking-wider border border-[#FFD6BA]">{scheme.category}</span>
               <span className="text-[10px] font-bold text-gray-600 bg-white px-2.5 py-1 rounded-md border border-gray-200 uppercase tracking-wider">{scheme.level}</span>
             </div>
             <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">{scheme.description}</p>
