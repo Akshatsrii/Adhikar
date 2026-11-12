@@ -245,8 +245,45 @@ export default function GrievancePage() {
   const [realGrievances, setRealGrievances] = useState<any[]>([])
 
   useEffect(() => {
-    grievancesApi.list().then(items => setRealGrievances(items)).catch(() => {})
+    grievancesApi.list().then(items => setRealGrievances(items || [])).catch(() => {})
   }, [submitted])
+
+  const mappedRealGrievances: Grievance[] = realGrievances.map((item: any) => {
+    const rawStatus = (item.status || 'submitted').toLowerCase()
+    const status: GrievanceStatus =
+      rawStatus === 'resolved'
+        ? 'resolved'
+        : rawStatus === 'under_review' || rawStatus === 'in_progress'
+          ? 'under_review'
+          : rawStatus === 'escalated'
+            ? 'escalated'
+            : 'submitted'
+    const createdStr = item.createdAt
+      ? new Date(item.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
+      : 'Just now'
+    return {
+      id: item._id || item.id,
+      refNo: item.referenceNumber || `CPGRAM-2026-${(item._id || '000000').slice(-6).toUpperCase()}`,
+      title: item.subject || 'Citizen Grievance',
+      scheme: item.category || 'Welfare Scheme',
+      category: item.category || 'General',
+      status,
+      submittedOn: createdStr,
+      updatedOn: item.updatedAt
+        ? new Date(item.updatedAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
+        : createdStr,
+      department: 'Centralized Public Grievance Redressal',
+      description: item.description || '',
+      timeline: [
+        { date: createdStr, action: 'Grievance registered and logged in real-time', actor: 'Citizen' },
+        ...(status !== 'submitted'
+          ? [{ date: createdStr, action: `Status updated to ${status.replace('_', ' ')}`, actor: 'Nodal Officer' }]
+          : []),
+      ],
+    }
+  })
+
+  const displayGrievances = mappedRealGrievances.length > 0 ? mappedRealGrievances : SAMPLE_GRIEVANCES
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -563,9 +600,9 @@ export default function GrievancePage() {
             {/* Stats row */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {[
-                { label: 'Total Filed', value: realGrievances.length > 0 ? realGrievances.length : SAMPLE_GRIEVANCES.length, color: 'text-slate-900' },
-                { label: 'Under Review', value: SAMPLE_GRIEVANCES.filter(g => g.status === 'under_review').length, color: 'text-amber-600' },
-                { label: 'Resolved', value: SAMPLE_GRIEVANCES.filter(g => g.status === 'resolved').length, color: 'text-emerald-600' },
+                { label: 'Total Filed', value: displayGrievances.length, color: 'text-slate-900' },
+                { label: 'Under Review', value: displayGrievances.filter(item => item.status === 'under_review' || item.status === 'submitted').length, color: 'text-amber-600' },
+                { label: 'Resolved', value: displayGrievances.filter(item => item.status === 'resolved').length, color: 'text-emerald-600' },
                 { label: 'Avg Resolution', value: '18 days', color: 'text-[#FF5500]' },
               ].map((s, i) => (
                 <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm text-center">
@@ -577,7 +614,7 @@ export default function GrievancePage() {
 
             {/* Grievance Cards */}
             <div className="space-y-4">
-              {SAMPLE_GRIEVANCES.filter(g =>
+              {displayGrievances.filter(g =>
                 trackRef === '' || g.refNo.toLowerCase().includes(trackRef.toLowerCase())
               ).map(g => (
                 <GrievanceCard
@@ -587,7 +624,7 @@ export default function GrievancePage() {
                   onToggle={() => setOpenId(openId === g.id ? null : g.id)}
                 />
               ))}
-              {SAMPLE_GRIEVANCES.filter(g =>
+              {displayGrievances.filter(g =>
                 trackRef === '' || g.refNo.toLowerCase().includes(trackRef.toLowerCase())
               ).length === 0 && (
                 <div className="text-center py-16 text-slate-400">

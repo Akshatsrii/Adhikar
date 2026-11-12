@@ -1,6 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { applicationsApi } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
+import { SignInGate } from '@/components/SignInGate'
 import { Clock, CheckCircle2, Circle, AlertCircle, Plus, Trash2, ChevronDown, ChevronUp, FileText, Calendar, ArrowRight, Sparkles } from 'lucide-react'
 
 export const Route = createFileRoute('/timeline')({
@@ -28,58 +30,17 @@ const statusConfig: Record<StatusType, { label: string; color: string; bg: strin
   rejected: { label: 'Rejected', color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-300', icon: AlertCircle },
 }
 
-const defaultEntries: TimelineEntry[] = [
-  {
-    id: 1,
-    scheme: 'PM Awas Yojana (Urban)',
-    category: 'Housing',
-    appliedDate: 'Sep 5, 2025',
-    status: 'approved',
-    nextStep: 'Receive first installment via DBT',
-    notes: 'Application ID: PMAY-U-2025-00124. Approved under BLC category.',
-    deadline: '',
-  },
-  {
-    id: 2,
-    scheme: 'PM-KISAN Samman Nidhi',
-    category: 'Agriculture',
-    appliedDate: 'Oct 1, 2025',
-    status: 'submitted',
-    nextStep: 'Aadhaar verification pending at block office',
-    notes: 'Register number: RJT-2025-PM-88. Visit block office within 15 days.',
-    deadline: 'Oct 30, 2025',
-  },
-  {
-    id: 3,
-    scheme: 'Ayushman Bharat PMJAY',
-    category: 'Healthcare',
-    appliedDate: 'Oct 8, 2025',
-    status: 'in-progress',
-    nextStep: 'Collect Ayushman card from nearest CSC center',
-    notes: 'eKYC done. Waiting for card generation.',
-    deadline: '',
-  },
-  {
-    id: 4,
-    scheme: 'National Scholarship (Post-Matric)',
-    category: 'Education',
-    appliedDate: 'Oct 12, 2025',
-    status: 'pending',
-    nextStep: 'Upload income certificate and previous marksheet',
-    notes: '',
-    deadline: 'Nov 30, 2025',
-  },
-]
-
 const statusOrder: StatusType[] = ['pending', 'in-progress', 'submitted', 'approved', 'rejected']
 
 export default function ApplicationTimeline() {
-  const [entries, setEntries] = useState<TimelineEntry[]>(defaultEntries)
+  const { user, isLoading: authLoading } = useAuth()
+  const [entries, setEntries] = useState<TimelineEntry[]>([])
 
   useEffect(() => {
+    if (!user) return
     applicationsApi.list()
       .then(apps => {
-        if (apps && apps.length > 0) {
+        if (apps && Array.isArray(apps)) {
           const mapped: TimelineEntry[] = apps.map((app: any, idx: number) => {
             const rawStatus = (app.status || "").toLowerCase()
             const st: StatusType = (rawStatus === "approved" ? "approved" : rawStatus === "rejected" ? "rejected" : rawStatus === "submitted" ? "submitted" : "in-progress")
@@ -98,7 +59,7 @@ export default function ApplicationTimeline() {
         }
       })
       .catch(() => {})
-  }, [])
+  }, [user])
   const [expanded, setExpanded] = useState<Set<number>>(new Set([1, 2]))
   const [adding, setAdding] = useState(false)
   const [newEntry, setNewEntry] = useState({ scheme: '', category: 'Housing', appliedDate: '', notes: '', deadline: '' })
@@ -146,8 +107,19 @@ export default function ApplicationTimeline() {
     submitted: entries.filter(e => e.status === 'submitted').length,
   }
 
+  if (!authLoading && !user) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5]">
+        <SignInGate
+          title="Sign In to View Your Application Timeline"
+          subtitle="Track your live scheme applications, deadlines, and real-time verification status after signing in."
+        />
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] font-sans">
 
       {/* Header */}
       <section className="bg-gradient-to-r from-[#0B3B24] via-[#072416] to-[#0A0A0A] text-white py-14 px-4">

@@ -243,7 +243,7 @@ function LandingPage() {
                   {stat.icon}
                 </div>
                 <div>
-                  <h4 className="text-sm font-black text-black tracking-tight">{stat.num}</h4>
+                  <h4 className="text-sm font-black text-black tracking-tight">{i === 0 ? `${totalSchemesCount}+` : stat.num}</h4>
                   <p className="text-[11px] font-medium text-neutral-500 leading-tight">{stat.label}</p>
                 </div>
               </div>
