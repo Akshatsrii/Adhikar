@@ -1,4 +1,3 @@
-import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate, Navigate } from '@tanstack/react-router'
 import {
   Search, ArrowRight, Users,
@@ -10,7 +9,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { useTranslation } from 'react-i18next'
 import { schemesApi } from '@/lib/api'
-import type { PublicScheme } from '@/lib/api'
+import { SignInGate } from '@/components/SignInGate'
 
 export const Route = createFileRoute('/')({
   component: LandingPage,
@@ -104,30 +103,19 @@ const HOW_IT_WORKS_STEPS = [
   },
 ]
 
-const CAT_COLORS: Record<string, string> = {
-  Agriculture: 'from-[#FF5500] to-[#EA4C00]',
-  Employment: 'from-neutral-800 to-black',
-  Housing: 'from-[#FF7729] to-[#FF5500]',
-  Healthcare: 'from-[#FF5500] to-[#CC3E00]',
-  Education: 'from-[#F59E0B] to-[#D97706]',
-  'Social Welfare': 'from-neutral-700 to-black',
-  Women: 'from-[#EA580C] to-[#C2410C]',
-  Disability: 'from-neutral-800 to-black',
-}
-
 function LandingPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { i18n } = useTranslation()
-  const [schemes, setSchemes] = useState<PublicScheme[]>(() => FALLBACK_SCHEMES.slice(0, 6))
+  const [totalSchemesCount, setTotalSchemesCount] = useState<number>(500)
   const [copilotPrompt, setCopilotPrompt] = useState('')
 
   const isHindi = i18n.language?.startsWith('hi')
 
   useEffect(() => {
-    schemesApi.list(0, 100)
+    schemesApi.list(0, 1)
       .then(res => {
-        setSchemes(res.items.slice(0, 6))
+        if (res.total && res.total > 0) setTotalSchemesCount(res.total)
       })
       .catch(console.error)
   }, [])
@@ -458,44 +446,10 @@ function LandingPage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {schemes.map((s, i) => {
-            const grad = CAT_COLORS[s.category] || 'from-neutral-800 to-black'
-            return (
-              <div key={i} className="group flex flex-col overflow-hidden rounded-[28px] border border-[#EAE6DF] bg-white card-lift hover:border-[#FF5500]/50 hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)] transition-all">
-                <div className="flex flex-1 flex-col p-6 sm:p-7">
-                  <div className="mb-3.5 flex items-start justify-between gap-2">
-                    <span className={`rounded-full bg-gradient-to-r ${grad} px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-xs`}>
-                      {s.category}
-                    </span>
-                    <span className="rounded-full border border-[#EAE6DF] bg-[#FAF8F5] px-2.5 py-1 text-[10px] font-bold text-neutral-600">
-                      {s.level || 'Central'}
-                    </span>
-                  </div>
-                  <h3 className="mb-2 line-clamp-2 text-base font-black text-black group-hover:text-[#FF5500] transition-colors leading-snug">
-                    {s.name}
-                  </h3>
-                  <p className="mb-5 line-clamp-2 flex-1 text-xs leading-relaxed text-[#52525B]">
-                    {s.description}
-                  </p>
-                  <div className="mb-5 flex items-center gap-2.5 border-b border-[#EAE6DF] pb-4">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFF2E8] text-xs font-black text-[#FF5500] shrink-0">₹</span>
-                    <span className="truncate text-xs font-bold text-neutral-900">{s.benefit || 'Direct Benefit Transfer (DBT)'}</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Link to="/scheme/$slug" params={{ slug: s.slug }} className="rounded-full border border-[#EAE6DF] py-2.5 text-center text-xs font-bold text-neutral-800 transition hover:bg-[#FAF8F5] hover:border-neutral-300">
-                      {isHindi ? 'पूर्ण विवरण' : 'View Details'}
-                    </Link>
-                    <a href={s.application_url || s.source_url || '#'} target="_blank" rel="noopener noreferrer" className="bg-black hover:bg-neutral-800 text-white font-bold py-2.5 rounded-full text-center text-xs flex items-center justify-center gap-1.5 transition shadow-xs hover:scale-[1.02]">
-                      <span>{isHindi ? 'सीधा आवेदन' : 'Apply Now'}</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <SignInGate
+          title={isHindi ? 'सभी कल्याणकारी योजनाएं देखने के लिए साइन इन करें' : 'Sign In to Unlock All Verified Welfare Schemes'}
+          subtitle={isHindi ? 'केवल साइन इन करने के बाद ही आप सभी 40+ केंद्रीय और राज्य योजनाओं की पूरी सूची, पात्रता और सीधे आवेदन पोर्टल देख सकते हैं।' : 'All government welfare schemes, state-specific benefits, and direct .gov.in application portals become accessible once you sign in.'}
+        />
       </section>
 
     </div>

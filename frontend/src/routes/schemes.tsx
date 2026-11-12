@@ -1,10 +1,11 @@
 import { getCategoryImg } from '@/lib/categoryImages'
-import { FALLBACK_SCHEMES } from '@/data/fallbackSchemes'
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { Search, SlidersHorizontal, ExternalLink, Zap, FilterX, Loader2, Users } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
+import { SignInGate } from '@/components/SignInGate'
 
 type SchemesSearch = { category?: string }
 
@@ -23,8 +24,9 @@ function SchemesPage() {
   const navigate = useNavigate({ from: Route.fullPath })
   const search = Route.useSearch()
   
-  const [schemes, setSchemes] = useState<PublicScheme[]>(FALLBACK_SCHEMES)
-  const [isLoading, setIsLoading] = useState(false)
+  const { user, isLoading: authLoading } = useAuth()
+  const [schemes, setSchemes] = useState<PublicScheme[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   
   const [searchQuery, setSearchQuery] = useState('')
   const [debouncedQuery, setDebouncedQuery] = useState('')
@@ -37,11 +39,16 @@ function SchemesPage() {
   }, [searchQuery])
 
   useEffect(() => {
+    if (!user) {
+      setIsLoading(false)
+      return
+    }
+    setIsLoading(true)
     schemesApi.list(0, 200).then(res => {
       setSchemes(res.items)
     }).catch(console.error)
       .finally(() => setIsLoading(false))
-  }, [])
+  }, [user])
 
   useEffect(() => {
     if (search.category !== activeCategory) {
@@ -64,6 +71,22 @@ function SchemesPage() {
     Agriculture: 'bg-[#FF5500]', Employment: 'bg-[#FF7729]', Housing: 'bg-[#F59E0B]',
     Healthcare: 'bg-[#FF5500]', Education: 'bg-[#EA580C]', 'Social Welfare': 'bg-black',
     Women: 'bg-[#C2410C]', Disability: 'bg-neutral-800',
+  }
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#FF5500]" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5]">
+        <SignInGate />
+      </div>
+    )
   }
 
   return (

@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
 import { AudioNarrator } from '@/components/AudioNarrator'
+import { useAuth } from '@/context/AuthContext'
+import { SignInGate } from '@/components/SignInGate'
 
 export const Route = createFileRoute('/scheme/$slug')({
   component: SchemeDetailPage,
@@ -11,6 +13,7 @@ export const Route = createFileRoute('/scheme/$slug')({
 
 function SchemeDetailPage() {
   const { slug } = Route.useParams()
+  const { user, isLoading: authLoading } = useAuth()
   const [scheme, setScheme] = useState<PublicScheme | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'eligibility' | 'process' | 'documents'>('overview')
@@ -74,6 +77,25 @@ function SchemeDetailPage() {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     }
+  }
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#FF5500]" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5]">
+        <SignInGate
+          title="Sign In to View Scheme Details"
+          subtitle="Sign in to view complete eligibility rules, required documents, and direct .gov.in application links."
+        />
+      </div>
+    )
   }
 
   if (isLoading) {

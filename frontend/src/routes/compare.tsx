@@ -3,12 +3,15 @@ import { useState, useEffect } from 'react'
 import { CheckCircle2, ChevronRight, Sparkles, Building2, ExternalLink, Plus, X, ArrowRight, Scale } from 'lucide-react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
+import { SignInGate } from '@/components/SignInGate'
 
 export const Route = createFileRoute('/compare')({
   component: SchemeComparisonPage,
 })
 
 export function SchemeComparisonPage() {
+  const { user, isLoading: authLoading } = useAuth()
   const [allSchemes, setAllSchemes] = useState<PublicScheme[]>([])
   const [selectedSlugs, setSelectedSlugs] = useState<string[]>([
     'pradhan-mantri-jan-arogya-yojana-pm-jay',
@@ -59,6 +62,17 @@ export function SchemeComparisonPage() {
       slugs: ['pm-awas-yojana-urban', 'pradhan-mantri-mudra-yojana-pmmy'],
     },
   ]
+
+  if (!authLoading && !user) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5]">
+        <SignInGate
+          title="Sign In to Compare Welfare Schemes"
+          subtitle="Sign in to compare benefits, eligibility criteria, and documents side-by-side."
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 w-full font-sans">

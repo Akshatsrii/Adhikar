@@ -5,6 +5,8 @@ import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { schemesApi } from '@/lib/api'
 import type { PublicScheme } from '@/lib/api'
+import { useAuth } from '@/context/AuthContext'
+import { SignInGate } from '@/components/SignInGate'
 
 export const Route = createFileRoute('/state-schemes')({
   component: StateSchemesPage,
@@ -18,23 +20,48 @@ const statesList = [
 ]
 
 function StateSchemesPage() {
+  const { user, isLoading: authLoading } = useAuth()
   const [activeState, setActiveState] = useState('Rajasthan')
   const [search, setSearch] = useState('')
   const [schemes, setSchemes] = useState<PublicScheme[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    if (!user) {
+      setIsLoading(false)
+      return
+    }
+    setIsLoading(true)
     schemesApi.list(0, 200).then(res => {
       setSchemes(res.items.filter(s => s.level === 'State'))
     }).catch(console.error)
       .finally(() => setIsLoading(false))
-  }, [])
+  }, [user])
 
   const filteredSchemes = schemes.filter(s => {
     if (activeState !== 'All States' && s.state !== activeState) return false
     if (search && !s.name.toLowerCase().includes(search.toLowerCase())) return false
     return true
   })
+
+  if (authLoading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-[#FF5500]" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#FAF8F5]">
+        <SignInGate
+          title="Sign In to View State-Specific Schemes"
+          subtitle="Unlock state-level welfare benefits, scholarships, and subsidies tailored to your state after signing in."
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full">
